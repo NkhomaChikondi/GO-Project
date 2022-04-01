@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ViewModel="clr-namespace:GO.ViewModels.TaskInGoals"
+             x:Class="GO.Views.GoalTask.AddTaskPage"
+              Title="{Binding title}">
+    <ContentPage.BindingContext>
+        <ViewModel:addTaskViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Spacing="1" Padding=" 2">
+            <StackLayout Orientation="Horizontal" Padding=" 15">
+                <Label Text="Task Name: " FontSize="Large" />
+                <Entry HorizontalOptions="FillAndExpand"  Text="{Binding Name} " Placeholder="Enter name (25 characters max)" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Padding=" 15">
+                <Label Text="Description: " FontSize="Large" />
+                <Editor HorizontalOptions="FillAndExpand"  Text="{Binding Description} " MaxLength="100" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Padding=" 15">
+                <Label Text="start Date: " FontSize="Large" />
+                <DatePicker HorizontalOptions="FillAndExpand"
+                            Date="{Binding Starttime}"
+                            TextColor="Red"
+                            Format="D">
+
+                </DatePicker>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Padding=" 15">
+                <Label Text="End Date: " FontSize="Large" />
+                <DatePicker HorizontalOptions="FillAndExpand"
+                            Date="{Binding Endtime}"
+                            TextColor="Red"
+                            Format="D">
+
+                </DatePicker>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center">
+                <Button  Text="Add Task" Command="{Binding TaskAddCommand}" CornerRadius="15" CharacterSpacing="10"
+                      WidthRequest="400"
+                         Grid.ColumnSpan="3"></Button>
+            </StackLayout>
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

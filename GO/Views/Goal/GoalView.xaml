@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:Viewmodel="clr-namespace:GO.ViewModels.Goals" xmlns:model="clr-namespace:GO.Models" xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="GO.Views.Goal.GoalView"
+              x:Name="GoalPage"
+             Title="Category Goals">
+    <ContentPage.BindingContext>
+        <Viewmodel:GoalViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=" Auto"/>
+        </Grid.RowDefinitions>
+        <ListView ItemsSource="{Binding goals}"
+                   CachingStrategy="RecycleElement"
+                   HasUnevenRows="True" 
+                   Grid.ColumnSpan="3"
+                  RefreshCommand="{Binding RefreshCommand}"
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                  RefreshControlColor="Red"
+                  SelectionMode="None"
+                  SeparatorVisibility="None">
+            <ListView.Behaviors>
+
+                <xct:EventToCommandBehavior EventName="ItemTapped"
+                                              Command="{Binding ItemSelectedCommand}"
+                                              EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
+            </ListView.Behaviors>
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Goal">
+
+                    <ViewCell >
+                        <ViewCell.ContextActions >
+                            <MenuItem Command="{Binding Source={x:Reference GoalPage},Path=BindingContext.DeleteCommand }"
+                              CommandParameter="{Binding .}"
+                              IsDestructive="True"
+                              
+                                      Text="Delete"/>
+                            <MenuItem Command="{Binding Source={x:Reference GoalPage},Path=BindingContext.UpdateCommand }"
+                              CommandParameter="{Binding .}"
+                              IsDestructive="True"
+                              Text=" Update"/>
+
+
+                        </ViewCell.ContextActions>
+
+                        <Grid ColumnSpacing="10" Padding="10">
+                            <Frame CornerRadius="15" 
+                                   HasShadow="true"
+                               BackgroundColor="White" 
+                                   Padding="10">
+                                <StackLayout Grid.ColumnSpan="3">
+                                    <RelativeLayout VerticalOptions="Center"/>
+                                    <Label Text="{Binding Name}" FontSize="Medium" x:Name="label"/>
+                                    <ProgressBar   
+                                        x:Name="progressbar" 
+                                                   AutomationProperties.LabeledBy="{Binding Percentage}"
+                                                   Progress="{Binding progress}"
+                                                   FlowDirection="LeftToRight"                                                                                                 
+                                                 ProgressColor="Orange" 
+                                                
+                                        />
+                                    <Label Text="{Binding Percentage}"  FontSize="Medium"/>
+
+
+                                </StackLayout>
+                            </Frame>
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Add Goal"
+                Command="{Binding AddgoalCommand}"
+                IsEnabled="{Binding IsNotBusy}"
+                Grid.Row="1"
+                Grid.ColumnSpan="3"/>
+
+
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy  }"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="FillAndExpand"
+                           Grid.RowSpan="2"
+                           Grid.ColumnSpan="3"/>
+    </Grid>
+
+
+</ContentPage>

@@ -1,5 +1,5 @@
 ﻿using GO.Services;
-using GO.Views;
+
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,8 +12,7 @@ namespace GO
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
+          
             MainPage = new AppShell();
         }
 

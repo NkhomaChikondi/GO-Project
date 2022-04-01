@@ -1,0 +1,168 @@
+﻿using GO.Models;
+using GO.ViewModels.Subtasks;
+using GO.Views.SubTaskView;
+using MvvmHelpers;
+using MvvmHelpers.Commands;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms;
+
+namespace GO.ViewModels.TaskInGoals
+{
+    [QueryProperty(nameof(GoalId), nameof(GoalId))]
+    public class addTaskViewModel : BaseViewmodel
+    {
+        private int goalId;
+        private string name;
+        private DateTime starttime = DateTime.Now;
+        private DateTime endtime = DateTime.Now;
+        private string description;
+        private int remainingDays = 0;
+        public AsyncCommand TaskAddCommand { get; }
+
+        public ObservableRangeCollection<Goal> goals { get; }
+        public ObservableRangeCollection<GoalTask> goalTasks { get; }
+        public AsyncCommand<GoalTask> SendTaskIdCommand { get; }
+
+        public addTaskViewModel()
+        {
+            TaskAddCommand = new AsyncCommand(AddTask);
+            goals = new ObservableRangeCollection<Goal>();
+            goalTasks = new ObservableRangeCollection<GoalTask>();
+            SendTaskIdCommand = new AsyncCommand<GoalTask>(SendTaskId);
+        }
+
+        public int GoalId { get { return goalId; } set => goalId = value; }
+
+        public string Name { get => name; set => name = value; }
+        public DateTime Endtime { get => endtime; set => endtime = value; }
+        public DateTime Starttime { get => starttime; set => starttime = value; }
+        public string Description { get => description; set => description = value; }
+        public int RemainingDays { get => remainingDays; set => remainingDays = value; }
+
+        public async Task SendTaskId(GoalTask goalTask)
+        {
+            var route = $"{nameof(subTaskView)}?{nameof(SubtaskViewModel.Taskid)}={goalTask.Id}";
+            await Shell.Current.GoToAsync(route);
+        }
+        async Task AddTask()
+        {
+            // check if the application is busy
+            if (IsBusy == true)
+                return;
+            try
+            {
+                // set the application IsBusy to true
+                IsBusy = true;
+                // create a new task object
+                var newtask = new GoalTask
+                {
+                    taskName = name,
+                    StartTask = starttime,
+                    EndTask = endtime,
+                    RemainingDays = remainingDays,
+                    Percentage = 0,
+                    Description = description,
+                    GoalId = goalId
+
+                };
+                // get all tasks in GoalId
+                var alltasks = goalTasks.Where(T => T.GoalId == GoalId).ToList();
+                // change the first letter of the Task name to upercase
+                var UppercasedName = char.ToUpper(newtask.taskName[0]) + newtask.taskName.Substring(1);
+                //check if the new task already exist in the database
+                if (alltasks.Any(T => T.taskName == UppercasedName))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
+                    return;
+                }
+                // get goal from the goal table through the given Id
+                var TaskInGoalId = await datagoal.GetGoalAsync(goalId);
+                // verify if the Start date and end date are within the duration of its selected goal
+                if (newtask.StartTask >= TaskInGoalId.Start && newtask.EndTask <= TaskInGoalId.End)
+                {
+                    TimeSpan ts = newtask.EndTask - newtask.StartTask;
+                    RemainingDays = (int)ts.TotalDays;
+
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", " make sure the Start date and end date are within the duration of its selected goal", "OK");
+                    return;
+                }
+                if (newtask.Description == null)
+                    newtask.Description = $"No Description for {newtask.taskName}";
+
+                var newestTask = new GoalTask
+                {
+                    taskName = UppercasedName,
+                    StartTask = starttime,
+                    EndTask = endtime,
+                    RemainingDays = remainingDays,
+                    GoalId = goalId,
+                    IsCompleted = false,
+                    Description = newtask.Description,
+                    PendingPercentage = 0,
+                    Percentage = 0,
+                    SubtaskNumber = 0,
+                    Status = "Not Started",
+                    CompletedSubtask = 0,
+                    CreatedOn = DateTime.Now
+                };
+                //check if the task already exist so you can either save or update
+                if (alltasks.Any(t => t.Id == newestTask.Id))
+                {
+                    await dataTask.UpdateTaskAsync(newestTask);
+                }
+                // add the new task to the database                
+                await dataTask.AddTaskAsync(newestTask);
+                // call the add percentage method
+                AddTaskPercent();
+                // go back to the previous page
+                await Shell.Current.GoToAsync("..");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to add new goal: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+            async void AddTaskPercent()
+            {
+                // get all tasks having the specified goal id
+                var Alltask = await dataTask.GetTasksAsync(goalId);
+                // get the total number of tasks 
+                var AllTaskCount = Alltask.Count();
+                // make sure the task count is not zero
+                if (AllTaskCount == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", "make sure you have created a Task", "OK");
+                    return;
+                }
+                // divide 100 percent by the number of tasks
+                var Percentage = 100 / AllTaskCount;
+
+                //loop through the task and add the percentage
+                foreach (var task in Alltask)
+                {
+                    task.Percentage = Percentage;
+                    await dataTask.UpdateTaskAsync(task);
+                }
+
+
+            }
+
+
+        }
+
+
+
+    }
+}

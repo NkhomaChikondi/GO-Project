@@ -4,51 +4,57 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Xamarin.Forms;
 
 namespace GO.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewmodel
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public IDataStore<Category> datastore { get; }
+        public IDataGoal<Goal>datagoal { get; }
+        public IDataTask<GoalTask> dataTask { get; }
+        public IDataSubtask<Subtask> dataSubTask { get; }
+        public BaseViewmodel()
+        {
+            // exposing Godataservice to all view models
+            datastore = DependencyService.Get<IDataStore<Category>>();
+            datagoal = DependencyService.Get<IDataGoal<Goal>>();
+            dataTask = DependencyService.Get<IDataTask<GoalTask>>();
+            dataSubTask = DependencyService.Get<IDataSubtask<Subtask>>();
 
-        bool isBusy = false;
+        }
+        bool isBusy;
+        string Title;
+        public string title
+        {
+            // get the title
+            get => Title;
+            // setting the Title with an incoming value
+            set
+            {
+                if (Title == value)
+                    return;
+                Title = value;
+                OnPropertyChange();
+            }
+        }
         public bool IsBusy
         {
-            get { return isBusy; }
-            set { SetProperty(ref isBusy, value); }
+            get => isBusy;
+            set
+            {
+                if (isBusy == value)
+                    return;
+                isBusy = value;
+                OnPropertyChange();
+                OnPropertyChange(nameof(IsNotBusy));
+
+            }
         }
+        public bool IsNotBusy => !IsBusy;
 
-        string title = string.Empty;
-        public string Title
-        {
-            get { return title; }
-            set { SetProperty(ref title, value); }
-        }
-
-        protected bool SetProperty<T>(ref T backingStore, T value,
-            [CallerMemberName] string propertyName = "",
-            Action onChanged = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(backingStore, value))
-                return false;
-
-            backingStore = value;
-            onChanged?.Invoke();
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            var changed = PropertyChanged;
-            if (changed == null)
-                return;
-
-            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
+        public void OnPropertyChange([CallerMemberName] string Name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Name));
     }
 }

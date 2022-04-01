@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ViewModel="clr-namespace:GO.ViewModels.Subtasks"
+             x:Class="GO.Views.SubTaskView.AddSubtask">
+    <ContentPage.BindingContext>
+        <ViewModel:AddSubtaskViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Spacing="1" Padding=" 2">
+            <StackLayout Orientation="Horizontal" Padding=" 15">
+                <Label Text="Sub Task Name: " FontSize="Large" />
+                <Entry HorizontalOptions="FillAndExpand"  Text="{Binding Name } " />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Padding=" 15">
+                <Label Text="start Date: " FontSize="Large" />
+                <DatePicker HorizontalOptions="FillAndExpand"
+                            Date="{Binding StartDate}"
+                            TextColor="Red"
+                            Format="D">
+
+                </DatePicker>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Padding=" 15">
+                <Label Text="End Date: " FontSize="Large" />
+                <DatePicker HorizontalOptions="FillAndExpand"
+                            Date="{Binding EndDate}"
+                            TextColor="Red"
+                            Format="D">
+
+                </DatePicker>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center">
+                <Button  Text="Add SubTask" Command="{Binding subTaskAddCommand}" CornerRadius="15" CharacterSpacing="10"
+                      WidthRequest="400"
+                         Grid.ColumnSpan="3"></Button>
+            </StackLayout>
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

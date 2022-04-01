@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:Viewmodel="clr-namespace:GO.ViewModels.Categorys"
+             xmlns:model="clr-namespace:GO.Models"
+             x:Class="GO.Views.Category.CategoryView"
+               x:Name="CategoryPage"
+             Title="{Binding title}">
+            
+            
+    <ContentPage.BindingContext>
+        <Viewmodel:CategoryViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=" Auto"/>
+        </Grid.RowDefinitions>
+        <ListView ItemsSource="{Binding categories}"
+                   CachingStrategy="RecycleElement"
+                   HasUnevenRows="True" 
+                   Grid.ColumnSpan="3"
+                   RefreshCommand="{Binding RefreshCommand }"
+                   RefreshControlColor="Red"
+                   SelectionMode="None"
+                   SeparatorVisibility="None"
+                   IsRefreshing="{Binding IsBusy,Mode=OneWay}">
+            <ListView.Behaviors>
+
+                <xct:EventToCommandBehavior EventName="ItemTapped"
+                                              Command="{Binding ItemSelectedCommand}"
+                                              EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Category">
+
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Command="{Binding Source={x:Reference CategoryPage},Path=BindingContext.DeleteCommand }"
+                              CommandParameter="{Binding .}"
+                              IsDestructive="True"
+                              Text="Delete"/>
+                            <MenuItem Command="{Binding Source={x:Reference CategoryPage},Path=BindingContext.UpdateCommand }"
+                              CommandParameter="{Binding .}"
+                              IsDestructive="True"
+                              Text=" Edit"/>
+
+
+                        </ViewCell.ContextActions>
+                        <Grid ColumnSpacing="10" Padding="10">
+                            <Frame CornerRadius="15" 
+                                   HasShadow="true"
+                               BackgroundColor="White"
+                                   Padding="10"
+                                   >
+
+                                <StackLayout Grid.Column="0" VerticalOptions="Center">
+                                    <RelativeLayout VerticalOptions="Center"/>
+                                    <Label Text="{Binding Name}"
+                                       FontSize="Large"
+                                       VerticalOptions="Center"/>
+
+
+                                </StackLayout>
+                            </Frame>
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Add Category"
+                Command="{Binding AddCommand}"
+                IsEnabled="{Binding IsNotBusy}"
+                Grid.Row="1"
+                Grid.ColumnSpan="3"
+            />
+
+
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy  }"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="FillAndExpand"
+                           Grid.RowSpan="2"
+                           Grid.ColumnSpan="3"/>
+
+
+
+    </Grid>
+</ContentPage>

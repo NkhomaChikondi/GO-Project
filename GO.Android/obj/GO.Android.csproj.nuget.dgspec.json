@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO.Android\\GO.Android.csproj": {}
+    "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO.Android\\GO.Android.csproj": {
+    "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO.Android\\GO.Android.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj",
         "projectName": "GO.Android",
-        "projectPath": "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO.Android\\GO.Android.csproj",
+        "projectPath": "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO.Android\\obj\\",
+        "outputPath": "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO.Android\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
@@ -23,45 +23,61 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "monoandroid11.0"
+          "monoandroid10.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "monoandroid11.0": {
+          "monoandroid10.0": {
             "projectReferences": {
-              "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO\\GO.csproj": {
-                "projectPath": "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO\\GO.csproj"
+              "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO\\GO.csproj": {
+                "projectPath": "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO\\GO.csproj"
               }
             }
           }
         }
       },
       "frameworks": {
-        "monoandroid11.0": {
+        "monoandroid10.0": {
           "dependencies": {
+            "Refractored.MvvmHelpers": {
+              "target": "Package",
+              "version": "[1.6.2, )"
+            },
+            "Xam.Plugins.Forms.ProgressRing": {
+              "target": "Package",
+              "version": "[0.1.2, )"
+            },
+            "Xamarin.CommunityToolkit": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            },
             "Xamarin.Essentials": {
               "target": "Package",
               "version": "[1.6.1, )"
             },
             "Xamarin.Forms": {
               "target": "Package",
-              "version": "[5.0.0.2012, )"
+              "version": "[5.0.0.2401, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.8.116, )"
             }
           }
         }
       }
     },
-    "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO\\GO.csproj": {
+    "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO\\GO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO\\GO.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO\\GO.csproj",
         "projectName": "GO",
-        "projectPath": "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO\\GO.csproj",
+        "projectPath": "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO\\GO.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Documents\\Project2\\Get Organized\\GO\\GO\\obj\\",
+        "outputPath": "C:\\Users\\User\\Documents\\Project\\Get Organized\\GO\\GO\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
@@ -72,15 +88,15 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netstandard2.0"
+          "netstandard2.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netstandard2.0": {
-            "targetAlias": "netstandard2.0",
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
             "projectReferences": {}
           }
         },
@@ -91,14 +107,20 @@
         }
       },
       "frameworks": {
-        "netstandard2.0": {
-          "targetAlias": "netstandard2.0",
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
           "dependencies": {
-            "NETStandard.Library": {
-              "suppressParent": "All",
+            "Refractored.MvvmHelpers": {
               "target": "Package",
-              "version": "[2.0.3, )",
-              "autoReferenced": true
+              "version": "[1.6.2, )"
+            },
+            "Xam.Plugins.Forms.ProgressRing": {
+              "target": "Package",
+              "version": "[0.1.2, )"
+            },
+            "Xamarin.CommunityToolkit": {
+              "target": "Package",
+              "version": "[2.0.1, )"
             },
             "Xamarin.Essentials": {
               "target": "Package",
@@ -106,7 +128,11 @@
             },
             "Xamarin.Forms": {
               "target": "Package",
-              "version": "[5.0.0.2012, )"
+              "version": "[5.0.0.2401, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.8.116, )"
             }
           },
           "imports": [
@@ -119,6 +145,11 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.406\\RuntimeIdentifierGraph.json"
         }
       }
