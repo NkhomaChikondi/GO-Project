@@ -4,7 +4,8 @@
              xmlns:model="clr-namespace:GO.Models"
              x:Class="GO.Views.GoalTask.UpdateTaskPage"
               x:DataType="model:GoalTask"
-              xmlns:Effects="clr-namespace:GO.Effects" xmlns:Viewmodel="clr-namespace:GO.ViewModels.TaskInGoals"
+              xmlns:Effects="clr-namespace:GO.Effects"
+             xmlns:Viewmodel="clr-namespace:GO.ViewModels.TaskInGoals"
              Title="See Task Details And Edit"
              x:Name="updatepage"
               BackgroundColor="WhiteSmoke">

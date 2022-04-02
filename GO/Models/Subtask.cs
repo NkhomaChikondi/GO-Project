@@ -15,6 +15,7 @@ namespace GO.Models
         public double Percentage { get; set; }
         public int RemainingDays { get; set; }
         public DateTime CreatedOn { get; set; }
+        public string Status { get; set; }
         public bool IsCompleted { get; set; }
         [Indexed]
         public int TaskId { get; set; }

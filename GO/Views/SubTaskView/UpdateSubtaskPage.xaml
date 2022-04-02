@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:Viewmodel="clr-namespace:GO.ViewModels.Subtasks"
+             xmlns:model="clr-namespace:GO.Models" xmlns:Effects="clr-namespace:GO.Effects"
+             x:DataType="model:Subtask"
+             x:Class="GO.Views.SubTaskView.UpdateSubtaskPage"
+             Title="See Subtask details and edit">
+    <ContentPage.BindingContext>
+        <Viewmodel:AddSubtaskViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <ScrollView>
+
+            <StackLayout  >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height=" Auto"/>
+                    </Grid.RowDefinitions>
+                    <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4"  BackgroundColor="White" >
+                        <StackLayout HorizontalOptions="FillAndExpand" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="2" >
+                            <Editor  Text="{Binding SubName}"  FontSize="Title" FontAttributes="Bold"  Grid.Column="0" MaxLength="50" TextColor="Black" >
+                                <Editor.Effects>
+                                    <Effects:PlainEntry/>
+                                </Editor.Effects>
+                            </Editor>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Grid.Row="2" Grid.RowSpan="2"  Grid.ColumnSpan="4"  BackgroundColor="White" BorderColor="Transparent" Padding="2">
+                        <StackLayout Orientation="Vertical" >
+                            <StackLayout HeightRequest="20"  Grid.ColumnSpan="2" Padding="0"  Margin="2,0,0,0" Spacing="-6" >
+
+                                <Label Text="  SubTask Details" FontSize="Medium" FontAttributes="Bold" LineHeight="5" Padding="2" />
+
+                            </StackLayout>
+
+
+                            <Frame Grid.Column="0" Grid.ColumnSpan="2"   BackgroundColor="White" BorderColor="Transparent" >
+                                <StackLayout>
+                                    <Frame>
+                                        <StackLayout Orientation="Horizontal">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Image Source="calendar.png" ></Image>
+                                                <Label Text="Created on:                   "></Label>
+                                            </StackLayout>
+                                            <StackLayout>
+                                                <Label Text="{Binding CreatedOn}"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                    <Frame>
+                                        <StackLayout Orientation="Horizontal">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Image Source="flag.png" ></Image>
+                                                <Label Text="Status:                          "></Label>
+                                            </StackLayout>
+                                            <StackLayout>
+                                                <Label Text="{Binding Status}"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                    <Frame>
+                                        <StackLayout Orientation="Vertical" Grid.Column="2">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Image Source="clock.png" Aspect="AspectFit"></Image>
+                                                <Label Text="Date: " Grid.Column="2"></Label>
+
+
+                                            </StackLayout>
+
+                                            <TimePicker></TimePicker>
+
+                                        </StackLayout>
+                                    </Frame>
+
+                                    <Frame Grid.Column="1" Grid.ColumnSpan="4" BorderColor="Transparent" BackgroundColor="White" Padding="0">
+                                        <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="4">
+                                            <Frame Grid.Column="0" Grid.ColumnSpan="2">
+                                                <StackLayout Orientation="Vertical"  >
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Image Source="calendar.png" Aspect="AspectFit"></Image>
+                                                        <Label Text="Starting" Grid.Column="0" Grid.ColumnSpan="2"></Label>
+
+                                                    </StackLayout>
+                                                    <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2">
+                                                        <Label></Label>
+                                                        <DatePicker Date="{Binding SubStart}"></DatePicker>
+                                                    </StackLayout>
+
+
+                                                </StackLayout>
+                                            </Frame>
+
+                                            <Frame  Grid.Column="3" Grid.ColumnSpan="4">
+                                                <StackLayout Orientation="Vertical"   >
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Image Source="calendar.png" Aspect="AspectFit"></Image>
+                                                        <Label Text="End Date " Grid.Column="3" Grid.ColumnSpan="4" ></Label>
+
+                                                    </StackLayout>
+
+                                                    <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.ColumnSpan="4">
+                                                        <Label></Label>
+                                                        <DatePicker Date="{Binding SubEnd}" Format=""></DatePicker>
+                                                    </StackLayout>
+
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+
+
+
+                                    </Frame>
+                                </StackLayout>
+
+                            </Frame>
+
+                        </StackLayout>
+
+                    </Frame>
+                    <Frame Grid.Row="7" Grid.ColumnSpan="4" BorderColor="Transparent">
+                        <StackLayout Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="2">
+                            <Button Text="Save Changes" BackgroundColor="#fb8500" CornerRadius="25" TextColor="Black"></Button>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

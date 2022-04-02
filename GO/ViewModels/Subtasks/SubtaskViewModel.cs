@@ -16,11 +16,13 @@ namespace GO.ViewModels.Subtasks
     {
 
         private int taskid;
+        private string status;
 
         public ObservableRangeCollection<Subtask> subtasks { get; }
         public AsyncCommand RefreshCommand { get; }
         public AsyncCommand sendsubtaskidCommand { get; }
-        public AsyncCommand<Subtask> DeleteCommand { get; }
+        public AsyncCommand<Subtask> DeleteCommand { get; }       
+        public AsyncCommand<Subtask> OnUpdateCommand { get; }
 
 
         public SubtaskViewModel()
@@ -29,12 +31,21 @@ namespace GO.ViewModels.Subtasks
             RefreshCommand = new AsyncCommand(Refresh);
             sendsubtaskidCommand = new AsyncCommand(selectSubtaskItem);
             DeleteCommand = new AsyncCommand<Subtask>(deleteSubTask);
+            OnUpdateCommand = new AsyncCommand<Subtask>(OnUpdateTask);
             title = "Add Sub Task";
         }
 
 
         public int Taskid { get { return taskid; } set => taskid = value; }
-
+        public string Status
+        {
+            get => status;
+            set
+            {
+                status = value;
+                OnPropertyChange();
+            }
+        }
 
         async Task selectSubtaskItem()
         {
@@ -48,6 +59,12 @@ namespace GO.ViewModels.Subtasks
                 return;
             await dataSubTask.DeleteSubTaskAsync(subtask.Id);
             await Refresh();
+        }
+        async Task OnUpdateTask(Subtask subtask)
+        {
+            var route = $"{nameof(UpdateSubtaskPage)}?SubtaskId={subtask.Id}";
+
+            await Shell.Current.GoToAsync(route);
         }
         public async Task AddSubTaskPercentage(int IscompleteId, bool Iscomplete)
         {
@@ -66,6 +83,7 @@ namespace GO.ViewModels.Subtasks
                 RemovePercentage(IscompleteId);
                 await CompletedSubtask(Taskid);
                 await SetStatus();
+                await SetStatus(IscompleteId);
 
             }
             // check against the specified condition
@@ -89,6 +107,7 @@ namespace GO.ViewModels.Subtasks
                     await dataTask.UpdateTaskAsync(Task);
                 }
                 await SetStatus();
+                await SetStatus(IscompleteId);
                 await CompletedSubtask(Taskid);
 
 
@@ -102,6 +121,7 @@ namespace GO.ViewModels.Subtasks
                 //update the item in the database
                 await dataSubTask.UpdateSubTaskAsync(SubTaskId);
                 await SetStatus();
+                await SetStatus(IscompleteId);
             }
         }
         async void RemovePercentage(int id)
@@ -118,6 +138,7 @@ namespace GO.ViewModels.Subtasks
             await dataTask.UpdateTaskAsync(Task);
 
         }
+        // setting status for the targetted task
         async Task SetStatus()
         {
             // get a task having the same goal id
@@ -143,6 +164,36 @@ namespace GO.ViewModels.Subtasks
 
                 await dataTask.UpdateTaskAsync(Tasks);
             }
+
+        }
+        // setting status for subtask
+        async Task SetStatus(int subId)
+        {
+            // get a task having the same goal id
+            var subTask = await dataSubTask.GetSubTaskAsync(subId);
+            // loop through all the tasks
+
+            if (subTask.Percentage <= 0)
+            {
+                subTask.Status = "Not Started";
+
+                await dataSubTask.UpdateSubTaskAsync(subTask);
+            }
+
+            else if (subTask.Percentage != 0 && subTask.Percentage < subTask.Percentage)
+            {
+                subTask.Status = "In Progress";
+
+                await dataSubTask.UpdateSubTaskAsync(subTask);
+            
+            }
+            else if (subTask.Percentage == subTask.Percentage)
+            {
+                subTask.Status = "Completed";
+
+                await dataSubTask.UpdateSubTaskAsync(subTask);
+            }
+        
 
         }
         async Task CompletedSubtask(int taskid)

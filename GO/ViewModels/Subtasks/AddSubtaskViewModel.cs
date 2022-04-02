@@ -20,6 +20,7 @@ namespace GO.ViewModels.Subtasks
         private double duration;
         private double percentage;
         private int getTaskId;
+        private int remainingDays = 0;
 
         public ObservableRangeCollection<Subtask> subTasks { get; }
         public AsyncCommand subTaskAddCommand { get; }
@@ -35,6 +36,7 @@ namespace GO.ViewModels.Subtasks
         public double Duration { get => duration; set => duration = value; }
         public int GetTaskId { get { return getTaskId; } set => getTaskId = value; }
         public double Percentage { get => percentage; set => percentage = value; }
+        public int RemainingDays { get => remainingDays; set => remainingDays = value; }
 
         async Task AddSubtask()
         {
@@ -51,6 +53,7 @@ namespace GO.ViewModels.Subtasks
                     SubStart = startDate,
                     SubEnd = endDate,
                     TaskId = getTaskId,
+                    RemainingDays = remainingDays,
                     Percentage = percentage
 
 
@@ -69,7 +72,8 @@ namespace GO.ViewModels.Subtasks
                 if (newSubtask.SubStart >= subTaskInTask.StartTask && newSubtask.SubEnd <= subTaskInTask.EndTask)
                 {
                     TimeSpan ts = newSubtask.SubEnd - newSubtask.SubStart;
-                    Duration = ts.TotalDays;
+                    RemainingDays = (int)ts.TotalDays;
+
                 }
 
                 else
@@ -85,11 +89,12 @@ namespace GO.ViewModels.Subtasks
                     SubName = UppercasedName,
                     SubStart = newSubtask.SubStart,
                     SubEnd = newSubtask.SubEnd,
-                    Duration = duration,
+                    RemainingDays = remainingDays,
                     CreatedOn = newSubtask.CreatedOn,
                     Percentage = newSubtask.Percentage,
                     IsCompleted = false,
-                    TaskId = newSubtask.TaskId
+                    TaskId = newSubtask.TaskId,
+                     Status = "Not Started"
                 };
                 await dataSubTask.AddSubTaskAsync(newestSubtask);
                 await totalSubtask(getTaskId);

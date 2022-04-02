@@ -54,19 +54,21 @@
                     <DataTemplate>
 
                         <ViewCell>
-                            <ViewCell.ContextActions >
+                            <ViewCell.ContextActions  >
                                 <MenuItem Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.OnUpdateCommand }"
                               CommandParameter="{Binding .}"
-                              IsDestructive="True"                              
+                              IsDestructive="True"  
+                                          
                               IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                Glyph={x:Static helpers:IconFont.BookEdit},Size=55,Color=SkyBlue
-                }"/>
+                                         Glyph={x:Static helpers:IconFont.BookEdit},Size=55,Color=SkyBlue
+                                     }"
+                                          />
                                 <MenuItem Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.DeleteCommand }"
                               CommandParameter="{Binding .}"
                               IsDestructive="True"                              
                               IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                Glyph={x:Static helpers:IconFont.Delete},Size=55,Color=SkyBlue
-                }"/>
+                                         Glyph={x:Static helpers:IconFont.Delete},Size=55,Color=SkyBlue
+                                    }"/>
 
 
 
@@ -98,7 +100,7 @@
                                                HorizontalTextAlignment="Start">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Text="{Binding taskName}" FontSize="Large"  TextColor="Black" />
+                                                    <Span Text="{Binding taskName}" FontSize="Medium"  TextColor="Black" />
                                                     <Span Text="{x:Static x:Environment.NewLine}" />
                                                     <Span Text="{Binding RemainingDays}" FontSize="Subtitle"/>
                                                     <Span Text=" Day(s) left" FontSize="Micro" />
@@ -119,9 +121,6 @@
                                         </Grid>
                                     </Grid>
 
-
-
-
                                 </Frame>
 
                             </Grid>
@@ -131,7 +130,7 @@
             </ListView>
             
             <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                Glyph={x:Static helpers:IconFont.PlusCircle},Size=85,Color=SkyBlue
+                Glyph={x:Static helpers:IconFont.PlusCircle},Size=75,Color=#fb8500
                 }"
                          BackgroundColor="Transparent"
                 Command="{Binding OnAddCommand}"

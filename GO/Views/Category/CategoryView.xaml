@@ -64,6 +64,7 @@
                                    HasShadow="true"
                                BackgroundColor="White"
                                    Padding="10"
+                                   BorderColor="{StaticResource Primary}"
                                    >
 
                                 <StackLayout Grid.Column="0" VerticalOptions="Center">

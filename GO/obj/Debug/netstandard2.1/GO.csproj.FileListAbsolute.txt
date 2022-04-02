@@ -21,3 +21,4 @@ C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Xam
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\GO.dll
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\ref\GO.dll
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\GO.pdb
+C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Views\SubTaskView\UpdateSubtaskPage.xaml.g.cs

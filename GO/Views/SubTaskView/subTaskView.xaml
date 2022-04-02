@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:model="clr-namespace:GO.Models" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:Viewmodel="clr-namespace:GO.ViewModels.Subtasks"
              x:Class="GO.Views.SubTaskView.subTaskView"
+                xmlns:helpers="clr-namespace:GO.Font"
               x:Name="SubTaskPage">
     <ContentPage.BindingContext>
         <Viewmodel:SubtaskViewModel/>
@@ -11,9 +12,13 @@
         <ResourceDictionary>
             <xct:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
         </ResourceDictionary>
+          <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
     </ContentPage.Resources>
-
-    <Grid >
+     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -22,83 +27,90 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height=" Auto"/>
         </Grid.RowDefinitions>
-        <ListView ItemsSource="{Binding subtasks}"
+        <AbsoluteLayout Grid.Row="1" Grid.ColumnSpan="3">
+            <ListView ItemsSource="{Binding subtasks}"
+                  AbsoluteLayout.LayoutFlags="All"
+						  AbsoluteLayout.LayoutBounds="0,0,1,1"
                    CachingStrategy="RecycleElement"
                    HasUnevenRows="True" 
-                   Grid.ColumnSpan="3"
-                   RefreshCommand="{Binding RefreshCommand }"
+                   Grid.ColumnSpan="4"
+                   RefreshCommand="{Binding RefreshCommand}"
                    RefreshControlColor="Red"
                    SelectionMode="None"
                    SeparatorVisibility="None"
                    IsRefreshing="{Binding IsBusy,Mode=OneWay}">
 
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:Subtask">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Subtask">
 
-                    <ViewCell>
-                        <ViewCell.ContextActions>
-                            <MenuItem Command="{Binding Source={x:Reference SubTaskPage},Path=BindingContext.DeleteCommand }"
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Command="{Binding Source={x:Reference SubTaskPage},Path=BindingContext.DeleteCommand }"
                               CommandParameter="{Binding .}"
                               IsDestructive="True"
-                              Text="Delete"/>
-                            <MenuItem Command="{Binding Source={x:Reference SubTaskPage},Path=BindingContext.UpdateCommand }"
+                              IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                         Glyph={x:Static helpers:IconFont.Delete},Size=55,Color=SkyBlue
+                                    }"/>
+                                <MenuItem Command="{Binding Source={x:Reference SubTaskPage},Path=BindingContext.OnUpdateCommand }"
                               CommandParameter="{Binding .}"
                               IsDestructive="True"
-                              Text=" Edit"/>
+                               IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                         Glyph={x:Static helpers:IconFont.BookEdit},Size=55,Color=SkyBlue
+                                     }"/>
 
 
-                        </ViewCell.ContextActions>
-                        <Grid ColumnSpacing="10" Padding="10">
-                            <Frame CornerRadius="15" 
+                            </ViewCell.ContextActions>
+                            <Grid ColumnSpacing="5" Padding="3">
+                                <Frame CornerRadius="20" 
                                    HasShadow="true"
-                               BackgroundColor="White"
-                                   Padding="10"
-                                   >
+                               BackgroundColor="WhiteSmoke"                                 
+                                   Padding="8">
 
-                                <StackLayout Grid.Column="0" HorizontalOptions="FillAndExpand">
-                                    <RelativeLayout VerticalOptions="Center"/>
+                                    <Grid  Padding="2" HorizontalOptions="FillAndExpand">
+                                        <RelativeLayout VerticalOptions="Center"/>
 
-                                    <Label Grid.Column=" 0" Grid.ColumnSpan="3" Grid.Row="0" x:Name="label" 
-                                         FontSize="Small"
-                                               HorizontalTextAlignment="Start">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="{Binding SubName}" FontSize="Medium"  TextColor="Black" />
-                                                <Span Text="{x:Static x:Environment.NewLine}" />
-                                                <Span Text="{Binding RemainingDays}" FontSize="Subtitle"/>
-                                                <Span Text=" Day(s) left" FontSize="Micro" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-
-                                    <Switch
+                                        <Switch Grid.Column="4"
                                         x:Name="switchTask"
                                        IsToggled="{Binding IsCompleted,Mode=TwoWay}"
                                         
-                                        Toggled="switchTask_Toggled"
-                                       >
+                                        Toggled="switchTask_Toggled">
+
+                                        </Switch>
+                                        <Label Grid.Column=" 0" Grid.ColumnSpan="3" Grid.Row="0" x:Name="label" 
+                                         FontSize="Small"
+                                               HorizontalTextAlignment="Start">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding SubName}" FontSize="Medium"  TextColor="Black" />
+                                                    <Span Text="{x:Static x:Environment.NewLine}" />
+                                                    <Span Text="{Binding RemainingDays}" FontSize="Subtitle"/>
+                                                    <Span Text=" Day(s) left" FontSize="Micro" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
 
 
-                                    </Switch>
-
-
-
-                                </StackLayout>
-
-                            </Frame>
-
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Button Text="Add SubTask"
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                Glyph={x:Static helpers:IconFont.PlusCircle},Size=85,Color=#fb8500
+                }"
+                         BackgroundColor="Transparent"
                 Command="{Binding sendsubtaskidCommand}"
                 IsEnabled="{Binding IsNotBusy}"
-                Grid.Row="1"
-                Grid.ColumnSpan="3"
+               
+                         AbsoluteLayout.LayoutFlags="PositionProportional"
+				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
             />
 
+
+        </AbsoluteLayout>
+        
 
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy  }"

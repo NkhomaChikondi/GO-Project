@@ -215,10 +215,10 @@ namespace GO.Services
                 SubStart = item.SubStart,
                 SubEnd = item.SubEnd,
                 CreatedOn = item.CreatedOn,
-                Duration = item.Duration,
+                RemainingDays = item.RemainingDays,
                 Percentage = item.Percentage,
                 IsCompleted = item.IsCompleted,
-
+                Status= item.Status,
                 TaskId = item.TaskId
             };
             // insert the values into the database
