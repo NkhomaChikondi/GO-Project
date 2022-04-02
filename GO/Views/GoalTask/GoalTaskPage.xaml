@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:Viewmodel="clr-namespace:GO.ViewModels.TaskInGoals" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:plugin="clr-namespace:ProgressRingControl.Forms.Plugin;assembly=ProgressRing.Forms.Plugin"
+             xmlns:helpers="clr-namespace:GO.Font"
              x:Class="GO.Views.GoalTask.GoalTaskPage"
                Title="Tasks In Goal"
+              
               x:Name="goaltaskpage"
              BackgroundColor="LightGray">
     <ContentPage.BindingContext>
@@ -12,6 +14,11 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <xct:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
+        </ResourceDictionary>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -39,7 +46,7 @@
                 <ListView.Behaviors>
 
                     <xct:EventToCommandBehavior EventName="ItemTapped"
-                                              Command="{Binding OnUpdateCommand}"
+                                              Command="{Binding SendTaskIdCommand}"
                                               EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
                 </ListView.Behaviors>
 
@@ -51,11 +58,15 @@
                                 <MenuItem Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.OnUpdateCommand }"
                               CommandParameter="{Binding .}"
                               IsDestructive="True"                              
-                              Text="Edit"/>
+                              IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                Glyph={x:Static helpers:IconFont.BookEdit},Size=55,Color=SkyBlue
+                }"/>
                                 <MenuItem Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.DeleteCommand }"
                               CommandParameter="{Binding .}"
                               IsDestructive="True"                              
-                              Text="Delete"/>
+                              IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                Glyph={x:Static helpers:IconFont.Delete},Size=55,Color=SkyBlue
+                }"/>
 
 
 
@@ -79,17 +90,17 @@
                                             </Switch>
                                         </StackLayout>
 
-                                        <Image Source="task.png" Aspect="AspectFit" Grid.Row="0" Grid.Column="0"></Image>
+                                    
 
 
-                                        <Label Grid.Column=" 1" Grid.ColumnSpan="3" Grid.Row="0" x:Name="label" 
+                                        <Label Grid.Column=" 0" Grid.ColumnSpan="3" Grid.Row="0" x:Name="label" 
                                          FontSize="Small"
                                                HorizontalTextAlignment="Start">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Text="{Binding taskName}" FontSize="Medium" TextColor="Black" />
+                                                    <Span Text="{Binding taskName}" FontSize="Large"  TextColor="Black" />
                                                     <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="{Binding RemainingDays}" FontSize="Small"/>
+                                                    <Span Text="{Binding RemainingDays}" FontSize="Subtitle"/>
                                                     <Span Text=" Day(s) left" FontSize="Micro" />
                                                 </FormattedString>
                                             </Label.FormattedText>
@@ -118,11 +129,14 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <ImageButton Source="add.png"
+            
+            <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                Glyph={x:Static helpers:IconFont.PlusCircle},Size=85,Color=SkyBlue
+                }"
+                         BackgroundColor="Transparent"
                 Command="{Binding OnAddCommand}"
                 IsEnabled="{Binding IsNotBusy}"
-                Grid.Row="4"
-                Grid.Column="2"
+               
                          AbsoluteLayout.LayoutFlags="PositionProportional"
 				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
             />

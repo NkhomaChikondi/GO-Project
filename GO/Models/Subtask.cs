@@ -13,7 +13,7 @@ namespace GO.Models
         public DateTime SubStart { get; set; }
         public DateTime SubEnd { get; set; }
         public double Percentage { get; set; }
-        public double Duration { get; set; }
+        public int RemainingDays { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsCompleted { get; set; }
         [Indexed]

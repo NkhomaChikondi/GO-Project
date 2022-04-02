@@ -57,9 +57,20 @@
 
                                 <StackLayout Grid.Column="0" HorizontalOptions="FillAndExpand">
                                     <RelativeLayout VerticalOptions="Center"/>
-                                    <Label Text="{Binding SubName}"
-                                       FontSize="Large"
-                                       VerticalOptions="Center"/>
+
+                                    <Label Grid.Column=" 0" Grid.ColumnSpan="3" Grid.Row="0" x:Name="label" 
+                                         FontSize="Small"
+                                               HorizontalTextAlignment="Start">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding SubName}" FontSize="Medium"  TextColor="Black" />
+                                                <Span Text="{x:Static x:Environment.NewLine}" />
+                                                <Span Text="{Binding RemainingDays}" FontSize="Subtitle"/>
+                                                <Span Text=" Day(s) left" FontSize="Micro" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
                                     <Switch
                                         x:Name="switchTask"
                                        IsToggled="{Binding IsCompleted,Mode=TwoWay}"
