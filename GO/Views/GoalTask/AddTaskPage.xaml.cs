@@ -16,5 +16,7 @@ namespace GO.Views.GoalTask
         {
             InitializeComponent();
         }
+
+      
     }
 }

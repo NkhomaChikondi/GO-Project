@@ -55,7 +55,7 @@
 
                         <StackLayout >
                             <StackLayout Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3" Padding="0">
-                                <Label Text="{Binding taskName} " FontSize="Medium" FontAttributes="Bold" />
+                                
                                 <Label Text="Subtask's details " FontSize="Medium" FontAttributes="Bold" />
                             </StackLayout>
                             <ScrollView Orientation="Horizontal">
@@ -106,7 +106,7 @@
 
                             </ScrollView>
                             <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
-                                <Button Text="  See Subtasks  " BackgroundColor="White" TextColor="Blue" HorizontalOptions="CenterAndExpand" HeightRequest="50" ImageSource="point.png" ></Button>
+                                <Button Text="  See Subtasks  " BackgroundColor="White" TextColor="OrangeRed" HorizontalOptions="CenterAndExpand" HeightRequest="50" ImageSource="point.png" ></Button>
                             </StackLayout>
                         </StackLayout>
 
@@ -135,34 +135,22 @@
                                             </StackLayout>
                                         </StackLayout>
                                     </Frame>
-                                    <Frame>
+                                    <Frame Margin="0,10,0,0">
                                         <StackLayout Orientation="Horizontal">
                                             <StackLayout Orientation="Horizontal">
                                                 <Image Source="flag.png" ></Image>
                                                 <Label Text="Status:                          "></Label>
                                             </StackLayout>
                                             <StackLayout>
-                                                <Label Text="{Binding Status}"/>
+                                                <Label Text="{Binding Status}" TextColor="OrangeRed"/>
                                             </StackLayout>
                                         </StackLayout>
                                     </Frame>
-                                    <Frame>
-                                        <StackLayout Orientation="Vertical" Grid.Column="2">
-                                            <StackLayout Orientation="Horizontal">
-                                                <Image Source="clock.png" Aspect="AspectFit"></Image>
-                                                <Label Text="Date: " Grid.Column="2"></Label>
-
-
-                                            </StackLayout>
-
-                                            <TimePicker></TimePicker>
-
-                                        </StackLayout>
-                                    </Frame>
+                                    
 
                                     <Frame Grid.Column="1" Grid.ColumnSpan="4" BorderColor="Transparent" BackgroundColor="White" Padding="0">
                                         <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Frame Grid.Column="0" Grid.ColumnSpan="2">
+                                            <Frame Grid.Column="0" Grid.ColumnSpan="2"  Margin="0,32,0,0">
                                                 <StackLayout Orientation="Vertical"  >
                                                     <StackLayout Orientation="Horizontal">
                                                         <Image Source="calendar.png" Aspect="AspectFit"></Image>
@@ -178,7 +166,7 @@
                                                 </StackLayout>
                                             </Frame>
 
-                                            <Frame  Grid.Column="3" Grid.ColumnSpan="4">
+                                            <Frame  Grid.Column="3" Grid.ColumnSpan="4" Padding="15" Margin="20,32,0,0">
                                                 <StackLayout Orientation="Vertical"   >
                                                     <StackLayout Orientation="Horizontal">
                                                         <Image Source="calendar.png" Aspect="AspectFit"></Image>
@@ -206,9 +194,9 @@
 
                     </Frame>
 
-                    <Frame Grid.Row="12" Grid.ColumnSpan="4">
+                    <Frame Grid.Row="11" Grid.ColumnSpan="4" BackgroundColor="WhiteSmoke">
                         <StackLayout Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="2">
-                            <Button Text="Save Changes" BackgroundColor="LightSkyBlue" TextColor="Black"></Button>
+                            <Button Text="Save Changes" CornerRadius="15" BackgroundColor="#fb8500" TextColor="Black"></Button>
                         </StackLayout>
                     </Frame>
 

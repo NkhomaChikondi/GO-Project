@@ -1,47 +1,102 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ViewModel="clr-namespace:GO.ViewModels.TaskInGoals"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ViewModel="clr-namespace:GO.ViewModels.TaskInGoals" xmlns:Effects="clr-namespace:GO.Effects"
              x:Class="GO.Views.GoalTask.AddTaskPage"
-              Title="{Binding title}">
+              Title="Add Task" >
     <ContentPage.BindingContext>
         <ViewModel:addTaskViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Spacing="1" Padding=" 2">
-            <StackLayout Orientation="Horizontal" Padding=" 15">
-                <Label Text="Task Name: " FontSize="Large" />
-                <Entry HorizontalOptions="FillAndExpand"  Text="{Binding Name} " Placeholder="Enter name (25 characters max)" />
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" Padding=" 15">
-                <Label Text="Description: " FontSize="Large" />
-                <Editor HorizontalOptions="FillAndExpand"  Text="{Binding Description} " MaxLength="100" />
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" Padding=" 15">
-                <Label Text="start Date: " FontSize="Large" />
-                <DatePicker HorizontalOptions="FillAndExpand"
-                            Date="{Binding Starttime}"
-                            TextColor="Red"
-                            Format="D">
-
-                </DatePicker>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" Padding=" 15">
-                <Label Text="End Date: " FontSize="Large" />
-                <DatePicker HorizontalOptions="FillAndExpand"
-                            Date="{Binding Endtime}"
-                            TextColor="Red"
-                            Format="D">
-
-                </DatePicker>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="Center">
-                <Button  Text="Add Task" Command="{Binding TaskAddCommand}" CornerRadius="15" CharacterSpacing="10"
-                      WidthRequest="400"
-                         Grid.ColumnSpan="3"></Button>
-            </StackLayout>
+        <StackLayout Grid.ColumnSpan="4">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height=" Auto"/>
+                </Grid.RowDefinitions>
 
 
+               
+                   
+                <StackLayout Orientation="Vertical"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"  Padding="0"  Margin="9,20,20,0">
+                    <Label Grid.Row="0" Margin="0,20,0,0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Text="Create A New Task" FontSize="Title" FontAttributes="Bold" Padding="20" ></Label>
+                    <StackLayout>
+                        <Label Text="Task Name:" FontSize="Medium" FontAttributes="Bold"></Label>
+
+                        <Editor  Text="{Binding Name}"  FontSize="Small" FontAttributes="None"  Grid.Column="0"   Placeholder="50 maximum characters" PlaceholderColor="OrangeRed" >
+
+                        </Editor>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+                <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"  FontSize="Medium" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" Text="Set Duration" Margin="50,40,0,0" ></Label>
+                <StackLayout x:Name="layout1" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0,-50,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1">
+                            
+
+                            <StackLayout Orientation="Horizontal" HeightRequest="70">
+
+                                    <Label Text="Start Date" FontAttributes="Bold" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
+                                    <Image Source="calendar.png" Aspect="AspectFit" Margin="0,0,0,45"></Image>
+                                    <StackLayout Orientation="Vertical">
+                                        <Label></Label>
+                                        <DatePicker Date="{Binding Starttime}" Margin="-100,10,0,85" HorizontalOptions="Center"></DatePicker>
+                                    </StackLayout>
+
+                                </StackLayout>
+                               
+                </StackLayout>
+                <StackLayout  Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="0,-50,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
+                   
+                    <StackLayout Orientation="Horizontal" HeightRequest="70">
+
+                        <Label Text="End Date" FontAttributes="Bold" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
+                        <Image Source="calendar.png" Aspect="AspectFit" Margin="0,0,0,45"></Image>
+                        <StackLayout Orientation="Vertical">
+                            <Label></Label>
+                            <DatePicker Date="{Binding Endtime}" Margin="-100,10,0,85" HorizontalOptions="Center"></DatePicker>
+                        </StackLayout>
+
+                    </StackLayout>
+
+                </StackLayout>             
+    
+                <StackLayout Orientation="Vertical"   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"  Padding="0"  Margin="9,65,20,0">
+                        <StackLayout>
+                            <Label Text="Description:" FontSize="Medium" FontAttributes="Bold"></Label>
+
+                        <Editor  Text="{Binding Description}"  FontSize="Small" FontAttributes="None"  Grid.Column="0"  MaxLength="150" Placeholder="150 maximum characters"  PlaceholderColor="OrangeRed" >
+
+                            </Editor>
+                       
+                         </StackLayout>
+                        
+                    </StackLayout>
+
+             
+                    <StackLayout Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="5" >
+                    <Label></Label>
+                    <Label></Label>
+                    <Label></Label>
+                    <Label></Label>
+               
+                    <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="   Add Task    " Command="{Binding TaskAddCommand}" CornerRadius="15" Margin="20,0,20,0"  BackgroundColor="#fb8500" CharacterSpacing="10"
+                     
+                        ></Button>
+                    </StackLayout>
+              
+              
+
+
+
+
+
+            </Grid>
         </StackLayout>
+       
     </ContentPage.Content>
 </ContentPage>

@@ -6,7 +6,7 @@
                Title="Tasks In Goal"
               
               x:Name="goaltaskpage"
-             BackgroundColor="LightGray">
+             >
     <ContentPage.BindingContext>
         <Viewmodel:GoalTaskViewModel/>
     </ContentPage.BindingContext>
@@ -31,7 +31,20 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height=" Auto"/>
         </Grid.RowDefinitions>
-        <AbsoluteLayout Grid.Row="1" Grid.ColumnSpan="3">
+      
+        <StackLayout Grid.Row="1" Grid.ColumnSpan="4">
+
+            <SearchBar
+                
+                 HorizontalOptions="Fill"
+                   VerticalOptions="CenterAndExpand"
+                   Placeholder="Search goal Tasks..."
+                   CancelButtonColor="Orange"
+                   PlaceholderColor="Orange"
+                   TextTransform="Lowercase"
+                   HorizontalTextAlignment="Start">
+                
+            </SearchBar>
             <ListView ItemsSource="{Binding goalTasks}"
                   AbsoluteLayout.LayoutFlags="All"
 						  AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -73,11 +86,12 @@
 
 
                             </ViewCell.ContextActions>
-                            <Grid ColumnSpacing="5" Padding="3">
-                                <Frame CornerRadius="20" 
+                            <Grid ColumnSpacing="5" Padding="9">
+                                <Frame CornerRadius="15" 
                                    HasShadow="true"
                                BackgroundColor="WhiteSmoke"                                 
-                                   Padding="8">
+                                   Padding="8"
+                                       Margin="4,0,7,0">
 
                                     <Grid  Padding="2" HorizontalOptions="FillAndExpand">
                                         <RelativeLayout VerticalOptions="Center"/>
@@ -95,15 +109,15 @@
                                     
 
 
-                                        <Label Grid.Column=" 0" Grid.ColumnSpan="3" Grid.Row="0" x:Name="label" 
-                                         FontSize="Small"
+                                        <Label Grid.Column=" 0" Grid.ColumnSpan="4" Grid.Row="0" x:Name="label" 
+                                        
                                                HorizontalTextAlignment="Start">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Text="{Binding taskName}" FontSize="Medium"  TextColor="Black" />
+                                                    <Span Text="{Binding taskName}" FontSize="Medium" FontAttributes="Bold" />
                                                     <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="{Binding RemainingDays}" FontSize="Subtitle"/>
-                                                    <Span Text=" Day(s) left" FontSize="Micro" />
+                                                    <Span Text="{Binding RemainingDays}" FontSize="Small" TextColor="OrangeRed" FontAttributes="Bold" />
+                                                    <Span Text=" Day(s) left" FontSize="Small" TextColor="OrangeRed" FontAttributes="Bold" />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -128,8 +142,8 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
-            <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+            <AbsoluteLayout>
+                <ImageButton Margin="0,0,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                 Glyph={x:Static helpers:IconFont.PlusCircle},Size=75,Color=#fb8500
                 }"
                          BackgroundColor="Transparent"
@@ -139,9 +153,12 @@
                          AbsoluteLayout.LayoutFlags="PositionProportional"
 				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
             />
+            </AbsoluteLayout>
+            
+           
 
 
-        </AbsoluteLayout>
+        </StackLayout>
         
       
         <ActivityIndicator IsVisible="{Binding IsBusy}"

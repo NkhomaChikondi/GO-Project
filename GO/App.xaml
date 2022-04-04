@@ -27,6 +27,20 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
+           
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Primary}"/>
+            </Style>
+            <Style TargetType="Editor">
+                <Setter Property="TextColor" Value="#005f73"/>
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="#005f73"/>
+            </Style>
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="#fec89a"/>
+            </Style>
+
         </ResourceDictionary>        
     </Application.Resources>
 </Application>
