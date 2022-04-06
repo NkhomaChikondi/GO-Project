@@ -142,7 +142,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <AbsoluteLayout>
+            <AbsoluteLayout BackgroundColor="Transparent">
                 <ImageButton Margin="0,0,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                 Glyph={x:Static helpers:IconFont.PlusCircle},Size=75,Color=#fb8500
                 }"
