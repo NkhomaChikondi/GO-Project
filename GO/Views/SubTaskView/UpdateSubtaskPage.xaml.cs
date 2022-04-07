@@ -24,6 +24,7 @@ namespace GO.Views.SubTaskView
             InitializeComponent();
              dataTask = DependencyService.Get<IDataSubtask<Subtask>>();
             BindingContext = new AddSubtaskViewModel();
+            detaillabel2.TranslateTo(100, 0, 8000, Easing.Linear);
 
         }
         protected async override void OnAppearing()

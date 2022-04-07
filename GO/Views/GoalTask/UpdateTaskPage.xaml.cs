@@ -22,6 +22,8 @@ namespace GO.Views.GoalTask
             InitializeComponent();
             dataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();
             BindingContext = new addTaskViewModel();
+            detaillabel.TranslateTo(100, 0,8000, Easing.Linear);
+
 
 
 

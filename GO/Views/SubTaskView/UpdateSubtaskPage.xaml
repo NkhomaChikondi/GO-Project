@@ -5,7 +5,8 @@
              xmlns:model="clr-namespace:GO.Models" xmlns:Effects="clr-namespace:GO.Effects"
              x:DataType="model:Subtask"
              x:Class="GO.Views.SubTaskView.UpdateSubtaskPage"
-             Title="See Subtask details and edit">
+             Title="See Subtask details and edit"
+              BackgroundColor="WhiteSmoke">
     <ContentPage.BindingContext>
         <Viewmodel:AddSubtaskViewModel/>
     </ContentPage.BindingContext>
@@ -23,20 +24,21 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height=" Auto"/>
                     </Grid.RowDefinitions>
-                    <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4"  BackgroundColor="White" >
+                    <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4"  BackgroundColor="White"  >
                         <StackLayout HorizontalOptions="FillAndExpand" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="2" >
-                            <Editor  Text="{Binding SubName}"  FontSize="Title" FontAttributes="Bold"  Grid.Column="0" MaxLength="50" TextColor="Black" >
+                            <Label x:Name="detaillabel2" Text="Details in red cannot be edited" FontSize="Subtitle" TextColor="OrangeRed" Margin="0,0,0,0"></Label>
+                            <Editor  Text="{Binding SubName}"  FontSize="Title" FontAttributes="Bold"  Grid.Column="0" MaxLength="50"   >
                                 <Editor.Effects>
                                     <Effects:PlainEntry/>
                                 </Editor.Effects>
                             </Editor>
                         </StackLayout>
                     </Frame>
-                    <Frame Grid.Row="2" Grid.RowSpan="2"  Grid.ColumnSpan="4"  BackgroundColor="White" BorderColor="Transparent" Padding="2">
+                    <Frame Grid.Row="2" Grid.RowSpan="5"  Grid.ColumnSpan="4" Margin="0,13,0,20"  BackgroundColor="White" BorderColor="Transparent" Padding="0">
                         <StackLayout Orientation="Vertical" >
                             <StackLayout HeightRequest="20"  Grid.ColumnSpan="2" Padding="0"  Margin="2,0,0,0" Spacing="-6" >
 
-                                <Label Text="  SubTask Details" FontSize="Medium" FontAttributes="Bold" LineHeight="5" Padding="2" />
+                                <Label Text="  Other Details" FontSize="Medium" FontAttributes="Bold" LineHeight="5" Padding="2" />
 
                             </StackLayout>
 
@@ -50,81 +52,74 @@
                                                 <Label Text="Created on:                   "></Label>
                                             </StackLayout>
                                             <StackLayout>
-                                                <Label Text="{Binding CreatedOn}"/>
+                                                <Label Text="{Binding CreatedOn}" TextColor="OrangeRed"/>
                                             </StackLayout>
                                         </StackLayout>
                                     </Frame>
-                                    <Frame>
+                                    <Frame Margin="0,10,0,0">
                                         <StackLayout Orientation="Horizontal">
                                             <StackLayout Orientation="Horizontal">
                                                 <Image Source="flag.png" ></Image>
                                                 <Label Text="Status:                          "></Label>
                                             </StackLayout>
                                             <StackLayout>
-                                                <Label Text="{Binding Status}"/>
+                                                <Label Text="{Binding Status}" TextColor="OrangeRed"/>
                                             </StackLayout>
                                         </StackLayout>
                                     </Frame>
-                                    <Frame>
-                                        <StackLayout Orientation="Vertical" Grid.Column="2">
-                                            <StackLayout Orientation="Horizontal">
-                                                <Image Source="clock.png" Aspect="AspectFit"></Image>
-                                                <Label Text="Date: " Grid.Column="2"></Label>
 
 
-                                            </StackLayout>
-
-                                            <TimePicker></TimePicker>
-
-                                        </StackLayout>
-                                    </Frame>
-
-                                    <Frame Grid.Column="1" Grid.ColumnSpan="4" BorderColor="Transparent" BackgroundColor="White" Padding="0">
+                                    <Frame Grid.Column="1" Grid.ColumnSpan="4"  BorderColor="Transparent" BackgroundColor="White" Padding="0">
                                         <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Frame Grid.Column="0" Grid.ColumnSpan="2">
-                                                <StackLayout Orientation="Vertical"  >
-                                                    <StackLayout Orientation="Horizontal">
-                                                        <Image Source="calendar.png" Aspect="AspectFit"></Image>
-                                                        <Label Text="Starting" Grid.Column="0" Grid.ColumnSpan="2"></Label>
+                                            <Frame Grid.Column="0" Grid.ColumnSpan="2"  Margin="0,25,0,0">
+                                                <StackLayout    Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0,0,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
+
+                                                    <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="0">
+
+                                                        <Label Text="Start Date" FontAttributes="Bold" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
+                                                        <Image Source="calendar.png" Aspect="AspectFit" Margin="0,0,0,45"></Image>
+
 
                                                     </StackLayout>
-                                                    <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2">
-                                                        <Label></Label>
-                                                        <DatePicker Date="{Binding SubStart}"></DatePicker>
-                                                    </StackLayout>
+                                                    <StackLayout Orientation="Vertical">
 
+                                                        <DatePicker Date="{Binding SubStart}" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
+                                                    </StackLayout>
 
                                                 </StackLayout>
                                             </Frame>
 
-                                            <Frame  Grid.Column="3" Grid.ColumnSpan="4">
+                                            <Frame  Grid.Column="3" Grid.ColumnSpan="4" Padding="15" Margin="20,25,0,0">
                                                 <StackLayout Orientation="Vertical"   >
-                                                    <StackLayout Orientation="Horizontal">
-                                                        <Image Source="calendar.png" Aspect="AspectFit"></Image>
-                                                        <Label Text="End Date " Grid.Column="3" Grid.ColumnSpan="4" ></Label>
+                                                    <StackLayout  Grid.Row="3"   Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="0,0,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
 
-                                                    </StackLayout>
+                                                        <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="0">
 
-                                                    <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.ColumnSpan="4">
-                                                        <Label></Label>
-                                                        <DatePicker Date="{Binding SubEnd}" Format=""></DatePicker>
+                                                            <Label Text="End Date" FontAttributes="Bold" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
+                                                            <Image Source="calendar.png" Aspect="AspectFit" Margin="0,0,0,45"></Image>
+
+
+                                                        </StackLayout>
+                                                        <StackLayout Orientation="Vertical">
+
+                                                            <DatePicker Date="{Binding SubEnd}" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
+                                                        </StackLayout>
+
                                                     </StackLayout>
 
                                                 </StackLayout>
                                             </Frame>
                                         </StackLayout>
-
-
-
                                     </Frame>
                                 </StackLayout>
-
                             </Frame>
 
                         </StackLayout>
 
                     </Frame>
-                    <Frame Grid.Row="7" Grid.ColumnSpan="4" BorderColor="Transparent">
+
+          
+                    <Frame Grid.Row="7" Grid.ColumnSpan="4" BorderColor="Transparent" BackgroundColor="WhiteSmoke">
                         <StackLayout Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="2">
                             <Button Text="Save Changes" BackgroundColor="#fb8500" CornerRadius="25" TextColor="Black"></Button>
                         </StackLayout>
