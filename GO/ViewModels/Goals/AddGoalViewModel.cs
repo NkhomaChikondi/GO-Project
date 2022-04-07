@@ -13,14 +13,14 @@ using Xamarin.Forms;
 
 namespace GO.ViewModels.Goals
 {
-    [QueryProperty(nameof(GoalId), nameof(GoalId))]
+    [QueryProperty(nameof(CategoryId), nameof(CategoryId))]
 
     public class AddGoalViewModel : BaseViewmodel, INotifyPropertyChanged
     {
         private string name;
         private DateTime start = DateTime.Today;
         private DateTime end = DateTime.Today;
-        private int goalId;
+        private int categoryId;
         private string description;
         private DateTime time = DateTime.Now;
         private double percentage;
@@ -32,10 +32,10 @@ namespace GO.ViewModels.Goals
         public DateTime End { get => end; set => end = value; }
         public DateTime Start { get => start; set => start = value; }
         public string Description { get => description; set => description = value; }
-        public int GoalId { get => goalId; set => goalId = value; }
+        public int CategoryId { get => categoryId; set => categoryId = value; }
         public DateTime Time { get => time; set => time = value; }
 
-        public SelectedItemWrapper<DOW> selectedItem { get; set; }
+       
         public ObservableRangeCollection<SelectedItemWrapper<DOW>> DOWs { get => dOWs; set => dOWs = value; }
         public ObservableRangeCollection<DOW> SelectedDOw { get => selectedDOw; private set => selectedDOw = value; }
 
@@ -73,23 +73,51 @@ namespace GO.ViewModels.Goals
                     Time = time,
                     Percentage = 0,
                     progress = 0,
-                    CategoryId = goalId
+                    CategoryId = categoryId
 
                 };
-                // validate add goal inputs
-                if (string.IsNullOrWhiteSpace(newGoal.Name) || newGoal.Start == null || newGoal.End == null || newGoal.CreatedOn == null || newGoal.CategoryId == 0)
+                // get all tasks in GoalId
+                var allGoals = await datagoal.GetGoalsAsync(CategoryId);
+                // change the first letter of the Task name to upercase
+                var UppercasedName = char.ToUpper(newGoal.Name[0]) + newGoal.Name.Substring(1);
+                //check if the new task already exist in the database
+                if (allGoals.Any(G => G.Name == UppercasedName))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", "A Goal with that Name already exist! Change. ", "OK");
                     return;
+                }
+             
+                // create the newest goal object
+                var newestGoal = new Goal
+                {
+                    Name = UppercasedName,
+                    Description = description,
+                    CreatedOn = DateTime.Now,
+                    Start = start,
+                    End = end,
+                    Time = time,
+                    Percentage = 0,
+                    progress = 0,
+                    CategoryId = categoryId
+
+                };
 
                 // save the new object
-                await datagoal.AddGoalAsync(newGoal);
-
-                Notify(newGoal);
-
-
-                //show all the days selected
-                await Application.Current.MainPage.DisplayAlert("days name", $"{GetSelectedDOWs().Count()}", "cancel");
-
-
+                await datagoal.AddGoalAsync(newestGoal);
+                // get the number of items if selected on the dowlist
+                var selectedList = GetSelectedDOWs().Count();
+                if (selectedList > 0)
+                {
+                    //call addDowGoal method and pass to it a newly created goal
+                    await addDOWGoal();
+                }
+                else
+                {
+                    await Shell.Current.GoToAsync("..");
+                }
+                   
+               
+               //Notify(newGoal);             
                 // go back to the previous page
                 await Shell.Current.GoToAsync("..");
             }
@@ -151,11 +179,47 @@ namespace GO.ViewModels.Goals
         new DOW{DOWId = 7, Name="Saturday"}
 
        };
-        // get the selected item
+        // get the selected dow item and assign it to a goal
+       
         public ObservableRangeCollection<DOW> GetSelectedDOWs()
         {
             var selected = DOWs.Where(D => D.IsSelected).Select(D => D.Item).ToList();
+            
             return new ObservableRangeCollection<DOW>(selected);
+        }
+        // adding values to DOWGoal
+        public async Task addDOWGoal()
+        {
+            if (IsBusy == true)
+                return;
+            try
+            {
+                // get goal whose id matches the incoming goal id
+                var Goalid = await datagoal.GetGoalAsync(name);
+                //creating a  new instance of DowGoal
+                DOWGoal dOWGoal = new DOWGoal();
+                // loop through the selected list and add their id to dowgoal
+                foreach (var item in GetSelectedDOWs())
+                {
+
+                    dOWGoal.DowId = item.DOWId;
+                    dOWGoal.GoalId = Goalid.Id;
+                }
+                await dataDowgoal.AddDowGoalAsync(dOWGoal);
+
+            }
+            catch (Exception ex)
+            {
+
+
+                Debug.WriteLine($"Failed to add new goal: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
+            }
+            finally 
+            {
+                IsBusy = true;
+            }
+           
         }
 
         public class NotificationEventArgs : EventArgs

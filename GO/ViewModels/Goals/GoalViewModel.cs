@@ -74,7 +74,7 @@ namespace GO.ViewModels.Goals
 
         async Task OnaddGoal(Object obj)
         {
-            var route = $"{nameof(AddGoalview)}?{nameof(AddGoalViewModel.GoalId)}={categoryId}";
+            var route = $"{nameof(AddGoalview)}?{nameof(AddGoalViewModel.CategoryId)}={categoryId}";
             await Shell.Current.GoToAsync(route);
 
 
@@ -171,7 +171,7 @@ namespace GO.ViewModels.Goals
             // set "IsBusy" to true
             IsBusy = true;
             // make the refreshing process load for 2 seconds
-            await Task.Delay(2000);
+          //  await Task.Delay(2000);
             // clear categories on the page
             goals.Clear();
             // get all categories

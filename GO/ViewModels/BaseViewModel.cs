@@ -15,6 +15,7 @@ namespace GO.ViewModels
         public IDataGoal<Goal>datagoal { get; }
         public IDataTask<GoalTask> dataTask { get; }
         public IDataSubtask<Subtask> dataSubTask { get; }
+        public IDowGoal<DOWGoal> dataDowgoal { get; }
         public BaseViewmodel()
         {
             // exposing Godataservice to all view models
@@ -22,6 +23,7 @@ namespace GO.ViewModels
             datagoal = DependencyService.Get<IDataGoal<Goal>>();
             dataTask = DependencyService.Get<IDataTask<GoalTask>>();
             dataSubTask = DependencyService.Get<IDataSubtask<Subtask>>();
+            dataDowgoal = DependencyService.Get<IDowGoal<DOWGoal>>();
 
         }
         bool isBusy;

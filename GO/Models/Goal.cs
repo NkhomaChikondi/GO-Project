@@ -19,6 +19,7 @@ namespace GO.Models
         public double Percentage { get; set; }
         public string Status { get; set; }
         public double progress { get; set; }
+
         [Indexed]
         public int CategoryId { get; set; }
 

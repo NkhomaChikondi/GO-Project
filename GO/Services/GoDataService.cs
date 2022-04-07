@@ -11,7 +11,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(GoDataService))]
 namespace GO.Services
 {
-    public class GoDataService : IDataStore<Category>, IDataGoal<Goal>, IDataTask<GoalTask>, IDataSubtask<Subtask>
+    public class GoDataService : IDataStore<Category>, IDataGoal<Goal>, IDataTask<GoalTask>, IDataSubtask<Subtask>,IDowGoal<DOWGoal>
     {
         static SQLiteAsyncConnection db;
         // database connection class
@@ -28,11 +28,8 @@ namespace GO.Services
             await db.CreateTableAsync<Goal>();
             await db.CreateTableAsync<GoalTask>();
             await db.CreateTableAsync<Subtask>();
-
-
-
-
-
+            await db.CreateTableAsync<DOW>();
+            await db.CreateTableAsync<DOWGoal>();
 
         }
         public async Task<bool> AddItemAsync(Category item)
@@ -100,7 +97,9 @@ namespace GO.Services
                 CategoryId = item.CategoryId,
                 Time = item.Time,
                 progress = item.progress,
-                Percentage = item.Percentage
+                Percentage = item.Percentage,
+
+                
 
             };
             // insert the values into the database
@@ -113,6 +112,13 @@ namespace GO.Services
             // Remove the selected goal item from the database
             var deleteCategory = await db.DeleteAsync<Goal>(id);
             return await Task.FromResult(true);
+        }
+        public async Task<Goal> GetGoalAsync(string name)
+        {
+            await Init();
+            // get the selected item 
+            var goalName = await db.Table<Goal>().Where(g => g.Name == name).FirstOrDefaultAsync();
+            return goalName;
         }
 
         public async Task<Goal> GetGoalAsync(int id)
@@ -258,5 +264,41 @@ namespace GO.Services
             var allSubTasks = await db.Table<Subtask>().Where(g => g.TaskId == Id).ToListAsync();
             return allSubTasks;
         }
+
+        public async Task<bool> AddDowGoalAsync(DOWGoal item)
+        {
+            await Init();
+            var DowGoal = new DOWGoal
+            {
+                DOGid = item.DOGid,
+                GoalId = item.GoalId,
+                DowId = item.DowId
+            };
+            // insert the values into the database
+            await db.InsertAsync(DowGoal);
+            return await Task.FromResult(true);
+        }
+
+        public Task<bool> UpdateDowGoalAsync(DOWGoal item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteDowGoalAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DOWGoal> GetDowGoalAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<DOWGoal>> GetDowGoalsAsync(int Id, bool forceRefresh = false)
+        {
+            throw new NotImplementedException();
+        }
+
+       
     }
 }

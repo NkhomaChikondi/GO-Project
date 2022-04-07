@@ -60,16 +60,19 @@
                                    HasShadow="true"
                                BackgroundColor="White" 
                                    Padding="10">
-                                <StackLayout Grid.ColumnSpan="3">
+                                <StackLayout Grid.ColumnSpan="3"  Margin="20,0,20,0">
                                     <RelativeLayout VerticalOptions="Center"/>
                                     <Label Text="{Binding Name}" FontSize="Medium" x:Name="label"/>
                                     <ProgressBar   
-                                        x:Name="progressbar" 
-                                                   AutomationProperties.LabeledBy="{Binding Percentage}"
+                                        x:Name="progressbar"                                                  
                                                    Progress="{Binding progress}"
                                                    FlowDirection="LeftToRight"                                                                                                 
-                                                 ProgressColor="Orange" 
-                                                
+                                                 ProgressColor="Orange"
+                                        ScaleX="5"
+                                        ScaleY="5"
+                                       
+                                        
+                                                                                       
                                         />
                                     <Label Text="{Binding Percentage}"  FontSize="Medium"/>
 

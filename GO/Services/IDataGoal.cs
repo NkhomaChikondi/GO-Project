@@ -11,6 +11,7 @@ namespace GO.Services
         Task<bool> UpdateGoalAsync(T item);
         Task<bool> DeleteGoalAsync(int id);
         Task<T> GetGoalAsync(int id);
+        Task<T> GetGoalAsync(string name);
         Task<IEnumerable<T>> GetGoalsAsync(int Id, bool forceRefresh = false);
     }
 }

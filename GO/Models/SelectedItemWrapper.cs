@@ -8,6 +8,7 @@ namespace GO.Models
     {
         public bool IsSelected { get; set; }
         public T Item { get; set; }
+        public int goalId { get; set; }
     }
 }
 
