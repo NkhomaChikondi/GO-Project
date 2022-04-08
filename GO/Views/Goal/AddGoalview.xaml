@@ -1,22 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ViewModel="clr-namespace:GO.ViewModels.Goals"
-             x:Class="GO.Views.Goal.AddGoalview">
+             x:Class="GO.Views.Goal.AddGoalview"
+             Title="Add Goal">
     <ContentPage.BindingContext>
         <ViewModel:AddGoalViewModel/>
         </ContentPage.BindingContext>
         <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing=" 1" Grid.ColumnSpan="4">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height=" Auto"/>
+                </Grid.RowDefinitions>
+                <StackLayout Orientation="Vertical"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="2" Padding="0"  Margin="9,20,20,0">
+                    <Label Grid.Row="0" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Text="Create A New Goal" FontSize="Title" FontAttributes="Bold" Padding="20" ></Label>
+                    <StackLayout>
+                        <Label Text="Goal Name:" FontSize="Medium" FontAttributes="Bold"></Label>
 
-            <StackLayout Spacing=" 1" Padding="2">
+                        <Editor  Text="{Binding Name}"  FontSize="Small" FontAttributes="None"  Grid.Column="0"   Placeholder="50 maximum characters" PlaceholderColor="OrangeRed" >
 
-                <StackLayout Orientation="Horizontal" Padding=" 15">
-                    <Label Text="Goal Name: " FontSize="Large" />
-                    <Entry HorizontalOptions="FillAndExpand"  Text="{Binding Name} " />
+                        </Editor>
+
+                    </StackLayout>                   
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" Padding=" 5">
-                    <Label Text=" Description: " FontSize="Large"/>
-                    <Editor Text="{Binding Description}" HorizontalOptions="FillAndExpand" />
-                </StackLayout>
+                    <StackLayout Orientation="Vertical"   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"  Padding="5"  Margin="5,150,16,0">
+                        <StackLayout>
+                            <Label Text="Description:" FontSize="Medium" FontAttributes="Bold"></Label>
+
+                            <Editor  Text="{Binding Description}"  FontSize="Small" FontAttributes="None"  Grid.Column="0"  MaxLength="150" Placeholder="150 maximum characters"  PlaceholderColor="OrangeRed" >
+
+                            </Editor>
+
+                        </StackLayout>
+
+                    </StackLayout>
+
+
+                </Grid>
+
+              
 
                 <Frame x:Name="DurationFrame" IsVisible="false" BorderColor="Pink">
                     <StackLayout>
@@ -165,7 +193,7 @@
                 </StackLayout>
 
             </StackLayout>
+        </ScrollView>
 
-
-        </ContentPage.Content>
+    </ContentPage.Content>
 </ContentPage>

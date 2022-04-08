@@ -86,18 +86,18 @@
 
 
                             </ViewCell.ContextActions>
-                            <Grid ColumnSpacing="5" Padding="9">
+                            <Grid ColumnSpacing="5" Padding="6">
                                 <Frame CornerRadius="15" 
                                    HasShadow="true"
                                BackgroundColor="WhiteSmoke"                                 
-                                   Padding="8"
+                                   Padding="5"
                                        Margin="4,0,7,0">
 
-                                    <Grid  Padding="2" HorizontalOptions="FillAndExpand">
+                                    <Grid   HorizontalOptions="FillAndExpand">
                                         <RelativeLayout VerticalOptions="Center"/>
 
 
-                                        <StackLayout Grid.Row="0" Grid.Column="4" Orientation="Horizontal" Padding="10" IsVisible="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.IsVisible}">
+                                        <StackLayout Grid.Row="0" Grid.Column="4" Orientation="Horizontal" IsVisible="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.IsVisible}">
                                             <Switch 
                                         x:Name="switchTask"
                                        IsToggled="{Binding IsCompleted,Mode=TwoWay}"
@@ -116,8 +116,8 @@
                                                 <FormattedString>
                                                     <Span Text="{Binding taskName}" FontSize="Medium" FontAttributes="Bold" />
                                                     <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="{Binding RemainingDays}" FontSize="Small" TextColor="OrangeRed" FontAttributes="Bold" />
-                                                    <Span Text=" Day(s) left" FontSize="Small" TextColor="OrangeRed" FontAttributes="Bold" />
+                                                    <Span Text="{Binding RemainingDays}" FontSize="Small"  TextColor="#9d6b53"/>
+                                                    <Span Text=" Day(s) left" FontSize="Small" TextColor="#9d6b53"  />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
