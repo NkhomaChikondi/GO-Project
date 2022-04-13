@@ -39,8 +39,8 @@
                  HorizontalOptions="Fill"
                    VerticalOptions="CenterAndExpand"
                    Placeholder="Search goal Tasks..."
-                   CancelButtonColor="Orange"
-                   PlaceholderColor="Orange"
+                   CancelButtonColor="#adb5bd"
+                   PlaceholderColor="#adb5bd"
                    TextTransform="Lowercase"
                    HorizontalTextAlignment="Start">
                 
@@ -89,7 +89,7 @@
                             <Grid ColumnSpacing="5" Padding="6">
                                 <Frame CornerRadius="15" 
                                    HasShadow="true"
-                               BackgroundColor="WhiteSmoke"                                 
+                               BackgroundColor="#e9ecef"                                 
                                    Padding="5"
                                        Margin="4,0,7,0">
 
@@ -116,8 +116,8 @@
                                                 <FormattedString>
                                                     <Span Text="{Binding taskName}" FontSize="Medium" FontAttributes="Bold" />
                                                     <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="{Binding RemainingDays}" FontSize="Small"  TextColor="#9d6b53"/>
-                                                    <Span Text=" Day(s) left" FontSize="Small" TextColor="#9d6b53"  />
+                                                    <Span Text="{Binding RemainingDays}" FontSize="Small"  TextColor="#adb5bd"/>
+                                                    <Span Text=" Day(s) left" FontSize="Small" TextColor="#adb5bd"  />
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -144,7 +144,7 @@
             </ListView>
             <AbsoluteLayout BackgroundColor="Transparent">
                 <ImageButton Margin="0,0,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                Glyph={x:Static helpers:IconFont.PlusCircle},Size=75,Color=#fb8500
+                Glyph={x:Static helpers:IconFont.PlusCircle},Size=75,Color=#61a5c2
                 }"
                          BackgroundColor="Transparent"
                 Command="{Binding OnAddCommand}"

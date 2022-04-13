@@ -62,7 +62,7 @@
                                 <Frame
                                     CornerRadius="15"
                                     HasShadow="True"
-                                    BackgroundColor="WhiteSmoke"
+                                    BackgroundColor="#e9ecef"
                                     Padding="8"
                                     Margin="5,0,7,0">
                                     <Grid Padding="2">
@@ -74,16 +74,16 @@
                                         x:Name="progressbar"                                                  
                                                    Progress="{Binding progress}"
                                                    FlowDirection="LeftToRight"                                                                                                 
-                                                 ProgressColor="#fb8b24"
+                                                 ProgressColor="#61a5c2"
                                         ScaleX="1"
                                         ScaleY="5"
                                       />
-                                            <Label Grid.Column=" 4" Grid.Row="0" Margin="5,-27,0,0"  TextColor="#583101"
+                                            <Label Grid.Column=" 4" Grid.Row="0" Margin="5,-24,0,0"  TextColor="White"
                                                HorizontalTextAlignment="Start" >
                                                 <Label.FormattedText>
                                                     
                                                     <FormattedString >
-                                                        <Span Text="{Binding Percentage}" FontSize="Medium" FontAttributes="Bold" />
+                                                        <Span Text="{Binding Percentage}" FontSize="Small" FontAttributes="Bold" />
                                                         <Span Text=" %    " FontSize="Small"  FontAttributes="Bold" />
                                                        
                                                     </FormattedString>
@@ -91,7 +91,7 @@
                                                 </Label.FormattedText>
                                                 
                                             </Label>
-                                            <Label TextColor="#9d6b53">
+                                            <Label TextColor="#adb5bd">
                                                 <Label.FormattedText >
 
                                                     <FormattedString >
@@ -121,7 +121,7 @@
             </ListView>
             <AbsoluteLayout BackgroundColor="Transparent">
                 <ImageButton Margin="0,0,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                Glyph={x:Static helpers:IconFont.PlusCircle},Size=75,Color=#fb8500
+                Glyph={x:Static helpers:IconFont.PlusCircle},Size=75,Color=#61a5c2
                 }"
                          BackgroundColor="Transparent"
                 Command="{Binding AddgoalCommand}"

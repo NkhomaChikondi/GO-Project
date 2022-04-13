@@ -22,7 +22,7 @@ namespace GO.Views.GoalTask
             InitializeComponent();
             dataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();
             BindingContext = new addTaskViewModel();
-            detaillabel.TranslateTo(100, 0,8000, Easing.Linear);
+            detaillabel.TranslateTo(100, 0,3000, Easing.Linear);
 
 
 

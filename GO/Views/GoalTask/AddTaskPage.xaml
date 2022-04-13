@@ -81,9 +81,9 @@
     
               
                     <StackLayout Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="5" Padding="15" >
-                  
-               
-                    <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="   Add Task    " Command="{Binding TaskAddCommand}" CornerRadius="15" Margin="20,0,20,0"  BackgroundColor="#fb8500" CharacterSpacing="10"
+
+
+                    <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="   Add Task    " Command="{Binding TaskAddCommand}" CornerRadius="15" Margin="20,0,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"
                      
                         ></Button>
                     </StackLayout>

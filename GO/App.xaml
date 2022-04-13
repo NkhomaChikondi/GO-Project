@@ -7,7 +7,7 @@
     -->
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#1d3557</Color>
+            <Color x:Key="Primary">#61a5c2</Color>
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="VisualStateManager.VisualStateGroups">
@@ -29,16 +29,16 @@
             </Style>
            
             <Style TargetType="Label">
-                <Setter Property="TextColor" Value="{StaticResource Primary}"/>
+                <Setter Property="TextColor" Value="#495057"/>
             </Style>
             <Style TargetType="Editor">
-                <Setter Property="TextColor" Value="#005f73"/>
+                <Setter Property="TextColor" Value="#495057"/>
             </Style>
             <Style TargetType="Entry">
-                <Setter Property="TextColor" Value="#005f73"/>
+                <Setter Property="TextColor" Value="#495057"/>
             </Style>
             <Style TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="#fec89a"/>
+                <Setter Property="BackgroundColor" Value="#495057"/>
             </Style>
 
         </ResourceDictionary>        
