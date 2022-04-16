@@ -17,7 +17,7 @@ namespace GO.Views.Category
         {
             InitializeComponent();
             BindingContext = new CategoryViewModel();
-
+            
         }
         protected async override void OnAppearing()
         {
@@ -26,6 +26,14 @@ namespace GO.Views.Category
             {
                 await cvm.Refresh();
             }
+        }
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var vm = BindingContext as CategoryViewModel;
+            var item = e.Item as Models.Category;
+            vm.HideOrShowCategory(item);
+             
         }
     }
 }

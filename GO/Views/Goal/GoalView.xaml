@@ -62,7 +62,7 @@
                                 <Frame
                                     CornerRadius="15"
                                     HasShadow="True"
-                                    BackgroundColor="#e9ecef"
+                                    BackgroundColor="WhiteSmoke"
                                     Padding="8"
                                     Margin="5,0,7,0">
                                     <Grid Padding="2">

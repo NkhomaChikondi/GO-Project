@@ -6,7 +6,6 @@ C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\GO.
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\GO.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\App.xaml.g.cs
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\AppShell.xaml.g.cs
-C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Views\Category\CategoryView.xaml.g.cs
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Views\GoalTask\AddTaskPage.xaml.g.cs
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Views\GoalTask\GoalTaskPage.xaml.g.cs
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Views\GoalTask\UpdateTaskPage.xaml.g.cs
@@ -22,3 +21,5 @@ C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\GO.
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\ref\GO.dll
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\GO.pdb
 C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Views\SubTaskView\UpdateSubtaskPage.xaml.g.cs
+C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Views\Categorys\CategoryView.xaml.g.cs
+C:\Users\User\Documents\Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Views\Goal\UpdateGoalPage.xaml.g.cs

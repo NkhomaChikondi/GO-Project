@@ -23,7 +23,16 @@ namespace GO.ViewModels.Categorys
         public AsyncCommand<Category> UpdateCommand { get; }
         public AsyncCommand<Category> ActionCommand { get; }
         public AsyncCommand<int> DetailCommand { get; }
-        public AsyncCommand<Category> ItemSelectedCommand { get; }
+        public AsyncCommand ItemSelectedCommand { get; }
+
+     
+        public bool Isvisible { get => isvisible; set => isvisible = value; }
+        public string Oldname { get => oldname; set => oldname = value; }
+
+        private bool isvisible = false;
+        private string oldname;
+        private int categoryid;
+       
 
 
         public CategoryViewModel()
@@ -36,8 +45,70 @@ namespace GO.ViewModels.Categorys
             UpdateCommand = new AsyncCommand<Category>(updateCategory);
             DetailCommand = new AsyncCommand<int>(getCategory);
 
-            ItemSelectedCommand = new AsyncCommand<Category>(selectItem);
+            ItemSelectedCommand = new AsyncCommand(selectItem);
 
+        }
+        public async void HideOrShowCategory(Category item)
+        {
+            
+            if(item.IsVisible == false)
+            {
+                item.IsVisible = true;
+                oldname = item.Name;
+                categoryid = item.Id;
+                
+                await datastore.UpdateItemAsync(item);
+                await Refresh();
+            }
+            else if(item.IsVisible == true)
+            {
+               
+                try
+                {
+                    item.IsVisible = false;
+                    if (string.IsNullOrEmpty(item.Name))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Category Name cant be empty!", "OK");
+                        // await Refresh();
+                        return;
+                    }
+                    item.Name = char.ToUpper(item.Name[0]) + item.Name.Substring(1);
+                    //get all categories in the database
+                    var categories = await datastore.GetItemsAsync();
+
+                    if (categories.Any(c => c.Name == item.Name))
+                    {
+                        if (item.Name == oldname)
+                        {
+                            await datastore.UpdateItemAsync(item);
+
+                            await Refresh();
+                        }
+                        else if (item.Name != oldname)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error!", "Name already exist, Change!", "OK");
+                            // await Refresh();
+                            return;
+                        }
+                    }
+
+                    await datastore.UpdateItemAsync(item);
+
+                    await Refresh();
+                }
+                catch (Exception ex)
+                {
+
+                    Debug.WriteLine($"Failed to update Category: {ex.Message}");
+                    await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+             
+            }
+           
         }
 
         async Task addCategory(Category category)
@@ -58,9 +129,7 @@ namespace GO.ViewModels.Categorys
                 var newCategory = new Category
                 {
                     Name = name,
-
                     CreatedOn = DateTime.Now
-
                 };
                 // change the first letter of the category name to upercase
                 var UppercasedName = char.ToUpper(newCategory.Name[0]) + newCategory.Name.Substring(1);
@@ -68,7 +137,8 @@ namespace GO.ViewModels.Categorys
                 var newestCategory = new Category
                 {
                     Name = UppercasedName,
-                    Id = newCategory.Id
+                    CreatedOn = newCategory.CreatedOn,
+                    IsVisible = isvisible                
                 };
 
                 //check if the new category already exist in the database
@@ -76,10 +146,7 @@ namespace GO.ViewModels.Categorys
                 {
                     await Application.Current.MainPage.DisplayAlert("Error!", "Name already exist", "OK");
                     return;
-
                 }
-
-
                 // validate new category values
                 if (string.IsNullOrWhiteSpace(newestCategory.Name))
                 {
@@ -117,22 +184,31 @@ namespace GO.ViewModels.Categorys
                 return;
             try
             {
-                var editCategory = await Application.Current.MainPage.DisplayPromptAsync(" Edit Category", "Name", "Save", "Cancel", $"{category.Name}");
+                // get all the categories in the database
+                var allCategories = await datastore.GetItemsAsync();
+                // change the first letter of the category name to upercase
+                var UppercasedName = char.ToUpper(category.Name[0]) + category.Name.Substring(1);
+                // pass the uppercased name to the category object
+                category.Name = UppercasedName;
 
-                // change the first letter of category name to uppercase if it is not
-                var editedCategory = char.ToUpper(editCategory[0]) + editCategory.Substring(1);
-                var updateCategory = new Category
+                //check if the new category already exist in the database
+                if (categories.Any(C => C.Name == category.Name))
                 {
-                    Id = category.Id,
-                    Name = editedCategory
-                };
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Name already exist", "OK");
+                    return;
 
-                await datastore.UpdateItemAsync(updateCategory);
+                }
+                // check if the incoming object already exist in the database
+                if (allCategories.Any( C => C.Id == category.Id))
+                {
+                    // update the category in the database
+                    await datastore.UpdateItemAsync(category);
+                }
                 await Refresh();
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Failed to update Category: {ex.Message}");
+                Debug.WriteLine($"Failed to Update! Category does not exist!: {ex.Message}");
             }
 
         }
@@ -145,12 +221,12 @@ namespace GO.ViewModels.Categorys
 
             await Refresh();
         }
-        async Task selectItem(Category category)
+        async Task selectItem()
         {
             // check if the goal item has been selected
-            if (category == null)
+            if (categoryid == null)
                 return;
-            var route = $"{nameof(GoalView)}?{nameof(GoalViewModel.CategoryId)}={category.Id}";
+            var route = $"{nameof(GoalView)}?{nameof(GoalViewModel.CategoryId)}={categoryid}";
 
             await Shell.Current.GoToAsync(route);
         }
@@ -187,8 +263,8 @@ namespace GO.ViewModels.Categorys
 
             // set "IsBusy" to true
             IsBusy = true;
-            // make the refreshing process load for 2 seconds
-            await Task.Delay(2000);
+       
+           
             // clear categories on the page
             categories.Clear();
             // get all categories

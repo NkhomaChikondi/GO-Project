@@ -12,6 +12,7 @@ namespace GO.Models
         public String Name { get; set; }
         public string Description { get; set; }
         public DateTime CreatedOn { get; set; }
+        public bool IsVisible { get; set; }
 
 
     }

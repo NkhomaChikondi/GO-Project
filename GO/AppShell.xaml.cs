@@ -21,6 +21,7 @@ namespace GO
             Routing.RegisterRoute(nameof(subTaskView), typeof(subTaskView));
             Routing.RegisterRoute(nameof(AddSubtask), typeof(AddSubtask));
             Routing.RegisterRoute(nameof(UpdateSubtaskPage), typeof(UpdateSubtaskPage));
+            Routing.RegisterRoute(nameof(UpdateGoalPage), typeof(UpdateGoalPage));
 
 
         }

@@ -68,20 +68,21 @@
 
                         <ViewCell>
                             <ViewCell.ContextActions  >
-                                <MenuItem Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.OnUpdateCommand }"
-                              CommandParameter="{Binding .}"
-                              IsDestructive="True"  
+                                <SwipeItem Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.OnUpdateCommand }"
+                                      CommandParameter="{Binding .}"
+                                      IsDestructive="True"  
                                           
-                              IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                         Glyph={x:Static helpers:IconFont.BookEdit},Size=55,Color=SkyBlue
-                                     }"
-                                          />
-                                <MenuItem Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.DeleteCommand }"
-                              CommandParameter="{Binding .}"
-                              IsDestructive="True"                              
-                              IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                      IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                                 Glyph={x:Static helpers:IconFont.BookEdit},Size=55,Color=SkyBlue
+                                             }"
+                                />
+                                <SwipeItem Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.DeleteCommand }"
+                                       CommandParameter="{Binding .}"
+                                       IsDestructive="True"                              
+                                       IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                          Glyph={x:Static helpers:IconFont.Delete},Size=55,Color=SkyBlue
-                                    }"/>
+                                    }"
+                                />
 
 
 

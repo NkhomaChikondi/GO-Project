@@ -66,7 +66,7 @@ namespace GO.ViewModels.Goals
             goals = new ObservableRangeCollection<Goal>();
             AddgoalCommand = new AsyncCommand<Goal>(OnaddGoal);
             DeleteCommand = new AsyncCommand<Goal>(deleteGoal);
-         //   UpdateCommand = new AsyncCommand<Goal>(OnUpdateGoal);
+           UpdateCommand = new AsyncCommand<Goal>(OnUpdateGoal);
             RefreshCommand = new AsyncCommand(Refresh);
             ItemSelectedCommand = new AsyncCommand<Goal>(selectGoalItem);
 
@@ -85,14 +85,15 @@ namespace GO.ViewModels.Goals
             var route = $"{nameof(GoalTaskPage)}?{nameof(GoalTaskViewModel.GoalTaskId)}={goal.Id}";
             await Shell.Current.GoToAsync(route);
         }
-        //async Task OnUpdateGoal(Goal goal)
-        //{
-        //    var route = $"{nameof(EditGoal)}?{nameof(EditGoalViewModel.GoalId)}={goal.Id}";
-        //    await Shell.Current.GoToAsync(route);
+        async Task OnUpdateGoal(Goal goal)
+        {
+            var route = $"{nameof(UpdateGoalPage)}?taskId={goal.Id}";
+
+            await Shell.Current.GoToAsync(route);
 
 
-        //}
-        async Task getAllGoals()
+        }
+            async Task getAllGoals()
         {
             // list down all categories in the database
             // check if the app is busy

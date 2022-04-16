@@ -42,6 +42,9 @@ namespace GO.Services
             {
                 Id = item.Id,
                 Name = item.Name,
+                IsVisible = item.IsVisible,
+                CreatedOn = item.CreatedOn
+
                 //Description = item.Description
             };
             // insert the values into the database

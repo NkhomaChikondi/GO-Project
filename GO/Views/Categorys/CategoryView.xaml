@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:Viewmodel="clr-namespace:GO.ViewModels.Categorys"
+             xmlns:model="clr-namespace:GO.Models"
+             x:Class="GO.Views.Category.CategoryView"
+               x:Name="CategoryPage"
+               xmlns:helpers="clr-namespace:GO.Font"
+             Title="{Binding title}">
+            
+            
+    <ContentPage.BindingContext>
+        <Viewmodel:CategoryViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=" Auto"/>
+        </Grid.RowDefinitions>
+        <StackLayout Grid.Row="1" Grid.ColumnSpan="4">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+
+                <Image Margin="10,0,0,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                Glyph={x:Static helpers:IconFont.Plus},Size=42,Color=#495057
+                }"></Image>
+                <Button Margin="-22,0,0,0" Text="Add Category" FontAttributes="Bold" TextColor="#495057" Command="{Binding AddCommand}" IsEnabled="{Binding IsNotBusy}" BackgroundColor="Transparent"></Button>
+
+        </StackLayout>
+        <ListView ItemsSource="{Binding categories}"
+                   CachingStrategy="RecycleElement"
+                   HasUnevenRows="True" 
+                   Grid.ColumnSpan="3"
+                   RefreshCommand="{Binding RefreshCommand }"
+                   RefreshControlColor="Red"
+                   SelectionMode="None"
+                   SeparatorVisibility="None"
+                   IsRefreshing="{Binding IsBusy,Mode=OneWay}"
+                  ItemTapped="ListView_ItemTapped">
+            
+            
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Category">
+
+                    <ViewCell>
+                       
+                        <Grid ColumnSpacing="10" Padding="6">
+                            <Frame x:Name="homey1" CornerRadius="15" 
+                                   HasShadow="true"
+                               BackgroundColor="WhiteSmoke"
+                                   Padding="5"
+                                   Margin="5,0,7,0"
+                                   >
+
+                                <StackLayout Grid.Column="0" VerticalOptions="Center" Padding="5">
+                                    <RelativeLayout VerticalOptions="Center"/>
+                                    <StackLayout Orientation="Horizontal">
+                                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.Widgets},Size=45,Color=#61a5c2 }"></Image>
+                                        <Label 
+                                       FontSize="Large"
+                                       VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" />
+                                                    <Span Text="{x:Static x:Environment.NewLine}" />
+                                                    <Span Text="0 " FontSize="Subtitle"  TextColor="#adb5bd"/>
+                                                    <Span Text=" Goal(s) in this category" FontSize="Subtitle" TextColor="#adb5bd"  />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                    
+                                    <Label Margin="0,22,0,0" Text="Edit Category" HorizontalOptions="CenterAndExpand" FontSize="Medium" FontAttributes="Bold" IsVisible="{Binding IsVisible}"></Label>
+                                    <StackLayout Orientation="Vertical" IsVisible="{Binding IsVisible}">
+                                        <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="4">
+                                            <Label Text="Category Name: " TextColor="Black" FontSize="Subtitle" FontAttributes="Bold"></Label>
+                                            <Editor  Margin="0,-10,0,0" Text="{Binding Name}" Placeholder="{Binding Name}" TextColor="Black" FontSize="Medium" FontAttributes="None"  Grid.Column="0"  MaxLength="150"  HorizontalOptions="FillAndExpand" >
+
+                                            </Editor>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
+                                            <Label Text="Date of Creation:  " TextColor="Black" FontSize="Subtitle" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding CreatedOn}" FontSize="Subtitle"  ></Label>
+                                        </StackLayout>
+                                        
+                                        <StackLayout Orientation="Horizontal" Margin="0,10,0,0" HorizontalOptions="CenterAndExpand">
+                                            <Button Margin="-5,0,25,0" Text="       View Goals       " Command="{Binding Source={x:Reference CategoryPage},Path=BindingContext.ItemSelectedCommand }" BackgroundColor="Firebrick"></Button>
+                                        </StackLayout>
+                                    </StackLayout>
+                                   
+
+                                 
+
+
+                                </StackLayout>
+                            </Frame>
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            </ListView>
+            <AbsoluteLayout BackgroundColor="Transparent">
+                <ImageButton Margin="0,0,13,0"  Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                Glyph={x:Static helpers:IconFont.PlusCircle},Size=75,Color=Transparent
+                }"
+                         BackgroundColor="Transparent"
+                Command="{Binding AddCommand}"
+                IsEnabled="{Binding IsNotBusy}"
+               
+                         AbsoluteLayout.LayoutFlags="PositionProportional"
+				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
+            />
+            </AbsoluteLayout>
+
+
+            <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy  }"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="FillAndExpand"
+                           Grid.RowSpan="2"
+                           Grid.ColumnSpan="3"/>
+
+
+        </StackLayout>
+    </Grid>
+</ContentPage>

@@ -8,21 +8,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Xamarin.Forms.Xaml.XamlResourceIdAttribute("GO.Views.Category.CategoryView.xaml", "Views/Category/CategoryView.xaml", typeof(global::GO.Views.Category.CategoryView))]
+[assembly: global::Xamarin.Forms.Xaml.XamlResourceIdAttribute("GO.Views.Goal.UpdateGoalPage.xaml", "Views/Goal/UpdateGoalPage.xaml", typeof(global::GO.Views.Goal.UpdateGoalPage))]
 
-namespace GO.Views.Category {
+namespace GO.Views.Goal {
     
     
-    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("Views\\Category\\CategoryView.xaml")]
-    public partial class CategoryView : global::Xamarin.Forms.ContentPage {
+    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("Views\\Goal\\UpdateGoalPage.xaml")]
+    public partial class UpdateGoalPage : global::Xamarin.Forms.ContentPage {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::Xamarin.Forms.ContentPage CategoryPage;
+        private global::Xamarin.Forms.Label detaillabel;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private void InitializeComponent() {
-            global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(CategoryView));
-            CategoryPage = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.ContentPage>(this, "CategoryPage");
+            global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(UpdateGoalPage));
+            detaillabel = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "detaillabel");
         }
     }
 }

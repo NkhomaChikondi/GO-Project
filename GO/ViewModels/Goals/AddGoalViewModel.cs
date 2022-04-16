@@ -23,7 +23,9 @@ namespace GO.ViewModels.Goals
         private int categoryId;
         private string description;
         private DateTime time = DateTime.Now;
+        private string status;
         private double percentage;
+        private DateTime createdOn;
         private int notificationNumber = 0;
         INotificationManager notificationManager;
 
@@ -34,15 +36,17 @@ namespace GO.ViewModels.Goals
         public string Description { get => description; set => description = value; }
         public int CategoryId { get => categoryId; set => categoryId = value; }
         public DateTime Time { get => time; set => time = value; }
+        public double Percentage { get => percentage; set => percentage = value; }
+        public DateTime CreatedOn { get => createdOn; set => createdOn = value; }
 
-       
+
         public ObservableRangeCollection<SelectedItemWrapper<DOW>> DOWs { get => dOWs; set => dOWs = value; }
         public ObservableRangeCollection<DOW> SelectedDOw { get => selectedDOw; private set => selectedDOw = value; }
 
         private ObservableRangeCollection<SelectedItemWrapper<DOW>> dOWs;
         private ObservableRangeCollection<DOW> selectedDOw;
         public ObservableRangeCollection<Goal> goals { get; }
-        public double Percentage { get => percentage; set => percentage = value; }
+        public string Status { get => status; set => status = value; }
 
         public AddGoalViewModel()
         {
@@ -221,7 +225,15 @@ namespace GO.ViewModels.Goals
             }
            
         }
-
+        public async void InitializeProperties(Goal goal)
+        {
+            Name = goal.Name;
+            Description = goal.Description;
+            Status = goal.Status;
+            Start = goal.Start;
+            End = goal.End;
+            Time = goal.Time;
+        }
         public class NotificationEventArgs : EventArgs
         {
             public string Title { get; set; }
