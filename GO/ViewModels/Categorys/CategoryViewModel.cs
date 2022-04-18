@@ -226,6 +226,7 @@ namespace GO.ViewModels.Categorys
             // check if the goal item has been selected
             if (categoryid == null)
                 return;
+            
             var route = $"{nameof(GoalView)}?{nameof(GoalViewModel.CategoryId)}={categoryid}";
 
             await Shell.Current.GoToAsync(route);
@@ -257,6 +258,24 @@ namespace GO.ViewModels.Categorys
                 IsBusy = false;
             }
 
+        }
+        // a method to make sure all categories visibility is set to false upon the category page appearing
+        public async Task OnPageAppearance()
+        {
+            // get all the categories from the database
+            var categories = await datastore.GetItemsAsync();
+            // loop through the categories
+            foreach(var category in categories)
+            {
+                if (category.IsVisible == true)
+                {
+                    category.IsVisible = false;
+                    // update in the database
+                    await datastore.UpdateItemAsync(category);
+                }
+                else
+                    return;
+            }
         }
         public async Task Refresh()
         {

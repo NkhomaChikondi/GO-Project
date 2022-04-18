@@ -28,8 +28,7 @@ namespace GO.Services
             await db.CreateTableAsync<Goal>();
             await db.CreateTableAsync<GoalTask>();
             await db.CreateTableAsync<Subtask>();
-            await db.CreateTableAsync<DOW>();
-            await db.CreateTableAsync<DOWGoal>();
+            await db.CreateTableAsync<SelectedItemWrapper<DOW>>();
 
         }
         public async Task<bool> AddItemAsync(Category item)
@@ -99,7 +98,7 @@ namespace GO.Services
                 CreatedOn = item.CreatedOn,
                 CategoryId = item.CategoryId,
                 Time = item.Time,
-                progress = item.progress,
+                Progress = item.Progress,
                 Percentage = item.Percentage,
 
                 

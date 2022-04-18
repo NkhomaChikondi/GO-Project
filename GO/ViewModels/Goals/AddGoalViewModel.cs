@@ -76,7 +76,7 @@ namespace GO.ViewModels.Goals
                     End = end,
                     Time = time,
                     Percentage = 0,
-                    progress = 0,
+                    Progress = 0,
                     CategoryId = categoryId
 
                 };
@@ -90,6 +90,14 @@ namespace GO.ViewModels.Goals
                     await Application.Current.MainPage.DisplayAlert("Error!", "A Goal with that Name already exist! Change. ", "OK");
                     return;
                 }
+                if(GetSelectedDOWs().Count > 0)
+                {
+                    // create a new selecteditemwrapper
+                    var newselect = new SelectedItemWrapper<DOW>()
+                    {
+                        Item =
+                    };
+                }
              
                 // create the newest goal object
                 var newestGoal = new Goal
@@ -101,7 +109,7 @@ namespace GO.ViewModels.Goals
                     End = end,
                     Time = time,
                     Percentage = 0,
-                    progress = 0,
+                    Progress = 0,
                     CategoryId = categoryId
 
                 };
@@ -185,11 +193,21 @@ namespace GO.ViewModels.Goals
        };
         // get the selected dow item and assign it to a goal
        
-        public ObservableRangeCollection<DOW> GetSelectedDOWs()
+        public async  Task<ObservableRangeCollection<DOW>> GetSelectedDOWs(int goalId )
         {
             var selected = DOWs.Where(D => D.IsSelected).Select(D => D.Item).ToList();
+
+            // return new ObservableRangeCollection<DOW>(selected);
+            // create a new list of time dow
+            var newselect = new SelectedItemWrapper<DOW>();
+            foreach (var item in selected)
+            {
+                newselect.Item = item;
+                newselect.goalId = goalId;
+                   
+            }
+          await 
             
-            return new ObservableRangeCollection<DOW>(selected);
         }
         // adding values to DOWGoal
         public async Task addDOWGoal()
@@ -225,6 +243,12 @@ namespace GO.ViewModels.Goals
             }
            
         }
+        // write aquery that will get all selected days in the dowGoal model
+        
+        //loop through the dowlist against the selected days and get only those that are selected
+        //display the list on the updategoalpage
+
+
         public async void InitializeProperties(Goal goal)
         {
             Name = goal.Name;

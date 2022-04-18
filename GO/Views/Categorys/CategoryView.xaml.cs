@@ -24,6 +24,7 @@ namespace GO.Views.Category
             base.OnAppearing();
             if (BindingContext is CategoryViewModel cvm)
             {
+                await cvm.OnPageAppearance();
                 await cvm.Refresh();
             }
         }

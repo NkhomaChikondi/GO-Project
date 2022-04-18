@@ -72,7 +72,7 @@
                                            <Label Grid.Row="0" Grid.Column="0"  Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium" ></Label>
                                             <ProgressBar  
                                         x:Name="progressbar"                                                  
-                                                   Progress="{Binding progress}"
+                                                   Progress="{Binding Progress}"
                                                    FlowDirection="LeftToRight"                                                                                                 
                                                  ProgressColor="#61a5c2"
                                         ScaleX="1"

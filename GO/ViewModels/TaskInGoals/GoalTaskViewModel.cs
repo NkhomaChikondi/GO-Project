@@ -267,7 +267,7 @@ namespace GO.ViewModels.TaskInGoals
             if (goal.Percentage < 0)
                 goal.Percentage = 0;
             // recalculate goal progress
-            goal.progress = goal.Percentage / 100;
+            goal.Progress = goal.Percentage / 100;
             //update goal
             await datagoal.UpdateGoalAsync(goal);
 
@@ -285,7 +285,7 @@ namespace GO.ViewModels.TaskInGoals
             goal.Percentage += task.Percentage;
 
             // update goal progress
-            goal.progress = goal.Percentage / 100;
+            goal.Progress = goal.Percentage / 100;
             await datagoal.UpdateGoalAsync(goal);
         }
         async Task deleteCategory(GoalTask goalTask)

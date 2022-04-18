@@ -18,7 +18,8 @@ namespace GO.Models
         public DateTime End { get; set; }
         public double Percentage { get; set; }
         public string Status { get; set; }
-        public double progress { get; set; }
+        public double Progress { get; set; }
+        public bool WithDuration { get; set; }
 
         [Indexed]
         public int CategoryId { get; set; }

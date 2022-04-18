@@ -5,7 +5,8 @@
              xmlns:Viewmodel="clr-namespace:GO.ViewModels.Goals" 
              xmlns:model="clr-namespace:GO.Models"
              x:DataType="model:Goal"
-             x:Class="GO.Views.Goal.UpdateGoalPage">
+             x:Class="GO.Views.Goal.UpdateGoalPage"
+             BackgroundColor="WhiteSmoke">
     <ContentPage.BindingContext>
         <Viewmodel:AddGoalViewModel/>
     </ContentPage.BindingContext>
@@ -23,7 +24,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height=" Auto"/>
                     </Grid.RowDefinitions>
-                    <Frame Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="4"  BackgroundColor="White" >
+                    <Frame Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="4"  BackgroundColor="White" >
                         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="2" >
                             <Label x:Name="detaillabel" Text="Details in red cannot be edited" FontSize="Subtitle" TextColor="OrangeRed" Margin="-20,0,0,0"></Label>
                             <Editor  Text="{Binding Name}"  FontSize="Title" FontAttributes="Bold"  Grid.Column="0" Grid.ColumnSpan="4" MaxLength="50" >
@@ -48,7 +49,7 @@
 
 
 
-                    <Frame HorizontalOptions="FillAndExpand" Grid.Row="4" Grid.RowSpan="4" Grid.ColumnSpan="4" BorderColor="Transparent"  Margin="0,7,10,20" >
+                    <Frame HorizontalOptions="FillAndExpand" Grid.Row="3" Grid.RowSpan="3" Grid.ColumnSpan="4" BorderColor="Transparent"  Margin="0,7,-7,59" >
 
                         <StackLayout >
                             <StackLayout Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3" Padding="0">
@@ -57,44 +58,46 @@
                             </StackLayout>
                             <ScrollView Orientation="Horizontal">
                                 <StackLayout  Orientation="Horizontal" Grid.RowSpan="3" >
+                                    
+                                        <Frame Grid.Column="0" BackgroundColor="#ffafcc" HeightRequest="85" WidthRequest="100" CornerRadius="15">
+                                            <StackLayout >
+                                                <Image Source="list.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
 
-                                    <Frame Grid.Column="0" BackgroundColor="#ffafcc" HeightRequest="250" WidthRequest="100" >
-                                        <StackLayout >
-                                            <Image Source="list.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
-
-                                            </Image>
-                                            <Label Text="All Subtask" FontSize="Small" FontAttributes="Bold"></Label>
-                                            <Label Text="no # " TextColor="OrangeRed" FontSize="Medium" FontAttributes="Bold"></Label>
-                                        </StackLayout>
+                                                </Image>
+                                                <Label Text="All Subtask" FontSize="Small" FontAttributes="Bold"></Label>
+                                                <Label Text="no # " Margin="0,-10,0,0" TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
+                                            </StackLayout>
 
 
-                                    </Frame>
-                                    <Frame Grid.Column="1" BackgroundColor="#52b788" HeightRequest="250" WidthRequest="100">
+                                        </Frame>
+                                 
+
+                                    <Frame Grid.Column="1" BackgroundColor="#52b788" HeightRequest="85" WidthRequest="100" CornerRadius="15">
                                         <StackLayout >
                                             <Image Source="clipboard.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
 
                                             </Image>
                                             <Label Text="Completed" FontSize="Small" FontAttributes="Bold"></Label>
-                                            <Label Text="no# " TextColor="OrangeRed" FontSize="Medium" FontAttributes="Bold"></Label>
+                                            <Label Text="no# "  Margin="0,-10,0,0" TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
                                         </StackLayout>
                                     </Frame>
-                                    <Frame Grid.Column="2" BackgroundColor="#ffba08" HeightRequest="250" WidthRequest="100">
+                                    <Frame Grid.Column="2" BackgroundColor="#ffba08" HeightRequest="85" WidthRequest="100" CornerRadius="15">
                                         <StackLayout >
                                             <Image Source="pending.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
 
                                             </Image>
                                             <Label Text="Uncompleted"  FontSize="Small" FontAttributes="Bold"></Label>
-                                            <Label Text="10 "  TextColor="OrangeRed" FontSize="Medium" FontAttributes="Bold"></Label>
+                                            <Label Text="10 "  Margin="0,-10,0,0" TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
                                         </StackLayout>
 
                                     </Frame>
-                                    <Frame Grid.Column="3" BackgroundColor="#9e0059" HeightRequest="20" WidthRequest="100">
+                                    <Frame Grid.Column="3" BackgroundColor="#9e0059" HeightRequest="20" WidthRequest="100" CornerRadius="15">
                                         <StackLayout  Orientation="Vertical">
                                             <Image Source="expired.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
 
                                             </Image>
                                             <Label Text="Expired " FontSize="Small" FontAttributes="Bold"></Label>
-                                            <Label Text="10 "  TextColor="OrangeRed" FontSize="Medium" FontAttributes="Bold"></Label>
+                                            <Label Text="10 "  TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
                                         </StackLayout>
 
                                     </Frame>
@@ -102,7 +105,7 @@
                                 </StackLayout>
 
                             </ScrollView>
-                            <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
+                            <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,10,0,0">
                                 <Button Text="  See Subtasks  " BackgroundColor="White" TextColor="#9e0059" HorizontalOptions="CenterAndExpand" HeightRequest="50" ImageSource="point.png" ></Button>
                             </StackLayout>
                         </StackLayout>
@@ -110,7 +113,7 @@
                     </Frame>
 
 
-                    <Frame Grid.Row="8" Grid.RowSpan="5"  Grid.ColumnSpan="4" Margin="0,0,0,35"  BackgroundColor="White" BorderColor="Transparent" Padding="0">
+                    <Frame Grid.Row="6" Grid.RowSpan="5"  Grid.ColumnSpan="4" Margin="0,-49,0,49"  BackgroundColor="White" BorderColor="Transparent" Padding="0">
                         <StackLayout Orientation="Vertical" >
                             <StackLayout HeightRequest="20"  Grid.ColumnSpan="2" Padding="0"  Margin="2,0,0,0" Spacing="-6" >
 
@@ -194,7 +197,7 @@
 
                     </Frame>
 
-                    <Frame Grid.Row="13" Grid.ColumnSpan="4" BackgroundColor="WhiteSmoke" Margin="0,-10,0,0">
+                    <Frame Grid.Row="13" Grid.ColumnSpan="4" BackgroundColor="WhiteSmoke" Margin="0,0,0,20">
                         <StackLayout Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="2">
                             <Button Text="Save Changes" CornerRadius="15" BackgroundColor="#fb8500" TextColor="Black"></Button>
                         </StackLayout>

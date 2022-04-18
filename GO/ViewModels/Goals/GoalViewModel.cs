@@ -87,7 +87,7 @@ namespace GO.ViewModels.Goals
         }
         async Task OnUpdateGoal(Goal goal)
         {
-            var route = $"{nameof(UpdateGoalPage)}?taskId={goal.Id}";
+            var route = $"{nameof(UpdateGoalPage)}?goalId={goal.Id}";
 
             await Shell.Current.GoToAsync(route);
 
