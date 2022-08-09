@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ViewModel="clr-namespace:GO.ViewModels.Subtasks"
+             x:Class="GO.Views.SubTaskView.BlankWeekSubtaskView"
+             Title="Create Subtasks">
+    <ContentPage.BindingContext>
+        <ViewModel:SubtaskViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Margin="0,90">
+            <StackLayout>
+                <Image Source="blankpic.jpg"/>
+            </StackLayout>
+            <StackLayout Margin="40,30">
+                <Label Text="Create Your First Subtask" FontSize="20" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                <Label Text="Get started by creating Subtasks for your Task" FontSize="16" />
+
+                <Button   Grid.Column="0"  Grid.ColumnSpan="4" Text="   Create Subtask    " Command="{Binding sendsubtaskidCommand}" HorizontalOptions="FillAndExpand"  CornerRadius="15" Margin="0,20"  BackgroundColor="#61a5c2" CharacterSpacing="10" />
+
+
+            </StackLayout>
+
+        </StackLayout>
+        
+
+    </ContentPage.Content>
+</ContentPage>

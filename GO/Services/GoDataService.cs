@@ -11,7 +11,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(GoDataService))]
 namespace GO.Services
 {
-    public class GoDataService : IDataStore<Category>, IDataGoal<Goal>, IDataTask<GoalTask>, IDataSubtask<Subtask>,IDowGoal<DOWGoal>
+    public class GoDataService : IDataStore<Category>, IDataGoal<Goal>, IDataTask<GoalTask>, IDataSubtask<Subtask>,IDataWeek<Week>,IGoalWeek<GoalWeek>,IDataDow<DOW>
     {
         static SQLiteAsyncConnection db;
         // database connection class
@@ -23,13 +23,16 @@ namespace GO.Services
             var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MyGoData.db");
 
             db = new SQLiteAsyncConnection(databasePath);
-            //creating database tables
+            //  creating database tables
             await db.CreateTableAsync<Category>();
             await db.CreateTableAsync<Goal>();
             await db.CreateTableAsync<GoalTask>();
             await db.CreateTableAsync<Subtask>();
-            await db.CreateTableAsync<SelectedItemWrapper<DOW>>();
+            await db.CreateTableAsync<DOW>();
+            await db.CreateTableAsync<Week>();
+            await db.CreateTableAsync<GoalWeek>();
 
+        
         }
         public async Task<bool> AddItemAsync(Category item)
         {
@@ -42,9 +45,10 @@ namespace GO.Services
                 Id = item.Id,
                 Name = item.Name,
                 IsVisible = item.IsVisible,
-                CreatedOn = item.CreatedOn
+                CreatedOn = item.CreatedOn,
+                goalNumber = item.goalNumber
 
-                //Description = item.Description
+
             };
             // insert the values into the database
             await db.InsertAsync(category);
@@ -100,8 +104,11 @@ namespace GO.Services
                 Time = item.Time,
                 Progress = item.Progress,
                 Percentage = item.Percentage,
-
-                
+                Status = item.Status,
+                HasWeek = item.HasWeek,
+                ExpectedPercentage = item.ExpectedPercentage,
+                NumberOfWeeks = item.NumberOfWeeks,
+                Noweek = item.Noweek
 
             };
             // insert the values into the database
@@ -114,13 +121,6 @@ namespace GO.Services
             // Remove the selected goal item from the database
             var deleteCategory = await db.DeleteAsync<Goal>(id);
             return await Task.FromResult(true);
-        }
-        public async Task<Goal> GetGoalAsync(string name)
-        {
-            await Init();
-            // get the selected item 
-            var goalName = await db.Table<Goal>().Where(g => g.Name == name).FirstOrDefaultAsync();
-            return goalName;
         }
 
         public async Task<Goal> GetGoalAsync(int id)
@@ -137,6 +137,14 @@ namespace GO.Services
             var allGoals = await db.Table<Goal>().Where(g => g.CategoryId == Id).ToListAsync();
             return allGoals;
         }
+        public async Task<IEnumerable<Goal>> GetGoalsAsync(bool forceRefresh = false)
+        {
+            await Init();
+            // get all goals in the database
+            var allGoals = await db.Table<Goal>().ToListAsync();
+            return allGoals;
+        }
+
         public async Task<bool> UpdateGoalAsync(Goal item)
         {
             // modifying category item in the database
@@ -164,10 +172,14 @@ namespace GO.Services
                 Progress = item.Progress,
                 Status = item.Status,
                 IsCompleted = item.IsCompleted,
-                SubtaskNumber = item.SubtaskNumber,
                 CompletedSubtask = item.CompletedSubtask,
                 CreatedOn = item.CreatedOn,
-                GoalId = item.GoalId
+                IsEnabled = item.IsEnabled,
+                IsVisible = item.IsVisible,
+                IsNotVisible = item.IsNotVisible,
+                GoalId = item.GoalId,
+                WeekId = item.WeekId,
+                DowId = item.DowId
 
             };
             // insert the values into the database
@@ -209,6 +221,13 @@ namespace GO.Services
             var allTasks = await db.Table<GoalTask>().Where(g => g.GoalId == Id).ToListAsync();
             return allTasks;
         }
+        public async Task<IEnumerable<GoalTask>> GetTasksAsync(int Id, int dowid, bool forceRefresh = false)
+        {
+            await Init();
+            // get all goals in the database
+            var allTasks = await db.Table<GoalTask>().Where(g => g.GoalId == Id).Where(t => t.DowId == dowid).ToListAsync();
+            return allTasks;
+        }
 
         public async Task<bool> AddSubTaskAsync(Subtask item)
         {
@@ -226,7 +245,7 @@ namespace GO.Services
                 RemainingDays = item.RemainingDays,
                 Percentage = item.Percentage,
                 IsCompleted = item.IsCompleted,
-                Status= item.Status,
+                Status = item.Status,
                 TaskId = item.TaskId
             };
             // insert the values into the database
@@ -266,41 +285,141 @@ namespace GO.Services
             var allSubTasks = await db.Table<Subtask>().Where(g => g.TaskId == Id).ToListAsync();
             return allSubTasks;
         }
+    
 
-        public async Task<bool> AddDowGoalAsync(DOWGoal item)
+        //public Task<bool> UpdateSelectedWrapperAsync(SelectedItemWrapper<DOW> item)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<bool> DeleteSelectedWrapperAsync(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<SelectedItemWrapper<DOW>> GetSelectedWrapperAsync(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<IEnumerable<SelectedItemWrapper<DOW>>> GetSelectedWrapperAsync(int Id, bool forceRefresh = false)
+        //{
+        //    throw new NotImplementedException();
+        //}
+   
+
+        public async Task<bool> AddDOWAsync(DOW item)
         {
             await Init();
-            var DowGoal = new DOWGoal
+            DOW dOW = new DOW()
             {
-                DOGid = item.DOGid,
-                GoalId = item.GoalId,
-                DowId = item.DowId
+                DOWId = item.DOWId,
+                Name = item.Name,
+               
             };
-            // insert the values into the database
-            await db.InsertAsync(DowGoal);
+            await db.InsertAsync(dOW);
             return await Task.FromResult(true);
         }
 
-        public Task<bool> UpdateDowGoalAsync(DOWGoal item)
+        public Task<bool> UpdateDOWAsync(DOW item)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteDowGoalAsync(int id)
+        public Task<bool> DeleteDOWAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<DOWGoal> GetDowGoalAsync(int id)
+        public async Task<DOW> GetDOWAsync(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<DOWGoal>> GetDowGoalsAsync(int Id, bool forceRefresh = false)
-        {
-            throw new NotImplementedException();
+            await Init();
+            // get the selected item 
+            var dow = await db.Table<DOW>().Where(d => d.DOWId == id).FirstOrDefaultAsync();
+            return dow;
         }
 
        
+        public async Task<IEnumerable<DOW>> GetDOWsAsync(bool forceRefresh = false)
+        {
+            await Init();
+            // get all subtasks in the database
+            var allDows = await db.Table<DOW>().ToListAsync();
+            return allDows;
+        }
+
+        public async Task<bool> AddWeekAsync(Week item)
+        {
+            await Init();
+            var week = new Week
+            {
+                Id = item.Id,
+                WeekNumber = item.WeekNumber,
+                TargetPercentage = item.TargetPercentage,
+                AccumulatedPercentage = item.AccumulatedPercentage,
+                Active = item.Active,
+                StartDate = item.StartDate,
+                EndDate = item.EndDate,
+                GoalId = item.GoalId
+
+            };
+            await db.InsertAsync(week);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> UpdateWeekAsync(Week item)
+        {
+            await Init();
+            await db.UpdateAsync(item);
+            return await Task.FromResult(true);
+        }
+
+        public Task<bool> DeleteWeekAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Week> GetWeekAsync(int id)
+        {
+            await Init();
+            // get the selected item 
+            var Week = await db.Table<Week>().Where(d => d.Id == id).FirstOrDefaultAsync();
+            return Week;
+        }
+
+        public async Task<IEnumerable<Week>> GetWeeksAsync(int Id, bool forceRefresh = false)
+        {
+            await Init();
+            // get all subtasks in the database
+            var allweeks = await db.Table<Week>().Where(g => g.GoalId== Id).ToListAsync();
+            return allweeks;
+        }
+
+        public async Task<bool> AddGoalWeekAsync(GoalWeek item)
+        {
+            await Init();
+            // create a new Goalweek object
+            var newGoalWeek = new GoalWeek
+            {
+                GoalId = item.GoalId
+            };
+            await db.InsertAsync(newGoalWeek);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> UpdateGoalWeekAsync(GoalWeek item)
+        {
+            await Init();
+            await db.UpdateAsync(item);
+            return await Task.FromResult(true);
+        }
+   
+        public async Task<IEnumerable<GoalWeek>> GetGoalWeeksAsync(bool forceRefresh = false)
+        {
+            await Init();
+            // get all the categories in the database
+            var allgoalweek= await db.Table<GoalWeek>().ToListAsync();
+            return allgoalweek;
+        }
     }
 }

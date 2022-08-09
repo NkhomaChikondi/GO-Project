@@ -44,13 +44,10 @@ namespace GO.ViewModels.Categorys
             DeleteCommand = new AsyncCommand<Category>(deleteCategory);
             UpdateCommand = new AsyncCommand<Category>(updateCategory);
             DetailCommand = new AsyncCommand<int>(getCategory);
-
             ItemSelectedCommand = new AsyncCommand(selectItem);
-
         }
         public async void HideOrShowCategory(Category item)
-        {
-            
+        {            
             if(item.IsVisible == false)
             {
                 item.IsVisible = true;
@@ -61,8 +58,7 @@ namespace GO.ViewModels.Categorys
                 await Refresh();
             }
             else if(item.IsVisible == true)
-            {
-               
+            {           
                 try
                 {
                     item.IsVisible = false;
@@ -105,27 +101,25 @@ namespace GO.ViewModels.Categorys
                 finally
                 {
                     IsBusy = false;
-                }
-             
-            }
-           
+                }             
+            }           
         }
-
         async Task addCategory(Category category)
         {
             // check if the app is busy
             if (IsBusy)
                 return;
             try
-
             {
-
                 // assign a value to " IsBusy"
                 IsBusy = true;
                 // add an item
-                var name = await App.Current.MainPage.DisplayPromptAsync("Add New Category", "Name", "OK", "Cancel");
-
-
+                var name = await Application.Current.MainPage.DisplayPromptAsync("Add New Category", "Name", "OK", "Cancel");
+                if(string.IsNullOrEmpty(name))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Cancelled or Name is Empty", "OK");
+                    return;
+                }
                 var newCategory = new Category
                 {
                     Name = name,
@@ -138,7 +132,8 @@ namespace GO.ViewModels.Categorys
                 {
                     Name = UppercasedName,
                     CreatedOn = newCategory.CreatedOn,
-                    IsVisible = isvisible                
+                    IsVisible = isvisible,
+                    goalNumber = 0
                 };
 
                 //check if the new category already exist in the database
@@ -156,12 +151,10 @@ namespace GO.ViewModels.Categorys
                 }
                 await datastore.AddItemAsync(newestCategory);
                 await Refresh();
-
             }
             catch (Exception ex)
             {
                 // error messages
-
                 Debug.WriteLine($"Failed to add Category: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
             }
@@ -174,8 +167,39 @@ namespace GO.ViewModels.Categorys
         {
             if (category == null)
                 return;
-            await datastore.DeleteItemAsync(category.Id);
-            await Refresh();
+           var ans = await Application.Current.MainPage.DisplayAlert("Delete Category", "All Goals in this category will be deleted. Continue?", "Yes", "No");
+            if (ans)
+            {
+                await datastore.DeleteItemAsync(category.Id);
+                // get all goals having the 
+                var goals = await datagoal.GetGoalsAsync(category.Id);
+
+                // loop through them and delete
+                foreach (var goal in goals)
+                {
+                    // get tasks in this goal
+                    var tasks = await dataTask.GetTasksAsync(goal.Id);
+
+                    await datagoal.DeleteGoalAsync(goal.Id);
+
+                    foreach (var task in tasks)
+                    {
+                        // get subtasks in this tasks
+                        var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+                        await dataTask.DeleteTaskAsync(task.Id);
+                        //check if thy're subtasks having the task id 
+
+                        foreach (var subtask in subtasks)
+                        {
+                            await dataSubTask.DeleteSubTaskAsync(subtask.Id);
+                        }
+                    }
+                }
+                await Refresh();
+            }
+            else if (!ans)
+            return;
+           
         }
         async Task updateCategory(Category category)
         {
@@ -210,26 +234,28 @@ namespace GO.ViewModels.Categorys
             {
                 Debug.WriteLine($"Failed to Update! Category does not exist!: {ex.Message}");
             }
-
         }
         async Task getCategory(int id)
         {
             // get details of the selected category from the database
             var categoryDetail = await datastore.GetItemAsync(id);
-
-
-
-            await Refresh();
-        }
+            await Refresh();        }
         async Task selectItem()
         {
             // check if the goal item has been selected
-            if (categoryid == null)
+            if (categoryid.Equals( null))
                 return;
-            
-            var route = $"{nameof(GoalView)}?{nameof(GoalViewModel.CategoryId)}={categoryid}";
-
-            await Shell.Current.GoToAsync(route);
+            // get goals having the category id
+            var goals = await datagoal.GetGoalsAsync(categoryid);
+            //if(goals.Count() == 0)
+            //{
+            //    var route1= $"{nameof(BlankGoalView)}?{nameof(GoalViewModel.CategoryId)}={categoryid}";
+            //    await Shell.Current.GoToAsync(route1);
+            //}
+           
+                var route = $"{nameof(GoalView)}?CategoryId={categoryid}";
+                await Shell.Current.GoToAsync(route);
+                     
         }
         async Task getAllCategories()
         {
@@ -248,10 +274,8 @@ namespace GO.ViewModels.Categorys
             catch (Exception ex)
             {
                 // error message
-
                 Debug.WriteLine($"Failed to add Category: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
-
             }
             finally
             {
@@ -277,13 +301,28 @@ namespace GO.ViewModels.Categorys
                     return;
             }
         }
+        // amethod to check the number of goals in the category
+        async Task CategoryGoalNumber()
+        {
+            // get all categories in the database
+            var categories = await datastore.GetItemsAsync();
+            // loop through them
+            foreach (var category in categories)
+            {
+                // check if it has goals
+                var goals = await datagoal.GetGoalsAsync(category.Id);
+                category.goalNumber = goals.Count();
+                await datastore.UpdateItemAsync(category);
+
+            }
+            
+        }
         public async Task Refresh()
         {
-
             // set "IsBusy" to true
             IsBusy = true;
-       
-           
+            // check goals in category
+            await CategoryGoalNumber();
             // clear categories on the page
             categories.Clear();
             // get all categories
@@ -292,12 +331,6 @@ namespace GO.ViewModels.Categorys
             categories.AddRange(category);
             // set "isBusy" to true
             IsBusy = false;
-
         }
-
-
     }
-
-
-
 }

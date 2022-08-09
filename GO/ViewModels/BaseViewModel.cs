@@ -12,18 +12,23 @@ namespace GO.ViewModels
     public class BaseViewmodel
     {
         public IDataStore<Category> datastore { get; }
-        public IDataGoal<Goal>datagoal { get; }
+        public IDataGoal<Goal> datagoal { get; }
         public IDataTask<GoalTask> dataTask { get; }
         public IDataSubtask<Subtask> dataSubTask { get; }
-        public IDowGoal<DOWGoal> dataDowgoal { get; }
+      
+        public IDataDow<DOW> dataDow { get; }
+        public IDataWeek<Week> dataWeek { get; }
+        public IGoalWeek<GoalWeek> datagoalweek { get; }
         public BaseViewmodel()
         {
             // exposing Godataservice to all view models
             datastore = DependencyService.Get<IDataStore<Category>>();
             datagoal = DependencyService.Get<IDataGoal<Goal>>();
             dataTask = DependencyService.Get<IDataTask<GoalTask>>();
-            dataSubTask = DependencyService.Get<IDataSubtask<Subtask>>();
-            dataDowgoal = DependencyService.Get<IDowGoal<DOWGoal>>();
+            dataSubTask = DependencyService.Get<IDataSubtask<Subtask>>();         
+            dataDow = DependencyService.Get<IDataDow<DOW>>();
+            dataWeek = DependencyService.Get<IDataWeek<Week>>();
+            datagoalweek = DependencyService.Get<IGoalWeek<GoalWeek>>();
 
         }
         bool isBusy;
@@ -51,7 +56,6 @@ namespace GO.ViewModels
                 isBusy = value;
                 OnPropertyChange();
                 OnPropertyChange(nameof(IsNotBusy));
-
             }
         }
         public bool IsNotBusy => !IsBusy;

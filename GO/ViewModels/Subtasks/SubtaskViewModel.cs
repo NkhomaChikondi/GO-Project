@@ -17,6 +17,7 @@ namespace GO.ViewModels.Subtasks
 
         private int taskid;
         private string status;
+        private double standbypercentage;
 
         public ObservableRangeCollection<Subtask> subtasks { get; }
         public AsyncCommand RefreshCommand { get; }
@@ -33,6 +34,7 @@ namespace GO.ViewModels.Subtasks
             DeleteCommand = new AsyncCommand<Subtask>(deleteSubTask);
             OnUpdateCommand = new AsyncCommand<Subtask>(OnUpdateTask);
             title = "Add Sub Task";
+            
         }
 
 
@@ -49,152 +51,122 @@ namespace GO.ViewModels.Subtasks
 
         async Task selectSubtaskItem()
         {
-            var route = $"{nameof(AddSubtask)}?{nameof(AddSubtaskViewModel.GetTaskId)}={taskid}";
-            await Shell.Current.GoToAsync(route);
+            // get the task having the result id
+            var task = await dataTask.GetTaskAsync(taskid);
+            // get the goal having 
+            var goal = await datagoal.GetGoalAsync(task.GoalId);
+            // check if the goal has a week
+            if(goal.Noweek)
+            {
+                var route = $"{nameof(AddSubtask)}?{nameof(AddSubtaskViewModel.GetTaskId)}={taskid}";
+                await Shell.Current.GoToAsync(route);
+
+            }
+            if(goal.HasWeek)
+            {
+                var route = $"{nameof(AddPlannedSubtask)}?{nameof(AddSubtaskViewModel.GetTaskId)}={taskid}";
+                await Shell.Current.GoToAsync(route);
+
+            }
 
         }
         async Task deleteSubTask(Subtask subtask)
         {
             if (subtask == null)
                 return;
-            await dataSubTask.DeleteSubTaskAsync(subtask.Id);
-            await Refresh();
+            var ans = await Application.Current.MainPage.DisplayAlert("Delete Subtask!", "All Subtasks will be deleted. Continue?", "Yes", "No");
+            if (ans)
+            {
+                await dataSubTask.DeleteSubTaskAsync(subtask.Id);
+                // get the task with the passed task id
+                var task = await dataTask.GetTaskAsync(Taskid);
+                // get allsubtasks having the task id
+                var subtasks = await dataSubTask.GetSubTasksAsync(Taskid);
+                //loop through them
+                foreach (var stask in subtasks)
+                {
+                    stask.Percentage = task.Percentage / subtasks.Count();
+                    await dataSubTask.UpdateSubTaskAsync(stask);
+                }
+                // check if the deleted subtask was completed
+                if (subtask.IsCompleted)
+                {
+                    task.PendingPercentage -= subtask.Percentage;
+                    await dataTask.UpdateTaskAsync(task);
+                }
+                await Refresh();
+            }
+            else if (!ans)
+                return;
+            
         }
+
         async Task OnUpdateTask(Subtask subtask)
         {
-            var route = $"{nameof(UpdateSubtaskPage)}?SubtaskId={subtask.Id}";
-
-            await Shell.Current.GoToAsync(route);
-        }
-        public async Task AddSubTaskPercentage(int IscompleteId, bool Iscomplete)
+            // get the subtask having the subtask id
+            var Subtask = await dataSubTask.GetSubTaskAsync(subtask.Id);
+            // get the task having the result id
+            var task = await dataTask.GetTaskAsync(Subtask.TaskId);
+            // get the goal having 
+            var goal = await datagoal.GetGoalAsync(task.GoalId);
+            if(goal.HasWeek)
+            {
+                var route = $"{nameof(UpdateWeekSubtask)}?SubtaskId={subtask.Id}";
+                await Shell.Current.GoToAsync(route);
+            }
+            else if(goal.Noweek)
+            {
+                var route = $"{nameof(UpdateSubtaskPage)}?SubtaskId={subtask.Id}";
+                await Shell.Current.GoToAsync(route);
+            }    
+        }       
+        public async Task CompleteSubtask(int SubtaskId, bool IsComplete)
         {
+            // get the subtask equal to subtaskId
+            var subtask = await dataSubTask.GetSubTaskAsync(SubtaskId);
 
-            // get the Id in the database that matches iscompleteId
-            var SubTaskId = await dataSubTask.GetSubTaskAsync(IscompleteId);
-
-            // check against the specified condition
-            if (SubTaskId.IsCompleted == true && Iscomplete == false)
+            if (subtask.IsCompleted)
+                return;
+            else if(!subtask.IsCompleted)
             {
-                // set to false if the condition meets
-                SubTaskId.IsCompleted = false;
-                //update the item in the database
-                await dataSubTask.UpdateSubTaskAsync(SubTaskId);
-                //remove percentage from the item
-                RemovePercentage(IscompleteId);
-                await CompletedSubtask(Taskid);
-                await SetStatus();
-                await SetStatus(IscompleteId);
-
+                subtask.IsCompleted = IsComplete;
+                subtask.Status = "Completed";
+                await dataSubTask.UpdateSubTaskAsync(subtask);
+                await CheckTaskCompletion();
             }
-            // check against the specified condition
-            else if (SubTaskId.IsCompleted == false && Iscomplete == true)
-            {
-                // set to true if the condition meets
-                SubTaskId.IsCompleted = true;
-                //update the item in the database
-                await dataSubTask.UpdateSubTaskAsync(SubTaskId);
-                // the percentage of the completed task
-                var tasksid = SubTaskId.Percentage;
-                // get the Task that is linked to the targeted subtask
-                var Task = await dataTask.GetTaskAsync(Taskid);
-                // check if the task is completed
-                if (SubTaskId.IsCompleted == true)
-                {
-                    // pass the task percentage to goal
-                    Task.PendingPercentage += tasksid;
-                    // assign a value to Task Progress
-                    Task.Progress = Task.PendingPercentage / Task.Percentage;
-                    await dataTask.UpdateTaskAsync(Task);
-                }
-                await SetStatus();
-                await SetStatus(IscompleteId);
-                await CompletedSubtask(Taskid);
+            // check if all subtasks have been completed and turn the task.iscompleted to true
 
 
-
-            }
-            // check against the specified condition
-            else if (SubTaskId.IsCompleted == false && Iscomplete == false)
-            {
-                // set to false if the condition meets
-                SubTaskId.IsCompleted = false;
-                //update the item in the database
-                await dataSubTask.UpdateSubTaskAsync(SubTaskId);
-                await SetStatus();
-                await SetStatus(IscompleteId);
-            }
         }
-        async void RemovePercentage(int id)
+        public async Task UnCompleteSubtask(int SubtaskId, bool IsComplete)
         {
-            //get the Task item having the passed id
-            var Task = await dataTask.GetTaskAsync(Taskid);
-            // get the subtask item having the passed id
-            var Subtask = await dataSubTask.GetSubTaskAsync(id);
-            // Subtract task percentage from goal percentage
-            Task.PendingPercentage -= Subtask.Percentage;
-            // assign a value to Task.progress
-            Task.Progress = Task.PendingPercentage / 100;
-            //update goal
-            await dataTask.UpdateTaskAsync(Task);
+            // get the subtask equal to subtaskId
+            var subtask = await dataSubTask.GetSubTaskAsync(SubtaskId);
 
+            if (!subtask.IsCompleted)
+                return;
+            else if (subtask.IsCompleted)
+            {
+                subtask.IsCompleted = IsComplete;
+                subtask.Status = "Not Completed";
+                await dataSubTask.UpdateSubTaskAsync(subtask);
+                await CheckTaskCompletion();
+            }
         }
-        // setting status for the targetted task
-        async Task SetStatus()
-        {
-            // get a task having the same goal id
-            var Tasks = await dataTask.GetTaskAsync(taskid);
-            // loop through all the tasks
 
-            if (Tasks.PendingPercentage <= 0)
-            {
-                Tasks.Status = "Not Started";
-
-                await dataTask.UpdateTaskAsync(Tasks);
-            }
-
-            else if (Tasks.PendingPercentage != 0 && Tasks.PendingPercentage < Tasks.Percentage)
-            {
-                Tasks.Status = "In Progress";
-
-                await dataTask.UpdateTaskAsync(Tasks);
-            }
-            else if (Tasks.PendingPercentage == Tasks.Percentage)
-            {
-                Tasks.Status = "Completed";
-
-                await dataTask.UpdateTaskAsync(Tasks);
-            }
-
-        }
         // setting status for subtask
-        async Task SetStatus(int subId)
+        async Task CheckTaskCompletion()
         {
-            // get a task having the same goal id
-            var subTask = await dataSubTask.GetSubTaskAsync(subId);
-            // loop through all the tasks
-
-            if (subTask.Percentage <= 0)
-            {
-                subTask.Status = "Not Started";
-
-                await dataSubTask.UpdateSubTaskAsync(subTask);
-            }
-
-            else if (subTask.Percentage != 0 && subTask.Percentage < subTask.Percentage)
-            {
-                subTask.Status = "In Progress";
-
-                await dataSubTask.UpdateSubTaskAsync(subTask);
-            
-            }
-            else if (subTask.Percentage == subTask.Percentage)
-            {
-                subTask.Status = "Completed";
-
-                await dataSubTask.UpdateSubTaskAsync(subTask);
-            }
-        
-
+            // get the tasks having the TaskId
+            var task = await dataTask.GetTaskAsync(taskid);
+            // get the subtasks that are in there
+            var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+            //check if all subtasks are completed
+            if (subtasks.All(t => t.IsCompleted))
+                task.IsCompleted = true;
+            else if (!subtasks.All(t => t.IsCompleted))
+                task.IsCompleted = false;
+            await dataTask.UpdateTaskAsync(task);
         }
         async Task CompletedSubtask(int taskid)
         {
@@ -206,26 +178,58 @@ namespace GO.ViewModels.Subtasks
             var totalcount = completedtask.Count();
             Taskid.CompletedSubtask = totalcount;
             await dataTask.UpdateTaskAsync(Taskid);
-
-
         }
+       async Task setToDefaultPage()
+        {
+            // get the tasks from which this tasks derived from
+            var task = await dataTask.GetTaskAsync(taskid);
+            // get the goal from which the task derive from
+            var goal = await datagoal.GetGoalAsync(task.GoalId);
+            if(goal.HasWeek)
+            {
 
+            }
+        }
         public async Task Refresh()
         {
-
             // set "IsBusy" to true
-            IsBusy = true;
-            // make the refreshing process load for 2 seconds
-            await Task.Delay(2000);
+            IsBusy = true;                          
             // clear Subtasks on the page
             subtasks.Clear();
             // get all Subtasks
             var Allsubtask = await dataSubTask.GetSubTasksAsync(Taskid);
+            // loop through the subtasks and check if the subtask has expired
+            foreach (var subtask in Allsubtask)
+            {
+                if (DateTime.Now > subtask.SubEnd)
+                    subtask.Status = "Expired";
+            }
             // retrieve the Subtasks back
             subtasks.AddRange(Allsubtask);
+            var task = await dataTask.GetTaskAsync(taskid);
+            // get the goal from which the task derive from
+            var goal = await datagoal.GetGoalAsync(task.GoalId);
+            //if (goal.HasWeek)
+            //{
+            //    if(Allsubtask.Count() == 0)
+            //    {
+            //        var route1 = $"{nameof(BlankWeekSubtaskView)}?{nameof(SubtaskViewModel.Taskid)}={taskid}";
+            //        await Shell.Current.GoToAsync(route1);
+            //    }                
+            //}
+            //else if(goal.Noweek)
+            //{
+            //    if(Allsubtask.Count() == 0)
+            //    {
+            //        var route1 = $"{nameof(BlankSubtaskView)}?{nameof(SubtaskViewModel.Taskid)}={taskid}";
+            //        await Shell.Current.GoToAsync(route1);
+            //    }
+               
+            //}
             // set "isBusy" to false
             IsBusy = false;
 
         }
     }
-}
+} 
+

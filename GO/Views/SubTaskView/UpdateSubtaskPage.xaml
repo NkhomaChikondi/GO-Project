@@ -27,7 +27,7 @@
                     <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4"  BackgroundColor="White"  >
                         <StackLayout HorizontalOptions="FillAndExpand" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="2" >
                             <Label x:Name="detaillabel2" Text="Details in red cannot be edited" FontSize="Subtitle" TextColor="OrangeRed" Margin="0,0,0,0"></Label>
-                            <Editor  Text="{Binding SubName}"  FontSize="Title" FontAttributes="Bold"  Grid.Column="0" MaxLength="50"   >
+                            <Editor x:Name="editorName" Text=""  FontSize="Title" FontAttributes="Bold"  Grid.Column="0" MaxLength="50"   >
                                 <Editor.Effects>
                                     <Effects:PlainEntry/>
                                 </Editor.Effects>
@@ -36,7 +36,7 @@
                     </Frame>
                     <Frame Grid.Row="2" Grid.RowSpan="5"  Grid.ColumnSpan="4" Margin="0,13,0,20"  BackgroundColor="White" BorderColor="Transparent" Padding="0">
                         <StackLayout Orientation="Vertical" >
-                            <StackLayout HeightRequest="20"  Grid.ColumnSpan="2" Padding="0"  Margin="2,0,0,0" Spacing="-6" >
+                            <StackLayout HeightRequest="20"  Grid.ColumnSpan="2" Padding="0"  Margin="2,8,0,0" Spacing="-6" >
 
                                 <Label Text="  Other Details" FontSize="Medium" FontAttributes="Bold" LineHeight="5" Padding="2" />
 
@@ -49,10 +49,10 @@
                                         <StackLayout Orientation="Horizontal">
                                             <StackLayout Orientation="Horizontal">
                                                 <Image Source="calendar.png" ></Image>
-                                                <Label Text="Created on:                   "></Label>
+                                                <Label Text="Created on:  "></Label>
                                             </StackLayout>
-                                            <StackLayout>
-                                                <Label Text="{Binding CreatedOn}" TextColor="OrangeRed"/>
+                                            <StackLayout HorizontalOptions="EndAndExpand">
+                                                <Label x:Name="CreatedDate"  TextColor="OrangeRed"/>
                                             </StackLayout>
                                         </StackLayout>
                                     </Frame>
@@ -60,18 +60,19 @@
                                         <StackLayout Orientation="Horizontal">
                                             <StackLayout Orientation="Horizontal">
                                                 <Image Source="flag.png" ></Image>
-                                                <Label Text="Status:                          "></Label>
+                                                <Label Text="Status: "></Label>
                                             </StackLayout>
-                                            <StackLayout>
-                                                <Label Text="{Binding Status}" TextColor="OrangeRed"/>
+                                            <StackLayout HorizontalOptions="EndAndExpand">
+                                                <Label x:Name="Substatus" TextColor="OrangeRed"/>
                                             </StackLayout>
+
                                         </StackLayout>
                                     </Frame>
 
 
                                     <Frame Grid.Column="1" Grid.ColumnSpan="4"  BorderColor="Transparent" BackgroundColor="White" Padding="0">
                                         <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Frame Grid.Column="0" Grid.ColumnSpan="2"  Margin="0,25,0,0">
+                                            <Frame Grid.Column="0" Grid.ColumnSpan="2"  Margin="22,15,0,0">
                                                 <StackLayout    Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0,0,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
 
                                                     <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="0">
@@ -82,14 +83,14 @@
 
                                                     </StackLayout>
                                                     <StackLayout Orientation="Vertical">
-
-                                                        <DatePicker Date="{Binding SubStart}" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
+ 
+                                                        <DatePicker x:Name="SubstartDate" IsEnabled="False"   Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
                                                     </StackLayout>
 
                                                 </StackLayout>
                                             </Frame>
 
-                                            <Frame  Grid.Column="3" Grid.ColumnSpan="4" Padding="15" Margin="20,25,0,0">
+                                            <Frame  Grid.Column="3" Grid.ColumnSpan="4" Padding="15" Margin="49,15,0,0">
                                                 <StackLayout Orientation="Vertical"   >
                                                     <StackLayout  Grid.Row="3"   Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="0,0,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
 
@@ -102,7 +103,7 @@
                                                         </StackLayout>
                                                         <StackLayout Orientation="Vertical">
 
-                                                            <DatePicker Date="{Binding SubEnd}" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
+                                                            <DatePicker x:Name="SubEndDate"  Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
                                                         </StackLayout>
 
                                                     </StackLayout>
@@ -111,19 +112,19 @@
                                             </Frame>
                                         </StackLayout>
                                     </Frame>
+
                                 </StackLayout>
                             </Frame>
 
                         </StackLayout>
 
                     </Frame>
-
-          
-                    <Frame Grid.Row="7" Grid.ColumnSpan="4" BorderColor="Transparent" BackgroundColor="WhiteSmoke">
+                    <Frame Grid.Row="8"  Grid.ColumnSpan="4" BackgroundColor="White" Margin="0,-43,0,20">
                         <StackLayout Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="2">
-                            <Button Text="Save Changes" BackgroundColor="#fb8500" CornerRadius="25" TextColor="Black"></Button>
+                            <Button Text="Save Changes" Clicked="Button_Clicked"  FontAttributes="Bold" CornerRadius="15" BackgroundColor="#61a5c2" TextColor="White"></Button>
                         </StackLayout>
                     </Frame>
+                   
                 </Grid>
             </StackLayout>
         </ScrollView>

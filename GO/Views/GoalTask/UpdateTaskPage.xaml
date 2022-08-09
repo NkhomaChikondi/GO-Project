@@ -27,10 +27,10 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height=" Auto"/>
                     </Grid.RowDefinitions>
-                    <Frame Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="4"  BackgroundColor="White" >
+                    <Frame Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="4"  BackgroundColor="White" >
                         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="2" >
                             <Label x:Name="detaillabel" Text="Details in red cannot be edited" FontSize="Subtitle" TextColor="OrangeRed" Margin="-20,0,0,0"></Label>
-                            <Editor  Text="{Binding taskName}"  FontSize="Title" FontAttributes="Bold"  Grid.Column="0" Grid.ColumnSpan="4" MaxLength="50" >
+                            <Editor x:Name="NameEditor" Text=""  FontSize="Title" FontAttributes="Bold"  Grid.Column="0" Grid.ColumnSpan="4" MaxLength="50" >
                                 <Editor.Effects>
                                     <Effects:PlainEntry/>
                                 </Editor.Effects>
@@ -40,7 +40,7 @@
                                     <Label Text="Description:" FontSize="Subtitle" FontAttributes="Bold"></Label>
                                 </StackLayout>
                                 <StackLayout>
-                                    <Editor  Text="{Binding Description}"  FontSize="Small" FontAttributes="None"  Grid.Column="0"  MaxLength="150" >
+                                    <Editor x:Name="DescEditor"   FontSize="Small" FontAttributes="None"  Grid.Column="0"  MaxLength="150" >
                                         <Editor.Effects>
                                             <Effects:PlainEntry/>
                                         </Editor.Effects>
@@ -50,55 +50,55 @@
                         </StackLayout>
                     </Frame>
 
-
-
-                    <Frame HorizontalOptions="FillAndExpand" Grid.Row="4" Grid.RowSpan="4" Grid.ColumnSpan="4" BorderColor="Transparent"  Margin="0,7,10,20" >
+                    <Frame HorizontalOptions="FillAndExpand" Grid.Row="3" Grid.RowSpan="4" Grid.ColumnSpan="4" BorderColor="Transparent"  Margin="0,7,-7,59" >
 
                         <StackLayout >
                             <StackLayout Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3" Padding="0">
-                                
-                                <Label Text="Subtask's details " FontSize="Medium" FontAttributes="Bold" />
+
+                                <Label Text="Subtask Details " FontSize="Medium" FontAttributes="Bold" />
                             </StackLayout>
                             <ScrollView Orientation="Horizontal">
-                                <StackLayout  Orientation="Horizontal" Grid.RowSpan="3" >
+                                <StackLayout  Orientation="Horizontal" Grid.RowSpan="2"  Margin="0,15">
 
-                                    <Frame Grid.Column="0" BackgroundColor="#ffafcc" HeightRequest="250" WidthRequest="100" >
+                                    <Frame Grid.Column="0" BackgroundColor="#ffafcc" HeightRequest="85" WidthRequest="100" CornerRadius="15" >
                                         <StackLayout >
                                             <Image Source="list.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
 
                                             </Image>
-                                            <Label Text="All Subtask" FontSize="Small" FontAttributes="Bold"></Label>
-                                            <Label Text="{Binding SubtaskNumber} " TextColor="OrangeRed" FontSize="Medium" FontAttributes="Bold"></Label>
+                                            <Label Text="All Subtasks" FontSize="Small" FontAttributes="Bold"></Label>
+                                            <Label x:Name="AllSubtaskslbl" Margin="0,-10,0,0" TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
                                         </StackLayout>
 
 
                                     </Frame>
-                                    <Frame Grid.Column="1" BackgroundColor="#52b788" HeightRequest="250" WidthRequest="100">
+
+
+                                    <Frame Grid.Column="1" BackgroundColor="#52b788" HeightRequest="85" WidthRequest="100" CornerRadius="15">
                                         <StackLayout >
                                             <Image Source="clipboard.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
 
                                             </Image>
                                             <Label Text="Completed" FontSize="Small" FontAttributes="Bold"></Label>
-                                            <Label Text="{Binding CompletedSubtask} " TextColor="OrangeRed" FontSize="Medium" FontAttributes="Bold"></Label>
+                                            <Label x:Name="Completedsubtaskslbl"  Margin="0,-10,0,0" TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
                                         </StackLayout>
                                     </Frame>
-                                    <Frame Grid.Column="2" BackgroundColor="#ffba08" HeightRequest="250" WidthRequest="100">
+                                    <Frame Grid.Column="2" BackgroundColor="#ffba08" HeightRequest="85" WidthRequest="100" CornerRadius="15">
                                         <StackLayout >
                                             <Image Source="pending.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
 
                                             </Image>
                                             <Label Text="Uncompleted"  FontSize="Small" FontAttributes="Bold"></Label>
-                                            <Label Text="10 "  TextColor="OrangeRed" FontSize="Medium" FontAttributes="Bold"></Label>
+                                            <Label x:Name="uncompletedTaskslbl" Margin="0,-10,0,0" TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
                                         </StackLayout>
 
                                     </Frame>
-                                    <Frame Grid.Column="3" BackgroundColor="#9e0059" HeightRequest="20" WidthRequest="100">
+                                    <Frame Grid.Column="3" BackgroundColor="#9e0059" HeightRequest="20" WidthRequest="100" CornerRadius="15">
                                         <StackLayout  Orientation="Vertical">
                                             <Image Source="expired.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
 
                                             </Image>
                                             <Label Text="Expired " FontSize="Small" FontAttributes="Bold"></Label>
-                                            <Label Text="10 "  TextColor="OrangeRed" FontSize="Medium" FontAttributes="Bold"></Label>
+                                            <Label x:Name="Expiredlbl"  TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
                                         </StackLayout>
 
                                     </Frame>
@@ -106,15 +106,16 @@
                                 </StackLayout>
 
                             </ScrollView>
-                            <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
-                                <Button Text="  See Subtasks  " BackgroundColor="White" TextColor="#9e0059" HorizontalOptions="CenterAndExpand" HeightRequest="50" ImageSource="point.png" ></Button>
+                            <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,10,0,0">
+                                <Button Text="  View Tasks  " Clicked="Button_Clicked"  BackgroundColor="White" TextColor="#9e0059" HorizontalOptions="CenterAndExpand" HeightRequest="50" ImageSource="point.png" ></Button>
                             </StackLayout>
                         </StackLayout>
 
                     </Frame>
 
 
-                    <Frame Grid.Row="8" Grid.RowSpan="5"  Grid.ColumnSpan="4" Margin="0,0,0,35"  BackgroundColor="White" BorderColor="Transparent" Padding="0">
+
+                    <Frame Grid.Row="7" Grid.RowSpan="4"  Grid.ColumnSpan="4" BackgroundColor="White" BorderColor="Transparent" Padding="0" Margin="0,-49,0,49" >
                         <StackLayout Orientation="Vertical" >
                             <StackLayout HeightRequest="20"  Grid.ColumnSpan="2" Padding="0"  Margin="2,0,0,0" Spacing="-6" >
 
@@ -132,7 +133,7 @@
                                                 <Label Text="Created on:                   "></Label>
                                             </StackLayout>
                                             <StackLayout>
-                                                <Label Text="{Binding CreatedOn}" TextColor="OrangeRed"/>
+                                                <Label x:Name="Createdlbl" Text="" TextColor="OrangeRed"/>
                                             </StackLayout>
                                         </StackLayout>
                                     </Frame>
@@ -143,7 +144,7 @@
                                                 <Label Text="Status:                          "></Label>
                                             </StackLayout>
                                             <StackLayout>
-                                                <Label Text="{Binding Status}" TextColor="OrangeRed"/>
+                                                <Label  x:Name="Statuslbl" Text="" TextColor="OrangeRed"/>
                                             </StackLayout>
                                         </StackLayout>
                                     </Frame>
@@ -151,7 +152,7 @@
 
                                     <Frame Grid.Column="1" Grid.ColumnSpan="4"  BorderColor="Transparent" BackgroundColor="White" Padding="0">
                                         <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Frame Grid.Column="0" Grid.ColumnSpan="2"  Margin="0,25,0,0">
+                                            <Frame Grid.Column="0" Grid.ColumnSpan="2"  Margin="12,15,0,0">
                                                 <StackLayout    Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0,0,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
 
                                                     <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="0">
@@ -163,13 +164,13 @@
                                                     </StackLayout>
                                                     <StackLayout Orientation="Vertical">
 
-                                                        <DatePicker Date="{Binding StartTask}" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
+                                                        <DatePicker x:Name="StartPicker" IsEnabled="False" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
                                                     </StackLayout>
 
                                                 </StackLayout>
                                             </Frame>
 
-                                            <Frame  Grid.Column="3" Grid.ColumnSpan="4" Padding="15" Margin="20,25,0,0">
+                                            <Frame  Grid.Column="3" Grid.ColumnSpan="4" Padding="15" Margin="39,15,0,0">
                                                 <StackLayout Orientation="Vertical"   >
                                                     <StackLayout  Grid.Row="3"   Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="0,0,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
 
@@ -182,7 +183,7 @@
                                                         </StackLayout>
                                                         <StackLayout Orientation="Vertical">
 
-                                                            <DatePicker Date="{Binding EndTask}" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
+                                                            <DatePicker x:Name="EndPicker" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
                                                         </StackLayout>
 
                                                     </StackLayout>
@@ -198,9 +199,10 @@
 
                     </Frame>
 
-                    <Frame Grid.Row="13" Grid.ColumnSpan="4" BackgroundColor="WhiteSmoke" Margin="0,-10,0,0">
+                    <Frame Grid.Row="11"  Grid.ColumnSpan="4" BackgroundColor="White" Margin="0,-22,0,20">
                         <StackLayout Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="2">
-                            <Button Text="Save Changes" CornerRadius="15" BackgroundColor="#fb8500" TextColor="Black"></Button>
+                            <Button Text="Save Changes"  Clicked="Button_Clicked_1"
+                                    FontAttributes="Bold" CornerRadius="15" BackgroundColor="#61a5c2" TextColor="White"></Button>
                         </StackLayout>
                     </Frame>
 

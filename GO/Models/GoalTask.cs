@@ -18,11 +18,16 @@ namespace GO.Models
         public bool IsCompleted { get; set; }
         public double Progress { get; set; }
         public double PendingPercentage { get; set; }
+        public bool IsEnabled { get; set; }
         public string Status { get; set; }
-        public int SubtaskNumber { get; set; }
+        public bool IsVisible { get; set; }
+        public bool IsNotVisible { get; set; }
         public int CompletedSubtask { get; set; }
         public DateTime CreatedOn { get; set; }
-       [Indexed]
+        
+        [Indexed]
         public int GoalId { get; set; }
+        public int WeekId { get; set; }
+        public int DowId { get; set; }
     }
 }

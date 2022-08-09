@@ -56,8 +56,15 @@
                 <DataTemplate x:DataType="model:Category">
 
                     <ViewCell>
-                       
-                        <Grid ColumnSpacing="10" Padding="6">
+                            <ViewCell.ContextActions >
+                                <MenuItem Command="{Binding Source={x:Reference CategoryPage},Path=BindingContext.DeleteCommand }"
+                              CommandParameter="{Binding .}"
+                              IsDestructive="True"
+                              
+                                      Text="Delete"/>
+                                
+                            </ViewCell.ContextActions>
+                            <Grid ColumnSpacing="10" Padding="6">
                             <Frame x:Name="homey1" CornerRadius="15" 
                                    HasShadow="true"
                                BackgroundColor="WhiteSmoke"
@@ -76,7 +83,7 @@
                                                 <FormattedString>
                                                     <Span Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" />
                                                     <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="0 " FontSize="Subtitle"  TextColor="#adb5bd"/>
+                                                    <Span Text="{Binding goalNumber} " FontSize="Subtitle"  TextColor="#adb5bd"/>
                                                     <Span Text=" Goal(s) in this category" FontSize="Subtitle" TextColor="#adb5bd"  />
                                                 </FormattedString>
                                             </Label.FormattedText>

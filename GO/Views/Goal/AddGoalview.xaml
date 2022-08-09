@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ViewModel="clr-namespace:GO.ViewModels.Goals"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ViewModel="clr-namespace:GO.ViewModels.Goals"
              x:Class="GO.Views.Goal.AddGoalview"
               xmlns:helpers="clr-namespace:GO.Font"
              Title="Add Goal"
@@ -30,30 +31,35 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height=" Auto"/>
                     </Grid.RowDefinitions>
+
                     <StackLayout Orientation="Vertical"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="2" Padding="0"  Margin="9,20,20,0">
                         <Label Grid.Row="0" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Text="Create A New Goal" FontSize="Title" FontAttributes="Bold" Padding="20" ></Label>
                         <StackLayout>
                             <Label Text="Goal Name:" FontSize="Medium" FontAttributes="Bold"></Label>
 
-                            <Editor  Text="{Binding Name}"  FontSize="Small" FontAttributes="None"  Grid.Column="0" MaxLength="40"  Placeholder="40 maximum characters" PlaceholderColor="OrangeRed" >
+                            <Editor  Text="{Binding Name}"  FontSize="Small" FontAttributes="None"  Grid.Column="0" MaxLength="55"   Placeholder="50 maximum characters" PlaceholderColor="OrangeRed" >
 
                             </Editor>
 
                         </StackLayout>
+
                     </StackLayout>
-                    <StackLayout Orientation="Vertical"   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"  Padding="5"  Margin="5,90,16,0">
+                    <StackLayout Orientation="Vertical"   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"  Padding="5"  Margin="5,75,16,0">
                         <StackLayout>
                             <Label Text="Description:" FontSize="Medium" FontAttributes="Bold"></Label>
 
-                            <Editor  Text="{Binding Description}"  FontSize="Small" FontAttributes="None"  Grid.Column="0"  MaxLength="100" Placeholder="100 maximum characters"  PlaceholderColor="OrangeRed" >
+                            <Editor  Text="{Binding Description}"  FontSize="Small" FontAttributes="None"  Grid.Column="0"  MaxLength="150" Placeholder="150 maximum characters"  PlaceholderColor="OrangeRed" >
 
                             </Editor>
 
                         </StackLayout>
 
                     </StackLayout>
-                    <Label x:Name="lblDescription" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"  FontSize="Medium" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" Text="Set Duration" Margin="50,20,0,0" IsVisible="false"></Label>
-                    <StackLayout  x:Name="layoutStart" IsVisible="false" Grid.Row="3"   Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="0,14,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
+
+
+
+                    <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"  FontSize="Medium" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" Text="Set Duration" Margin="50,20,0,0" ></Label>
+                    <StackLayout  Grid.Row="3"   Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0,-30,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
 
                         <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="5">
 
@@ -62,13 +68,13 @@
 
 
                         </StackLayout>
-                        <StackLayout  Orientation="Vertical">
+                        <StackLayout Orientation="Vertical">
 
                             <DatePicker Date="{Binding Start}" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
                         </StackLayout>
 
                     </StackLayout>
-                    <StackLayout x:Name="layoutDate" IsVisible="false" Grid.Row="3" Padding="0"  Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="0,14,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical"  >
+                    <StackLayout  Grid.Row="3"   Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="0,-30,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
 
                         <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="5">
 
@@ -83,120 +89,44 @@
                         </StackLayout>
 
                     </StackLayout>
-                    <Frame x:Name="frameDow" IsVisible="true" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="5" BorderColor="Transparent">
-                        <StackLayout>
+                    <Frame Grid.Row="4" Grid.Column="0"  Grid.ColumnSpan="5" BorderColor="Transparent">
+                        <StackLayout Orientation="Vertical" >
                             <StackLayout>
-                                <Label Text="SELECT DAY (Multiple days can be selected: " FontSize="Medium" FontAttributes="Bold"></Label>
+                                <Label Text="   Goal's Task Type" FontSize="Medium" FontAttributes="Bold" Margin="92,-10,0,0"></Label>
                             </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <ListView ItemsSource="{Binding DOWs}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-
-                                            <ViewCell>
-                                                <StackLayout Orientation="Horizontal" Padding="10">
-                                                    <Switch x:Name="Switched"
-                                                   IsToggled="{Binding IsSelected}"/>
-                                                    <Label Text="{Binding Item.Name}"/>
-                                                </StackLayout>
-
-                                            </ViewCell>
-
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-
+                            <StackLayout Orientation="Horizontal" >
+                                <StackLayout Orientation="Horizontal" Margin="20,35,0,0">
+                                    <CheckBox Margin="0,0,0,0"
+                                              x:Name="Hasweek"
+                                              IsChecked="{Binding HasWeek}"
+                                              CheckedChanged="CheckBox_CheckedChanged">
+                                    </CheckBox>
+                                    <Label Text=" Weekly Planned Tasks " Margin="-10,8,0,0"></Label>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Margin="29,35,0,0">
+                                    <CheckBox Margin="0,0,0,0"
+                                              x:Name="noWeek"
+                                              IsChecked="{Binding Noweek }"
+                                              CheckedChanged="noWeek_CheckedChanged">                                        
+                                    </CheckBox>
+                                    <Label Text="Once Off Task  " Margin="-10,8,0,0"></Label>
+                                </StackLayout>
                             </StackLayout>
-                        </StackLayout>
-                        
-                    </Frame>
-                  
-                        <StackLayout x:Name="buttondaily1"  Orientation="Horizontal" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"  Margin="34,-12,0,19" Padding="7" IsVisible="true">
-                            <Button Text="      Daily / Weekly   "
-                                    CornerRadius="20"                                   
-                                    Clicked="Button_Clicked"
-                                    BackgroundColor="Firebrick"/>
-                        </StackLayout>
+                            
 
-                    <StackLayout x:Name="buttondaily2" Orientation="Horizontal" Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="3"  Margin="35,-12,0,19" Padding="7" IsVisible="true">
-                            <Button Text="Short/Longterm"
-                                    CornerRadius="20"
-                                    Clicked="Button_Clicked_1"
-                                    BackgroundColor="LightGray"></Button>
-                        </StackLayout>
-                    <StackLayout x:Name="buttonlong1" Orientation="Horizontal" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="35,10,0,0" Padding="7" IsVisible="false">
-                        <Button Text="    Daily / Weekly    "
-                                    Clicked="Button_Clicked"
-                                    CornerRadius="20" 
-                                BackgroundColor="LightGray"/>
-                    </StackLayout>
-
-
-                    <StackLayout x:Name="buttonlong2" Orientation="Horizontal" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="3"  Margin="35,10,0,0" Padding="7" IsVisible="False">
-                        <Button Text="Short/Longterm"
-                                    Clicked="Button_Clicked_1"
-                                 CornerRadius="20" 
-                                BackgroundColor="Firebrick"></Button>
-                    </StackLayout>
-
-
-
-                    <Frame x:Name="frametime" Grid.Row="8" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="5" IsVisible="true" BorderColor="Gray" Margin="20, 0, 20, 65">
-                        <StackLayout Orientation="Vertical">
-                            <StackLayout Orientation="Horizontal" Margin="0,-10,0,10">
-                                <Switch x:Name="SwitchTime"
-                                    IsToggled="False"
-                                        IsVisible="true"
-                                        Toggled="SwitchTime_Toggled">
-
-                                </Switch>
-                                <Label x:Name="lblquest"  Text="Notify Me?" FontAttributes="Bold"></Label>
-                            </StackLayout>
-
-                            <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="-5" Margin="95,10,0,0">
-                              
-                                <Image x:Name="imgclock" IsVisible="false" Source="alarmclock.png" Aspect="AspectFit" Margin="0,-7,0,45"></Image>
-                                <Label x:Name="lblans" IsVisible="false" Text="Set Time:" FontAttributes="Bold" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
-                                
-                            </StackLayout>
-                            <StackLayout Orientation="Vertical" x:Name="layoutTime" IsVisible="false">
-
-                                <TimePicker Time="{Binding Time}" TextColor="IndianRed"  Margin="0,-30,0,20"  HorizontalOptions="Center"></TimePicker>
-                            </StackLayout> 
                         </StackLayout>
                     </Frame>
-                    <Frame x:Name="frametime2" Grid.Row="6" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="5" IsVisible="false" BorderColor="Gray" Margin="20, 12, 20, 65">
-                        <StackLayout Orientation="Vertical">
-                            <StackLayout Orientation="Horizontal" Margin="0,-10,0,10">
-                                <Switch x:Name="SwitchTime2"
-                                    IsToggled="False"
-                                        IsVisible="true"
-                                        Toggled="SwitchTime2_Toggled">
-
-                                </Switch>
-                                <Label x:Name="lblquest2"  Text="Notify Me?" FontAttributes="Bold"></Label>
-                            </StackLayout>
+                    
+                    <StackLayout Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="5" Padding="15" Margin="0,30,0,0" >
 
 
-                            <StackLayout Orientation="Horizontal" HeightRequest="70"  Padding="-5" Margin="95,10,0,0">
-                                <Image x:Name="imgclock1" IsVisible="false" Source="alarmclock.png" Aspect="AspectFit" Margin="0,-7,0,45"></Image>
-                                <Label x:Name="lblans1" IsVisible="false" Text="Set Time:" FontAttributes="Bold" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
-                            </StackLayout>
-                            <StackLayout Orientation="Vertical" x:Name="layoutTime1" IsVisible="false">
-
-                                <TimePicker Time="{Binding Time}" Margin="0,-30,0,20"  HorizontalOptions="Center"></TimePicker>
-                                
-                            </StackLayout>
-                        </StackLayout>
-                    </Frame>
-                    <StackLayout x:Name="addbtn1" Orientation="Horizontal" Grid.Row="11" Grid.Column="0" Margin="0, -92, 0, 104" Grid.ColumnSpan="5" IsVisible="true">
-                        <Button  Grid.Column="0"  HorizontalOptions="FillAndExpand" Grid.ColumnSpan="5" Text="   Add Goal  " Command="{Binding AddGoalCommand}" CornerRadius="25" Margin="20,0,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"></Button>
+                        <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="   Add Goal    " Command="{Binding AddGoalCommand}" CornerRadius="15" Margin="20,0,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"
                      
+                        ></Button>
                     </StackLayout>
-                    <StackLayout x:Name="addbtn2" Orientation="Horizontal" Grid.Row="9" Grid.Column="0"  Grid.ColumnSpan="5" IsVisible="false">
-                        <Button  Grid.Column="0" HorizontalOptions="FillAndExpand"  Grid.ColumnSpan="4" Text="   Add Goal  " Command="{Binding AddGoalCommand}" CornerRadius="15" Margin="20,0,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"></Button>
 
-                    </StackLayout>
+
+
 
 
 

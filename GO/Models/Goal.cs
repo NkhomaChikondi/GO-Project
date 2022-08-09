@@ -17,9 +17,13 @@ namespace GO.Models
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public double Percentage { get; set; }
+        public double ExpectedPercentage { get; set; }
         public string Status { get; set; }
         public double Progress { get; set; }
         public bool WithDuration { get; set; }
+        public bool HasWeek { get; set; }
+        public bool Noweek { get; set; }
+        public int NumberOfWeeks { get; set; }
 
         [Indexed]
         public int CategoryId { get; set; }

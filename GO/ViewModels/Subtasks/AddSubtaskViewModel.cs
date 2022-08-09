@@ -1,4 +1,5 @@
 ﻿using GO.Models;
+using GO.Views.SubTaskView;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System;
@@ -21,7 +22,7 @@ namespace GO.ViewModels.Subtasks
         private double percentage;
         private int getTaskId;
         private int remainingDays = 0;
-
+        private int percentageProgress = 0;
         public ObservableRangeCollection<Subtask> subTasks { get; }
         public AsyncCommand subTaskAddCommand { get; }
         public AddSubtaskViewModel()
@@ -66,42 +67,73 @@ namespace GO.ViewModels.Subtasks
                     await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
                     return;
                 }
-                // get goal from the goal table through the given Id
+                // get task from the task table through the given Id
                 var subTaskInTask = await dataTask.GetTaskAsync(GetTaskId);
-                // verify if the Start date and end date are within the duration of its selected goal
-                if (newSubtask.SubStart >= subTaskInTask.StartTask && newSubtask.SubEnd <= subTaskInTask.EndTask)
+                // get the goal the task comes from
+                var goal = await datagoal.GetGoalAsync(subTaskInTask.GoalId);
+                if (goal.Noweek)
                 {
-                    TimeSpan ts = newSubtask.SubEnd - newSubtask.SubStart;
-                    RemainingDays = (int)ts.TotalDays;
+                    // verify if the Start date and end date are within the duration of its selected goal
+                    if (newSubtask.SubStart >= subTaskInTask.StartTask && newSubtask.SubEnd <= subTaskInTask.EndTask)
+                    {
+                        TimeSpan ts = newSubtask.SubEnd - newSubtask.SubStart;
+                        RemainingDays = (int)ts.TotalDays;
 
+                    }
+
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", " make sure the Start date and end date are within the duration of its selected Task", "OK");
+                        return;
+                    }
+                    // pass the uppercased name to the category object
+                    var newestSubtask = new Subtask
+                    {
+
+                        Id = newSubtask.Id,
+                        SubName = UppercasedName,
+                        SubStart = newSubtask.SubStart,
+                        SubEnd = newSubtask.SubEnd,
+                        RemainingDays = remainingDays,
+                        CreatedOn = newSubtask.CreatedOn,
+                        Percentage = newSubtask.Percentage,
+                        IsCompleted = false,
+                        TaskId = newSubtask.TaskId,
+                        Status = "Not Completed"
+                    };
+                    await dataSubTask.AddSubTaskAsync(newestSubtask);
+                    await RecalculateTaskPercentage(newestSubtask.TaskId);
+                    // await TaskEnabled();               
+                    await totalSubtask(newestSubtask.TaskId);
+                    AddSubTaskPercent();
+                    setVisibility();
+
+                    // go back to the previous page
+                    await Shell.Current.GoToAsync("..");
                 }
-
-                else
+                else if (goal.HasWeek)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", " make sure the Start date and end date are within the duration of its selected Task", "OK");
-                    return;
+
+                    var newestSubtask = new Subtask
+                    {
+
+                        Id = newSubtask.Id,
+                        SubName = UppercasedName,
+                        CreatedOn = newSubtask.CreatedOn,
+                        Percentage = newSubtask.Percentage,
+                        IsCompleted = false,
+                        TaskId = newSubtask.TaskId,
+                        Status = "Not Completed"
+                    };
+                    await dataSubTask.AddSubTaskAsync(newestSubtask);
+                    await RecalculateTaskPercentage(newestSubtask.TaskId);
+                    // await TaskEnabled();               
+                    await totalSubtask(newestSubtask.TaskId);
+                    AddSubTaskPercent();
+                    setVisibility();
+                    // go back to the previous page                  
+                    await Shell.Current.GoToAsync("..");
                 }
-                // pass the uppercased name to the category object
-                var newestSubtask = new Subtask
-                {
-
-                    Id = newSubtask.Id,
-                    SubName = UppercasedName,
-                    SubStart = newSubtask.SubStart,
-                    SubEnd = newSubtask.SubEnd,
-                    RemainingDays = remainingDays,
-                    CreatedOn = newSubtask.CreatedOn,
-                    Percentage = newSubtask.Percentage,
-                    IsCompleted = false,
-                    TaskId = newSubtask.TaskId,
-                     Status = "Not Started"
-                };
-                await dataSubTask.AddSubTaskAsync(newestSubtask);
-                await totalSubtask(getTaskId);
-                AddSubTaskPercent();
-                setVisibility();
-                // go back to the previous page
-                await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
             {
@@ -112,6 +144,20 @@ namespace GO.ViewModels.Subtasks
             {
                 IsBusy = false;
             }
+        }
+        // a method to turn Task's enabled to false
+        async Task TaskEnabled ()
+        {
+            // get the task similar to the passed task id of this page
+            var task = await dataTask.GetTaskAsync(getTaskId);
+            if (task.IsEnabled == true)
+            {
+                task.IsEnabled = false;
+                task.IsCompleted = false;
+                await dataTask.UpdateTaskAsync(task);
+            }
+            else if (task.IsEnabled == false)
+                return;
         }
         async void AddSubTaskPercent()
         {
@@ -134,9 +180,91 @@ namespace GO.ViewModels.Subtasks
                 var SubTaskpercentage = Task.Percentage / AllSubTaskCount;
                 task.Percentage = SubTaskpercentage;
                 await dataSubTask.UpdateSubTaskAsync(task);
+             
+              //  percentageProgress += task.Percentage;
             }
+            
+            // filter tasks to get subtasks that are completed
+            var completedSubTasks = AllSubtask.Where(T => T.IsCompleted == true).ToList();
+            // get a goal with the same id as task.goalid
+            var goal = await datagoal.GetGoalAsync(Task.GoalId);
+            if (completedSubTasks.Count() == 0)
+            {
+                return;
+            }
+            else if(completedSubTasks.Count() > 0)
+            {
+                // loop through the tasks to get their percentage
+                foreach (var subtask in completedSubTasks)
+                {
+                    percentageProgress += (int)subtask.Percentage;
+                }
+                // a variable to temporaliry store a goal percentage
+                double NewGoalpercentage = 0;
+                if(goal.Percentage == 0)
+                {
+                    NewGoalpercentage = goal.Percentage;
+                }
+                else if(goal.Percentage > 0)
+                {
+                    // subtract the task pending percentage from its goal
+                    NewGoalpercentage = goal.Percentage - Task.PendingPercentage;
+                }
+               
+                Task.PendingPercentage = percentageProgress;
+                Task.Progress = percentageProgress / Task.Percentage;
+                await dataTask.UpdateTaskAsync(Task);
 
+                // assign to goal a new percentage value
+                goal.Percentage = NewGoalpercentage + Task.PendingPercentage;
+                goal.Progress = goal.Percentage / goal.ExpectedPercentage;
+                await datagoal.UpdateGoalAsync(goal);
 
+                return;
+            }       
+        }
+        async Task RecalculateTaskPercentage(int Id)
+        {
+            // get task having through the subtask's task id
+            var Task = await dataTask.GetTaskAsync(Id);
+            // get all subtasks having the Task id
+            var subtasks = await dataSubTask.GetSubTasksAsync(Task.Id);
+            // check if there is a subtask having the task id
+            if (subtasks.Count() > 0)
+            {
+                // check if its task is not completed
+                if (Task.IsCompleted == false)
+                {
+                    await TaskEnabled();
+                    return;
+                }
+                    
+                else if (Task.IsCompleted == true)
+                {
+                   
+
+                    //// turn it to false
+                    //Task.IsCompleted = false;
+                    //await dataTask.UpdateTaskAsync(Task);
+
+                    // get the goal that this task belong to
+                    var goal = await datagoal.GetGoalAsync(Task.GoalId);
+                    // check the number of subtask having the task id
+                    if (subtasks.Count() >= 1)
+                    {
+                        // subtract the task percentage from the goal
+                        goal.Percentage -= (int)Task.Percentage;
+                        goal.Progress = goal.Percentage / goal.ExpectedPercentage;
+                        await datagoal.UpdateGoalAsync(goal);
+                        await TaskEnabled();
+                    }
+                    else if (subtasks.Count() > 1)
+                        return;
+
+                }
+            }
+            else
+                return;
         }
         async void setVisibility()
         {
@@ -145,10 +273,11 @@ namespace GO.ViewModels.Subtasks
             // get the task equivalent to this viewmodel task id
             var task = await dataTask.GetTaskAsync(getTaskId);
             // update the number of subtask in task
-            task.SubtaskNumber = subtasks.Count();
+        
             await dataTask.UpdateTaskAsync(task);
 
         }
+
         public async Task totalSubtask(int taskid)
         {
             // get all subtasks whose percentages are equal to tasks
