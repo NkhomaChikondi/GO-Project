@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ViewModel="clr-namespace:GO.ViewModels.Categorys"
+             x:Class="GO.Views.Categorys.AddCategory"
+             Title="Get Organized">
+    <ContentPage.BindingContext>
+        <ViewModel:AddCategoryViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Grid.ColumnSpan="4">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height=" Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackLayout Orientation="Vertical"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="2" Padding="0"  Margin="9,20,20,0">
+                    <Label Grid.Row="0" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Text="Create A New Category" FontSize="Title" FontAttributes="Bold" Padding="20" ></Label>
+                 </StackLayout>
+                <StackLayout Orientation="Vertical"   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="9,0,20,0">
+                    <Label Text="Name:" FontSize="Medium" FontAttributes="Bold"></Label>
+
+                    <Editor  Text="{Binding Name}"  FontSize="Small" FontAttributes="None"  Grid.Column="0" MaxLength="55"   Placeholder="50 maximum characters" PlaceholderColor="OrangeRed" >
+
+                    </Editor>
+
+                </StackLayout>
+
+             
+                <StackLayout Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="5" Padding="15" Margin="20,8,20,0" >
+
+                    <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="Add Category" Command="{Binding AddcategoryCommand}" CornerRadius="15"  BackgroundColor="#61a5c2" CharacterSpacing="4"         ></Button>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

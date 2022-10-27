@@ -1,7 +1,9 @@
-﻿using GO.Services;
+﻿using GO.Models;
+using GO.Services;
 using GO.ViewModels.Goals;
 using GO.ViewModels.TaskInGoals;
 using GO.Views.GoalTask;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +27,13 @@ namespace GO.Views.Goal
         Models.Goal Goal = new Models.Goal();
         public IDataGoal<Models.Goal> dataGoal { get; }
         public IDataTask<Models.GoalTask> dataTask { get; }
+        public IDataWeek<Week> dataWeek { get; }
         public UpdateGoalPage()
         {
             InitializeComponent();
             dataGoal = DependencyService.Get<IDataGoal<Models.Goal>>();
             dataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();
+            dataWeek = DependencyService.Get<IDataWeek<Week>>();
             BindingContext = new GoalViewModel();
             //detaillabel.TranslateTo(100, 0, 3000, Easing.Linear);
 
@@ -50,6 +54,7 @@ namespace GO.Views.Goal
             Statuslbl.Text = goal.Status;
             Startdatepicker.Date = goal.Start;
             enddatepicker.Date = goal.End;
+            weeknumber.Text = goal.NumberOfWeeks.ToString();
             // get all tasks in this goal
             var tasks = await dataTask.GetTasksAsync(GoalId);
             AllTask.Text = tasks.Count().ToString();
@@ -89,30 +94,62 @@ namespace GO.Views.Goal
                 // change the first letter of the Task name to upercase
                 var UppercasedName = char.ToUpper(newGoal.Name[0]) + newGoal.Name.Substring(1);
                 //check if the new task already exist in the database
-                if (allGoals.Any(G => G.Name == UppercasedName))
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "A Goal with that Name already exist! Change. ", "OK");
-                    return;
-                }
+               
                 if (newGoal.Description == null)
-                    newGoal.Description = $"No Description for \" {newGoal.Name}\" ";
+                    newGoal.Description = $"No Description for \" {UppercasedName}\" ";
                 // get the number of weeks the goal will from start date
                 
                 // make sure start date is not more than end date
 
                 if (newGoal.Start > newGoal.End)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", $"Make sure Start Date is not more than End Date ", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", $"End date should be more than start Date ", "OK");
                     return;
                 }
-                if (newGoal.Description == null)
-                    newGoal.Description = $"No Description for {newGoal.Name}";
 
+                double weeksNumber = Goal.NumberOfWeeks;
+                // check if the incoming end date is more or less than that from the database
+                if(newGoal.End > Goal.End)
+                {
+                    // recalculate number of weeks in goal
+                    var duration = newGoal.End - newGoal.Start;
+                    // divide the duration by 7
+                    double doubleduration = duration.TotalDays;
+                    weeksNumber = doubleduration / 7;
+                    // get the remainder if any from the above division
+
+                    var remainder = weeksNumber % 7;
+                    if (remainder != 0)
+                    {
+
+                        // add 1 to weeknumber
+                        weeksNumber = weeksNumber + 1;
+                    }
+                }
+                else if(newGoal.End < Goal.End)
+                {
+                    // check if they are no tasks whose end date surpasses the goals end date
+                    // get tasks having the goals id
+                    var tasks = await dataTask.GetTasksAsync(Goal.Id);
+                    // loop through the tasks
+                    var counter = 0;
+                    foreach (var task in tasks)
+                    {
+                        if(task.EndTask > Goal.End)                        
+                            counter += 1;       
+                        
+                    }
+                    if(counter > 0)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update goal, they are task's in it, whose end date is more than the goal's selected end date. Go to task page, find those tasks and modify their end dates","OK");
+                        return;
+                    }
+                }
                // create a new goal object
                    var newestGoal = new Models.Goal
                    {
                        Id = GoalId,
-                       Name = Nameeditor.Text,
+                       Name = UppercasedName,
                        Description = Desclbl.Text,
                        End = enddatepicker.Date,
                        CreatedOn = Convert.ToDateTime(Createdlbl.Text),
@@ -120,19 +157,28 @@ namespace GO.Views.Goal
                        CategoryId = Goal.CategoryId,
                        HasWeek = Goal.HasWeek,
                        Noweek = Goal.Noweek,
-                       NumberOfWeeks = Goal.NumberOfWeeks,
+                       NumberOfWeeks = (int)weeksNumber,
                        Percentage = Goal.Percentage,
                        ExpectedPercentage = Goal.ExpectedPercentage,
                        Progress = Goal.Progress,
                        Status = Goal.Status,
-                       Time = Goal.Time
-
+                       Time = Goal.Time,
+                       enddatetostring = newGoal.End.ToLongDateString()
                    };
-              
-                //check if the task already exist so you can either save or update
-              
 
+                // get goal form the database
+                var dbgoal = await dataGoal.GetGoalAsync(GoalId);
+
+                // check if updated goal's end date is more than dbgoal end date
+                if (newestGoal.End > dbgoal.End )
+                {
+                    LocalNotificationCenter.Current.Cancel(newestGoal.Id);
+                    // create a new notification
+
+                }
                     await dataGoal.UpdateGoalAsync(newestGoal);
+                // cancel its notification
+                await SendNotification();
                     await Application.Current.MainPage.DisplayAlert("Alert!", "Updated Successfully", "Ok");
                     await Shell.Current.GoToAsync("..");                
                 
@@ -140,31 +186,48 @@ namespace GO.Views.Goal
 
                 catch (Exception ex)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to add new goal: {ex.Message}", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update goal: {ex.Message}", "OK");
                 }
 
                 finally
                 {
                     IsBusy = false;
                 }
-           
+            async Task SendNotification()
+            {
+                // get goal form the database
+                var dbgoal = await dataGoal.GetGoalAsync(GoalId);
+                
+                var notification = new NotificationRequest
+                {
+                    BadgeNumber = 1,
+                    Description = $"{dbgoal.Name} is Due today!",
+                    Title = "Due-Date!",
+                    NotificationId = dbgoal.Id,
+                    Schedule =
+                    {
+                        NotifyTime = dbgoal.End,
+                    }
+                };
+                await LocalNotificationCenter.Current.Show(notification);
 
-         
-
-
-
-            }
+            };
+        }
 
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            if (Goal.HasWeek && !Goal.Noweek)
-            {              
-                var route = $"{nameof(WeeklyTask)}?goalId={Goal.Id}";
+            if (Goal.HasWeek )
+            {
+                // get the weekid of the last inserted week
+                // get all weeks having the goal id
+                var weeks = await dataWeek.GetWeeksAsync(Goal.Id);
+                var lastweek = weeks.ToList().LastOrDefault();
+                var route = $"{nameof(WeeklyTask)}?weekId={lastweek.Id}";
                 await Shell.Current.GoToAsync(route);
             }
-            else if (!Goal.HasWeek && Goal.Noweek)
+            else if (Goal.Noweek )
             {
-                var route = $"{nameof(GoalTaskPage)}?{nameof(GoalTaskViewModel.GoalId)}={Goal.Id}";
+                var route = $"{nameof(GoalTaskPage)}?GoalId={Goal.Id}";
                 await Shell.Current.GoToAsync(route);
             }
         }

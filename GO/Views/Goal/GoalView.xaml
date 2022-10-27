@@ -4,124 +4,153 @@
              x:Class="GO.Views.Goal.GoalView"
                xmlns:helpers="clr-namespace:GO.Font"
               x:Name="GoalPage"
-             Title="Category Goals">
+             Title="GO">
     <ContentPage.BindingContext>
         <Viewmodel:GoalViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>   
     <ContentPage.Resources>
         <ResourceDictionary>
             <xct:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
         </ResourceDictionary>
-        <ResourceDictionary>
+        <ResourceDictionary>    
             <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
                 <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
             </OnPlatform>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+                 IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Help},Size=20,Color=#feeafa}"                     
+                 Order="Primary"
+                 Priority="0"
+            Command="{Binding HelpCommand}"
+        />
+
+    </ContentPage.ToolbarItems>
+
+    <Grid  VerticalOptions="FillAndExpand">
+        
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height=" Auto"/>
         </Grid.RowDefinitions>
-        <StackLayout Grid.Row="1" Grid.ColumnSpan="4" x:Name="stackGoallist" IsVisible="True">
+        <StackLayout Grid.Row="0" Grid.ColumnSpan="4" x:Name="topRow" Orientation="Vertical">
+            <Frame Grid.ColumnSpan="4">
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <StackLayout Orientation="Horizontal">
+                        <Button x:Name="btnall" Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btnall_Clicked"></Button>
+                        <Button x:Name="btnnotstarted"  Margin="0,15,0,15"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="btnnotstarted_Clicked"></Button>
+                        <Button x:Name="btninprogress" Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="btninprogress_Clicked"></Button>
+                        <Button x:Name="btncompleted"  Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="btncompleted_Clicked"></Button>
+                        <Button x:Name="duesoon"  Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="duesoon_Clicked"></Button>
+                        <Button x:Name="expired"  Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="expired_Clicked"></Button>
+                    </StackLayout>
+                </ScrollView>
+
+            </Frame >
+            <StackLayout  Grid.ColumnSpan="4" Margin="14,5">
+                <Label Text="My Goals" FontAttributes="Bold" FontSize="Medium"/>
+            </StackLayout>
+
+        </StackLayout>
+
+        <AbsoluteLayout  Grid.Row="2"   Grid.ColumnSpan="4" x:Name="stackGoallist" IsVisible="True" Margin="0,-4" >
+            <Label x:Name="nogoals" Margin="80,0,0,0" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="" FontSize="15"/>
+
             <ListView
                  ItemsSource="{Binding goals}"
+                     AbsoluteLayout.LayoutFlags="All"
+						  AbsoluteLayout.LayoutBounds="0,0,1,1"
                    CachingStrategy="RecycleElement"
                    HasUnevenRows="True" 
-                   Grid.ColumnSpan="3"
+                   Grid.ColumnSpan="4"
                   RefreshCommand="{Binding RefreshCommand}"
                   IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                   RefreshControlColor="Red"
                   SelectionMode="None"
                   SeparatorVisibility="None">
-                <ListView.Behaviors>
+                    <ListView.Behaviors>
 
-                    <xct:EventToCommandBehavior EventName="ItemTapped"
+                        <xct:EventToCommandBehavior EventName="ItemTapped"
                                               Command="{Binding ItemSelectedCommand}"
                                               EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
-                </ListView.Behaviors>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="model:Goal">
-                        <ViewCell>
-                            <ViewCell.ContextActions >
-                                <MenuItem Command="{Binding Source={x:Reference GoalPage},Path=BindingContext.DeleteCommand }"
-                              CommandParameter="{Binding .}"
-                              IsDestructive="True"
-                              
-                                      Text="Delete"/>
-                                <MenuItem Command="{Binding Source={x:Reference GoalPage},Path=BindingContext.UpdateCommand }"
-                              CommandParameter="{Binding .}"
-                              IsDestructive="True"
-                              Text=" Update"/>
-                            </ViewCell.ContextActions>
-                            <Grid ColumnSpacing="5" Padding="9">
-                                <Frame
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Goal">
+                            <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                                 Glyph={x:Static helpers:IconFont.BookEditOutline},Size=35,Color=#feeafa}"
+                                          Command="{Binding Source={x:Reference GoalPage},Path=BindingContext.UpdateCommand }"
+                                          CommandParameter="{Binding .}"
+                                             IsDestructive="True" 
+                                          Text=" Edit"/>
+                                    <MenuItem  Command="{Binding Source={x:Reference GoalPage},Path=BindingContext.DeleteCommand }"
+                                       CommandParameter="{Binding .}"
+                                       IsDestructive="True"                                                  
+                                       IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                         Glyph={x:Static helpers:IconFont.DeleteCircleOutline},Size=40,Color=LightGray}"                                           
+                                               Text="Delete"/>
+                                </ViewCell.ContextActions>
+
+                                <Grid ColumnSpacing="5" Padding="5">
+                                    <Frame
                                     CornerRadius="15"
                                     HasShadow="True"
-                                    BackgroundColor="WhiteSmoke"
+                                    BackgroundColor="White"
                                     Padding="8"
                                     Margin="5,0,7,0">
-                                    <Grid Padding="2">
-                                        <RelativeLayout VerticalOptions="Center"/>
-                                       
-                                        <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"  Orientation="Vertical" >
-                                           <Label Grid.Row="0" Grid.Column="0"  Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium" ></Label>
-                                            <ProgressBar  
-                                        x:Name="progressbar"                                                  
-                                                   Progress="{Binding Progress}"
-                                                   FlowDirection="LeftToRight"                                                                                                 
-                                                 ProgressColor="#61a5c2"
-                                        ScaleX="1"
-                                        ScaleY="5"
-                                      />
-                                            <Label Grid.Column=" 4" Grid.Row="0" Margin="5,-24,0,0"  TextColor="White"
-                                               HorizontalTextAlignment="Start" >
-                                                <Label.FormattedText>
-                                                    
-                                                    <FormattedString >
-                                                        <Span Text="{Binding Percentage}" FontSize="Small" FontAttributes="Bold" />
-                                                        <Span Text=" %    " FontSize="Small"  FontAttributes="Bold" />
-                                                       
-                                                    </FormattedString>
-                                                    
-                                                </Label.FormattedText>
-                                                
-                                            </Label>
-                                            <Label TextColor="#adb5bd">
-                                                <Label.FormattedText >
+                                        <Grid Padding="2">
+                                            <RelativeLayout VerticalOptions="Center"/>
 
-                                                    <FormattedString >
-                                                        <Span Text="{Binding Status}"  FontSize="Small" />
-                                                        <Span Text="   0 Day(s) Left      " FontSize="Small"   />
-
-                                                    </FormattedString>
-
-                                                </Label.FormattedText>
-                                            </Label>
-                                            
-
-                                        </StackLayout>
-
-                                    </Grid>
-
-                                </Frame>
-                                
-                            </Grid>
+                                            <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"  Orientation="Vertical" >
+                                                <Label Grid.Row="0" Grid.Column="0"  Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium"></Label>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <ProgressBar  Margin="12,0,-130,0" HorizontalOptions="CenterAndExpand"
+                                                        x:Name = "goalprogresbar"                                                                      
+                                                        Progress = "{Binding Progress}"
+                                                        FlowDirection = "LeftToRight"                                                                                                 
+                                                        ProgressColor = "#e76f51"
+                                                        ScaleX = "3.9"
+                                                        ScaleY = "2"   
+                                                                      
+                                                    />
+                                                    <Label Grid.Column=" 4" Grid.Row="0" Margin="195,0,0,0"
+                                                       HorizontalTextAlignment="Start" >
+                                                        <Label.FormattedText>
+                                                            <FormattedString >
+                                                                <Span Text="{Binding Percentage}" FontSize="Small" />
+                                                                <Span Text="%  " FontSize="Small"   />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label  Text="Due on:" FontSize="14" FontAttributes="Bold" TextColor="#adb5bd"></Label>
+                                                    <Label  Text="{Binding enddatetostring}" FontSize="14" FontAttributes="Bold" TextColor="#adb5bd"></Label>
+                                                  
+                                                </StackLayout>
 
 
-                        </ViewCell>
-                    </DataTemplate>
+                                            </StackLayout>
 
-                </ListView.ItemTemplate>
+                                        </Grid>
 
-            </ListView>
-            <AbsoluteLayout BackgroundColor="Transparent">
-                <ImageButton Margin="0,0,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                Glyph={x:Static helpers:IconFont.PlusCircle},Size=75,Color=#61a5c2
+                                    </Frame>
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+
+                    </ListView.ItemTemplate>
+
+                </ListView>
+          
+           
+
+                <ImageButton Margin="5,0,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                Glyph={x:Static helpers:IconFont.PlusCircle},Size=60,Color=#61a5c2
                 }"
                          BackgroundColor="Transparent"
                 Command="{Binding AddgoalCommand}"
@@ -130,10 +159,12 @@
                          AbsoluteLayout.LayoutFlags="PositionProportional"
 				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
             />
-            </AbsoluteLayout>
 
-        </StackLayout>
-        <StackLayout Grid.Column="0" Grid.ColumnSpan="4" x:Name="StackGoalblank" IsVisible="False">
+
+            </AbsoluteLayout>        
+        
+     
+        <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="StackGoalblank" IsVisible="False">
             <StackLayout Margin="0,90">
                 <StackLayout>
                     <Image Source="goalpic.png"/>

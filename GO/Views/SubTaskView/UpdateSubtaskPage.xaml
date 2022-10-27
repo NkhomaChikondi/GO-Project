@@ -5,40 +5,37 @@
              xmlns:model="clr-namespace:GO.Models" xmlns:Effects="clr-namespace:GO.Effects"
              x:DataType="model:Subtask"
              x:Class="GO.Views.SubTaskView.UpdateSubtaskPage"
-             Title="See Subtask details and edit"
+             Title="Update subtask"
               BackgroundColor="WhiteSmoke">
     <ContentPage.BindingContext>
         <Viewmodel:AddSubtaskViewModel/>
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <ScrollView>
-
+        <ScrollView Orientation="Vertical" VerticalScrollBarVisibility="Never">
             <StackLayout  >
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height=" Auto"/>
                     </Grid.RowDefinitions>
-                    <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4"  BackgroundColor="White"  >
-                        <StackLayout HorizontalOptions="FillAndExpand" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="2" >
-                            <Label x:Name="detaillabel2" Text="Details in red cannot be edited" FontSize="Subtitle" TextColor="OrangeRed" Margin="0,0,0,0"></Label>
-                            <Editor x:Name="editorName" Text=""  FontSize="Title" FontAttributes="Bold"  Grid.Column="0" MaxLength="50"   >
-                                <Editor.Effects>
-                                    <Effects:PlainEntry/>
-                                </Editor.Effects>
-                            </Editor>
-                        </StackLayout>
+                    <Frame Grid.Row="0" Grid.ColumnSpan="4" Padding="0"  >                     
+                        <StackLayout  Margin="0,24">
+                            <Label Text="Subtask Details" FontSize="24" FontAttributes="Bold" TextColor="#61a5c2" HorizontalOptions="CenterAndExpand"/>
+                            <StackLayout Orientation="Vertical">
+                                <Label Text="Name: " FontSize="18" FontAttributes="Bold" TextColor="#61a5c2" Margin="10,12"/>
+                                    <Editor x:Name="editorName"  FontSize="16" FontAttributes="Bold"  Grid.Column="0" MaxLength="50" Margin="10,-10,20,0" AutoSize="TextChanges"/>
+                            </StackLayout>
+                            </StackLayout>                     
+                    
                     </Frame>
-                    <Frame Grid.Row="2" Grid.RowSpan="5"  Grid.ColumnSpan="4" Margin="0,13,0,20"  BackgroundColor="White" BorderColor="Transparent" Padding="0">
+                    <Frame Grid.Row="2" Grid.RowSpan="5"  Grid.ColumnSpan="4"  BackgroundColor="White" BorderColor="Transparent" Padding="0">
                         <StackLayout Orientation="Vertical" >
                             <StackLayout HeightRequest="20"  Grid.ColumnSpan="2" Padding="0"  Margin="2,8,0,0" Spacing="-6" >
 
-                                <Label Text="  Other Details" FontSize="Medium" FontAttributes="Bold" LineHeight="5" Padding="2" />
+                                <Label Text="  Other Details" FontSize="Medium" FontAttributes="Bold" TextColor="#61a5c2" LineHeight="5" Padding="2" />
 
                             </StackLayout>
 
@@ -49,7 +46,7 @@
                                         <StackLayout Orientation="Horizontal">
                                             <StackLayout Orientation="Horizontal">
                                                 <Image Source="calendar.png" ></Image>
-                                                <Label Text="Created on:  "></Label>
+                                                <Label Text="Created on:  " TextColor="#61a5c2"></Label>
                                             </StackLayout>
                                             <StackLayout HorizontalOptions="EndAndExpand">
                                                 <Label x:Name="CreatedDate"  TextColor="OrangeRed"/>
@@ -60,7 +57,7 @@
                                         <StackLayout Orientation="Horizontal">
                                             <StackLayout Orientation="Horizontal">
                                                 <Image Source="flag.png" ></Image>
-                                                <Label Text="Status: "></Label>
+                                                <Label Text="Status: " TextColor="#61a5c2"></Label>
                                             </StackLayout>
                                             <StackLayout HorizontalOptions="EndAndExpand">
                                                 <Label x:Name="Substatus" TextColor="OrangeRed"/>
@@ -77,13 +74,12 @@
 
                                                     <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="0">
 
-                                                        <Label Text="Start Date" FontAttributes="Bold" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
+                                                        <Label Text="Start Date" FontAttributes="Bold" TextColor="#61a5c2" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
                                                         <Image Source="calendar.png" Aspect="AspectFit" Margin="0,0,0,45"></Image>
 
 
                                                     </StackLayout>
-                                                    <StackLayout Orientation="Vertical">
- 
+                                                    <StackLayout Orientation="Vertical"> 
                                                         <DatePicker x:Name="SubstartDate" IsEnabled="False"   Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
                                                     </StackLayout>
 
@@ -96,7 +92,7 @@
 
                                                         <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="0">
 
-                                                            <Label Text="End Date" FontAttributes="Bold" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
+                                                            <Label Text="End Date" FontAttributes="Bold" TextColor="#61a5c2" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
                                                             <Image Source="calendar.png" Aspect="AspectFit" Margin="0,0,0,45"></Image>
 
 
@@ -119,7 +115,7 @@
                         </StackLayout>
 
                     </Frame>
-                    <Frame Grid.Row="8"  Grid.ColumnSpan="4" BackgroundColor="White" Margin="0,-43,0,20">
+                    <Frame Grid.Row="7"  Grid.ColumnSpan="4" BackgroundColor="White" Margin="0,8,0,0">
                         <StackLayout Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="2">
                             <Button Text="Save Changes" Clicked="Button_Clicked"  FontAttributes="Bold" CornerRadius="15" BackgroundColor="#61a5c2" TextColor="White"></Button>
                         </StackLayout>

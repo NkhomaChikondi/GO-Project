@@ -16,19 +16,23 @@ namespace GO.Views.Goal
         public AddGoalview()
         {
             InitializeComponent();
-            BindingContext = new AddGoalViewModel();
-        }
-
-        private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-        {
-            if (Hasweek.IsChecked)        
-            noWeek.IsChecked = false;                
+            BindingContext = new AddGoalViewModel();          
+            
         }
 
         private void noWeek_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
-            if (noWeek.IsChecked)            
-            Hasweek.IsChecked = false;         
+            if (noWeek.IsChecked)
+                Hasweek.IsChecked = false;
+        }
+
+        private void Hasweek_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            if (Hasweek.IsChecked)
+                noWeek.IsChecked = false;
+
         }
     }
+
 }
+

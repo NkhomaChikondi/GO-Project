@@ -2,10 +2,18 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ViewModel="clr-namespace:GO.ViewModels.TaskInGoals" xmlns:Effects="clr-namespace:GO.Effects"
              x:Class="GO.Views.GoalTask.AddPlannedTask"
+             xmlns:helpers="clr-namespace:GO.Font"
               Title="Add Task" >
     <ContentPage.BindingContext>
         <ViewModel:addTaskViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Grid.ColumnSpan="4">
             <Grid >
@@ -18,15 +26,19 @@
                     <RowDefinition Height=" Auto"/>
                 </Grid.RowDefinitions>
 
-
-
-
                 <StackLayout Orientation="Vertical"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="2" Padding="0"  Margin="9,20,20,0">
-                    <Label Grid.Row="0" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Text="Create A New Task" FontSize="Title" FontAttributes="Bold" Padding="20" ></Label>
-                    <StackLayout Margin="0,10,0,0">
-                        <Label Text="Task Name:" FontSize="Medium" FontAttributes="Bold"></Label>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                        <Label Grid.Row="0" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="4"  Text="Create A New Task" TextColor="#61a5c2" FontSize="Title" FontAttributes="Bold"  ></Label>
+                        <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                                 Glyph={x:Static helpers:IconFont.ListStatus},Size=25,Color=#61a5c2}"/>
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="CenterAndExpand">
+                        <Label Text="Achieve your goals, task by task" Margin="19,0" TextColor="Gray" FontAttributes="Italic" FontSize="Medium"/>
+                    </StackLayout>
+                    <StackLayout Margin="0,15,0,0">
+                        <Label Text="Task Name:" TextColor="#61a5c2" FontSize="17" FontAttributes="Bold"></Label>
 
-                        <Editor  Text="{Binding Name}"  FontSize="Small" FontAttributes="None"  Grid.Column="0" MaxLength="55"   Placeholder="50 maximum characters" PlaceholderColor="OrangeRed" >
+                        <Editor  Text="{Binding Name}"  FontSize="Small" AutoSize="TextChanges" FontAttributes="None"  Grid.Column="0" MaxLength="55"   Placeholder="50 maximum characters" PlaceholderColor="OrangeRed" >
 
                         </Editor>
 
@@ -35,9 +47,9 @@
                 </StackLayout>
                 <StackLayout Orientation="Vertical"   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"  Padding="5"  Margin="5,120,16,0">
                     <StackLayout>
-                        <Label Text="Description:" FontSize="Medium" FontAttributes="Bold"></Label>
+                        <Label Text="Description:" TextColor="#61a5c2" FontSize="17" FontAttributes="Bold"></Label>
 
-                        <Editor  Text="{Binding Description}"  FontSize="Small" FontAttributes="None"  Grid.Column="0"  MaxLength="150" Placeholder="150 maximum characters"  PlaceholderColor="OrangeRed" >
+                        <Editor  Text="{Binding Description}" AutoSize="TextChanges"  FontSize="Small" FontAttributes="None"  Grid.Column="0"  MaxLength="150" Placeholder="150 maximum characters"  PlaceholderColor="OrangeRed" >
 
                         </Editor>
 
@@ -45,19 +57,7 @@
 
                 </StackLayout>
 
-                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  FontSize="Medium" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" Text=" Choose Day: " Margin="-25,35,0,0" ></Label>
-                <StackLayout Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Margin="0,25,20,0">
-                    <Picker x:Name=" picker"
-                        Title="--- Select Day---"
-                       ItemsSource="{Binding dowpicker}"
-                        ItemDisplayBinding="{Binding Name}"
-                        SelectedIndex="{Binding  SelectedItem}">
-                    </Picker>
-                </StackLayout>
-               
-
-
-                <StackLayout Grid.Row="4" Grid.Column="0"  Grid.ColumnSpan="5" Padding="15" Margin="0,-20,0,0" >
+                <StackLayout Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="5" Padding="15" Margin="0,-20,0,0" >
 
 
                     <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="   Add Task    " Command="{Binding TaskAddWeekCommand}" CornerRadius="15" Margin="20,0,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"

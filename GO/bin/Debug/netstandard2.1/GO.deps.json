@@ -9,6 +9,7 @@
     ".NETStandard,Version=v2.1/": {
       "GO/1.0.0": {
         "dependencies": {
+          "Plugin.LocalNotification": "10.0.2",
           "Refractored.MvvmHelpers": "1.6.2",
           "Shiny.Core": "2.5.4",
           "Shiny.Jobs": "2.5.4",
@@ -100,6 +101,18 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
             "assemblyVersion": "13.0.0.0",
             "fileVersion": "13.0.1.25517"
+          }
+        }
+      },
+      "Plugin.LocalNotification/10.0.2": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "6.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Plugin.LocalNotification.dll": {
+            "assemblyVersion": "10.0.2.0",
+            "fileVersion": "10.0.2.0"
           }
         }
       },
@@ -395,6 +408,13 @@
       "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
       "path": "newtonsoft.json/13.0.1",
       "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
+    },
+    "Plugin.LocalNotification/10.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LHKmG8Ykj7cunAteehwKyAXvpzgWTqvqFwdSwIpsu/BQNgZZsWDL2/FB+GIm43OfSkC2ceQUcSjP/RpPQ1EuVw==",
+      "path": "plugin.localnotification/10.0.2",
+      "hashPath": "plugin.localnotification.10.0.2.nupkg.sha512"
     },
     "Refractored.MvvmHelpers/1.6.2": {
       "type": "package",

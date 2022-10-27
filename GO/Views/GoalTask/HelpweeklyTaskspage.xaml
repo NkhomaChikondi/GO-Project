@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GO.Views.GoalTask.HelpweeklyTaskspage"
+              xmlns:helpers="clr-namespace:GO.Font"
+             Title="Get Organized">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.ColumnSpan=" 4" Margin="10,0">
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Weekly Task Help page"  HorizontalOptions="CenterAndExpand" TextColor="#61a5c2" FontSize="Large" FontAttributes="Bold" Margin="0,3"/>
+                    <StackLayout Orientation="Horizontal">
+                        <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                            <Label Text="NB: " TextColor="Gray" FontAttributes="Italic" FontSize="18"/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                            <Label Text="Weekly task page is for managing weekly tasks" TextColor="Gray" FontAttributes="Italic" FontSize="Medium"/>
+                        </StackLayout>
+
+                    </StackLayout>
+                   
+                </StackLayout>
+                <ScrollView>
+                    <StackLayout Orientation="Vertical">
+                        
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                                <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                                <Label Text="On the top right of the page, is the week's status. It shows whether the week is active or not." FontSize="Medium"  Margin="0,2"/>
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Margin="0,15" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                                    <Label >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text=" Active week:" FontSize="17" FontAttributes="Bold" />
+                                                <Span Text=" a week within a goal's duration whose end date hasnt been reached yet. It allows creation of tasks that can be acted upon." FontSize="17" FontAttributes="Italic"  />
+
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                     </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Image  Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                                    <Label >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text=" Inactive week:" FontSize="17" FontAttributes="Bold" />
+                                                <Span Text=" a week within a goal's duration whose end date has been surpassed. It doesnt allows creation of tasks." FontSize="17" FontAttributes="Italic"  />
+                                              
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    </StackLayout>
+                                
+                            </StackLayout>                         
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                                <Image Margin="0,3" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                                <Label >
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text=" Just below the" FontSize="Medium"  />
+                                            <Span Text=" PLAN YOUR WEEK" FontSize="Medium" FontAttributes="Italic"  />
+                                            <Span Text=" heading, are dates that are showing the start and the end date of your week." FontSize="Medium"   />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                           
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                                <Image Margin="0,3" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                                <Label Text="Below the dates, is the target percentage of the week." FontSize="Medium"  Margin="0,2"/>
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Margin="0,15" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2} "  />
+                                    <Label Text="Each week has a target percentage that has to be reached after completing week tasks." FontSize="Medium"  FontAttributes="Italic" Margin="0,2"/>
+                                </StackLayout>
+                            </StackLayout>                   
+                                                        
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                                <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                                <Label Text="The progress ring will show the total percentage that has been accumulated in the week against the target percentage." FontSize="Medium"  Margin="0,2"/>
+
+                            </StackLayout>
+                            
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                                <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                            </StackLayout>
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="4">
+                                <Label Text="On the right side of the progress ring, is the status showing the state of the week." FontSize="Medium"  Margin="0,2"/>
+                            </StackLayout>                          
+                          
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                                <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                            </StackLayout>
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="4">
+                                <Label Text=" Where it is indicating the week's number;" FontSize="Medium"  Margin="0,2"/>
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Margin="0,15" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                                    <Label Text=" Tap the right side arrow to go to up the week list." FontSize="Medium"  FontAttributes="Italic" Margin="0,2"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Margin="0,15" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                                    <Label Text=" Tap the left side arrow to go to down the week list." FontSize="Medium"  FontAttributes="Italic" Margin="0,2"/>
+                                </StackLayout>
+                            </StackLayout>                       
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                                <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                            </StackLayout>
+                            <StackLayout Grid.Column="0" Grid.ColumnSpan="4">
+                                <Label Margin="0,10">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text=" Below " FontSize="17"  />
+                                            <Span Text="VIEW TASKS FOR THE WEEK " FontSize="17" FontAttributes="Italic"  />
+                                            <Span Text=" Heading, are days for the week comprised of:" FontSize="17"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Margin="0,15" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                                    <Label Margin="0,13" Text="Number of tasks for that day"  FontSize="Medium"  FontAttributes="Italic"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                                    <Label Text=" Accumulated percentage from completed tasks for that day." FontSize="Medium"  FontAttributes="Italic"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Vertical">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                                        <Label Text="A button that shows: "  FontSize="Medium"  Margin="0,9"/>
+                                    </StackLayout>                                  
+                                    
+                                    <Label Margin="0,-15">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="1. CREATE TASKS: " FontSize="15" FontAttributes="Bold" />
+                                                <Span Text=" when the day has no tasks " FontSize="16" FontAttributes="Italic" />
+                                                <Span Text="{x:Static x:Environment.NewLine}" />
+                                                <Span Text="2. VIEW TASKS: " FontSize="15" FontAttributes="Bold"  />
+                                                <Span Text=" when the day has tasks " FontSize="16" FontAttributes="Italic"  />
+                                                <Span Text="{x:Static x:Environment.NewLine}" />
+                                                <Span Text="3. NO TASKS: " FontSize="15" FontAttributes="Bold"  />
+                                                <Span Text="when the day has no tasks and the  week is inactive or the day for today has surppassed the stated day" FontSize="16" FontAttributes="Italic"  />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+
+                    </StackLayout>
+                </ScrollView>
+               
+
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

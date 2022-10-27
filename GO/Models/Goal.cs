@@ -21,9 +21,11 @@ namespace GO.Models
         public string Status { get; set; }
         public double Progress { get; set; }
         public bool WithDuration { get; set; }
+        public string enddatetostring { get; set; }
         public bool HasWeek { get; set; }
         public bool Noweek { get; set; }
         public int NumberOfWeeks { get; set; }
+        public double DaysLeft { get; set; }
 
         [Indexed]
         public int CategoryId { get; set; }

@@ -11,9 +11,8 @@ namespace GO.Models
         public int Id { get; set; }
         public String Name { get; set; }        
         public DateTime CreatedOn { get; set; }
+        public string Description { get; set; }
         public int goalNumber { get; set; }
-        public bool IsVisible { get; set; }
-
 
     }
 }

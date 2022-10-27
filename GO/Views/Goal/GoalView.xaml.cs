@@ -16,6 +16,7 @@ namespace GO.Views.Goal
     public partial class GoalView : ContentPage
     {
         public string CategoryId { get; set; }
+        private int categoryId;
         public IDataStore<Models.Category> dataCategory { get; }
         public IDataGoal<Models.Goal> dataGoal { get; }
         public GoalView()
@@ -26,26 +27,191 @@ namespace GO.Views.Goal
             BindingContext = new GoalViewModel();
 
         }
+        // set progress bar color
+      
         protected async override void OnAppearing()
         {
+            
             base.OnAppearing();
             int.TryParse(CategoryId, out var result);
             // get all goals having the category id
             var goals = await dataGoal.GetGoalsAsync(result);
-            if(goals.Count( ) == 0)
+            categoryId = result;
+            if (goals.Count( ) == 0)
             {
                 stackGoallist.IsVisible = false;
-                StackGoalblank.IsVisible = true;
+                topRow.IsVisible = false;
+                StackGoalblank.IsVisible = true;               
             }
             else 
             {
                 stackGoallist.IsVisible = true;
                 StackGoalblank.IsVisible = false;
+                topRow.IsVisible = true;
             }
+            btnall.BackgroundColor = Color.LightGray;
             if (BindingContext is GoalViewModel cvm)
             {
                 cvm.CategoryId = result;
                 await cvm.Refresh();
+            }
+        }
+        private async void btnnotstarted_Clicked(object sender, EventArgs e)
+        {
+            btnnotstarted.BackgroundColor = Color.LightGray;
+            btnall.BackgroundColor = Color.Transparent;
+            btncompleted.BackgroundColor = Color.Transparent;
+            btninprogress.BackgroundColor = Color.Transparent;
+            duesoon.BackgroundColor = Color.Transparent;
+            var goals = await dataGoal.GetGoalsAsync(categoryId);
+            // get all subtasks not started
+            var notstartedGoals = goals.Where(s => s.Status == "Not Started").ToList();
+            if (notstartedGoals.Count() == 0)
+            {
+                nogoals.Text = " They are no Started goals!";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.NotstartedGoals();
+                }
+            }
+            else
+            {
+                nogoals.Text = "";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.NotstartedGoals();
+                }
+            }
+        }
+
+        private async void btnall_Clicked(object sender, EventArgs e)
+        {
+            btnnotstarted.BackgroundColor = Color.Transparent;
+            btnall.BackgroundColor = Color.LightGray;
+            btncompleted.BackgroundColor = Color.Transparent;
+            btninprogress.BackgroundColor = Color.Transparent;
+            duesoon.BackgroundColor = Color.Transparent;
+            expired.BackgroundColor = Color.Transparent;
+            if (BindingContext is GoalViewModel bvm)
+            {
+                await bvm.AllGoals();
+            }
+        }
+
+        private async void btninprogress_Clicked(object sender, EventArgs e)
+        {
+            btnnotstarted.BackgroundColor = Color.Transparent;
+            btnall.BackgroundColor = Color.Transparent;
+            btncompleted.BackgroundColor = Color.Transparent;
+            btninprogress.BackgroundColor = Color.LightGray;
+            duesoon.BackgroundColor = Color.Transparent;
+            expired.BackgroundColor = Color.Transparent;
+            var goals = await dataGoal.GetGoalsAsync(categoryId);
+            // get all subtasks not started
+            var inprogressGoals = goals.Where(s => s.Status == "InProgress").ToList();
+            if (inprogressGoals.Count() == 0)
+            {
+                nogoals.Text = " They are no goals in progress!";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.InprogressGoals();
+                }
+            }
+            else
+            {
+                nogoals.Text = "";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.InprogressGoals();
+                }
+            }
+        }
+
+        private async void btncompleted_Clicked(object sender, EventArgs e)
+        {
+            btnnotstarted.BackgroundColor = Color.Transparent;
+            btnall.BackgroundColor = Color.Transparent;
+            btncompleted.BackgroundColor = Color.LightGray;
+            btninprogress.BackgroundColor = Color.Transparent;
+            duesoon.BackgroundColor = Color.Transparent;
+            expired.BackgroundColor = Color.Transparent;
+            var goals = await dataGoal.GetGoalsAsync(categoryId);
+            // get all subtasks not started
+            var completedGoals = goals.Where(s => s.Status == "Completed").ToList();
+            if (completedGoals.Count() == 0)
+            {
+                nogoals.Text = " They are no goals that are Completed!";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.CompletedGoals();
+                }
+            }
+            else
+            {
+                nogoals.Text = "";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.CompletedGoals();
+                }
+            }
+        }
+
+        private async void duesoon_Clicked(object sender, EventArgs e)
+        {
+            btnnotstarted.BackgroundColor = Color.Transparent;
+            btnall.BackgroundColor = Color.Transparent;
+            btncompleted.BackgroundColor = Color.Transparent;
+            btninprogress.BackgroundColor = Color.Transparent;
+            duesoon.BackgroundColor = Color.LightGray;
+            expired.BackgroundColor = Color.Transparent;
+
+            var goals = await dataGoal.GetGoalsAsync(categoryId);
+            var Date10 = DateTime.Today.AddDays(10);
+            var duesoongoals = goals.Where(g => g.End <= Date10 && g.Status != "Expired").ToList();
+            if (duesoongoals.Count() == 0)
+            {
+                nogoals.Text = " They are no goals that are Due soon!";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.DuesoonGoals();
+                }
+            }
+            else
+            {
+                nogoals.Text = "";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.DuesoonGoals();
+                }
+            }
+        }
+
+        private async void expired_Clicked(object sender, EventArgs e)
+        {
+            btnnotstarted.BackgroundColor = Color.Transparent;
+            btnall.BackgroundColor = Color.Transparent;
+            btncompleted.BackgroundColor = Color.Transparent;
+            btninprogress.BackgroundColor = Color.Transparent;
+            duesoon.BackgroundColor = Color.Transparent;
+            expired.BackgroundColor = Color.LightGray;
+            var goals = await dataGoal.GetGoalsAsync(categoryId);
+            // get all subtasks not started
+            var expiredGoals = goals.Where(s => s.Status == "Expired").ToList();
+            if (expiredGoals.Count() == 0)
+            {
+                nogoals.Text = " They are no goals that have Expired!";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.ExpiredGoals();
+                }
+            }
+            else
+            {
+                nogoals.Text = "";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.ExpiredGoals();
+                }
             }
         }
     }

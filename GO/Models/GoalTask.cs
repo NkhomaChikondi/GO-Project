@@ -21,8 +21,10 @@ namespace GO.Models
         public bool IsEnabled { get; set; }
         public string Status { get; set; }
         public bool IsVisible { get; set; }
+        public string enddatetostring { get; set; }
         public bool IsNotVisible { get; set; }
         public int CompletedSubtask { get; set; }
+        public int SubtaskNumber { get; set; }
         public DateTime CreatedOn { get; set; }
         
         [Indexed]

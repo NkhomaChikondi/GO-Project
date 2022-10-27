@@ -16,12 +16,18 @@ namespace GO.ViewModels.TaskInGoals
     [QueryProperty(nameof(GoalId), nameof(GoalId))]
     public class WeeklyTaskViewModel : BaseViewmodel
     {
-
-
         private int goalId;
-        private int dayNumber;
+        private int dowId;
         private double roundedtask;
-        public int GoalId { get => goalId; set => goalId = value; }
+        private int weekId;
+        private bool all = true;
+        private bool notstarted;
+        private bool inprogress;
+        private bool withSubtasks;
+        private bool completed;
+        private bool duesoon;
+        private bool expired;
+
       
         public ObservableRangeCollection<DOW> dows { get; }
         public ObservableRangeCollection<GoalTask>dowTasks { get; }
@@ -40,8 +46,19 @@ namespace GO.ViewModels.TaskInGoals
         public AsyncCommand<GoalTask> SendTaskIdCommand { get; }
         public AsyncCommand<GoalTask> OnUpdateCommand { get; }
         public AsyncCommand<GoalTask> DeleteCommand { get; }
-        public int DayNumber { get => dayNumber; set => dayNumber = value; }
-       
+        public AsyncCommand HelpCommand { get; }
+        public AsyncCommand HelpWeekCommand { get; }
+
+        public int DowId { get => dowId; set => dowId = value; }
+        public int WeekId { get => weekId; set => weekId = value; }
+        public bool All { get => all; set => all = value; }
+        public bool Notstarted { get => notstarted; set => notstarted = value; }
+        public bool Inprogress { get => inprogress; set => inprogress = value; }
+        public bool Completed { get => completed; set => completed = value; }
+        public bool Duesoon { get => duesoon; set => duesoon = value; }
+        public bool Expired { get => expired; set => expired = value; }
+        public int GoalId { get => goalId; set => goalId = value; }
+        public bool WithSubtasks { get => withSubtasks; set => withSubtasks = value; }
 
         public WeeklyTaskViewModel()
         {
@@ -58,8 +75,85 @@ namespace GO.ViewModels.TaskInGoals
             SatCommand = new AsyncCommand(satButton);
             SendTaskIdCommand = new AsyncCommand<GoalTask>(SendTaskId);
             OnUpdateCommand = new AsyncCommand<GoalTask>(OnUpdateTask);          
-            DeleteCommand = new AsyncCommand<GoalTask>(deleteCategory);
-
+            DeleteCommand = new AsyncCommand<GoalTask>(deleteTask);
+            HelpCommand = new AsyncCommand(GotoHelpPage);
+            HelpWeekCommand = new AsyncCommand(GotoHelpweekPage);
+        }
+        public async Task AllGoals()
+        {
+            all = true;
+            notstarted = false;
+            duesoon = false;
+            inprogress = false;
+            expired = false;
+            WithSubtasks = false;
+            await Refresh();
+        }
+        public async Task NotstartedGoals()
+        {
+            all = false;
+            notstarted = true;
+            duesoon = false;
+            inprogress = false;
+            completed = false;
+            expired = false;
+            WithSubtasks = false;
+            await Refresh();
+        }
+        public async Task WithsubtasksTask()
+        {
+            all = false;
+            notstarted = false;
+            withSubtasks = true;
+            duesoon = false;
+            inprogress = false;
+            completed = false;
+            expired = false;
+            await Refresh();
+        }
+        public async Task InprogressGoals()
+        {
+            all = false;
+            notstarted = false;
+            duesoon = false;
+            inprogress = true;
+            expired = false;
+            WithSubtasks = false;
+            completed = false;
+            await Refresh();
+        }
+        public async Task CompletedGoals()
+        {
+            all = false;
+            notstarted = false;
+            duesoon = false;
+            inprogress = false;
+            WithSubtasks = false;
+            expired = false;
+            completed = true;
+            await Refresh();
+        }
+        public async Task DuesoonGoals()
+        {
+            all = false;
+            notstarted = false;
+            duesoon = true;
+            inprogress = false;
+            WithSubtasks = false;
+            expired = false;
+            completed = false;
+            await Refresh();
+        }
+        public async Task ExpiredGoals()
+        {
+            all = false;
+            notstarted = false;
+            duesoon = false;
+            inprogress = false;
+            WithSubtasks = false;
+            expired = true;
+            completed = false;
+            await Refresh();
         }
         // seed the days of the week into the database upon startup
         async Task CreateDOW()
@@ -69,11 +163,9 @@ namespace GO.ViewModels.TaskInGoals
             var getweeks = await dataWeek.GetWeeksAsync(GoalId);
             // get the last inserted week
             var lastInsertedWeek = getweeks.ToList().LastOrDefault();
-            // check if the week is active
-            if(lastInsertedWeek.Active)
+            async Task createDow()
             {
-                // check if days having the goal id are already created
-                var alldows = await dataDow.GetDOWsAsync();
+                var alldows = await dataDow.GetDOWsAsync(lastInsertedWeek.Id);
                 if (alldows.Count() > 0)
                     return;
                 else if (alldows.Count() == 0)
@@ -81,9 +173,10 @@ namespace GO.ViewModels.TaskInGoals
 
                     var DowSunday = new DOW
                     {
-                        DOWId = 1,
+
                         Name = "Sunday",
-                      
+                        WeekId = lastInsertedWeek.Id,
+                        IsSelected = false
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowSunday);
@@ -91,7 +184,8 @@ namespace GO.ViewModels.TaskInGoals
                     var DowMonday = new DOW
                     {
                         Name = "Monday",
-                       
+                        WeekId = lastInsertedWeek.Id,
+                        IsSelected = false
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowMonday);
@@ -99,7 +193,8 @@ namespace GO.ViewModels.TaskInGoals
                     var DowTuesday = new DOW
                     {
                         Name = "Tuesday",
-                      
+                        WeekId = lastInsertedWeek.Id,
+                        IsSelected = false
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowTuesday);
@@ -107,7 +202,9 @@ namespace GO.ViewModels.TaskInGoals
                     var DowWednesday = new DOW
                     {
                         Name = "Wednesday",
-                       
+                        WeekId = lastInsertedWeek.Id,
+                        IsSelected = false,
+                        ValidDay = false
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowWednesday);
@@ -116,7 +213,9 @@ namespace GO.ViewModels.TaskInGoals
                     var DowThursday = new DOW
                     {
                         Name = "Thursday",
-                      
+                        WeekId = lastInsertedWeek.Id,
+                        IsSelected = false,
+                        ValidDay = false
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowThursday);
@@ -124,7 +223,9 @@ namespace GO.ViewModels.TaskInGoals
                     var DowFriday = new DOW
                     {
                         Name = "Friday",
-                       
+                        WeekId = lastInsertedWeek.Id,
+                        IsSelected = false,
+                        ValidDay = false
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowFriday);
@@ -132,12 +233,19 @@ namespace GO.ViewModels.TaskInGoals
                     var DowSaturday = new DOW
                     {
                         Name = "Saturday",
-                       
+                        WeekId = lastInsertedWeek.Id,
+                        IsSelected = false,
+                        ValidDay = false
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowSaturday);
                 }
-
+            }
+            // check if the week is active
+            if(lastInsertedWeek.Active)
+            {
+                // call the createdow method
+                await createDow();
             }
             else if(!lastInsertedWeek.Active)
             {
@@ -148,71 +256,8 @@ namespace GO.ViewModels.TaskInGoals
                     lastInsertedWeek.Active = true;
                     // update the database
                     await dataWeek.UpdateWeekAsync(lastInsertedWeek);
-                    // check if days having the week id are already created
-                    var alldows = await dataDow.GetDOWsAsync();
-                    if (alldows.Count() > 0)
-                        return;
-                    else if (alldows.Count() == 0)
-                    {
-
-                        var DowSunday = new DOW
-                        {
-                            DOWId = 1,
-                            Name = "Sunday",
-                         
-                        };
-                        // create the Dow Object
-                        await dataDow.AddDOWAsync(DowSunday);
-
-                        var DowMonday = new DOW
-                        {
-                            Name = "Monday",
-                          
-                        };
-                        // create the Dow Object
-                        await dataDow.AddDOWAsync(DowMonday);
-
-                        var DowTuesday = new DOW
-                        {
-                            Name = "Tuesday",
-                           
-                        };
-                        // create the Dow Object
-                        await dataDow.AddDOWAsync(DowTuesday);
-
-                        var DowWednesday = new DOW
-                        {
-                            Name = "Wednesday",
-                            
-                        };
-                        // create the Dow Object
-                        await dataDow.AddDOWAsync(DowWednesday);
-
-
-                        var DowThursday = new DOW
-                        {
-                            Name = "Thursday",
-                           
-                        };
-                        // create the Dow Object
-                        await dataDow.AddDOWAsync(DowThursday);
-
-                        var DowFriday = new DOW
-                        {
-                            Name = "Friday",
-                           
-                        };
-                        // create the Dow Object
-                        await dataDow.AddDOWAsync(DowFriday);
-
-                        var DowSaturday = new DOW
-                        {
-                            Name = "Saturday",
-                           
-                        };
-                        // create the Dow Object
-                        await dataDow.AddDOWAsync(DowSaturday);
-                    }
+                    // call createdow method
+                    await createDow();
                 }
             }
             else 
@@ -231,53 +276,54 @@ namespace GO.ViewModels.TaskInGoals
         }
         async Task SendTaskId(GoalTask goalTask)
         {
-            var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
-            await Shell.Current.GoToAsync(route);
-
-            //// get all subtasks havng the task id 
-            //var subtasks = await dataSubTask.GetSubTasksAsync(goalTask.Id);
-            //if (subtasks.Count() == 0)
-            //{
-            //    var route1 = $"{nameof(BlankWeekSubtaskView)}?{nameof(SubtaskViewModel.Taskid)}={goalTask.Id}";
-            //    await Shell.Current.GoToAsync(route1);
-            //}
-            //else
-            //{
-            //    var route = $"{nameof(subTaskView)}?{nameof(SubtaskViewModel.Taskid)}={goalTask.Id}";
-            //    await Shell.Current.GoToAsync(route);
-            //}
-        }
+            // get the day for the task
+            var day = await dataDow.GetDOWAsync(goalTask.DowId);
+            // get the week for the day
+            var week = await dataWeek.GetWeekAsync(day.WeekId);
+            //check if they are subtasks inside the goaltask
+            var subtasks = await dataSubTask.GetSubTasksAsync(goalTask.Id);
+            if(week.Active || subtasks.Count() > 0)
+            {
+                var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
+                await Shell.Current.GoToAsync(route);
+            }
+            else 
+            {               
+                await Application.Current.MainPage.DisplayAlert("Alert!", "There no subtasks in this task!", "Ok");
+                return;            
+            }                     
+                   
+        }       
         async Task OnUpdateTask(GoalTask goalTask)
         {
             var route = $"{nameof(UpdateWeekTask)}?taskId={goalTask.Id}";
 
             await Shell.Current.GoToAsync(route);
         }
-        async Task deleteCategory(GoalTask goalTask)
+        async Task deleteTask(GoalTask goalTask)
         {
             if (goalTask == null)
                 return;
-            var ans = await Application.Current.MainPage.DisplayAlert("Delete Task!", "All Subtasks in this Task will be deleted. Continue?", "Yes", "No");
+            var ans = await Application.Current.MainPage.DisplayAlert("Delete Task!", "All Subtasks in this Task will also be deleted. Continue?", "Yes", "No");
             if (ans)
             {
                 await dataTask.DeleteTaskAsync(goalTask.Id);
-                // get all tasks in the database
-                var tasks = await dataTask.GetTasksAsync(goalId);
-                // loop through the tasks
-                foreach (var task in tasks)
-                {
-                    task.Percentage = 100 / tasks.Count();
-                    await dataTask.UpdateTaskAsync(task);
-
-                }
-                // get all subtasks having the deleted task id
-                var subtasks = await dataSubTask.GetSubTasksAsync(goalTask.Id);
-                // loop through them and delete
-                foreach (var subtask in subtasks)
-                {
-                    await dataSubTask.DeleteSubTaskAsync(subtask.Id);
-                }
-
+                // check if the goal task had a day id
+            
+                    // get all tasks from the database that has the goal id
+                    var tasks = await dataTask.GetTasksAsync(goalTask.GoalId);
+                    // get week
+                    var week = await dataWeek.GetWeekAsync(goalTask.WeekId);                    
+                    // get tasks for the week
+                    var weeklyTasks = tasks.Where(T => T.WeekId == week.Id).ToList();
+                    // loop through the tasks and recalculate their task percentage
+                    foreach(var task in weeklyTasks)
+                    {
+                        task.Percentage = week.TargetPercentage / weeklyTasks.Count();
+                         await dataTask.UpdateTaskAsync(task);
+                    }                    
+               
+                await CalculateTotalWeekPercentage(week);
                 await Refresh();
             }
             else if (!ans)
@@ -288,50 +334,485 @@ namespace GO.ViewModels.TaskInGoals
         //method for dow buttons
         async Task sunButton()
         {
-            DayNumber = 1;
-            await Refresh();
-            return;
+            // get week having the weekid
+            var week = await dataWeek.GetWeekAsync(weekId);
+            // get all dows in the database
+            var dows = await dataDow.GetDOWsAsync(weekId);          
+            // loop through the dows
+            foreach (var dow in dows)
+            {
+                if (dow.Name == "Sunday")
+                {
+
+                    // get the Id
+                    dowId = dow.DOWId;
+                    // set is selectio to true
+                    dow.IsSelected = true;
+                }
+                    
+                else
+                    dow.IsSelected = false;
+                //update dow
+                await dataDow.UpdateDOWAsync(dow);
+            }
+            // get all tasks having sundayId
+            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            // check if week is active
+            if (week.Active)
+            {
+                if(DateTime.Today >= week.StartDate && DateTime.Today <= week.EndDate)
+                {
+                    //check if today is sunday
+                    if (DateTime.Today.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                        await Shell.Current.GoToAsync(route);                       
+                    }
+                    else if(DateTime.Today.DayOfWeek != DayOfWeek.Sunday)
+                    {
+                        // check if it has tasks 
+                        if(tasks.Count().Equals(0))
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot create tasks! Sunday tasks can only be created on Sunday", "Ok");
+                            return;
+                        }
+                        else 
+                        {
+                            var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                            await Shell.Current.GoToAsync(route);
+                        }                       
+                    }
+                }
+               
+            }
+            else if(!week.Active)
+            {                
+                if (tasks.Count() == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "This week expired with 0 Tasks for Sunday", "Ok");
+                    return;
+                }
+                else
+                {
+                    var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                    await Shell.Current.GoToAsync(route);
+                }
+            }
+          
+            
         }
         async Task monButton()
         {
-            DayNumber = 2;
-            await Refresh();
-            return;
+            // get week having the weekid
+            var week = await dataWeek.GetWeekAsync(weekId);
+            var dows = await dataDow.GetDOWsAsync(weekId);
+            // loop through the dows
+            foreach (var dow in dows)
+            {
+                if (dow.Name == "Monday")
+                {
+                    // get the Id
+                    dowId = dow.DOWId;
+                    // set is selectio to true
+                    dow.IsSelected = true;
+                }
+
+                else
+                    dow.IsSelected = false;
+                //update dow
+                await dataDow.UpdateDOWAsync(dow);
+            }
+            // get all tasks having sundayId
+            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            // check if week is active
+            if (week.Active)
+            {
+                if (DateTime.Today >= week.StartDate && DateTime.Today <= week.EndDate)
+                {
+                    //check if today is sunday
+                    if (DateTime.Today.DayOfWeek <= DayOfWeek.Monday)
+                    {
+                        var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                        await Shell.Current.GoToAsync(route);
+                    }
+                    else if (DateTime.Today.DayOfWeek > DayOfWeek.Monday)
+                    {
+                        // check if it has tasks 
+                        if (tasks.Count().Equals(0))
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot create tasks! Monday tasks can only be created before or on Monday", "Ok");
+                            return;
+                        }
+                        else
+                        {
+                            var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                            await Shell.Current.GoToAsync(route);
+                        }
+                    }
+                }
+
+            }
+            else if (!week.Active)
+            {
+                if (tasks.Count() == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for Monday", "Ok");
+                    return;
+                }
+                else
+                {
+                    var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                    await Shell.Current.GoToAsync(route);
+                }
+            }
+
+
         }
         async Task tueButton()
         {
-            DayNumber = 3;
-            await Refresh();
-            return;
+            // get week having the weekid
+            var week = await dataWeek.GetWeekAsync(weekId);
+            var dows = await dataDow.GetDOWsAsync(weekId);
+            // loop through the dows
+            foreach (var dow in dows)
+            {
+                if (dow.Name == "Tuesday")
+                {
+                    // get the Id
+                    dowId = dow.DOWId;
+                    // set is selectio to true
+                    dow.IsSelected = true;
+                }
+
+                else
+                    dow.IsSelected = false;
+                //update dow
+                await dataDow.UpdateDOWAsync(dow);
+            }
+            // get all tasks having sundayId
+            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            // check if week is active
+            if (week.Active)
+            {
+                if (DateTime.Today >= week.StartDate && DateTime.Today <= week.EndDate)
+                {
+                    //check if today is sunday
+                    if (DateTime.Today.DayOfWeek <= DayOfWeek.Tuesday)
+                    {
+                        var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                        await Shell.Current.GoToAsync(route);
+                    }
+                    else if (DateTime.Today.DayOfWeek > DayOfWeek.Tuesday)
+                    {
+                        // check if it has tasks 
+                        if (tasks.Count().Equals(0))
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot create tasks! Tuesday tasks can only be created before or on Tuesday", "Ok");
+                            return;
+                        }
+                        else
+                        {
+                            var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                            await Shell.Current.GoToAsync(route);
+                        }
+                    }
+                }
+
+            }
+            else if (!week.Active)
+            {
+                if (tasks.Count() == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for Tuesday", "Ok");
+                    return;
+                }
+                else
+                {
+                    var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                    await Shell.Current.GoToAsync(route);
+                }
+            }
+
         }
         async Task wedButton()
         {
-            DayNumber = 4;
-            await Refresh();
-            return;
+            // get week having the weekid
+            var week = await dataWeek.GetWeekAsync(weekId);
+            var dows = await dataDow.GetDOWsAsync(weekId);
+            // loop through the dows
+            foreach (var dow in dows)
+            {
+                if (dow.Name == "Wednesday")
+                {
+                    // get the Id
+                    dowId = dow.DOWId;
+                    // set is selectio to true
+                    dow.IsSelected = true;
+                }
+
+                else
+                    dow.IsSelected = false;
+                //update dow
+                await dataDow.UpdateDOWAsync(dow);
+            }
+            // get all tasks having sundayId
+            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            // check if week is active
+            if (week.Active)
+            {
+                if (DateTime.Today >= week.StartDate && DateTime.Today <= week.EndDate)
+                {
+                    //check if today is sunday
+                    if (DateTime.Today.DayOfWeek <= DayOfWeek.Wednesday)
+                    {
+                        var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                        await Shell.Current.GoToAsync(route);
+                    }
+                    else if (DateTime.Today.DayOfWeek > DayOfWeek.Wednesday)
+                    {
+                        // check if it has tasks 
+                        if (tasks.Count().Equals(0))
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot create tasks! Wednesday tasks can only be created before or on Wednesday", "Ok");
+                            return;
+                        }
+                        else
+                        {
+                            var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                            await Shell.Current.GoToAsync(route);
+                        }
+                    }
+                }
+
+            }
+            else if (!week.Active)
+            {
+                if (tasks.Count() == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for wednesday", "Ok");
+                    return;
+                }
+                else
+                {
+                    var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                    await Shell.Current.GoToAsync(route);
+                }
+            }
+
+
         }
         async Task thuButton()
         {
-            DayNumber = 5;
-            await Refresh();
-            return;
+
+            // get week having the weekid
+            var week = await dataWeek.GetWeekAsync(weekId);
+            var dows = await dataDow.GetDOWsAsync(weekId);
+            // loop through the dows
+            foreach (var dow in dows)
+            {
+                if (dow.Name == "Thursday")
+                {
+                    // get the Id
+                    dowId = dow.DOWId;
+                    // set is selectio to true
+                    dow.IsSelected = true;
+                }
+
+                else
+                    dow.IsSelected = false;
+                //update dow
+                await dataDow.UpdateDOWAsync(dow);
+            }
+            // get all tasks having sundayId
+            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            // check if week is active
+            if (week.Active)
+            {
+                if (DateTime.Today >= week.StartDate && DateTime.Today <= week.EndDate)
+                {
+                    //check if today is sunday
+                    if (DateTime.Today.DayOfWeek <= DayOfWeek.Thursday)
+                    {
+                        var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                        await Shell.Current.GoToAsync(route);
+                    }
+                    else if (DateTime.Today.DayOfWeek > DayOfWeek.Thursday)
+                    {
+                        // check if it has tasks 
+                        if (tasks.Count().Equals(0))
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot create tasks! Thursday tasks can only be created before or on Thursday", "Ok");
+                            return;
+                        }
+                        else
+                        {
+                            var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                            await Shell.Current.GoToAsync(route);
+                        }
+                    }
+                }
+
+            }
+            else if (!week.Active)
+            {
+                if (tasks.Count() == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for Thursday", "Ok");
+                    return;
+                }
+                else
+                {
+                    var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                    await Shell.Current.GoToAsync(route);
+                }
+            }
+
         }
         async Task friButton()
         {
-            DayNumber = 6;
-            await Refresh();
-            return;
+
+            // get week having the weekid
+            var week = await dataWeek.GetWeekAsync(weekId);
+            var dows = await dataDow.GetDOWsAsync(weekId);
+            // loop through the dows
+            foreach (var dow in dows)
+            {
+                if (dow.Name == "Friday")
+                {
+                    // get the Id
+                    dowId = dow.DOWId;
+                    // set is selectio to true
+                    dow.IsSelected = true;
+                }
+
+                else
+                    dow.IsSelected = false;
+                //update dow
+                await dataDow.UpdateDOWAsync(dow);
+            }
+            // get all tasks having sundayId
+            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            // check if week is active
+            if (week.Active)
+            {
+                if (DateTime.Today >= week.StartDate && DateTime.Today <= week.EndDate)
+                {
+                    //check if today is sunday
+                    if (DateTime.Today.DayOfWeek <= DayOfWeek.Friday)
+                    {
+                        var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                        await Shell.Current.GoToAsync(route);
+                    }
+                    else if (DateTime.Today.DayOfWeek > DayOfWeek.Tuesday)
+                    {
+                        // check if it has tasks 
+                        if (tasks.Count().Equals(0))
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot create tasks! Friday tasks can only be created before or on Friday", "Ok");
+                            return;
+                        }
+                        else
+                        {
+                            var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                            await Shell.Current.GoToAsync(route);
+                        }
+                    }
+                }
+
+            }
+            else if (!week.Active)
+            {
+                if (tasks.Count() == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for Friday", "Ok");
+                    return;
+                }
+                else
+                {
+                    var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                    await Shell.Current.GoToAsync(route);
+                }
+            }
+
         }
         async Task satButton()
         {
-            DayNumber = 7;
-            await Refresh();
-            return;
+
+            // get week having the weekid
+            var week = await dataWeek.GetWeekAsync(weekId);
+            var dows = await dataDow.GetDOWsAsync(weekId);
+            // loop through the dows
+            foreach (var dow in dows)
+            {
+                if (dow.Name == "Saturday")
+                {
+                    // get the Id
+                    dowId = dow.DOWId;
+                    // set is selectio to true
+                    dow.IsSelected = true;
+                }
+
+                else
+                    dow.IsSelected = false;
+                //update dow
+                await dataDow.UpdateDOWAsync(dow);
+            }
+            // get all tasks having sundayId
+            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            // check if week is active
+            if (week.Active)
+            {
+                if (DateTime.Today >= week.StartDate && DateTime.Today <= week.EndDate)
+                {
+                    //check if today is sunday
+                    if (DateTime.Today.DayOfWeek <= DayOfWeek.Saturday)
+                    {
+                        var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                        await Shell.Current.GoToAsync(route);
+                    }
+                    else if (DateTime.Today.DayOfWeek > DayOfWeek.Saturday)
+                    {
+                        // check if it has tasks 
+                        if (tasks.Count().Equals(0))
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot create tasks! Saturday tasks can only be created before or on Saturday", "Ok");
+                            return;
+                        }
+                        else
+                        {
+                            var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                            await Shell.Current.GoToAsync(route);
+                        }
+                    }
+                }
+
+            }
+            else if (!week.Active)
+            {
+                if (tasks.Count() == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for saturday", "Ok");
+                    return;
+                }
+                else
+                {
+                    var route = $"{nameof(weekTasks)}?weekId={weekId}";
+                    await Shell.Current.GoToAsync(route);
+                }
+            }
+
 
         }
-
-        //a method for creating a week
-
+        async Task GotoHelpPage()
+        {
+            var route = $"{nameof(HelpweeklyTaskspage)}";
+            await Shell.Current.GoToAsync(route);
+        }
+        async Task GotoHelpweekPage()
+        {
+            var route = $"{nameof(HelpWeekPage)}";
+            await Shell.Current.GoToAsync(route);
+        }
         public async Task CompleteTask(int TaskId, bool IsComplete)
         {
             // get the task having the same id as taskId
@@ -342,16 +823,41 @@ namespace GO.ViewModels.TaskInGoals
                 return;
             else if (!task.IsCompleted)
             {
-                //check if it has subtask
-                if (subtasks.Count() > 0)
-                    return;
-                else if (subtasks.Count() == 0)
+                //get the day the task is assigned to
+                var day = await dataDow.GetDOWAsync(task.DowId);
+                // check if the day name is less than or equal to the day of today                
+                // get the week the day is assigned to
+                var week = await dataWeek.GetWeekAsync(day.WeekId);
+                if (week.Active)
                 {
-                    task.IsCompleted = IsComplete;
-                    await dataTask.UpdateTaskAsync(task);
+                    if(day.ValidDay)
+                    {
+                        if (subtasks.Count() > 0)
+                            return;
+                        //check if it has subtask
+                        else if (subtasks.Count() == 0)
+                        {
+                            task.IsCompleted = IsComplete;
+                            await dataTask.UpdateTaskAsync(task);
+                            await SetStatus();
+                            await CalculateTotalWeekPercentage(week);
+                        }
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot complete a task for a day that has surpassed!", "Ok");
+                        return;
+                    }                 
                 }
-
-            }
+                else
+                {
+                    //await Refresh();
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot complete this Task. The Task has expired!", "OK");                   
+                    return;
+                }
+                   
+              
+            }           
             return;
         }
         public async Task UncompleteTask(int TaskId, bool IsComplete)
@@ -364,53 +870,87 @@ namespace GO.ViewModels.TaskInGoals
                 return;
             else if (task.IsCompleted)
             {
-                //check if it has subtask
-                if (subtasks.Count() > 0)
-                    return;
-                else if (subtasks.Count() == 0)
+                //get the day the task is assigned to
+                var day = await dataDow.GetDOWAsync(task.DowId);
+                // get the week the day is assigned to
+                var week = await dataWeek.GetWeekAsync(day.WeekId);
+                if (week.Active)
                 {
-                    task.IsCompleted = IsComplete;
-                    await dataTask.UpdateTaskAsync(task);
+                    if(day.ValidDay)
+                    { //check if it has subtask
+                        if (subtasks.Count() > 0)
+                            return;
+                        else if (subtasks.Count() == 0)
+                        {
+                            task.IsCompleted = IsComplete;
+                            await dataTask.UpdateTaskAsync(task);
+                            await SetStatus();
+                            await CalculateTotalWeekPercentage(week);
+                        }
+                    }
+                    else 
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot Uncomplete a task for a day that has surpassed!", "Ok");
+                        return;
+                    }
                 }
-
+                else
+                {
+                    //await Refresh();
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot Uncomplete this task. The Task has expired!", "OK");                    
+                    return;
+                }
+                   
+               
             }
             return;
         }
         async Task CalculateSubtaskPercentage()
         {
 
-            // get all task having the goal id
-            var tasks = await dataTask.GetTasksAsync(goalId);
-            //loop through them
-            foreach (var task in tasks)
+            // get all week having the goal id
+            var weeks = await dataWeek.GetWeeksAsync(goalId);
+            // loop through the week and get the days id
+            foreach(var week in weeks)
             {
-                // get all subtasks having the tasks id
-                var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-                //check if there are subtasks having this task's id
-                if (subtasks.Count() == 0)
+                // get all days having the week id
+                var days = await dataDow.GetDOWsAsync(week.Id);
+                // loop through the days to get tasks having the day id
+                foreach(var day in days)
                 {
-                    task.IsEnabled = true;
-
-                }
-                // set task.pending percentage to zero
-                roundedtask = 0;
-                // loop through the subtasks
-                foreach (var subtask in subtasks)
-                {
-                    // check if they are completed
-                    if (subtask.IsCompleted)
+                    var Daytasks = await dataTask.GetTasksAsync(GoalId, day.DOWId);
+                    //loop through the tasks to get their subtasks
+                    foreach(var task in Daytasks)
                     {
+                        // get all subtasks having the tasks id
+                        var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+                        //check if there are subtasks having this task's id
+                        if (subtasks.Count() == 0)
+                        {
+                            task.IsEnabled = true;
 
-                        roundedtask += subtask.Percentage;
+                        }
+                        // set task.pending percentage to zero
+                        roundedtask = 0;
+                        // loop through the subtasks
+                        foreach (var subtask in subtasks)
+                        {
+                            // check if they are completed
+                            if (subtask.IsCompleted)
+                            {
+
+                                roundedtask += subtask.Percentage;
+                            }
+                        }
+                        task.PendingPercentage = Math.Round(roundedtask, 1);
+                        task.Progress = task.PendingPercentage / task.Percentage;
+                        await dataTask.UpdateTaskAsync(task);
+                        await SetStatus();
                     }
+
                 }
-                //change a task pending pecentage to a rounded figure
-                task.PendingPercentage = Math.Round(roundedtask, 1);
-                task.Progress = task.PendingPercentage / task.Percentage;
-                await dataTask.UpdateTaskAsync(task);
-                await SetStatus();
-            }
-        }
+            }          
+        }       
         async Task SetStatus()
         {
             // get a task having the same goal id
@@ -432,40 +972,65 @@ namespace GO.ViewModels.TaskInGoals
 
                 await dataTask.UpdateTaskAsync(task);
             }
-
-
-        }
-
-        async Task deleteTask(GoalTask goalTask)
+        }        
+        async Task CalculateTotalWeekPercentage(Week week)
         {
-            if (goalTask == null)
-                return;
-            var ans = await Application.Current.MainPage.DisplayAlert("Delete Task!", "All Subtasks in this Task will be deleted. Continue?", "Yes", "No");
-            if (ans)
+            var getweeks = await dataWeek.GetWeeksAsync(GoalId);            
+            double TaskPercentage = 0;
+            double subtaskpercentage = 0;
+            double Accumulated = 0;
+             
+            // get all tasks having the goal id
+            var tasks = await dataTask.GetTasksAsync(GoalId);
+            // get all tasks having the week id
+            var weekTasks = tasks.Where(T => T.WeekId == week.Id).ToList();
+            // loop through the tasks
+            foreach(var task in weekTasks)
             {
-                await dataTask.DeleteTaskAsync(goalTask.Id);
-                // get all tasks in the database
-                var tasks = await dataTask.GetTasksAsync(goalId);
-                // loop through the tasks
-                foreach (var task in tasks)
+                //check if task is completed
+                if (task.IsCompleted)
                 {
-                    task.Percentage = 100 / tasks.Count();
-                    await dataTask.UpdateTaskAsync(task);
+                    TaskPercentage += task.Percentage;
 
                 }
-                // get all subtasks having the deleted task id
-                var subtasks = await dataSubTask.GetSubTasksAsync(goalTask.Id);
-                // loop through them and delete
-                foreach (var subtask in subtasks)
+                else if (!task.IsCompleted)
                 {
-                    await dataSubTask.DeleteSubTaskAsync(subtask.Id);
-                }
+                    // check task has subtasks
+                    //get all subtasks having the tasks Id
+                    var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
 
-                await Refresh();
+                    if (subtasks.Count() > 0)
+                    {
+                        // get the task's pending percentage
+                        subtaskpercentage += task.PendingPercentage;
+                    }
+                }
             }
-            else if (!ans)
-                return;
-
+            Accumulated = TaskPercentage + subtaskpercentage;
+            if (weekTasks.All(A => A.IsCompleted))
+                Accumulated = week.TargetPercentage;
+            week.AccumulatedPercentage = Math.Round(Accumulated, 1);
+            week.Progress = week.AccumulatedPercentage / week.TargetPercentage;
+            // check if todays date is less than the weeks end date and update status accordingly
+            if (DateTime.Today < week.EndDate)
+            {
+                if (week.AccumulatedPercentage == 0)
+                    week.Status = "Not Started";
+                else if (week.AccumulatedPercentage > 0 && week.AccumulatedPercentage < week.TargetPercentage)
+                    week.Status = "InProgress";
+                else if (week.AccumulatedPercentage == week.TargetPercentage)
+                    week.Status = "Completed";
+            }
+            else if (DateTime.Today > week.EndDate)
+                week.Status = "Expired";
+            await dataWeek.UpdateWeekAsync(week);                    
+                
+                        //reset the below variables
+                TaskPercentage = 0;
+                subtaskpercentage = 0;
+                Accumulated = 0;               
+                
+            
         }
 
         async Task Getremainingdays()
@@ -480,90 +1045,58 @@ namespace GO.ViewModels.TaskInGoals
                 }
                 else
                     task.RemainingDays = 0;
-
                 await dataTask.UpdateTaskAsync(task);
 
             }
         }
-        async Task GetLastTask()
-        {
-
-            var tasks = await dataTask.GetTasksAsync(goalId);
-            if (tasks.Count() == 0)
-                return;
-            // get the last task
-            var task = tasks.Where(T => T.DowId > 0).ToList();
-            if (task.Count == 0)
-                return;
-            else if (task.Count > 0)
-            {
-                // get last task
-                var lastTask = task.LastOrDefault();
-                DayNumber = lastTask.DowId;
-                // get the day that match the id of the task dowid
-                //var days = await dataDow.GetDOWsAsync();
-
-                //var dayid = days.Where(d => d.DOWId == lastTask.DowId).FirstOrDefault();
-                //if (dayid.DOWId == 1)
-                //{
-                //    await sunButton();
-                //    return;
-                //}
-                  
-                //else if (dayid.DOWId == 2)
-                //{
-                //    await monButton();
-                //    return;
-                //}
-                //else if (dayid.DOWId == 3)
-                //{
-                //    await tueButton();
-                //    return;
-                //}
-                //else if (dayid.DOWId == 4)
-                //{
-                //    await wedButton();
-                //    return;
-                //}                   
-                //else if (dayid.DOWId == 5)
-                //{
-                //    await thuButton();
-                //    return;
-                //}                   
-                //else if (dayid.DOWId == 6)
-                //{
-                //    await friButton();
-                //    return;
-                //}                   
-                //else if (dayid.DOWId == 7)
-                //{
-                //    await satButton();
-                //    return;
-                //}                    
-                //else
-                //    return;
-
-            }
-
-
-        }
+       
         public async Task Refresh()
-        {
-           
+        {           
             IsBusy = true;          
             await CreateDOW();
-            await CalculateSubtaskPercentage();
-            dows.Clear();
-            dowTasks.Clear();
-      
-            var Dows = await dataDow.GetDOWsAsync();
-            var tasks = await dataTask.GetTasksAsync(goalId, dayNumber);
-            await Getremainingdays();
-           
-            dows.AddRange(Dows);
-            dowTasks.AddRange(tasks);
+            //await CalculateSubtaskPercentage();          
+           // dows.Clear();
+            dowTasks.Clear();      
+            //var Dows = await dataDow.GetDOWsAsync();
+            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            if (all)
+                // retrieve the categories back
+                dowTasks.AddRange(tasks);
 
-            //await GetLastWeek();
+            //filter goals
+            else if (notstarted)
+            {
+                var notstartedtasks = tasks.Where(g => g.Status == "Not Started").ToList();
+                dowTasks.AddRange(notstartedtasks);
+            }
+            else if (completed)
+            {
+                var completedtasks = tasks.Where(g => g.IsCompleted).ToList();
+                dowTasks.AddRange(completedtasks);
+            }
+            else if(withSubtasks)
+            {
+                List<GoalTask> tasklist = new List<GoalTask>();
+                //loop through the tasks
+                foreach(var Task in tasks)
+                {
+                    // get tasks that have subtasks
+                    var subtasks = await dataSubTask.GetSubTasksAsync(Task.Id);
+                    if(subtasks.Count() >0)
+                    {
+                        tasklist.Add(Task);
+                    }
+                }
+                dowTasks.AddRange(tasklist);               
+            }
+            else if (inprogress)
+            {
+                var inprogressTasks = tasks.Where(g => g.Status == "In Progress").ToList();
+                dowTasks.AddRange(inprogressTasks);
+            }         
+           // await Getremainingdays();           
+            //dows.AddRange(Dows);           
+            //weekId = 0;
             IsBusy = false;
         }
     }

@@ -3,6 +3,7 @@ using GO.Services;
 using GO.ViewModels.Subtasks;
 using GO.ViewModels.TaskInGoals;
 using GO.Views.SubTaskView;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace GO.Views.GoalTask
             dataGoal = DependencyService.Get<IDataGoal<Models.Goal>>();
             datasubTask = DependencyService.Get<IDataSubtask<Subtask>>();
             BindingContext = new addTaskViewModel();
-            detaillabel.TranslateTo(100, 0,3000, Easing.Linear);
+            //detaillabel.TranslateTo(100, 0,3000, Easing.Linear);
         }
 
         protected async override void OnAppearing()
@@ -69,6 +70,8 @@ namespace GO.Views.GoalTask
            try
            {
                 int remainingDays = 0;
+                // get the task from the database having taskid
+                var task = await dataTask.GetTaskAsync(GoalTask.Id);
 
                 // create a new task object
                 var newtask = new Models.GoalTask
@@ -101,8 +104,42 @@ namespace GO.Views.GoalTask
                         await Application.Current.MainPage.DisplayAlert("Error!", " make sure the Start date and end date are within the duration of its selected goal", "OK");
                         return;
                     }
-                   
-                    var newTask = new Models.GoalTask
+                   if(newtask.EndTask > task.EndTask)
+                   {
+                    //cancel task notification
+                    LocalNotificationCenter.Current.Cancel(task.Id);
+                  
+                   }
+                if (newtask.EndTask > task.EndTask)
+                {
+                    // make sure tasks end date is not surpassing goals end date
+                    if (newtask.EndTask > TaskInGoalId.End)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", $"Failed to update task! make sure the selected task's end date is not more than {TaskInGoalId.enddatetostring}", "OK");
+                        return;
+                    }
+                }
+                else if (newtask.EndTask < task.EndTask)
+                {
+                    // check if they are no subtasks whose end date surpasses the tasks end date
+                    // get tasks having the goals id
+                    var subtasks = await datasubTask.GetSubTasksAsync(task.Id);
+                    // loop through the subtasks
+                    var counter = 0;
+                    foreach (var subtask in subtasks)
+                    {
+                        if (subtask.SubEnd > task.EndTask)
+                            counter += 1;
+
+                    }
+                    if (counter > 0)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update task, they're subtask's in it, whose end date is more than the task's selected end date. Go to tsubask page, find those tasks and modify their end dates", "OK");
+                        return;
+                    }
+                }
+               
+                var newTask = new Models.GoalTask
                     {
                         Id = GoalTask.Id,
                         taskName = UppercasedName,
@@ -127,7 +164,13 @@ namespace GO.Views.GoalTask
 
                 // add the new task to the database                
                 await dataTask.UpdateTaskAsync(newTask);
-                    
+                if (newtask.EndTask > task.EndTask)
+                {
+                    //cancel task notification
+                    LocalNotificationCenter.Current.Cancel(task.Id);
+                    // create a new notification
+                    await SendNotification(newtask.EndTask);
+                }               
                     // go back to the previous page
                     await Shell.Current.GoToAsync("..");
                 }
@@ -137,10 +180,27 @@ namespace GO.Views.GoalTask
                 }
             
             }
+        async Task SendNotification( DateTime end)
+        {
+            // create a new notification
+            var notification = new NotificationRequest
+            {
+                BadgeNumber = 1,
+                Description = $"Task '{GoalTask.taskName}' is Due today!",
+                Title = "Due-Date!",
+                NotificationId = GoalTask.Id,
+                Schedule =
+                {
+                    NotifyTime = end,
+                }
+            };
+            await LocalNotificationCenter.Current.Show(notification);
+
+        }
 
         private async void Button_Clicked(object sender, EventArgs e)
         {          
-            var route = $"{nameof(subTaskView)}?{nameof(SubtaskViewModel.Taskid)}={GoalTask.Id}";
+            var route = $"{nameof(subTaskView)}?SubtaskId={GoalTask.Id}";
             await Shell.Current.GoToAsync(route);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using GO.Models;
 using GO.Services;
 using GO.ViewModels.Subtasks;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace GO.Views.SubTaskView
             dataTask = DependencyService.Get<IDataSubtask<Subtask>>();
             datatask = DependencyService.Get<IDataTask<Models.GoalTask>>();
             BindingContext = new AddSubtaskViewModel();
-            detaillabel2.TranslateTo(100, 0, 8000, Easing.Linear);
+            //detaillabel2.TranslateTo(100, 0, 8000, Easing.Linear);
         }
         protected async override void OnAppearing()
         {
@@ -58,10 +59,7 @@ namespace GO.Views.SubTaskView
                     SubEnd = SubEndDate.Date,
                     TaskId = Subtask.TaskId,
                     RemainingDays = remainingDays,
-                    CreatedOn = Subtask.CreatedOn
-                    
-
-
+                    CreatedOn = Subtask.CreatedOn              
                 };
                 // get all subtasks having task id
                 var AllSubtasks = await dataTask.GetSubTasksAsync(newSubtask.TaskId);
@@ -90,6 +88,15 @@ namespace GO.Views.SubTaskView
                     await Application.Current.MainPage.DisplayAlert("Error!", " make sure the Start date and end date are within the duration of its selected Task", "OK");
                     return;
                 }
+                if (newSubtask.SubEnd > Subtask.SubEnd)
+                {
+                    // make sure tasks end date is not surpassing goals end date
+                    if (newSubtask.SubEnd > task.EndTask)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", $"Failed to update subtask! make sure the selected subtask's end date is not more than {task.enddatetostring}", "OK");
+                        return;
+                    }
+                }
                 // pass the uppercased name to the category object
                 var newestSubtask = new Subtask
                 {
@@ -105,7 +112,14 @@ namespace GO.Views.SubTaskView
                     TaskId = newSubtask.TaskId,
                     Status = Subtask.Status
                 };
-                await dataTask.UpdateSubTaskAsync(newestSubtask); 
+                await dataTask.UpdateSubTaskAsync(newestSubtask);
+                if (newestSubtask.SubEnd > Subtask.SubEnd)
+                {
+                    //cancel task notification
+                    LocalNotificationCenter.Current.Cancel(Subtask.Id);
+                    // create a new notification
+                    await SendNotification(newestSubtask.SubEnd);
+                }
                 // go back to the previous page
                 await Shell.Current.GoToAsync("..");
             }
@@ -118,6 +132,23 @@ namespace GO.Views.SubTaskView
             {
                 IsBusy = false;
             }
+        }
+        async Task SendNotification(DateTime end)
+        {
+            // create a new notification
+            var notification = new NotificationRequest
+            {
+                BadgeNumber = 1,
+                Description = $"Subtask '{Subtask.SubName}' is Due today!",
+                Title = "Due-Date!",
+                NotificationId = Subtask.Id,
+                Schedule =
+                {
+                    NotifyTime = end,
+                }
+            };
+            await LocalNotificationCenter.Current.Show(notification);
+
         }
     }
 }

@@ -15,7 +15,7 @@ namespace GO.ViewModels
         public IDataGoal<Goal> datagoal { get; }
         public IDataTask<GoalTask> dataTask { get; }
         public IDataSubtask<Subtask> dataSubTask { get; }
-      
+        public IDateNotification<Notification> dataNotification { get; }
         public IDataDow<DOW> dataDow { get; }
         public IDataWeek<Week> dataWeek { get; }
         public IGoalWeek<GoalWeek> datagoalweek { get; }

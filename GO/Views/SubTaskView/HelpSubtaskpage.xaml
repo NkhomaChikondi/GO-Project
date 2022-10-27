@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GO.Views.SubTaskView.HelpSubtaskpage"
+              xmlns:helpers="clr-namespace:GO.Font"
+             Title="Get Organized">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.ColumnSpan=" 4" Margin="20,0" Orientation="Vertical">
+                <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+                    <Label Text="Task Help page" TextColor="#61a5c2" FontSize="Large" FontAttributes="Bold" Margin="0,10"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                        <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Grid.ColumnSpan="4" Margin="0,10">
+                        <Label Text=" Tap on the (+) button to create a new Subtask."   FontSize="Medium"/>
+                    </StackLayout>
+
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                        <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                        <Label Text=" Scroll horizontaly through the tabs on top to filter the Subtask list." FontSize="Medium"  Margin="0,10"/>
+                    </StackLayout>
+
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                        <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                        <Label Text=" Each Subtask will have: " FontSize="Medium"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Margin="0,15" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                            <Label Margin="0,13">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="  A name." FontSize="17" FontAttributes="Italic"  />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image  Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                            <Label >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="  Status for the Subtask." FontSize="17" FontAttributes="Italic"  />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                       
+                        <StackLayout Orientation="Horizontal">
+                            <Image Margin="0,15" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                            <Label >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="  A due date to show when the Subtask will expire." FontSize="17" FontAttributes="Italic"  />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Margin="0,15" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronRight},Size=20,Color=#61a5c2}"  />
+                            <Label >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text=" Toggle/turn on or off the switch to complete or uncomplete the Subtask." FontSize="17" FontAttributes="Italic"  />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                       
+                    </StackLayout>
+
+                </StackLayout>
+               
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                        <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                        <Label Text=" Long press on Subtask to edit or delete the goal."   FontSize="Medium"/>
+                    </StackLayout>
+
+                </StackLayout>
+
+            </StackLayout>
+
+          
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

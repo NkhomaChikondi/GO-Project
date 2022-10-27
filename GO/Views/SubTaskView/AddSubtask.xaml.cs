@@ -20,7 +20,7 @@ namespace GO.Views.SubTaskView
         //public string GetTaskId { get; set; }
         //public IDataSubtask<Subtask> datasub { get; }
         //public IDataGoal<Models.Goal> datagoal { get; }
-        //public IDataTask<Models.GoalTask> dataTask { get; }
+        //public IDataTask<Models.GoalTask> datasubtask { get; }
 
         public AddSubtask() 
         {
@@ -28,7 +28,7 @@ namespace GO.Views.SubTaskView
            // BindingContext = new  AddSubtaskViewModel();
             //datasub = DependencyService.Get<IDataSubtask<Subtask>>();
             //datagoal = DependencyService.Get<IDataGoal<Models.Goal>>();
-            //dataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();
+            //datasubtask = DependencyService.Get<IDataTask<Models.GoalTask>>();
         }
 
         //protected async override void OnAppearing()
@@ -36,7 +36,7 @@ namespace GO.Views.SubTaskView
         //    base.OnAppearing();
         //    int.TryParse(GetTaskId, out var result);
         //    // get the task having the result id
-        //    var task = await dataTask.GetTaskAsync(result);
+        //    var task = await datasubtask.GetTaskAsync(result);
         //    // get the goal having 
         //    var goal = await datagoal.GetGoalAsync(task.GoalId);
         //    // check if the goal has a week

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GO.Views.SubTaskView.Helpaddsubtaskspage"
+              xmlns:helpers="clr-namespace:GO.Font"
+             Title="Get Organized">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.ColumnSpan=" 4" Margin="20,0" Orientation="Vertical">
+                <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+                    <Label Text="Add Subtask Help page" TextColor="#61a5c2" FontSize="Large" FontAttributes="Bold" Margin="0,10"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                        <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                        <Label Text="Under set duration, tap on start date and end date to set the start and end date for the Subtask."   FontSize="Medium"/>
+                    </StackLayout>
+
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                        <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                        <Label Text=" Write Subtask's name under Subtask name heading." FontSize="Medium"  Margin="0,10"/>
+                    </StackLayout>
+
+                </StackLayout>
+              
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                        <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                        <Label Text=" Under set duration, tap on start date and end date to set the start and end date for the Subtask."   FontSize="Medium"/>
+                    </StackLayout>
+
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Grid.Column="0" Grid.ColumnSpan="1">
+                        <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#61a5c2}"  />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" Grid.ColumnSpan="4">
+                        <Label Text=" Press on the add Subtask button to save the filled information."   FontSize="Medium"/>
+                    </StackLayout>
+
+                </StackLayout>
+
+
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

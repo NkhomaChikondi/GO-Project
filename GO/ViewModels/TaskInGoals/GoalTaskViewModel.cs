@@ -4,6 +4,7 @@ using GO.Views.GoalTask;
 using GO.Views.SubTaskView;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace GO.ViewModels.TaskInGoals
         public AsyncCommand<GoalTask> SendTaskIdCommand { get; }
         public AsyncCommand<GoalTask> PercentageCommand { get; }
         public AsyncCommand<GoalTask> DeleteCommand { get; }
+        public AsyncCommand HelpCommand { get; }
         #endregion
 
         #region observableCollections/PublicProperties
@@ -43,18 +45,7 @@ namespace GO.ViewModels.TaskInGoals
             }
         }
 
-
-
-        public bool IsVisible
-        {
-            get => isVisible;
-            set { isVisible = value; OnPropertyChange(); }
-        }
-        public bool IsVisibleTask
-        {
-            get => isVisibleTask;
-            set { isVisibleTask = value; OnPropertyChange(); }
-        }
+     
         public string Name
         {
             get => name;
@@ -126,10 +117,23 @@ namespace GO.ViewModels.TaskInGoals
         private string status;
         private double percentage;
         private double progress;
-        private double roundedtask;
-        private double standbypercentage;
-        private double remainder;
+        private bool all = true;
+        private bool notstarted;
+        private bool inprogress;
+        private bool completed;
+        private bool duesoon;
+        private bool expired;
+        private bool withSubtask;
+       
 
+
+        public bool All { get => all; set => all = value; }
+        public bool Notstarted { get => notstarted; set => notstarted = value; }
+        public bool Inprogress { get => inprogress; set => inprogress = value; }
+        public bool Completed { get => completed; set => completed = value; }
+        public bool Duesoon { get => duesoon; set => duesoon = value; }
+        public bool Expired { get => expired; set => expired = value; }
+        public bool WithSubtask { get => withSubtask; set => withSubtask = value; }
 
 
         #endregion
@@ -143,20 +147,101 @@ namespace GO.ViewModels.TaskInGoals
             OnUpdateCommand = new AsyncCommand<GoalTask>(OnUpdateTask);          
             SendTaskIdCommand = new AsyncCommand<GoalTask>(SendTaskId);
             DeleteCommand = new AsyncCommand<GoalTask>(deleteCategory);
-
+            HelpCommand = new AsyncCommand(GotoHelpPage);
             // PercentageCommand = new AsyncCommand<GoalTask>(AddPercentage);
             title = "Tasks";
         }
         #endregion
 
         #region Methods
+
+        public async Task AllGoals()
+        {
+            all = true;
+            notstarted = false;
+            duesoon = false;
+            inprogress = false;
+            expired = false;
+            withSubtask = false;
+            await Refresh();
+        }
+        public async Task NotstartedTasks()
+        {
+            all = false;
+            notstarted = true;
+            duesoon = false;
+            inprogress = false;
+            completed = false;
+            expired = false;
+            withSubtask = false;
+            await Refresh();
+        }
+        public async Task InprogressTasks()
+        {
+            all = false;
+            notstarted = false;
+            duesoon = false;
+            inprogress = true;
+            expired = false;
+            completed = false;
+            withSubtask = false;
+            await Refresh();
+        }
+        public async Task CompletedTasks()
+        {
+            all = false;
+            notstarted = false;
+            duesoon = false;
+            inprogress = false;
+            expired = false;
+            withSubtask = false;
+            completed = true;
+            await Refresh();
+        }
+        public async Task DuesoonTasks()
+        {
+            all = false;
+            notstarted = false;
+            duesoon = true;
+            inprogress = false;
+            expired = false;
+            completed = false;
+            withSubtask = false;
+            await Refresh();
+        }
+        public async Task ExpiredTasks()
+        {
+            all = false;
+            notstarted = false;
+            duesoon = false;
+            inprogress = false;
+            expired = true;
+            withSubtask = false;
+            completed = false;
+            await Refresh();
+        }
+        public async Task WithSubtasksTasks()
+        {
+            all = false;
+            notstarted = false;
+            duesoon = false;
+            inprogress = false;
+            expired = false;
+            withSubtask = true;
+            completed = false;
+            await Refresh();
+        }
         // pass the goal id to add task view model
         async Task OnaddTask()
         {
             var route = $"{nameof(AddTaskPage)}?{nameof(addTaskViewModel.GoalId)}={goalId}";
             await Shell.Current.GoToAsync(route);
         }
-
+        async Task GotoHelpPage()
+        {
+            var route = $"{nameof(helptaskPage)}";
+            await Shell.Current.GoToAsync(route);
+        }
         // pass the goal id to update task method
         async Task OnUpdateTask(GoalTask goalTask)
         {
@@ -169,17 +254,20 @@ namespace GO.ViewModels.TaskInGoals
         {
             // get all subtasks havng the task id 
             var subtasks = await dataSubTask.GetSubTasksAsync(goalTask.Id);
-            //if(subtasks.Count() == 0)
-            //{
-            //    var route1 = $"{nameof(BlankSubtaskView)}?{nameof(SubtaskViewModel.Taskid)}={goalTask.Id}";
-            //    await Shell.Current.GoToAsync(route1);
-            //}
-         
+            //check if the task has expired with no tasks
+            if(goalTask.Status == "Expired" && subtasks.Count().Equals(0))
+            {
+                await Application.Current.MainPage.DisplayAlert("Alert", "Cannot go to Subtask page as the task expired with zero subtask","OK");
+                return;
+            }
+            else 
+            {
                 var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
                 await Shell.Current.GoToAsync(route);
+            }
+         
                        
-        }
-       
+        }       
         public async Task CompleteTask(int TaskId,bool IsComplete)
         {
             // get the task having the same id as taskId
@@ -197,8 +285,7 @@ namespace GO.ViewModels.TaskInGoals
                 {
                     task.IsCompleted = IsComplete;
                     await dataTask.UpdateTaskAsync(task);
-                }             
-            
+                }                         
             }
             return;
         }
@@ -223,40 +310,46 @@ namespace GO.ViewModels.TaskInGoals
             }
             return;
         }
-        async Task CalculateSubtaskPercentage()
+        async Task AssignTaskPercentage()
         {
-           
-            // get all task having the goal id
+            double subtaskpercentage = 0;           
+            // get all the tasks having the goalid
             var tasks = await dataTask.GetTasksAsync(goalId);
-            //loop through them
-            foreach (var task in tasks)
+            // check if they are tasks having the week id
+            if (tasks.Count() > 0)
             {
-                // get all subtasks having the tasks id
-                var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-                //check if there are subtasks having this task's id
-                if(subtasks.Count() == 0)
+                // loop through the tasks to get their percentage
+                foreach (var task in tasks)
                 {
-                    task.IsEnabled = true;
-
-                }
-                // set task.pending percentage to zero
-                roundedtask = 0;
-                // loop through the subtasks
-                foreach (var subtask in subtasks)
-                {
-                    // check if they are completed
-                    if(subtask.IsCompleted)
+                    //calculate task percentage
+                    task.Percentage = 100 / tasks.Count();
+                   // await dataTask.UpdateTaskAsync(task);
+                    // get subtasks for this tasks
+                    var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+                    if (subtasks.Count() > 0)
                     {
-                       
-                        roundedtask += subtask.Percentage;
+                        if (subtasks.Any(S => S.IsCompleted))
+                        {
+                            // get all completed subtasks
+                            var completedSubtasks = subtasks.Where(s => s.IsCompleted).ToList();
+                            //loop through the subtasks
+                            foreach (var subtask in completedSubtasks)
+                            {
+                                subtaskpercentage += subtask.Percentage;
+                            }
+                        }
                     }
+                    task.PendingPercentage = Math.Round(subtaskpercentage, 2);
+                    task.Progress = task.PendingPercentage / task.Percentage;
+                    await dataTask.UpdateTaskAsync(task);
+
+                    subtaskpercentage = 0;                    
                 }
-                //change a task pending pecentage to a rounded figure
-             task.PendingPercentage =  Math.Round(roundedtask, 1);
-                task.Progress = task.PendingPercentage / task.Percentage;
-                await dataTask.UpdateTaskAsync(task);
-                await SetStatus();
+                
             }
+            else
+                return;
+
         }
         async Task SetStatus()
         {
@@ -265,22 +358,20 @@ namespace GO.ViewModels.TaskInGoals
             // loop through all the tasks
             foreach (var task in tasks)
             {
-                if (!task.IsCompleted && task.PendingPercentage == 0)
+                if (!task.IsCompleted && task.PendingPercentage == 0 && DateTime.Today <= task.EndTask)
                     task.Status = "Not Started";
 
-                else if (!task.IsCompleted && task.PendingPercentage > 0)
+                else if (!task.IsCompleted && task.PendingPercentage > 0 && DateTime.Today <= task.EndTask)
                     task.Status = "In Progress";
 
-                else if (task.IsCompleted)
+                else if (task.IsCompleted && DateTime.Today <= task.EndTask)
                     task.Status = "Completed";
 
-                else if (DateTime.Now > task.EndTask)
+                else if (DateTime.Today > task.EndTask)
                     task.Status = "Expired";
                   
                 await dataTask.UpdateTaskAsync(task);
-            }           
-
-
+            }         
         }
 
         async Task deleteCategory(GoalTask goalTask)
@@ -291,6 +382,8 @@ namespace GO.ViewModels.TaskInGoals
             if(ans)
             {
                 await dataTask.DeleteTaskAsync(goalTask.Id);
+                // cancel notificaton for this task
+                LocalNotificationCenter.Current.Cancel(goalTask.Id);
                 // get all tasks in the database
                 var tasks = await dataTask.GetTasksAsync(goalId);
                 // loop through the tasks
@@ -306,6 +399,8 @@ namespace GO.ViewModels.TaskInGoals
                 foreach (var subtask in subtasks)
                 {
                     await dataSubTask.DeleteSubTaskAsync(subtask.Id);
+                    // cancel notificaton
+                    LocalNotificationCenter.Current.Cancel(subtask.Id);
                 }
 
                 await Refresh();
@@ -314,45 +409,74 @@ namespace GO.ViewModels.TaskInGoals
                 return;
           
         }
-                  
+      
         async Task Getremainingdays()
-        {
+        { // get all categories
             var tasks = await dataTask.GetTasksAsync(goalId);
             foreach (var task in tasks)
             {
-                if (DateTime.Today <= task.EndTask)
-                {
-                    TimeSpan daysleft = task.EndTask - DateTime.Today;
-                    task.RemainingDays = (int)daysleft.TotalDays;                   
-                }
-                else                
-                    task.RemainingDays = 0;
-
-               await dataTask.UpdateTaskAsync(task);
-                
+                task.enddatetostring = task.EndTask.ToShortDateString();
+                await dataTask.UpdateTaskAsync(task);
             }
         }
         public async Task Refresh()
         {
             // set "IsBusy" to true
             IsBusy = true;
-            await CalculateSubtaskPercentage();
+            var tasks = await dataTask.GetTasksAsync(goalId);           
             goalTasks.Clear();
-            // get all categories
-            var tasks = await dataTask.GetTasksAsync(goalId);
             await Getremainingdays();
-            
-            //await SetStatus();
-            // retrieve goals back
-            goalTasks.AddRange(tasks);
+            await SetStatus();
+            await AssignTaskPercentage();
+
+            if (all)
+                // retrieve the categories back
+                goalTasks.AddRange(tasks);
+            //filter goals
+            else if (notstarted)
+            {
+                var notstartedtasks = tasks.Where(g => g.Status == "Not Started").ToList();
+                goalTasks.AddRange(notstartedtasks);
+            }
+            else if (completed)
+            {
+                var completedtasks = tasks.Where(g => g.IsCompleted).ToList();
+                goalTasks.AddRange(completedtasks);
+            }
+            else if (inprogress)
+            {
+                var inprogressTasks = tasks.Where(g => g.PendingPercentage > 0 && g.Status != "Expired").ToList();
+                goalTasks.AddRange(inprogressTasks);
+            }
+            else if (duesoon)
+            {
+                var Date10 = DateTime.Today.AddDays(10);
+                var duesoongoals = tasks.Where(g => g.EndTask <= Date10 && g.Status != "Expired").ToList();
+                goalTasks.AddRange(duesoongoals);
+            }
+            else if (expired)
+            {
+                var expiredTasks = tasks.Where(g => g.Status == "Expired").ToList();
+                goalTasks.AddRange(expiredTasks);
+            }
+            else if (withSubtask)
+            {
+                List<GoalTask> tasklist = new List<GoalTask>();
+                //loop through the tasks
+                foreach (var Task in tasks)
+                {
+                    // get tasks that have subtasks
+                    var subtasks = await dataSubTask.GetSubTasksAsync(Task.Id);
+                    if (subtasks.Count() > 0)
+                    {
+                        tasklist.Add(Task);
+                    }
+                }
+                goalTasks.AddRange(tasklist);
+            }
             // set "isBusy" to false
             IsBusy = false;
         }
-
-
-
         #endregion
-
     }
-
 }

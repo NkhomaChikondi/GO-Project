@@ -91,6 +91,22 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "Plugin.LocalNotification/10.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "6.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "frameworkAssemblies": [
+          "System.Drawing.Common.dll"
+        ],
+        "compile": {
+          "lib/xamarinios10/Plugin.LocalNotification.dll": {}
+        },
+        "runtime": {
+          "lib/xamarinios10/Plugin.LocalNotification.dll": {}
+        }
+      },
       "Refractored.MvvmHelpers/1.6.2": {
         "type": "package",
         "dependencies": {
@@ -454,6 +470,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
+          "Plugin.LocalNotification": "10.0.2",
           "Refractored.MvvmHelpers": "1.6.2",
           "Shiny.Core": "2.5.4",
           "Shiny.Jobs": "2.5.4",
@@ -561,6 +578,22 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "Plugin.LocalNotification/10.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "6.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "frameworkAssemblies": [
+          "System.Drawing.Common.dll"
+        ],
+        "compile": {
+          "lib/xamarinios10/Plugin.LocalNotification.dll": {}
+        },
+        "runtime": {
+          "lib/xamarinios10/Plugin.LocalNotification.dll": {}
+        }
+      },
       "Refractored.MvvmHelpers/1.6.2": {
         "type": "package",
         "dependencies": {
@@ -924,6 +957,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
+          "Plugin.LocalNotification": "10.0.2",
           "Refractored.MvvmHelpers": "1.6.2",
           "Shiny.Core": "2.5.4",
           "Shiny.Jobs": "2.5.4",
@@ -1031,6 +1065,22 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "Plugin.LocalNotification/10.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "6.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "frameworkAssemblies": [
+          "System.Drawing.Common.dll"
+        ],
+        "compile": {
+          "lib/xamarinios10/Plugin.LocalNotification.dll": {}
+        },
+        "runtime": {
+          "lib/xamarinios10/Plugin.LocalNotification.dll": {}
+        }
+      },
       "Refractored.MvvmHelpers/1.6.2": {
         "type": "package",
         "dependencies": {
@@ -1394,6 +1444,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
+          "Plugin.LocalNotification": "10.0.2",
           "Refractored.MvvmHelpers": "1.6.2",
           "Shiny.Core": "2.5.4",
           "Shiny.Jobs": "2.5.4",
@@ -1501,6 +1552,22 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "Plugin.LocalNotification/10.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "6.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "frameworkAssemblies": [
+          "System.Drawing.Common.dll"
+        ],
+        "compile": {
+          "lib/xamarinios10/Plugin.LocalNotification.dll": {}
+        },
+        "runtime": {
+          "lib/xamarinios10/Plugin.LocalNotification.dll": {}
+        }
+      },
       "Refractored.MvvmHelpers/1.6.2": {
         "type": "package",
         "dependencies": {
@@ -1864,6 +1931,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
+          "Plugin.LocalNotification": "10.0.2",
           "Refractored.MvvmHelpers": "1.6.2",
           "Shiny.Core": "2.5.4",
           "Shiny.Jobs": "2.5.4",
@@ -2077,6 +2145,29 @@
         "newtonsoft.json.13.0.1.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
+      ]
+    },
+    "Plugin.LocalNotification/10.0.2": {
+      "sha512": "LHKmG8Ykj7cunAteehwKyAXvpzgWTqvqFwdSwIpsu/BQNgZZsWDL2/FB+GIm43OfSkC2ceQUcSjP/RpPQ1EuVw==",
+      "type": "package",
+      "path": "plugin.localnotification/10.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "lib/monoandroid10.0/Plugin.LocalNotification.dll",
+        "lib/monoandroid10.0/Plugin.LocalNotification.xml",
+        "lib/net6.0-android31.0/Plugin.LocalNotification.dll",
+        "lib/net6.0-android31.0/Plugin.LocalNotification.xml",
+        "lib/net6.0-ios15.2/Plugin.LocalNotification.dll",
+        "lib/net6.0-ios15.2/Plugin.LocalNotification.xml",
+        "lib/netstandard2.0/Plugin.LocalNotification.dll",
+        "lib/netstandard2.0/Plugin.LocalNotification.xml",
+        "lib/xamarinios10/Plugin.LocalNotification.dll",
+        "lib/xamarinios10/Plugin.LocalNotification.xml",
+        "plugin.localnotification.10.0.2.nupkg.sha512",
+        "plugin.localnotification.nuspec"
       ]
     },
     "Refractored.MvvmHelpers/1.6.2": {
@@ -2849,6 +2940,7 @@
   "projectFileDependencyGroups": {
     "Xamarin.iOS,Version=v1.0": [
       "GO >= 1.0.0",
+      "Plugin.LocalNotification >= 10.0.2",
       "Refractored.MvvmHelpers >= 1.6.2",
       "Shiny.Core >= 2.5.4",
       "Shiny.Jobs >= 2.5.4",
@@ -2866,11 +2958,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO.iOS\\GO.iOS.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.iOS\\GO.iOS.csproj",
       "projectName": "GO.iOS",
-      "projectPath": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO.iOS\\GO.iOS.csproj",
+      "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.iOS\\GO.iOS.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO.iOS\\obj\\",
+      "outputPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -2891,8 +2983,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO\\GO.csproj": {
-              "projectPath": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO\\GO.csproj"
+            "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO\\GO.csproj": {
+              "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO\\GO.csproj"
             }
           }
         }
@@ -2901,6 +2993,10 @@
     "frameworks": {
       "xamarinios10": {
         "dependencies": {
+          "Plugin.LocalNotification": {
+            "target": "Package",
+            "version": "[10.0.2, )"
+          },
           "Refractored.MvvmHelpers": {
             "target": "Package",
             "version": "[1.6.2, )"

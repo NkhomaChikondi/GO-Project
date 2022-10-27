@@ -1,4 +1,6 @@
 ﻿
+using GO.Views.Category;
+using GO.Views.Categorys;
 using GO.Views.Goal;
 using GO.Views.GoalTask;
 using GO.Views.SubTaskView;
@@ -27,20 +29,17 @@ namespace GO
             Routing.RegisterRoute(nameof(AddPlannedTask), typeof(AddPlannedTask));
             Routing.RegisterRoute(nameof(UpdateWeekTask), typeof(UpdateWeekTask));
             Routing.RegisterRoute(nameof(UpdateWeekSubtask), typeof(UpdateWeekSubtask));
-           // Routing.RegisterRoute(nameof(BlankTaskView), typeof(BlankTaskView));
-            //Routing.RegisterRoute(nameof(BlankGoalView), typeof(BlankGoalView));
-            //Routing.RegisterRoute(nameof(BlankSubtaskView), typeof(BlankSubtaskView));
-            //Routing.RegisterRoute(nameof(BlankWeekTaskView), typeof(BlankWeekTaskView));
-            //Routing.RegisterRoute(nameof(BlankWeekSubtaskView), typeof(BlankWeekSubtaskView));
-
-
-
-
-
-
-
-
-
+            Routing.RegisterRoute(nameof(AddCategory), typeof(AddCategory));
+            Routing.RegisterRoute(nameof(CategoryView), typeof(CategoryView));
+            Routing.RegisterRoute(nameof(weekTasks), typeof(weekTasks));
+            Routing.RegisterRoute(nameof(Helpgoalpage), typeof(Helpgoalpage));
+            Routing.RegisterRoute(nameof(Helpaddgoalpage), typeof(Helpaddgoalpage));
+            Routing.RegisterRoute(nameof(helptaskPage), typeof(helptaskPage));
+            Routing.RegisterRoute(nameof(Helpaddtaskpage), typeof(Helpaddtaskpage));
+            Routing.RegisterRoute(nameof(HelpSubtaskpage), typeof(HelpSubtaskpage));
+            Routing.RegisterRoute(nameof(Helpaddsubtaskspage), typeof(Helpaddsubtaskspage));
+            Routing.RegisterRoute(nameof(HelpweeklyTaskspage), typeof(HelpweeklyTaskspage));
+            Routing.RegisterRoute(nameof(HelpWeekPage), typeof(HelpWeekPage ));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

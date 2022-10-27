@@ -11,7 +11,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(GoDataService))]
 namespace GO.Services
 {
-    public class GoDataService : IDataStore<Category>, IDataGoal<Goal>, IDataTask<GoalTask>, IDataSubtask<Subtask>,IDataWeek<Week>,IGoalWeek<GoalWeek>,IDataDow<DOW>
+    public class GoDataService : IDataStore<Category>, IDataGoal<Goal>, IDataTask<GoalTask>, IDataSubtask<Subtask>, IDataWeek<Week>, IGoalWeek<GoalWeek>, IDataDow<DOW>, IDateNotification<Notification>
     {
         static SQLiteAsyncConnection db;
         // database connection class
@@ -31,6 +31,7 @@ namespace GO.Services
             await db.CreateTableAsync<DOW>();
             await db.CreateTableAsync<Week>();
             await db.CreateTableAsync<GoalWeek>();
+            await db.CreateTableAsync<Notification>();
 
         
         }
@@ -44,11 +45,9 @@ namespace GO.Services
             {
                 Id = item.Id,
                 Name = item.Name,
-                IsVisible = item.IsVisible,
-                CreatedOn = item.CreatedOn,
+                Description = item.Description,
+                CreatedOn = item.CreatedOn,    
                 goalNumber = item.goalNumber
-
-
             };
             // insert the values into the database
             await db.InsertAsync(category);
@@ -101,6 +100,7 @@ namespace GO.Services
                 End = item.End,
                 CreatedOn = item.CreatedOn,
                 CategoryId = item.CategoryId,
+                Description= item.Description,
                 Time = item.Time,
                 Progress = item.Progress,
                 Percentage = item.Percentage,
@@ -108,7 +108,9 @@ namespace GO.Services
                 HasWeek = item.HasWeek,
                 ExpectedPercentage = item.ExpectedPercentage,
                 NumberOfWeeks = item.NumberOfWeeks,
-                Noweek = item.Noweek
+                enddatetostring = item.enddatetostring,
+                Noweek = item.Noweek,
+                DaysLeft = item.DaysLeft
 
             };
             // insert the values into the database
@@ -177,10 +179,11 @@ namespace GO.Services
                 IsEnabled = item.IsEnabled,
                 IsVisible = item.IsVisible,
                 IsNotVisible = item.IsNotVisible,
-                GoalId = item.GoalId,
-                WeekId = item.WeekId,
-                DowId = item.DowId
-
+                enddatetostring = item.enddatetostring,
+                GoalId = item.GoalId,                
+                DowId = item.DowId,
+                SubtaskNumber = item.SubtaskNumber,
+                WeekId = item.WeekId
             };
             // insert the values into the database
             await db.InsertAsync(goaltask);
@@ -246,6 +249,7 @@ namespace GO.Services
                 Percentage = item.Percentage,
                 IsCompleted = item.IsCompleted,
                 Status = item.Status,
+                enddatetostring = item.enddatetostring,
                 TaskId = item.TaskId
             };
             // insert the values into the database
@@ -315,15 +319,20 @@ namespace GO.Services
             {
                 DOWId = item.DOWId,
                 Name = item.Name,
-               
+                WeekId = item.WeekId,
+                ValidDay = item.ValidDay,
+                IsSelected = item.IsSelected
+              
             };
             await db.InsertAsync(dOW);
             return await Task.FromResult(true);
         }
 
-        public Task<bool> UpdateDOWAsync(DOW item)
+        public async Task<bool> UpdateDOWAsync(DOW item)
         {
-            throw new NotImplementedException();
+            await Init();
+            await db.UpdateAsync(item);
+            return await Task.FromResult(true);
         }
 
         public Task<bool> DeleteDOWAsync(int id)
@@ -340,11 +349,11 @@ namespace GO.Services
         }
 
        
-        public async Task<IEnumerable<DOW>> GetDOWsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<DOW>> GetDOWsAsync(int Id,bool forceRefresh = false)
         {
             await Init();
             // get all subtasks in the database
-            var allDows = await db.Table<DOW>().ToListAsync();
+            var allDows = await db.Table<DOW>().Where(D =>D.WeekId == Id).ToListAsync();
             return allDows;
         }
 
@@ -360,6 +369,8 @@ namespace GO.Services
                 Active = item.Active,
                 StartDate = item.StartDate,
                 EndDate = item.EndDate,
+                Progress = item.Progress,
+                Status = item.Status,
                 GoalId = item.GoalId
 
             };
@@ -420,6 +431,71 @@ namespace GO.Services
             // get all the categories in the database
             var allgoalweek= await db.Table<GoalWeek>().ToListAsync();
             return allgoalweek;
+        }
+
+        public async Task<bool> AddNotificationAsync(Notification item)
+        {
+            await Init();
+            var notification = new Notification
+            {
+                Title = item.Title,
+                Descrption = item.Descrption,
+                NotifyingDate = item.NotifyingDate,
+                GoalId = item.GoalId,
+                TaskId = item.TaskId,
+                SubtaskId = item.SubtaskId
+            };
+            // insert the values into the database
+            await db.InsertAsync(notification);
+            return await Task.FromResult(true);
+
+        }
+
+        public async Task<bool> UpdateNotificationAsync(Notification item)
+        {
+            await Init();
+            await db.UpdateAsync(item);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeleteNotificationAsync(int id)
+        {
+            await Init();
+            // Remove the selected subtask item from the database
+            var deleteNotification = await db.DeleteAsync<Notification>(id);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<Notification> GetNotificationAsync(int id)
+        {
+            await Init();
+            // get the selected item 
+            var notification = await db.Table<Notification>().Where(d => d.Id == id).FirstOrDefaultAsync();
+            return notification;
+        }
+
+        public async Task<IEnumerable<Notification>> GetNotificationGoalAsync(int GoalId, bool forceRefresh = false)
+        {
+            await Init();
+            // get all goals in the database
+            var GoalNotifications = await db.Table<Notification>().Where(g => g.GoalId == GoalId).ToListAsync();
+            return GoalNotifications;
+        }
+
+        public async Task<IEnumerable<Notification>> GetNotificationTaskAsync(int TaskId, bool forceRefresh = false)
+        {
+            await Init();
+            // get all goals in the database
+            var TaskNotifications = await db.Table<Notification>().Where(g => g.TaskId == TaskId).ToListAsync();
+            return TaskNotifications;
+        }
+
+        public async Task<IEnumerable<Notification>> GetNotificationSubtaskAsync(int SubtaskId, bool forceRefresh = false)
+        {
+            await Init();
+            // get all goals in the database
+            var subtaskNotifications = await db.Table<Notification>().Where(g => g.SubtaskId == SubtaskId).ToListAsync();
+            return subtaskNotifications;
         }
     }
 }

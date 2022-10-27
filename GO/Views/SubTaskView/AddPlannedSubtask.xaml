@@ -2,46 +2,51 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:ViewModel="clr-namespace:GO.ViewModels.Subtasks"
-             x:Class="GO.Views.SubTaskView.AddPlannedSubtask">
+             x:Class="GO.Views.SubTaskView.AddPlannedSubtask"
+              xmlns:helpers="clr-namespace:GO.Font">
     <ContentPage.BindingContext>
         <ViewModel:AddSubtaskViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Grid.ColumnSpan="4">
             <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height=" Auto"/>
                 </Grid.RowDefinitions>
-
-                <StackLayout Orientation="Vertical"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"  Padding="0"  Margin="9,20,20,0">
-                    <Label Grid.Row="0" Grid.RowSpan="2" Margin="0,20,0,0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Text="Create A New SubTask" FontSize="Title" FontAttributes="Bold" Padding="20" ></Label>
-                    <StackLayout>
-                        <Label Text="SubTask Name:" FontSize="Medium" FontAttributes="Bold"></Label>
-
-                        <Editor  Text="{Binding Name}"  FontSize="Subtitle" FontAttributes="None"  Grid.Column="0"  MaxLength="70" Placeholder="70 maximum characters" PlaceholderColor="OrangeRed" >
-
-                        </Editor>
-
+                <StackLayout Grid.ColumnSpan="4">
+                    <StackLayout Grid.Row="0" Grid.ColumnSpan="4"  Orientation="Vertical" Margin="0,10">
+                        <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+                            <Label Text="Create A New Subtask"  FontAttributes="Bold" FontSize="Large"/>
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                                 Glyph={x:Static helpers:IconFont.FormatListText},Size=25,Color=#61a5c2}"/>
+                        </StackLayout>
+                        <StackLayout HorizontalOptions="CenterAndExpand">
+                            <Label Text="Break your tasks into Subtasks" Margin="19,0" TextColor="Gray" FontAttributes="Italic" FontSize="Medium"/>
+                        </StackLayout>
                     </StackLayout>
+                    <StackLayout Grid.Row="1" Grid.ColumnSpan="4" Margin="10" Orientation="Vertical">
+                        <Label Text=" Subtask Name:"  TextColor="#61a5c2" FontSize="17" FontAttributes="Bold" />
+                        <Editor Text="{Binding Name}" Placeholder="50 maximum characters" MaxLength="50" AutoSize="TextChanges" />
+                    </StackLayout>
+                   
+                    <StackLayout Grid.Row="2" Grid.ColumnSpan="4">
 
-                </StackLayout>               
-
-                <StackLayout   Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="4" Padding="59,45,0,0" >
-
-
-                    <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="Add SubTask" Command="{Binding subTaskAddCommand}" CornerRadius="15" Margin="20,0,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"
+                        <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="Add Goal" Command="{Binding subTaskAddCommand}" CornerRadius="15" Margin="20,20,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"
                      
                         ></Button>
+
+                    </StackLayout>
                 </StackLayout>
-
-
-
-
 
 
 

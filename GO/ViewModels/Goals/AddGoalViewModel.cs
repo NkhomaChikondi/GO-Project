@@ -5,6 +5,7 @@ using GO.Views.Goal;
 using GO.Views.GoalTask;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
+using Plugin.LocalNotification;
 using Shiny.Jobs;
 using System;
 using System.Collections.Generic;
@@ -34,10 +35,8 @@ namespace GO.ViewModels.Goals
         private bool hasWeek = false;
         private bool noweek = false;
 
-        INotificationManager notificationManager;
-        int notificationNumber = 0;
-
         public AsyncCommand AddGoalCommand { get; set; }
+        public AsyncCommand HelpCommand { get; }
         public string Name { get => name; set => name = value; }
         public DateTime End { get => end; set => end = value; }
         public DateTime Start { get => start; set => start = value; }
@@ -50,27 +49,23 @@ namespace GO.ViewModels.Goals
         public bool HasWeek { get => hasWeek; set => hasWeek = value; }
         public bool Noweek { get => noweek; set => noweek = value; }
 
-        
-
 
         public ObservableRangeCollection<Goal> goals { get; }
 
         public AddGoalViewModel()
         {
-
             // get Inotification Manager interface through the dependency service
 
             AddGoalCommand = new AsyncCommand(AddGoal);
-
+            HelpCommand = new AsyncCommand(GotoHelpPage);
             goals = new ObservableRangeCollection<Goal>();
-            notificationManager = DependencyService.Get<INotificationManager>();
-            notificationManager.NotificationReceived += (sender, eventArgs) =>
-            {
-                var evtData = (NotificationEventArgs)eventArgs;
-                //ShowNotification(evtData.Title, evtData.Message);
-            };
-        }      
-            
+
+        }
+        async Task GotoHelpPage()
+        {
+            var route = $"{nameof(Helpaddgoalpage)}";
+            await Shell.Current.GoToAsync(route);
+        }
 
         async Task AddGoal()
         {
@@ -101,6 +96,17 @@ namespace GO.ViewModels.Goals
 
 
                 };
+                if (newGoal.Start < DateTime.Today)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a goal cannot be on a date that has already surpassed", "OK");
+                    return;
+                }
+                if (newGoal.End < DateTime.Today)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "End date of a goal cannot be on a date that has already surpassed", "OK");
+                    return;
+                }
+
                 // get all tasks in GoalId
                 var allGoals = await datagoal.GetGoalsAsync(CategoryId);
                 // change the first letter of the Task name to upercase
@@ -131,12 +137,13 @@ namespace GO.ViewModels.Goals
 
                 if (start > end)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", $"Make sure Start Date is not more than End Date ", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", $"Make sure Start Date is NOT! more than End Date ", "OK");
                     return;
                 }
                 if (newGoal.Description == null)
                     newGoal.Description = $"No Description for {newGoal.Name}";
-
+                // get the duration number of this goal
+                var daysleft = End - Start;
                 // create the newest goal object
                 var newestGoal = new Goal
                 {
@@ -145,18 +152,20 @@ namespace GO.ViewModels.Goals
                     CreatedOn = DateTime.Now,
                     Start = start,
                     End = end,
+                    enddatetostring = End.ToLongDateString(),
                     Time = time,
                     Percentage = 0,
                     Status = "Not Started",
                     Progress = 0,
                     ExpectedPercentage = 100,
                     NumberOfWeeks = (int)weeksNumber,
+                    DaysLeft = daysleft.TotalDays,
                     CategoryId = categoryId,
                     HasWeek = hasWeek,
                     Noweek = Noweek
                 };
                 // check if the end date is more than start date and the goal duration has more than 7 days
-                if (HasWeek)
+                if (HasWeek && !noweek)
                 {
                     if (newestGoal.Start == newestGoal.End)
                     {
@@ -178,31 +187,30 @@ namespace GO.ViewModels.Goals
                 ////check if the task already exist so you can either save or update
                 //if (allGoals.Any(t => t.Id == newestGoal.Id))
                 //{
-
                 //    await datagoal.UpdateGoalAsync(newestGoal);
                 //    await Application.Current.MainPage.DisplayAlert("Alert!", " Your goal has been successfully updated", "Ok");
                 //    await Shell.Current.GoToAsync("..");
-
                 //}
                 // save the new object
                 await datagoal.AddGoalAsync(newestGoal);
-                if (hasWeek)
+                await SendNotification();
+                if (HasWeek)
                 {
                     await CreateWeek(newestGoal);
-                    SendScheduledNotification();
+
                     await Application.Current.MainPage.DisplayAlert("Alert!", $"Goal has successfully been Created with {newestGoal.NumberOfWeeks} weeks!, Create Tasks for the first week", "OK");
                 }
                 else
                 {
-                    SendScheduledNotification();
                     await Shell.Current.GoToAsync("..");
                 }
             }
 
+
             catch (Exception ex)
             {
                 Debug.WriteLine($"Failed to add new goal: {ex.Message}");
-                await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");   
+                await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
             }
 
             finally
@@ -210,90 +218,116 @@ namespace GO.ViewModels.Goals
                 IsBusy = false;
             }
 
-
-            async Task CreateWeek(Goal goal)
+            async Task SendNotification()
             {
-                //* check the number of days that are left in the week*
-
-                // get the start day, day of the week
-                var startDay = start.DayOfWeek.ToString();
-                int dayValue = 0;
-                if (startDay == "Sunday")
-                    dayValue = 6;
-                else if (startDay == "Monday")
-                    dayValue = 5;
-                else if (startDay == "Tuesday")
-                    dayValue = 4;
-                else if (startDay == "Wednesday")
-                    dayValue = 3;
-                else if (startDay == "Thursday")
-                    dayValue = 2;
-                else if (startDay == "Friday")
-                    dayValue = 1;
-                else if (startDay == "Saturday")
-                    dayValue = 0;
-
-
-                // get the total number of goals from the database
-                var goals = await datagoal.GetGoalsAsync(categoryId);
-                //get the id of the last inserted id
+                // get all goals having 
+                var goals = await datagoal.GetGoalsAsync(CategoryId);
+                // get the last goal
                 var lastGoal = goals.ToList().LastOrDefault();
-                var goalId = lastGoal.Id;
-                //* finding the targeted percentage*
-                // get the total number of weeks from goal
-                var totalWeeks = goal.NumberOfWeeks;
-                // calculate the percentage for every week
-                var weekPercentage = 100 / totalWeeks;
+               // var goalId = lastGoal.Id + 1;
 
-                if (startDay == "Saturday")
+                var notification = new NotificationRequest
                 {
-                    dayValue = 6;
-                    start = start.AddDays(1);
-
-                    await Application.Current.MainPage.DisplayAlert("Alert", "you cannot start a goal on a Saturday.Your Goal's start day, will be  moved to Sunday  ", "OK");
-                }
-                // how to find the end date
-                var enddate = start.AddDays(dayValue);
-
-                // create a new week object
-                var newWeek = new Week
-                {
-                    WeekNumber = 1,
-                    TargetPercentage = weekPercentage,
-                    AccumulatedPercentage = 0,
-                    Active = true,
-                    StartDate = start,
-                    EndDate = enddate,
-                    GoalId = goalId
+                    BadgeNumber = 1,
+                    Description = $"Goal '{lastGoal.Name}' is Due today!",
+                    Title = "Due-Date!",
+                    NotificationId = lastGoal.Id,
+                    Schedule =
+                    {
+                       // NotifyTime = lastGoal.End,
+                       NotifyTime  = DateTime.Now.AddSeconds(20),
+                    }
                 };
-
-                // save the newly created week to the database
-                await dataWeek.AddWeekAsync(newWeek);
-
-                var route = $"{nameof(WeeklyTask)}?goalId={goalId}";
-                await Shell.Current.GoToAsync(route);
-
-            }
-            void SendScheduledNotification()
-            {
-                notificationNumber++;
-                string title = $"Local Notification #{notificationNumber}";
-                string message = $"You have now received {notificationNumber} notifications!";
-                notificationManager.SendNotification(title, message, DateTime.Now.AddSeconds(50));
-            }
-            //void ShowNotification(string title, string message)
-            //{
-            //    Device.BeginInvokeOnMainThread(() =>
-            //    {
-            //        var msg = new Label()
-            //        {
-            //            Text = $"Notification Received:\nTitle: {title}\nMessage: {message}"
-            //        };
-            //        stackLayout.Children.Add(msg);
-            //    });
-
-            //}
+                await LocalNotificationCenter.Current.Show(notification);
+            };
 
         }
+        async Task CreateWeek(Goal goal)
+        {
+            //* check the number of days that are left in the week*
+
+            // get the start day, day of the week
+            var startDay = start.DayOfWeek.ToString();
+            int dayValue = 0;
+            if (startDay == "Sunday")
+                dayValue = 6;
+            else if (startDay == "Monday")
+                dayValue = 5;
+            else if (startDay == "Tuesday")
+                dayValue = 4;
+            else if (startDay == "Wednesday")
+                dayValue = 3;
+            else if (startDay == "Thursday")
+                dayValue = 2;
+            else if (startDay == "Friday")
+                dayValue = 1;
+            else if (startDay == "Saturday")
+                dayValue = 0;
+
+
+            // get the total number of goals from the database
+            var goals = await datagoal.GetGoalsAsync(categoryId);
+            //get the id of the last inserted id
+            var lastGoal = goals.ToList().LastOrDefault();
+            var goalId = lastGoal.Id;
+            //* finding the targeted percentage*
+            // get the total number of weeks from goal
+            var totalWeeks = goal.NumberOfWeeks;
+            // calculate the percentage for every week
+            var weekPercentage = 100 / totalWeeks;
+
+            if (startDay == "Saturday")
+            {
+                dayValue = 6;
+                start = start.AddDays(1);
+
+                await Application.Current.MainPage.DisplayAlert("Alert", "you cannot start a goal on a Saturday.Your Goal's start day, will be  moved to Sunday  ", "OK");
+            }
+            // how to find the end date
+            var enddate = start.AddDays(dayValue);
+         
+            // create a new week object
+            var newWeek = new Week
+            {
+                WeekNumber = 1,
+                TargetPercentage = weekPercentage,
+                AccumulatedPercentage = 0,
+                Active = true,
+                StartDate = start,
+                EndDate = enddate,
+                Progress = 0,
+                Status = "Not Started",
+                GoalId = goalId
+            };
+
+            // save the newly created week to the database
+            await dataWeek.AddWeekAsync(newWeek);
+
+            // get all weeks having GoalId
+            var weeks = await dataWeek.GetWeeksAsync(goalId);
+            // get the last goal
+            var week = weeks.ToList().LastOrDefault();
+
+            TimeSpan duration = week.EndDate - week.StartDate;
+            var date = (double)duration.TotalDays;
+            var notification = new NotificationRequest
+            {
+                BadgeNumber = 1,
+                Description = $"Week {week.WeekNumber} of goal '{lastGoal.Name}' is Due today!",
+                Title = "Due-Date!",
+                NotificationId = week.Id,
+                Schedule =
+                {
+                    NotifyTime = DateTime.Now.AddDays(date),
+                }
+            };
+            await LocalNotificationCenter.Current.Show(notification);
+
+            var route = $"{nameof(WeeklyTask)}?weekId={week.Id}";
+            await Shell.Current.GoToAsync(route);
+
+        }
+
+
     }
 }

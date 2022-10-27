@@ -30,7 +30,7 @@ namespace GO.Views.GoalTask
             dataWeek = DependencyService.Get < IDataWeek<Models.Week>>();
             datasubTask = DependencyService.Get<IDataSubtask<Subtask>>();
             BindingContext = new addTaskViewModel();
-            detaillabel1.TranslateTo(100, 0, 3000, Easing.Linear);
+          //  detaillabel1.TranslateTo(100, 0, 3000, Easing.Linear);
         }
 
         protected async override void OnAppearing()

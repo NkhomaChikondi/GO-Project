@@ -1,6 +1,6 @@
 ﻿using GO.Models;
 using GO.Services;
-
+using Plugin.LocalNotification;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace GO
         protected override void OnStart()
         {
             base.OnStart();
-            CreateNewWeek();
+           // CreateNewWeek();
         }
 
         protected override void OnSleep()
@@ -127,6 +127,26 @@ namespace GO
                                     };
                                     // save the newly created week to the database
                                     await dataWeek.AddWeekAsync(newWeek);
+                                    // get all weeks having GoalId
+                                    var weeks = await dataWeek.GetWeeksAsync(newWeek.GoalId);
+                                    // get the last goal
+                                    var week = weeks.ToList().LastOrDefault();
+                                    // get goal 
+                                    var goal = await dataGoal.GetGoalAsync(newWeek.GoalId);
+                                    TimeSpan duration = week.EndDate - week.StartDate;
+                                    var date = (double)duration.TotalDays;
+                                    var notification = new NotificationRequest
+                                    {
+                                        BadgeNumber = 1,
+                                        Description = $"Week {newWeek.WeekNumber} of goal '{goal.Name}' is Due today!",
+                                        Title = "Due-Date!",
+                                        NotificationId = week.Id,
+                                        Schedule =
+                                        {
+                                            NotifyTime = DateTime.Now.AddDays(date),
+                                        }
+                                    };
+                                    await LocalNotificationCenter.Current.Show(notification);
                                 }
                                 else if (Daysleft < daynumber)
                                 {
@@ -142,6 +162,26 @@ namespace GO
                                     };
                                     // save the newly created week to the database
                                     await dataWeek.AddWeekAsync(newWeek);
+                                    // get all weeks having GoalId
+                                    var weeks = await dataWeek.GetWeeksAsync(newWeek.GoalId);
+                                    // get the last goal
+                                    var week = weeks.ToList().LastOrDefault();
+                                    // get goal 
+                                    var goal = await dataGoal.GetGoalAsync(newWeek.GoalId);
+                                    TimeSpan duration = week.EndDate - week.StartDate;
+                                    var date = (double)duration.TotalDays;
+                                    var notification = new NotificationRequest
+                                    {
+                                        BadgeNumber = 1,
+                                        Description = $" Week {newWeek.WeekNumber} of goal '{goal.Name}' is Due today!",
+                                        Title = "Due-Date!",
+                                        NotificationId = week.Id,
+                                        Schedule =
+                                            {
+                                                NotifyTime = DateTime.Now.AddDays(date),
+                                            }
+                                    };
+                                    await LocalNotificationCenter.Current.Show(notification);
                                 }
 
                               }

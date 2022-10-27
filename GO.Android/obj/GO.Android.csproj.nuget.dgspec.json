@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj": {}
+    "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj": {
+    "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj",
         "projectName": "GO.Android",
-        "projectPath": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj",
+        "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO.Android\\obj\\",
+        "outputPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.Android\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
@@ -32,8 +32,8 @@
         "frameworks": {
           "monoandroid10.0": {
             "projectReferences": {
-              "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO\\GO.csproj": {
-                "projectPath": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO\\GO.csproj"
+              "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO\\GO.csproj": {
+                "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO\\GO.csproj"
               }
             }
           }
@@ -42,6 +42,10 @@
       "frameworks": {
         "monoandroid10.0": {
           "dependencies": {
+            "Plugin.LocalNotification": {
+              "target": "Package",
+              "version": "[10.0.2, )"
+            },
             "Refractored.MvvmHelpers": {
               "target": "Package",
               "version": "[1.6.2, )"
@@ -78,14 +82,14 @@
         }
       }
     },
-    "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO\\GO.csproj": {
+    "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO\\GO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO\\GO.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO\\GO.csproj",
         "projectName": "GO",
-        "projectPath": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO\\GO.csproj",
+        "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO\\GO.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Documents\\tryout project\\Get Organized\\GO\\GO\\obj\\",
+        "outputPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
@@ -118,6 +122,10 @@
         "netstandard2.1": {
           "targetAlias": "netstandard2.1",
           "dependencies": {
+            "Plugin.LocalNotification": {
+              "target": "Package",
+              "version": "[10.0.2, )"
+            },
             "Refractored.MvvmHelpers": {
               "target": "Package",
               "version": "[1.6.2, )"
