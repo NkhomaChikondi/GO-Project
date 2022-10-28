@@ -17,6 +17,8 @@ namespace GO.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Status { get; set; }
+        //for weeks that are created by the app (not the user)
+        public bool CreatedAutomatically { get; set; }
 
         [Indexed]
         public int GoalId { get; set; }

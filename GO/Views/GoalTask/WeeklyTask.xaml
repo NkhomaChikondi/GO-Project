@@ -128,10 +128,12 @@
                         <StackLayout HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="4" >
                             <Label Text="View Tasks For The Week" FontSize="Medium" FontAttributes="Bold"/>
                         </StackLayout>
+                        <Label x:Name="ATW" Text="This week was automatically created and it has no Tasks" Margin="0,20"  IsVisible="false"/>
 
-                        <StackLayout HorizontalOptions="StartAndExpand" Grid.ColumnSpan="4" Margin="0,15" >
+                        <StackLayout HorizontalOptions="StartAndExpand" Grid.ColumnSpan="4" Margin="0,15"  x:Name="Dowframe" >
                             <Frame CornerRadius="15" BorderColor="LightGray" HasShadow="True">
                                 <StackLayout Orientation="Horizontal" Spacing="15">
+                                   
                                     <StackLayout Orientation="Horizontal" >
 
                                         <Label Grid.Column="0" Grid.ColumnSpan="4">

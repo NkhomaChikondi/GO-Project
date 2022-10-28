@@ -96,16 +96,16 @@ namespace GO.ViewModels.Goals
 
 
                 };
-                if (newGoal.Start < DateTime.Today)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a goal cannot be on a date that has already surpassed", "OK");
-                    return;
-                }
-                if (newGoal.End < DateTime.Today)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "End date of a goal cannot be on a date that has already surpassed", "OK");
-                    return;
-                }
+                //if (newGoal.Start < DateTime.Today)
+                //{
+                //    await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a goal cannot be on a date that has already surpassed", "OK");
+                //    return;
+                //}
+                //if (newGoal.End < DateTime.Today)
+                //{
+                //    await Application.Current.MainPage.DisplayAlert("Alert", "End date of a goal cannot be on a date that has already surpassed", "OK");
+                //    return;
+                //}
 
                 // get all tasks in GoalId
                 var allGoals = await datagoal.GetGoalsAsync(CategoryId);
@@ -295,6 +295,7 @@ namespace GO.ViewModels.Goals
                 Active = true,
                 StartDate = start,
                 EndDate = enddate,
+                CreatedAutomatically = false,
                 Progress = 0,
                 Status = "Not Started",
                 GoalId = goalId

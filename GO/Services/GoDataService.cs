@@ -371,8 +371,8 @@ namespace GO.Services
                 EndDate = item.EndDate,
                 Progress = item.Progress,
                 Status = item.Status,
-                GoalId = item.GoalId
-
+                GoalId = item.GoalId,
+                CreatedAutomatically = item.CreatedAutomatically
             };
             await db.InsertAsync(week);
             return await Task.FromResult(true);
