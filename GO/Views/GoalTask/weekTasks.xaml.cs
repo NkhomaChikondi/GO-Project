@@ -57,8 +57,22 @@ namespace GO.Views.GoalTask
             selecteddowId = selectedDow.DOWId;
             // get all tasks having the selectedDow id
             var dowTasks = tasks.Where(T => T.DowId == selectedDow.DOWId).ToList();
+            if (dowTasks.Count() == 0)
+            {
+                WeekStackTasklist.IsVisible = false;
+                weekstacklayout.IsVisible = true;
+                weektasktoprow.IsVisible = false;
+                tasknameandlockedstack.IsVisible = false;
+            }
+            else
+            {
+                WeekStackTasklist.IsVisible = true;
+                weekstacklayout.IsVisible = false;
+                weektasktoprow.IsVisible = true;
+                tasknameandlockedstack.IsVisible = true;
+            }
             // check if week in active or not
-            if(week.Active)
+            if (week.Active)
             {
                 // check if the day is valid
                if(selectedDow.Name.Equals("Sunday"))
@@ -106,6 +120,7 @@ namespace GO.Views.GoalTask
                         }
                         statusname.Text = "Unlocked";
                         statusname.TextColor = Color.DarkGreen;
+
                     }
                     else
                     {
@@ -120,6 +135,8 @@ namespace GO.Views.GoalTask
                     // check the day for today
                     if (DateTime.Today.DayOfWeek <= DayOfWeek.Tuesday)
                     {
+                        statusname.Text = "Unlocked";
+                        statusname.TextColor = Color.DarkGreen;
                         // get all dows from the database having the weekid
                         var weekdows = await dataDow.GetDOWsAsync(week.Id);
                         //loop through the dows
@@ -131,8 +148,7 @@ namespace GO.Views.GoalTask
                                 dow.ValidDay = false;
                             await dataDow.UpdateDOWAsync(dow);
                         }
-                        statusname.Text = "Unlocked";
-                        statusname.TextColor = Color.DarkGreen;
+                       
                     }
                     else
                     {
@@ -261,20 +277,7 @@ namespace GO.Views.GoalTask
                
             }
 
-            if(dowTasks.Count() == 0)
-            {
-                WeekStackTasklist.IsVisible = false;
-                weekstacklayout.IsVisible = true;
-                weektasktoprow.IsVisible = false;
-                tasknameandlockedstack.IsVisible = false;
-            }
-            else
-            {
-                WeekStackTasklist.IsVisible = true;
-                weekstacklayout.IsVisible = false;
-                weektasktoprow.IsVisible = true;
-                tasknameandlockedstack.IsVisible = true;
-            }
+           
             bdall.BackgroundColor = Color.LightGray;
             if (BindingContext is WeeklyTaskViewModel wvm)
             {

@@ -87,9 +87,7 @@ namespace GO.ViewModels.TaskInGoals
                 // get the selected dow
                 var selecteddow = dows.Where(D => D.IsSelected).FirstOrDefault();
                 DayId = selecteddow.DOWId;
-
-            }
-               
+            }               
            
         }      
 
@@ -201,8 +199,17 @@ namespace GO.ViewModels.TaskInGoals
                 await dataTask.AddTaskAsync(newestTask);
                 // call the add percentage method
                 AddTaskPercent(lastweek);
-
-                
+                // chek if they are other tasks having the same day Id
+                var DbWeekTask = await dataTask.GetTasksAsync(goalId, newestTask.DowId);
+                // get the name of the day having dowId
+                var dbDow = await dataDow.GetDOWAsync(newestTask.DowId);
+                if (DbWeekTask.Count() == 1)
+                {
+                    var route = $"{nameof(WeeklyTask)}?weekId={newestTask.WeekId}";
+                    await Shell.Current.GoToAsync(route);
+                    await Application.Current.MainPage.DisplayAlert("Alert", $"A new task for {dbDow.Name}, has been added! tap on {dbDow.Name}'s view task's button to check it out.", "Ok");
+                }
+                else                
                 await Shell.Current.GoToAsync("..");
                 
             }
@@ -303,7 +310,7 @@ namespace GO.ViewModels.TaskInGoals
                     await dataTask.AddTaskAsync(newestTask);
                     // call send notification method
                     await SendNotification();
-                    var route = $"{nameof(GoalTaskPage)}?GoalId={goalId}";
+                    var route = $"{nameof(GoalTaskPage)}?goalId={goalId}";
                     await Shell.Current.GoToAsync(route);
                 }
                
@@ -387,7 +394,7 @@ namespace GO.ViewModels.TaskInGoals
             var tasks = await dataTask.GetTasksAsync(GoalId);
             // get the last goal
             var lastTask = tasks.ToList().LastOrDefault();
-            var TaskId = lastTask.Id + 1;
+            var TaskId = lastTask.Id;
           
             var notification = new NotificationRequest
             {
