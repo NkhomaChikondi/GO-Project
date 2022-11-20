@@ -32,11 +32,15 @@ namespace GO.Views.SubTaskView
             taskid = result;
             // get all subtasks having the tasks id
             var subtasks = await datasubtask.GetSubTasksAsync(result);
+            // check if the subtask is from weekly taskly task or not
+            // get the task from which this subtasks are created
+            var Task = await datatask.GetTaskAsync(result);
+           
             if(subtasks.Count() == 0)
             {
                 StackSubBlank.IsVisible = true;
                 StackSublist.IsVisible = false;
-                subtasktopRow.IsVisible = false;
+                subtasktopRow.IsVisible = false;                
             }
             else
             {

@@ -54,46 +54,75 @@ namespace GO.ViewModels.Subtasks
                
                 //get the task having the task id
                 var task = await dataTask.GetTaskAsync(getTaskId);
-                // create a new subtask object 
-                var newestSubtask = new Subtask
+                if (task.WeekId == 0)
                 {
-                    CreatedOn = DateTime.Now,
-                    Status = "Not Completed",
-                    SubEnd = endDate,
-                    SubStart = startDate,
-                    enddatetostring = endDate.ToLongDateString(),
-                    IsCompleted = false,
-                    SubName = UppercasedName,
-                    Percentage = 0,
-                    TaskId = getTaskId
-                };
-                //check if the new task already exist in the database
-                if (subTasks.Any(T => T.SubName == UppercasedName))
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
-                    return;
-                }
-                // check if task has week id 
-                if(task.WeekId == 0)
-                {
-                    //check if newestsubtask has got valid dates
-                    if (newestSubtask.SubEnd > task.EndTask)
+                    // create a new subtask object 
+                    var newestSubtask = new Subtask
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", $"The end date shouldn't be more than the task's End date ({task.enddatetostring})", "Ok");
+                        CreatedOn = DateTime.Now,
+                        Status = "Uncompleted",
+                        SubEnd = endDate,
+                        SubStart = startDate,
+                        Due_On = "Due On: ",
+                        enddatetostring = endDate.ToShortDateString(),
+                        IsCompleted = false,
+                        SubName = UppercasedName,
+                        Percentage = 0,
+                        TaskId = getTaskId
+                    };
+                    //check if the new task already exist in the database
+                    if (subTasks.Any(T => T.SubName == UppercasedName))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
                         return;
                     }
-                    else if(newestSubtask.SubStart > newestSubtask.SubEnd)
+                    // check if task has week id 
+                    if (task.WeekId == 0)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "Start date cannot be more than end date", "Ok");
-                        return;
-                    }                  
+                        //check if newestsubtask has got valid dates
+                        if (newestSubtask.SubEnd > task.EndTask)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error!", $"The end date shouldn't be more than the task's End date ({task.enddatetostring})", "Ok");
+                            return;
+                        }
+                        else if (newestSubtask.SubStart > newestSubtask.SubEnd)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error!", "Start date cannot be more than end date", "Ok");
+                            return;
+                        }
+                    }
+                    await dataSubTask.AddSubTaskAsync(newestSubtask);                    
+                        await SendNotification();
+                    await TaskEnabled(task);
+                    await Shell.Current.GoToAsync("..");
                 }
-
-                await dataSubTask.AddSubTaskAsync(newestSubtask);
-                if (task.WeekId == 0)
-                    await SendNotification();
-                await TaskEnabled(task);
-                await Shell.Current.GoToAsync("..");
+                else if(task.WeekId > 0)
+                {
+                     // create a new subtask object 
+                    var newestSubtask = new Subtask
+                    {
+                        CreatedOn = DateTime.Now,
+                        Status = "Uncompleted",
+                        SubEnd = endDate,
+                        Due_On = null,
+                        SubStart = startDate,
+                        enddatetostring =null,
+                        IsCompleted = false,
+                        SubName = UppercasedName,
+                        Percentage = 0,
+                        TaskId = getTaskId
+                    };
+                    //check if the new task already exist in the database
+                    if (subTasks.Any(T => T.SubName == UppercasedName))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
+                        return;
+                    }
+                    await dataSubTask.AddSubTaskAsync(newestSubtask);                   
+                    await TaskEnabled(task);
+                    await Shell.Current.GoToAsync("..");
+                }
+             
             }
             catch (Exception ex)
             {
@@ -121,8 +150,7 @@ namespace GO.ViewModels.Subtasks
                 NotificationId = getTaskId,
                 Schedule =
                     {
-                        //NotifyTime =lastSubtask.SubEnd,
-                         NotifyTime  = DateTime.Now.AddSeconds(20),
+                        NotifyTime =lastSubtask.SubEnd,                        
                     }
             };
             await LocalNotificationCenter.Current.Show(notification);
@@ -140,7 +168,7 @@ namespace GO.ViewModels.Subtasks
                 task.IsCompleted = false;
                 await dataTask.UpdateTaskAsync(task);
             }
-            else if (task.IsEnabled == false)
+            else if (!task.IsEnabled)
                 return;
         }
 

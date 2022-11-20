@@ -108,22 +108,22 @@
 
                                             <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"  Orientation="Vertical" >
                                                 <Label Grid.Row="0" Grid.Column="0"  Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium"></Label>
-                                                <StackLayout Orientation="Horizontal">
-                                                    <ProgressBar  Margin="12,0,-130,0" HorizontalOptions="CenterAndExpand"
+                                                <StackLayout Orientation="Horizontal" Margin="10,0,-10,0">
+                                                    <ProgressBar  Margin="18,0,-125,0" HorizontalOptions="CenterAndExpand"
                                                         x:Name = "goalprogresbar"                                                                      
                                                         Progress = "{Binding Progress}"
                                                         FlowDirection = "LeftToRight"                                                                                                 
                                                         ProgressColor = "#e76f51"
-                                                        ScaleX = "3.9"
+                                                        ScaleX = "3.7"
                                                         ScaleY = "2"   
                                                                       
                                                     />
-                                                    <Label Grid.Column=" 4" Grid.Row="0" Margin="195,0,0,0"
+                                                    <Label Grid.Column=" 4" Grid.Row="0" Margin="190,0,0,0"
                                                        HorizontalTextAlignment="Start" >
                                                         <Label.FormattedText>
                                                             <FormattedString >
                                                                 <Span Text="{Binding Percentage}" FontSize="Small" />
-                                                                <Span Text="%  " FontSize="Small"   />
+                                                                <Span Text="% " FontSize="Small"   />
                                                             </FormattedString>
                                                         </Label.FormattedText>
                                                     </Label>

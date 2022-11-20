@@ -12,6 +12,7 @@ namespace GO.Models
         public string SubName { get; set; }
         public DateTime SubStart { get; set; }
         public DateTime SubEnd { get; set; }
+        public string Due_On { get; set; }
         public double Percentage { get; set; }
         public int RemainingDays { get; set; }
         public DateTime CreatedOn { get; set; }

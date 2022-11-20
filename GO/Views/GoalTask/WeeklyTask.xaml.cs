@@ -98,7 +98,11 @@ namespace GO.Views.GoalTask
                 {
                     //check if it is equal to vmweekid
                     if(weeek.Id == vm.WeekId)
-                      Isvalid = true;               
+                    {
+                        Isvalid = true;
+                        PopulateData(weeek);
+                    }
+                      
                 }
 
                 if(!Isvalid)
@@ -162,35 +166,45 @@ namespace GO.Views.GoalTask
                     wvm.WeekId = lastweek.Id;
                     PopulateData(lastweek);
                 }
-            }
-                
-            newWeekNumber += 1;
-          
-                 
-                          
-            
+            }                
+                                  
         }
         // for right chevron
         private async void ImageButton_Clicked_1(object sender, EventArgs e)
-        {          
-            newWeekNumber +=  1;
-            // get all weeks and get the one whose week number equals the newweeknumber
-            var weeks = await dataWeek.GetWeeksAsync(GetWeek.GoalId);
-            if(newWeekNumber > GetWeek.WeekNumber)
-            {
-                newWeekNumber -= 1;
-                await Application.Current.MainPage.DisplayAlert("Alert", "No weeks left", "OK");
-                return;
+        {     
+            if(BindingContext is WeeklyTaskViewModel wvm)
+            {              
+                // get the week that is having the wvm weekid
+                var rightweek = await dataWeek.GetWeekAsync(wvm.WeekId);
+                // get all weeks in this goal
+                var goalweeks = await dataWeek.GetWeeksAsync(rightweek.GoalId);
+                // get all the weeks that are coming rightweek
+                var Upweek = goalweeks.Where(w => w.Id > rightweek.Id).FirstOrDefault();
+                if(Upweek == null)
+                {
+                    newWeekNumber = rightweek.WeekNumber;
+                    await Application.Current.MainPage.DisplayAlert("Alert", "No weeks left", "OK");
+                    return;
+                }
+                else 
+                {
+                    newWeekNumber = Upweek.WeekNumber;
+                    wvm.WeekId = Upweek.Id;
+                    PopulateData(Upweek);
+                }
+
             }
-            var week = weeks.Where(g => g.WeekNumber == newWeekNumber).FirstOrDefault();
-            if (BindingContext is WeeklyTaskViewModel Wvm)
-                Wvm.WeekId = week.Id;
-             PopulateData(week);           
+           
 
         }
         // a method for populating data to the view
        async void PopulateData( Week week)
        {
+            //calculate the weeks percentage
+            if(BindingContext is WeeklyTaskViewModel wvm)
+            {
+                await wvm.CalculateTotalWeekPercentage(week);
+            }
             // chec if the week is active
             if (week.Active)
             {
@@ -246,7 +260,10 @@ namespace GO.Views.GoalTask
                 else if (dow.Name == "Saturday")
                     SatId = dow.DOWId;
             }
-            var sundayTasks = await DataTask.GetTasksAsync(week.GoalId, SunId);
+            // get all  tasks having the goal id and week id
+            var weekTasks = await DataTask.GetTasksAsync(week.GoalId, week.Id);
+
+            var sundayTasks = weekTasks.Where(w => w.DowId == SunId).ToList();
             if (sundayTasks.Count() == 0)
             {
                 if (week.Active)
@@ -296,7 +313,7 @@ namespace GO.Views.GoalTask
             SunId = 0;
 
 
-            var mondayTasks = await DataTask.GetTasksAsync(week.GoalId, MonId);
+            var mondayTasks = weekTasks.Where(w => w.DowId == MonId).ToList();
             if (mondayTasks.Count() == 0)
             {
                 if (week.Active)
@@ -342,7 +359,7 @@ namespace GO.Views.GoalTask
             MonId = 0;
 
 
-            var tuesdayTasks = await DataTask.GetTasksAsync(week.GoalId, TueId);
+            var tuesdayTasks = weekTasks.Where(w => w.DowId == TueId).ToList();
             if (tuesdayTasks.Count() == 0)
             {
                 if (week.Active)
@@ -387,7 +404,7 @@ namespace GO.Views.GoalTask
             TueId = 0;
 
 
-            var wednesdayTasks = await DataTask.GetTasksAsync(week.GoalId, WedId);
+            var wednesdayTasks = weekTasks.Where(w => w.DowId == WedId).ToList();
             if (wednesdayTasks.Count() == 0)
             {
                 if (week.Active)
@@ -433,7 +450,7 @@ namespace GO.Views.GoalTask
             WedId = 0;
 
 
-            var thursdayTasks = await DataTask.GetTasksAsync(week.GoalId, ThurId);
+            var thursdayTasks = weekTasks.Where(w => w.DowId == ThurId).ToList();
             if (thursdayTasks.Count() == 0)
             {
                 if (week.Active)
@@ -478,7 +495,7 @@ namespace GO.Views.GoalTask
             thutotalPercetage = 0;
             ThurId = 0;
 
-            var fridayTasks = await DataTask.GetTasksAsync(week.GoalId, FriId);
+            var fridayTasks = weekTasks.Where(w => w.DowId == FriId).ToList();
             if (fridayTasks.Count() == 0)
             {
                 if (week.Active)
@@ -523,7 +540,7 @@ namespace GO.Views.GoalTask
             fritotalPercetage = 0;
             FriId = 0;
 
-            var saturdayTasks = await DataTask.GetTasksAsync(week.GoalId, SatId);
+            var saturdayTasks = weekTasks.Where(w => w.DowId == SatId).ToList();
             if (saturdayTasks.Count() == 0)
             {
                 if (week.Active)

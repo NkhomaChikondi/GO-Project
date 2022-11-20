@@ -81,45 +81,110 @@ namespace GO.Views.GoalTask
                         EndTask = EndPicker.Date
                      
                 };
+                // get goal from the goal table through the given Id
+                var TaskInGoalId = await dataGoal.GetGoalAsync(GoalTask.GoalId);
                 // get all tasks in GoalId
                 var alltasks = await dataTask.GetTasksAsync(GoalTask.Id);
-                    // change the first letter of the Task name to upercase
+                // change the first letter of the Task name to upercase
                 var UppercasedName = char.ToUpper(newtask.taskName[0]) + newtask.taskName.Substring(1);
-                    //check if the new task already exist in the database
-                 if (alltasks.Any(T => T.taskName == UppercasedName))
-                  {
-                     await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
-                     return;
-                  }
-                    // get goal from the goal table through the given Id
-                    var TaskInGoalId = await dataGoal.GetGoalAsync(GoalTask.GoalId);
-                    // verify if the Start date and end date are within the duration of its selected goal
-                    if (newtask.StartTask >= TaskInGoalId.Start && newtask.EndTask <= TaskInGoalId.End)
-                    {
-                        TimeSpan ts = newtask.EndTask - newtask.StartTask;
-                        remainingDays = (int)ts.TotalDays;
-                    }
-                    else
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error!", " make sure the Start date and end date are within the duration of its selected goal", "OK");
-                        return;
-                    }
-                   if(newtask.EndTask > task.EndTask)
-                   {
-                    //cancel task notification
-                    LocalNotificationCenter.Current.Cancel(task.Id);
-                  
-                   }
-                if (newtask.EndTask > task.EndTask)
+
+                // check if the name doesnt already exist in the database
+                if (task.taskName != UppercasedName)
                 {
-                    // make sure tasks end date is not surpassing goals end date
-                    if (newtask.EndTask > TaskInGoalId.End)
+                    //check if the new task already exist in the database
+                    if (alltasks.Any(T => T.taskName == UppercasedName))
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", $"Failed to update task! make sure the selected task's end date is not more than {TaskInGoalId.enddatetostring}", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
                         return;
                     }
                 }
-                else if (newtask.EndTask < task.EndTask)
+                // get goal from which the task is created
+                var goal = await dataGoal.GetGoalAsync(task.GoalId);
+                // check if the updated start date is not equal to that from the database
+                if(newtask.StartTask.Date != task.StartTask.Date)
+                {
+                    if(DateTime.Today > task.StartTask)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "You cannot change start date of a task that has already started", "Ok");
+                        return;
+                    }
+                    if(newtask.StartTask > newtask.EndTask)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "Task's start date cannot be more than task's end date.", "Ok");
+                        return;
+                    }
+                    else if(DateTime.Today < task.StartTask)
+                    {
+                        // make sure startday is not more than end date
+                        if (newtask.StartTask > newtask.EndTask)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Alert", "Task's start date cannot be more than Task's end date.", "Ok");
+                            return;
+                        }
+                    }
+                    else if (newtask.StartTask < DateTime.Today)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a task cannot be less than the date of today.", "Ok");
+                        return;
+                    }
+                }
+                // check if newtask end date is not more than goal end date
+                if (newtask.EndTask > goal.End)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", $"End date of a task, cannot be more than goal's end date ({goal.enddatetostring}).", "Ok");
+                    return;
+                }      
+                // check if the changed end date is below the date of today
+                if(newtask.EndTask < DateTime.Today)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "An updated End Date of a task, cannot be below the date of today", "Ok");
+                    return;
+                }
+                // check if the task has expired
+                if(newtask.EndTask != task.EndTask)                  
+                {
+                     // make sure you cannot expand the end date of a task that has expired whilst it was completed
+                    if (task.IsCompleted && task.Status == "Expired")
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "Cannot change the end date of a task that has expired whilst completed", "Ok");
+                        return;
+                    }
+                    else if (task.IsCompleted)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "You cannot make end date changes to a task that has already been completed, unless, you add more subtasks.", "Ok");
+                        return;
+                    }
+                   
+
+                    else if (DateTime.Today > task.EndTask && newtask.EndTask > task.EndTask)
+                    {
+                        
+                        var result = await Application.Current.MainPage.DisplayAlert("Alert", "You are adding days to a task that has expired. Continue?", "Yes", "No");
+                        if (result)
+                        {
+                            // get subtasks having the task's id
+                            var subtasks = await datasubTask.GetSubTasksAsync(task.Id);
+                            if (subtasks.Count() > 0)
+                                task.Status = "In Progress";
+                            else if (subtasks.Count() == 0)
+                                task.Status = "Not Started";
+                        }
+                        else if (!result)
+                            return;
+                        
+                        
+                    }
+                        
+                }
+                                         
+                if(newtask.EndTask > task.EndTask)
+                {
+                //cancel task notification
+                LocalNotificationCenter.Current.Cancel(task.Id);
+                  
+                }
+              
+                if (newtask.EndTask < task.EndTask)
                 {
                     // check if they are no subtasks whose end date surpasses the tasks end date
                     // get tasks having the goals id
@@ -138,28 +203,29 @@ namespace GO.Views.GoalTask
                         return;
                     }
                 }
-               
+
                 var newTask = new Models.GoalTask
-                    {
-                        Id = GoalTask.Id,
-                        taskName = UppercasedName,
-                        Description = DescEditor.Text,
-                        CreatedOn = Convert.ToDateTime(Createdlbl.Text),
-                        Status = Statuslbl.Text,
-                        StartTask = GoalTask.StartTask,
-                        EndTask = EndPicker.Date,
-                        DowId = GoalTask.DowId,
-                        RemainingDays = remainingDays,
-                        GoalId = GoalTask.GoalId,
-                        IsCompleted = GoalTask.IsCompleted,
-                        CompletedSubtask = GoalTask.CompletedSubtask,
-                        IsEnabled = GoalTask.IsEnabled,
-                        IsNotVisible = GoalTask.IsNotVisible,
-                        IsVisible = GoalTask.IsVisible,
-                        PendingPercentage = GoalTask.PendingPercentage,
-                        Percentage = GoalTask.Percentage,
-                        Progress = GoalTask.Progress,
-                        WeekId = GoalTask.WeekId
+                {
+                    Id = GoalTask.Id,
+                    taskName = UppercasedName,
+                    Description = DescEditor.Text,
+                    CreatedOn = Convert.ToDateTime(Createdlbl.Text),
+                    Status = Statuslbl.Text,
+                    StartTask = GoalTask.StartTask,
+                    EndTask = EndPicker.Date,
+                    DowId = GoalTask.DowId,
+                    RemainingDays = remainingDays,
+                    GoalId = GoalTask.GoalId,
+                    IsCompleted = GoalTask.IsCompleted,
+                    CompletedSubtask = GoalTask.CompletedSubtask,
+                    IsEnabled = GoalTask.IsEnabled,
+                    IsNotVisible = GoalTask.IsNotVisible,
+                    IsVisible = GoalTask.IsVisible,
+                    PendingPercentage = GoalTask.PendingPercentage,
+                    Percentage = GoalTask.Percentage,
+                    Progress = GoalTask.Progress,
+                    WeekId = GoalTask.WeekId,
+                    enddatetostring = EndPicker.Date.ToShortDateString()
                     };
 
                 // add the new task to the database                

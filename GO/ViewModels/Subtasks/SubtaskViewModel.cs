@@ -211,11 +211,26 @@ namespace GO.ViewModels.Subtasks
         {
             // get the subtask equal to subtaskId
             var subtask = await dataSubTask.GetSubTaskAsync(SubtaskId);
-
+            // get task having this subtask
+            var taskOfSubtask = await dataTask.GetTaskAsync(subtask.TaskId);
+           
             if (subtask.IsCompleted)
                 return;
             else if(!subtask.IsCompleted)
             {
+                // check if it has expired
+                if (taskOfSubtask.Status == "Expired")
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot complete a subtask whose task has expired.", "Ok");
+                    return;
+                }
+                // check if the subtask has expired
+                if (subtask.Status == "Expired")
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot complete a subtask that has expired.", "Ok");
+                    return;
+                }
+
                 // get the task equal to to subtasks taskId
                 var task = await dataTask.GetTaskAsync(subtask.TaskId);
                 // check if task dayis is greater than zero
@@ -258,11 +273,26 @@ namespace GO.ViewModels.Subtasks
         {
             // get the subtask equal to subtaskId
             var subtask = await dataSubTask.GetSubTaskAsync(SubtaskId);
-
+            // get task having this subtask
+            var taskOfSubtask = await dataTask.GetTaskAsync(subtask.TaskId);
+           
             if (!subtask.IsCompleted)
                 return;
+
             else if (subtask.IsCompleted)
             {
+                // check if it has expired
+                if (taskOfSubtask.Status == "Expired")
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot uncomplete a subtask whose task has has expired.", "Ok");
+                    return;
+                }
+                // check if the subtask has expired
+                if (subtask.Status == "Expired")
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot uncomplete a subtask that has expired.", "Ok");
+                    return;
+                }
                 // get the task equal to to subtasks taskId
                 var task = await dataTask.GetTaskAsync(subtask.TaskId);
                 // check if task dayis is greater than zero
@@ -275,7 +305,7 @@ namespace GO.ViewModels.Subtasks
                     if (week.Active)
                     {
                         subtask.IsCompleted = IsComplete;
-                        subtask.Status = "Not Completed";
+                        subtask.Status = "Uncompleted";
                         await dataSubTask.UpdateSubTaskAsync(subtask);
                         await CheckTaskCompletion(task);
                         await setStatus();
@@ -292,7 +322,7 @@ namespace GO.ViewModels.Subtasks
                 else
                 {
                     subtask.IsCompleted = IsComplete;
-                    subtask.Status = "Not Completed";
+                    subtask.Status = "Uncompleted";
                     await dataSubTask.UpdateSubTaskAsync(subtask);
                     await CheckTaskCompletion(task);
                     await GetCompletedTasks();
@@ -339,7 +369,7 @@ namespace GO.ViewModels.Subtasks
             foreach (var subtask in Allsubtask)
             {
                 if (!subtask.IsCompleted && DateTime.Today <= subtask.SubEnd)
-                    subtask.Status = "Not Completed";               
+                    subtask.Status = "Uncompleted";               
 
                 else if (subtask.IsCompleted && DateTime.Today <= subtask.SubEnd)
                     subtask.Status = "Completed";

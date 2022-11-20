@@ -322,12 +322,14 @@ namespace GO.ViewModels.TaskInGoals
                 foreach (var task in tasks)
                 {
                     //calculate task percentage
-                    task.Percentage = 100 / tasks.Count();
-                   // await dataTask.UpdateTaskAsync(task);
+                    task.Percentage = 100.0 / tasks.Count();
+                
                     // get subtasks for this tasks
                     var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
                     if (subtasks.Count() > 0)
                     {
+                        if (subtasks.Any(S => S.Status == "Uncompleted"))
+                            task.IsCompleted = false;
                         if (subtasks.Any(S => S.IsCompleted))
                         {
                             // get all completed subtasks
@@ -425,9 +427,10 @@ namespace GO.ViewModels.TaskInGoals
             IsBusy = true;
             var tasks = await dataTask.GetTasksAsync(goalId);           
             goalTasks.Clear();
-            await Getremainingdays();
-            await SetStatus();
+            //await Getremainingdays();
             await AssignTaskPercentage();
+            await SetStatus();
+           
 
             if (all)
                 // retrieve the categories back

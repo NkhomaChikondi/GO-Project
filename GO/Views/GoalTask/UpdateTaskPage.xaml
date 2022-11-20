@@ -164,7 +164,7 @@
                                                     </StackLayout>
                                                     <StackLayout Orientation="Vertical">
 
-                                                        <DatePicker x:Name="StartPicker" IsEnabled="False" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
+                                                        <DatePicker x:Name="StartPicker"  Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
                                                     </StackLayout>
 
                                                 </StackLayout>

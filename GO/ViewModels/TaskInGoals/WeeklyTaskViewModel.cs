@@ -356,7 +356,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
             // check if week is active
             if (week.Active)
             {
@@ -386,10 +386,11 @@ namespace GO.ViewModels.TaskInGoals
                
             }
             else if(!week.Active)
-            {                
-                if (tasks.Count() == 0)
+            {   // get tasks for this days
+                var sundayTasks = tasks.Where(d => d.DowId == dowId).ToList();
+                if (sundayTasks.Count() == 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "This week expired with 0 Tasks for Sunday", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They are no tasks to view for Sunday.", "Ok");
                     return;
                 }
                 else
@@ -423,7 +424,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
             // check if week is active
             if (week.Active)
             {
@@ -454,9 +455,10 @@ namespace GO.ViewModels.TaskInGoals
             }
             else if (!week.Active)
             {
-                if (tasks.Count() == 0)
+                var mondayTasks = tasks.Where(d => d.DowId == dowId).ToList();
+                if (mondayTasks.Count() == 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for Monday", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "There no tasks to view for Monday.", "Ok");
                     return;
                 }
                 else
@@ -490,7 +492,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
             // check if week is active
             if (week.Active)
             {
@@ -521,9 +523,10 @@ namespace GO.ViewModels.TaskInGoals
             }
             else if (!week.Active)
             {
-                if (tasks.Count() == 0)
+                var tuesdayTasks = tasks.Where(d => d.DowId == dowId).ToList();
+                if (tuesdayTasks.Count() == 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for Tuesday", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They are no tasks to view for Tuesday", "Ok");
                     return;
                 }
                 else
@@ -556,7 +559,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
             // check if week is active
             if (week.Active)
             {
@@ -587,9 +590,10 @@ namespace GO.ViewModels.TaskInGoals
             }
             else if (!week.Active)
             {
-                if (tasks.Count() == 0)
+                var wednesdayTasks = tasks.Where(d => d.DowId == dowId).ToList();
+                if (wednesdayTasks.Count() == 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for wednesday", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They are no tasks to view for wednesday", "Ok");
                     return;
                 }
                 else
@@ -624,7 +628,8 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
+            
             // check if week is active
             if (week.Active)
             {
@@ -655,9 +660,10 @@ namespace GO.ViewModels.TaskInGoals
             }
             else if (!week.Active)
             {
-                if (tasks.Count() == 0)
+                var thursdayTasks = tasks.Where(d => d.DowId == dowId).ToList();
+                if (thursdayTasks.Count() == 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for Thursday", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They are no tasks to view for Thursday", "Ok");
                     return;
                 }
                 else
@@ -691,7 +697,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
             // check if week is active
             if (week.Active)
             {
@@ -722,9 +728,10 @@ namespace GO.ViewModels.TaskInGoals
             }
             else if (!week.Active)
             {
-                if (tasks.Count() == 0)
+                var fridayTasks = tasks.Where(d => d.DowId == dowId).ToList();
+                if (fridayTasks.Count() == 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for Friday", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They are no tasks to view for Friday", "Ok");
                     return;
                 }
                 else
@@ -737,7 +744,6 @@ namespace GO.ViewModels.TaskInGoals
         }
         async Task satButton()
         {
-
             // get week having the weekid
             var week = await dataWeek.GetWeekAsync(weekId);
             var dows = await dataDow.GetDOWsAsync(weekId);
@@ -758,7 +764,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
             // check if week is active
             if (week.Active)
             {
@@ -789,9 +795,10 @@ namespace GO.ViewModels.TaskInGoals
             }
             else if (!week.Active)
             {
-                if (tasks.Count() == 0)
+                var saturdayTasks = tasks.Where(d => d.DowId == dowId).ToList();
+                if (saturdayTasks.Count() == 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "They're no tasks to view for saturday", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "They are no tasks to view for saturday", "Ok");
                     return;
                 }
                 else
@@ -973,7 +980,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataTask.UpdateTaskAsync(task);
             }
         }        
-        async Task CalculateTotalWeekPercentage(Week week)
+       public async Task CalculateTotalWeekPercentage(Week week)
         {
             var getweeks = await dataWeek.GetWeeksAsync(GoalId);            
             double TaskPercentage = 0;
@@ -984,33 +991,37 @@ namespace GO.ViewModels.TaskInGoals
             var tasks = await dataTask.GetTasksAsync(GoalId);
             // get all tasks having the week id
             var weekTasks = tasks.Where(T => T.WeekId == week.Id).ToList();
-            // loop through the tasks
-            foreach(var task in weekTasks)
+            if (weekTasks.Count() == 0)
+                return;
+            else
             {
-                //check if task is completed
-                if (task.IsCompleted)
+                // loop through the tasks
+                foreach (var task in weekTasks)
                 {
-                    TaskPercentage += task.Percentage;
-
-                }
-                else if (!task.IsCompleted)
-                {
-                    // check task has subtasks
-                    //get all subtasks having the tasks Id
-                    var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-
-                    if (subtasks.Count() > 0)
+                    //check if task is completed
+                    if (task.IsCompleted)
                     {
-                        // get the task's pending percentage
-                        subtaskpercentage += task.PendingPercentage;
+                        TaskPercentage += task.Percentage;
+                    }
+                    else if (!task.IsCompleted)
+                    {
+                        // check task has subtasks
+                        //get all subtasks having the tasks Id
+                        var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+
+                        if (subtasks.Count() > 0)
+                        {
+                            // get the task's pending percentage
+                            subtaskpercentage += task.PendingPercentage;
+                        }
                     }
                 }
+                Accumulated = TaskPercentage + subtaskpercentage;
+                if (weekTasks.All(A => A.IsCompleted))
+                    Accumulated = week.TargetPercentage;
+                week.AccumulatedPercentage = Math.Round(Accumulated, 1);
+                week.Progress = week.AccumulatedPercentage / week.TargetPercentage;
             }
-            Accumulated = TaskPercentage + subtaskpercentage;
-            if (weekTasks.All(A => A.IsCompleted))
-                Accumulated = week.TargetPercentage;
-            week.AccumulatedPercentage = Math.Round(Accumulated, 1);
-            week.Progress = week.AccumulatedPercentage / week.TargetPercentage;
             // check if todays date is less than the weeks end date and update status accordingly
             if (DateTime.Today < week.EndDate)
             {
@@ -1031,37 +1042,20 @@ namespace GO.ViewModels.TaskInGoals
                 Accumulated = 0;               
                 
             
-        }
-
-        async Task Getremainingdays()
-        {
-            var tasks = await dataTask.GetTasksAsync(goalId);
-            foreach (var task in tasks)
-            {
-                if (DateTime.Today <= task.EndTask)
-                {
-                    TimeSpan daysleft = task.EndTask - DateTime.Today;
-                    task.RemainingDays = (int)daysleft.TotalDays;
-                }
-                else
-                    task.RemainingDays = 0;
-                await dataTask.UpdateTaskAsync(task);
-
-            }
-        }
-       
+        }       
         public async Task Refresh()
         {           
             IsBusy = true;          
             await CreateDOW();
-            //await CalculateSubtaskPercentage();          
-           // dows.Clear();
+            await CalculateSubtaskPercentage();
+                     // dows.Clear();
             dowTasks.Clear();      
             //var Dows = await dataDow.GetDOWsAsync();
-            var tasks = await dataTask.GetTasksAsync(goalId, dowId);
+            var tasks = await dataTask.GetTasksAsync(goalId, weekId);
+            var dayTasks = tasks.Where(T => T.DowId == DowId).ToList();
             if (all)
                 // retrieve the categories back
-                dowTasks.AddRange(tasks);
+                dowTasks.AddRange(dayTasks);
 
             //filter goals
             else if (notstarted)
@@ -1071,14 +1065,14 @@ namespace GO.ViewModels.TaskInGoals
             }
             else if (completed)
             {
-                var completedtasks = tasks.Where(g => g.IsCompleted).ToList();
+                var completedtasks = dayTasks.Where(g => g.IsCompleted).ToList();
                 dowTasks.AddRange(completedtasks);
             }
             else if(withSubtasks)
             {
                 List<GoalTask> tasklist = new List<GoalTask>();
                 //loop through the tasks
-                foreach(var Task in tasks)
+                foreach(var Task in dayTasks)
                 {
                     // get tasks that have subtasks
                     var subtasks = await dataSubTask.GetSubTasksAsync(Task.Id);
@@ -1091,7 +1085,7 @@ namespace GO.ViewModels.TaskInGoals
             }
             else if (inprogress)
             {
-                var inprogressTasks = tasks.Where(g => g.Status == "In Progress").ToList();
+                var inprogressTasks = dayTasks.Where(g => g.Status == "In Progress").ToList();
                 dowTasks.AddRange(inprogressTasks);
             }         
            // await Getremainingdays();           

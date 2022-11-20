@@ -224,11 +224,11 @@ namespace GO.Services
             var allTasks = await db.Table<GoalTask>().Where(g => g.GoalId == Id).ToListAsync();
             return allTasks;
         }
-        public async Task<IEnumerable<GoalTask>> GetTasksAsync(int Id, int dowid, bool forceRefresh = false)
+        public async Task<IEnumerable<GoalTask>> GetTasksAsync(int Id, int weekid, bool forceRefresh = false)
         {
             await Init();
             // get all goals in the database
-            var allTasks = await db.Table<GoalTask>().Where(g => g.GoalId == Id).Where(t => t.DowId == dowid).ToListAsync();
+            var allTasks = await db.Table<GoalTask>().Where(g => g.GoalId == Id).Where(t => t.WeekId == weekid).ToListAsync();
             return allTasks;
         }
 
@@ -249,6 +249,7 @@ namespace GO.Services
                 Percentage = item.Percentage,
                 IsCompleted = item.IsCompleted,
                 Status = item.Status,
+                Due_On = item.Due_On,
                 enddatetostring = item.enddatetostring,
                 TaskId = item.TaskId
             };
@@ -385,9 +386,12 @@ namespace GO.Services
             return await Task.FromResult(true);
         }
 
-        public Task<bool> DeleteWeekAsync(int id)
+        public async Task<bool> DeleteWeekAsync(int id)
         {
-            throw new NotImplementedException();
+            await Init();
+            // Remove the selected subtask item from the database
+            var deleteweek = await db.DeleteAsync<Week>(id);
+            return await Task.FromResult(true);
         }
 
         public async Task<Week> GetWeekAsync(int id)

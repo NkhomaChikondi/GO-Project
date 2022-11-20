@@ -119,13 +119,16 @@ namespace GO.ViewModels.TaskInGoals
                 //{
                 //    await Application.Current.MainPage.DisplayAlert("Alert","Cannot create ")
                 //}
-                
+                var week = await dataWeek.GetWeeksAsync(goalId);
+                // get the last inserted week
+                var lastweek = week.ToList().LastOrDefault();
                 // get all tasks in GoalId
-                var alltasks = await dataTask.GetTasksAsync(goalId);
+                var alltasks = await dataTask.GetTasksAsync(goalId,lastweek.Id);
+                var dowtask = alltasks.Where(D => D.DowId == DayId).ToList();
                 // change the first letter of the Task name to upercase
                 var UppercasedName = char.ToUpper(newtask.taskName[0]) + newtask.taskName.Substring(1);
                 //check if the new task already exist in the database
-                if (alltasks.Any(T => T.taskName == UppercasedName))
+                if (dowtask.Any(T => T.taskName == UppercasedName))
                 {
                     await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
                     return;
@@ -139,9 +142,7 @@ namespace GO.ViewModels.TaskInGoals
                   //await AddweekTaskPercentage();
                 // check if goal has week or not
                 // get last inserted week in "this" goal
-                var week = await dataWeek.GetWeeksAsync(goalId);
-                // get the last inserted week
-                var lastweek = week.ToList().LastOrDefault();
+               
                 if (DateTime.Today >= lastweek.StartDate && DateTime.Today <= lastweek.EndDate)
                 {
                     // set lastinsertedWeek to active
@@ -199,15 +200,14 @@ namespace GO.ViewModels.TaskInGoals
                 await dataTask.AddTaskAsync(newestTask);
                 // call the add percentage method
                 AddTaskPercent(lastweek);
-                // chek if they are other tasks having the same day Id
-                var DbWeekTask = await dataTask.GetTasksAsync(goalId, newestTask.DowId);
+                
                 // get the name of the day having dowId
                 var dbDow = await dataDow.GetDOWAsync(newestTask.DowId);
-                if (DbWeekTask.Count() == 1)
+                if (dowtask.Count() == 0)
                 {
                     var route = $"{nameof(WeeklyTask)}?weekId={newestTask.WeekId}";
                     await Shell.Current.GoToAsync(route);
-                    await Application.Current.MainPage.DisplayAlert("Alert", $"A new task for {dbDow.Name}, has been added! tap on {dbDow.Name}'s view task's button to check it out.", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert", $"A new task for {dbDow.Name}, has been added! tap on {dbDow.Name}'s view task button, to check it out.", "Ok");
                 }
                 else                
                 await Shell.Current.GoToAsync("..");
@@ -273,11 +273,11 @@ namespace GO.ViewModels.TaskInGoals
                         RemainingDays = (int)ts.TotalDays;
 
                     }
-                    else
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error!", $" Make sure the start and end date are on/ within the goal's start and end date (From {TaskInGoalId.Start.ToLongDateString()} to {TaskInGoalId.End.ToLongDateString()}", "OK");
-                        return;
-                    }
+                    //else
+                    //{
+                    //    await Application.Current.MainPage.DisplayAlert("Error!", $" Make sure the start and end date are on/ within the goal's start and end date. (From {TaskInGoalId.Start.ToLongDateString()} to {TaskInGoalId.End.ToLongDateString()}", "OK");
+                    //    return;
+                    //}
                     if (newtask.Description == null)
                         newtask.Description = $"No Description for {newtask.taskName}";
 
@@ -310,8 +310,9 @@ namespace GO.ViewModels.TaskInGoals
                     await dataTask.AddTaskAsync(newestTask);
                     // call send notification method
                     await SendNotification();
-                    var route = $"{nameof(GoalTaskPage)}?goalId={goalId}";
-                    await Shell.Current.GoToAsync(route);
+                    //var route = $"{nameof(GoalTaskPage)}?goalId={goalId}";
+                    //await Shell.Current.GoToAsync(route);
+                    await Shell.Current.GoToAsync("..");
                 }
                
             }
@@ -393,19 +394,17 @@ namespace GO.ViewModels.TaskInGoals
             // get all tasks having goal id
             var tasks = await dataTask.GetTasksAsync(GoalId);
             // get the last goal
-            var lastTask = tasks.ToList().LastOrDefault();
-            var TaskId = lastTask.Id;
-          
+            var lastTask = tasks.ToList().LastOrDefault();            
             var notification = new NotificationRequest
             {
                 BadgeNumber = 1,
                 Description = $"Task '{lastTask.taskName}' is Due today!",
                 Title = "Due-Date!",
-                NotificationId = TaskId,
+                NotificationId = lastTask.Id,
                 Schedule =
                     {
-                        //NotifyTime =lastTask.EndTask,
-                         NotifyTime  = DateTime.Now.AddSeconds(20),
+                        NotifyTime =lastTask.EndTask,
+                       
                     }
             };
             await LocalNotificationCenter.Current.Show(notification);

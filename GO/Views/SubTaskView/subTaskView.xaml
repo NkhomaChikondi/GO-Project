@@ -91,28 +91,29 @@
                                     <Grid  Padding="2" HorizontalOptions="FillAndExpand">
                                         <RelativeLayout VerticalOptions="Center"/>
 
-                                        <Switch Grid.Column="4"
+                                        <Switch Grid.Column="4"                                               
                                         x:Name="switchTask"
                                        IsToggled="{Binding IsCompleted,Mode=TwoWay}"
                                         
                                         Toggled="switchTask_Toggled">
 
                                         </Switch>
-                                        <Label Grid.Column=" 0" Grid.ColumnSpan="4" Grid.Row="0" x:Name="label"  
+                                        <Label Grid.Column=" 0" Grid.ColumnSpan="4" Grid.Row="0"  
                                          FontSize="Small"
                                                HorizontalTextAlignment="Start">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="{Binding SubName}" FontSize="Medium" FontAttributes="Bold" />
                                                     <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="{Binding Status}" FontSize="15"  FontAttributes="Bold" TextColor="#adb5bd"  />
+                                                    <Span Text="{Binding Status}" x:Name="subStatuss" FontSize="15"  FontAttributes="Bold" TextColor="#adb5bd"  />
                                                     <Span Text="   "/>
-                                                    <Span Text="Due On: " FontSize="15" FontAttributes="Bold" TextColor="#adb5bd"  />
-                                                    <Span Text="{Binding enddatetostring}" FontSize="15" FontAttributes="Bold" TextColor="#adb5bd"  />
+                                                    <Span Text="{Binding  Due_On} " FontSize="15" x:Name="dueon" FontAttributes="Bold" TextColor="#adb5bd"  />
+                                                    <Span Text="{Binding enddatetostring}" x:Name="Subenddate"  FontSize="15"  FontAttributes="Bold" TextColor="#adb5bd"  />
                                                   
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
+                                        
                                     </Grid>
                                 </Frame>
                             </Grid>

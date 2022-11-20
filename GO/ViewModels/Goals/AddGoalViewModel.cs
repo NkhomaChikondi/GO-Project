@@ -34,6 +34,7 @@ namespace GO.ViewModels.Goals
         private DateTime createdOn;
         private bool hasWeek = false;
         private bool noweek = false;
+       private Week GetWeek;
 
         public AsyncCommand AddGoalCommand { get; set; }
         public AsyncCommand HelpCommand { get; }
@@ -74,13 +75,7 @@ namespace GO.ViewModels.Goals
                 return;
             try
             {
-                // check if either one of the two options required for a goal are selected
-                if (!HasWeek && !Noweek)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Please select one of the Goal's Task Type options ", "OK");
-                    return;
-
-                }
+               
                 // create a new goal object and save
                 var newGoal = new Goal
                 {
@@ -96,16 +91,16 @@ namespace GO.ViewModels.Goals
 
 
                 };
-                //if (newGoal.Start < DateTime.Today)
-                //{
-                //    await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a goal cannot be on a date that has already surpassed", "OK");
-                //    return;
-                //}
-                //if (newGoal.End < DateTime.Today)
-                //{
-                //    await Application.Current.MainPage.DisplayAlert("Alert", "End date of a goal cannot be on a date that has already surpassed", "OK");
-                //    return;
-                //}
+                if (newGoal.Start < DateTime.Today)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a goal cannot be on a date that has already surpassed", "OK");
+                    return;
+                }
+                if (newGoal.End < DateTime.Today)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "End date of a goal cannot be on a date that has already surpassed", "OK");
+                    return;
+                }
 
                 // get all tasks in GoalId
                 var allGoals = await datagoal.GetGoalsAsync(CategoryId);
@@ -164,6 +159,12 @@ namespace GO.ViewModels.Goals
                     HasWeek = hasWeek,
                     Noweek = Noweek
                 };
+                // check if either one of the two options required for a goal are selected
+                if (!HasWeek && !Noweek)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Please select one of the Goal's Task Type options ", "OK");
+                    return;
+                }
                 // check if the end date is more than start date and the goal duration has more than 7 days
                 if (HasWeek && !noweek)
                 {
@@ -230,16 +231,15 @@ namespace GO.ViewModels.Goals
                 {
                     BadgeNumber = 1,
                     Description = $"Goal '{lastGoal.Name}' is Due today!",
-                    Title = "Due-Date!",
+                    Title = "Due Date!",
                     NotificationId = lastGoal.Id,
                     Schedule =
                     {
-                       // NotifyTime = lastGoal.End,
-                       NotifyTime  = DateTime.Now.AddSeconds(20),
+                        NotifyTime = lastGoal.End,                      
                     }
                 };
                 await LocalNotificationCenter.Current.Show(notification);
-            };
+            }
 
         }
         async Task CreateWeek(Goal goal)
@@ -300,32 +300,36 @@ namespace GO.ViewModels.Goals
                 Status = "Not Started",
                 GoalId = goalId
             };
-
             // save the newly created week to the database
             await dataWeek.AddWeekAsync(newWeek);
-
             // get all weeks having GoalId
             var weeks = await dataWeek.GetWeeksAsync(goalId);
             // get the last goal
             var week = weeks.ToList().LastOrDefault();
+            // pass the week object to get week
+            GetWeek = week;          
+            await SendWeeklyNotification(lastGoal); 
+            // navigate to page
+            var route = $"{nameof(WeeklyTask)}?weekId={week.Id}";
+            await Shell.Current.GoToAsync(route);
 
-            TimeSpan duration = week.EndDate - week.StartDate;
-            var date = (double)duration.TotalDays;
+        }
+        async Task SendWeeklyNotification( Goal goal)
+        {
+             // get all weeks having GoalId
+           
             var notification = new NotificationRequest
             {
                 BadgeNumber = 1,
-                Description = $"Week {week.WeekNumber} of goal '{lastGoal.Name}' is Due today!",
-                Title = "Due-Date!",
-                NotificationId = week.Id,
+                Description = $"Week {GetWeek.WeekNumber} of goal '{goal.Name}' is Due today!",
+                Title = "Due Date!",
+                NotificationId = GetWeek.Id,
                 Schedule =
                 {
-                    NotifyTime = DateTime.Now.AddDays(date),
+                    NotifyTime = GetWeek.EndDate,
                 }
             };
             await LocalNotificationCenter.Current.Show(notification);
-
-            var route = $"{nameof(WeeklyTask)}?weekId={week.Id}";
-            await Shell.Current.GoToAsync(route);
 
         }
 

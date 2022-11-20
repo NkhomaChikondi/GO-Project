@@ -62,7 +62,7 @@
                         <StackLayout >
                             <StackLayout Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3" Padding="0">
 
-                                <Label Text="Subtask Details " TextColor="#61a5c2" FontSize="Medium" FontAttributes="Bold" />
+                                <Label Text="Task Details " TextColor="#61a5c2" FontSize="Medium" FontAttributes="Bold" />
                             </StackLayout>
                             <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                                 <StackLayout  Orientation="Horizontal" Grid.RowSpan="2"  Margin="0,15">
@@ -183,7 +183,7 @@
                                                     </StackLayout>
                                                     <StackLayout Orientation="Vertical">
 
-                                                        <DatePicker x:Name="Startdatepicker" IsEnabled="False" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
+                                                        <DatePicker x:Name="Startdatepicker"  Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
                                                     </StackLayout>
 
                                                 </StackLayout>

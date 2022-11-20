@@ -67,35 +67,85 @@ namespace GO.Views.SubTaskView
                 var task = await datatask.GetTaskAsync(newSubtask.TaskId);
                 // change the first letter of the Task name to upercase
                 var UppercasedName = char.ToUpper(newSubtask.SubName[0]) + newSubtask.SubName.Substring(1);
+
                 //check if the new task already exist in the database
-                if (AllSubtasks.Any(T => T.SubName == UppercasedName))
+                if(Subtask.SubName != UppercasedName)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
-                    return;
-                }
-               
-             
-                // verify if the Start date and end date are within the duration of its selected goal
-                if (newSubtask.SubStart >= task.StartTask && newSubtask.SubEnd <= task.EndTask)
-                {
-                    TimeSpan ts = newSubtask.SubEnd - newSubtask.SubStart;
-                    remainingDays = (int)ts.TotalDays;
-
-                }
-
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error!", " make sure the Start date and end date are within the duration of its selected Task", "OK");
-                    return;
-                }
-                if (newSubtask.SubEnd > Subtask.SubEnd)
-                {
-                    // make sure tasks end date is not surpassing goals end date
-                    if (newSubtask.SubEnd > task.EndTask)
+                    if (AllSubtasks.Any(T => T.SubName == UppercasedName))
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", $"Failed to update subtask! make sure the selected subtask's end date is not more than {task.enddatetostring}", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
                         return;
                     }
+                }
+
+                if (newSubtask.SubStart.Date != Subtask.SubStart.Date)
+                {
+                    if (DateTime.Today > Subtask.SubStart)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "You cannot change start date of a subtask that has already started", "Ok");
+                        return;
+                    }
+                    if (newSubtask.SubStart > newSubtask.SubEnd)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "Subtask's start date cannot be more than it's end date.", "Ok");
+                        return;
+                    }
+                    else if (DateTime.Today < Subtask.SubStart)
+                    {
+                        // make sure startday is not more than end date
+                        if (newSubtask.SubStart > newSubtask.SubEnd)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Alert", "Subtask's start date cannot be more than it's end date.", "Ok");
+                            return;
+                        }
+                    }
+                    else if (newSubtask.SubStart < DateTime.Today)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a Subtask cannot be less than the date of today.", "Ok");
+                        return;
+                    }
+                }
+                // check if newsubtask end date is not more than task
+                if (newSubtask.SubEnd > task.EndTask)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", $"End date of a Subtask, cannot be more than task's end date ({task.enddatetostring}).", "Ok");
+                    return;
+                }
+                // check if the changed end date is below the date of today
+                if (newSubtask.SubEnd < DateTime.Today)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "An updated End Date of a Subtask, cannot be below the date of today", "Ok");
+                    return;
+                }
+                if (newSubtask.SubEnd != Subtask.SubEnd)
+                {
+                    // make sure you cannot expand the end date of a task that has expired whilst it was completed
+                    if (Subtask.IsCompleted && Subtask.Status == "Expired")
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "Cannot change the end date of a Subtask that has expired whilst completed", "Ok");
+                        return;
+                    }
+                    else if (Subtask.IsCompleted)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "You cannot make end date changes to a subtask that has already been completed, unless, you add more subtasks.", "Ok");
+                        return;
+                    }
+
+
+                    else if (DateTime.Today > Subtask.SubEnd && newSubtask.SubEnd > Subtask.SubEnd)
+                    {
+
+                        var result = await Application.Current.MainPage.DisplayAlert("Alert", "You are adding days to a subtask that has expired. Continue?", "Yes", "No");
+                        if (result)
+                        {
+                            Subtask.Status = "UnCompleted";
+                        }
+                        else if (!result)
+                            return;
+
+
+                    }
+
                 }
                 // pass the uppercased name to the category object
                 var newestSubtask = new Subtask
@@ -110,7 +160,8 @@ namespace GO.Views.SubTaskView
                     Percentage = Subtask.Percentage,
                     IsCompleted = Subtask.IsCompleted,
                     TaskId = newSubtask.TaskId,
-                    Status = Subtask.Status
+                    Status = Subtask.Status,
+                    enddatetostring = newSubtask.SubEnd.ToLongDateString()
                 };
                 await dataTask.UpdateSubTaskAsync(newestSubtask);
                 if (newestSubtask.SubEnd > Subtask.SubEnd)

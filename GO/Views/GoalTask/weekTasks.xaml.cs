@@ -21,6 +21,7 @@ namespace GO.Views.GoalTask
         public string weekId { get; set; }
         private int goalId;
         private int selecteddowId;
+        private int Idweek;
      
         public IDataGoal<Models.Goal> datagoal { get; }
         public IDataTask<Models.GoalTask> DataTask { get; }
@@ -40,7 +41,9 @@ namespace GO.Views.GoalTask
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            int.TryParse(weekId, out var result);           
+            int.TryParse(weekId, out var result);
+            // pass result to idWeek
+            Idweek = result;
             // get the  week having the week id
             var week = await dataWeek.GetWeekAsync(result);
             // get the goal having the goalid
@@ -283,6 +286,7 @@ namespace GO.Views.GoalTask
             {
                 wvm.GoalId = goal.Id;
                 wvm.DowId = selectedDow.DOWId;
+                wvm.WeekId = result;
                 await wvm.Refresh();
 
             }
@@ -340,12 +344,13 @@ namespace GO.Views.GoalTask
             bdcompleted.BackgroundColor = Color.Transparent;
             bdinprogress.BackgroundColor = Color.Transparent;
             bdwithsubtasks.BackgroundColor = Color.Transparent;
-            var tasks = await DataTask.GetTasksAsync(goalId, selecteddowId);
+            var tasks = await DataTask.GetTasksAsync(goalId, Idweek);
+            var dayTasks = tasks.Where(T => T.DowId == selecteddowId).ToList();
             // get all subtasks not started
-            var notstartedTasks = tasks.Where(s => s.Status == "Not Started").ToList();
+            var notstartedTasks = dayTasks.Where(s => s.Status == "Not Started").ToList();
             if (notstartedTasks.Count() == 0)
             {
-                notasks.Text = " They are no Started tasks!";
+                notasks.Text = " They are no tasks that have not Started!";
                 if (BindingContext is WeeklyTaskViewModel bvm)
                 {
                     await bvm.NotstartedGoals();
@@ -369,9 +374,10 @@ namespace GO.Views.GoalTask
             bdcompleted.BackgroundColor = Color.Transparent;
             bdinprogress.BackgroundColor = Color.LightGray;
             bdwithsubtasks.BackgroundColor = Color.Transparent;
-            var tasks = await DataTask.GetTasksAsync(goalId, selecteddowId);
+            var tasks = await DataTask.GetTasksAsync(goalId, Idweek);
+            var dayTasks = tasks.Where(T => T.DowId == selecteddowId).ToList();
             // get all subtasks not started
-            var progressTasks = tasks.Where(s => s.Status == "In Progress").ToList();
+            var progressTasks = dayTasks.Where(s => s.Status == "In Progress").ToList();
             if (progressTasks.Count() == 0)
             {
                 notasks.Text = " They are no tasks In Progress!";
@@ -398,9 +404,10 @@ namespace GO.Views.GoalTask
             bdcompleted.BackgroundColor = Color.LightGray;
             bdinprogress.BackgroundColor = Color.Transparent;
             bdwithsubtasks.BackgroundColor = Color.Transparent;
-            var tasks = await DataTask.GetTasksAsync(goalId, selecteddowId);
+            var tasks = await DataTask.GetTasksAsync(goalId, Idweek);
+            var dayTasks = tasks.Where(T => T.DowId == selecteddowId).ToList();
             // get all subtasks not started
-            var completedTasks = tasks.Where(s => s.Status == "Completed").ToList();
+            var completedTasks = dayTasks.Where(s => s.Status == "Completed").ToList();
             if (completedTasks.Count() == 0)
             {
                 notasks.Text = " They are no completed tasks!";
@@ -426,11 +433,12 @@ namespace GO.Views.GoalTask
             bdcompleted.BackgroundColor = Color.Transparent;
             bdinprogress.BackgroundColor = Color.Transparent;
             bdwithsubtasks.BackgroundColor = Color.LightGray;
-            var tasks = await DataTask.GetTasksAsync(goalId, selecteddowId);
+            var tasks = await DataTask.GetTasksAsync(goalId, Idweek);
+            var dayTasks = tasks.Where(T => T.DowId == selecteddowId).ToList();
             // get all subtasks not started
             List<Models.GoalTask> tasklist = new List<Models.GoalTask>();
             //loop through the tasks
-            foreach (var Task in tasks)
+            foreach (var Task in dayTasks)
             {
                 // get tasks that have subtasks
                 var subtasks = await datasubtask.GetSubTasksAsync(Task.Id);

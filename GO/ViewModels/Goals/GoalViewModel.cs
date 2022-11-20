@@ -146,6 +146,7 @@ namespace GO.ViewModels.Goals
                 if (goal.HasWeek && !goal.Noweek)
                 {
                     await CreateWeek(goal);
+                    //await DeleteWeek(goal);
                     // get the last week's id in this goal
                     var weeks = await dataWeek.GetWeeksAsync(goal.Id);
                     var lastweek = weeks.ToList().LastOrDefault();
@@ -228,6 +229,7 @@ namespace GO.ViewModels.Goals
             double TaskPercentage = 0;
             double subtaskpercentage = 0;
             double goalRoundedPercentage = 0;
+            Double totalWeekPercentage = 0;
 
             // get all the goals having the category id
             var goals = await datagoal.GetGoalsAsync(categoryId);
@@ -242,53 +244,35 @@ namespace GO.ViewModels.Goals
                     var weeks = await dataWeek.GetWeeksAsync(goal.Id);
                     // check if weeks has more than zero weeks
                     if (weeks.Count() > 0)
-                    {
+                    {               
                         // loop through the weeks and get tasks having the weekid
                         foreach (var week in weeks)
                         {
-                            var tasks = await dataTask.GetTasksAsync(goal.Id, week.Id);
-                            // check if they are tasks having the week id
-                            if (tasks.Count() > 0)
+                            // get all tasks having the goal id and week id
+                            var weektasks = await dataTask.GetTasksAsync(goal.Id, week.Id);
+                            // loop through the tasks 
+                            foreach(var task in weektasks)
                             {
-                                // loop through the tasks to get their percentage
-                                foreach (var task in tasks)
+                                // check if task is complete
+                                if(task.IsCompleted)
                                 {
-                                    // check if it is completed
-                                    if (task.IsCompleted)
-                                    {
-                                        TaskPercentage += task.Percentage;
-                                    }
-                                    else if (!task.IsCompleted)
-                                    {
-                                        // check if it has subtask
-                                        var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-                                        if (subtasks.Count() > 0)
-                                        {
-                                            // get only subtasks that are completed
-                                            var completedsubtasks = subtasks.Where(s => s.IsCompleted).ToList();
-                                            // loop through the completed subtasks
-                                            foreach (var subtask in completedsubtasks)
-                                            {
-                                                subtaskpercentage += subtask.Percentage;
-                                            }
-
-                                        }
-                                    }
-
+                                    TaskPercentage += task.Percentage;
                                 }
+                                else if(!task.IsCompleted)
+                                {
+                                    TaskPercentage += task.PendingPercentage;
+                                }    
                             }
-                            //weeks calculations
+                            //totalWeekPercentage += week.AccumulatedPercentage;
                         }
                     }
-                    //goals calculation
-                    goalRoundedPercentage = TaskPercentage + subtaskpercentage;
-                    goal.Percentage = Math.Round(goalRoundedPercentage, 2);
+                   
+                    goal.Percentage = Math.Round(TaskPercentage);
                     goal.Progress = goal.Percentage / goal.ExpectedPercentage;
                     // update goal
                     await datagoal.UpdateGoalAsync(goal);
+                    totalWeekPercentage = 0;
                     TaskPercentage = 0;
-                    subtaskpercentage = 0;
-                    goalRoundedPercentage = 0;
                 }
             }
             var weeklessGoals = goals.Where(g => g.Noweek).ToList();
@@ -309,6 +293,7 @@ namespace GO.ViewModels.Goals
                             if (task.IsCompleted)
                             {
                                 TaskPercentage += task.Percentage;
+                                TaskPercentage = Math.Round(TaskPercentage, 2);
                             }
                             else if (!task.IsCompleted)
                             {
@@ -330,7 +315,7 @@ namespace GO.ViewModels.Goals
                     }
                     //goals calculation
                     goalRoundedPercentage = TaskPercentage + subtaskpercentage;
-                    goal.Percentage = Math.Round(goalRoundedPercentage, 2);
+                    goal.Percentage = Math.Round(goalRoundedPercentage);
                     goal.Progress = goal.Percentage / goal.ExpectedPercentage;
                     // update goal
                     await datagoal.UpdateGoalAsync(goal);
@@ -377,12 +362,14 @@ namespace GO.ViewModels.Goals
                 await datagoal.UpdateGoalAsync(goal);
             }
         }
+       
         async Task CreateWeek(Goal goal)
         {
             if (IsBusy.Equals(true))
                 return;
             try
             {
+                int WeekNumber = 0;
                 //get the number of days left for the goal to end
                 var Daysleft = goal.End - DateTime.Today;
                 TimeSpan daynumber = new TimeSpan(7, 0, 0, 0);
@@ -405,120 +392,140 @@ namespace GO.ViewModels.Goals
                 else if (startDay == "Saturday")
                     dayValue = 0;
 
-
-                // get all weeks having the goalId
-                var weeks = await dataWeek.GetWeeksAsync(goal.Id);
-                // get goal having with the same id as goal
-                var Dbgoal = await datagoal.GetGoalAsync(goal.Id);
-                // get the last created week
-                var lastCreatedWeek = weeks.ToList().LastOrDefault();
-                if (DateTime.Today > lastCreatedWeek.EndDate)
+                if (DateTime.Today == goal.End)
                 {
-                    try
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Cannot create a new week, the goal for this week is expiring today", "Ok");
+                    return;
+                }
+
+                else if (DateTime.Today > goal.End)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Cannot create a new week, the goal for this week expired", "Ok");
+                    return;
+                }
+                // check how many days are left till the goal is due
+                var DaysTillTheGoalIsDue = goal.End - DateTime.Today;
+
+                if (DaysTillTheGoalIsDue.TotalDays < 1)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Cannot create new week for this goal, it is expiring today.", "Ok");
+                    return;
+                }
+                // get the weeks having the goal id
+                var GoalWeeks = await dataWeek.GetWeeksAsync(goal.Id);
+                // get the last created week
+                var LastCreatedWeek = GoalWeeks.ToList().LastOrDefault();
+                // check if today's date is more that last created week end date
+                if(DateTime.Today > LastCreatedWeek.EndDate)
+                {
+                    // check if it active
+                    if (LastCreatedWeek.Active)
                     {
-                        //check if lastgoalweek is active
-                        if (lastCreatedWeek.Active)
+                        LastCreatedWeek.Active = false;
+                        await dataWeek.UpdateWeekAsync(LastCreatedWeek);
+                    }
+                    // get the number of weeks in a goal
+                    var totalWeeks = goal.NumberOfWeeks;
+                    // calculate the percentage for every week
+                    var weekPercentage = 100 / totalWeeks;
+                    // subtract goal's end date from the last created week end date
+                    var result = goal.End - LastCreatedWeek.EndDate;
+
+                    if (result.TotalDays <= 1)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alert", "Cannot create a new week, the week's goal, has 1 day left before it expires.", "Ok");
+                        return;
+                    }
+                    else
+                    {
+                        DateTime endDate = new DateTime();
+                        DateTime startDate = new DateTime();
+                        // get the number of week days
+                        var weeksLeft = result.TotalDays / 7;
+                        // if there is a remainder after division, add 1 to weeknumber
+                        if (weeksLeft % 7 != 0)
+                            weeksLeft += 1;
+
+                        if (weeksLeft == 1)
                         {
-                            lastCreatedWeek.Active = false;
-                            await dataWeek.UpdateWeekAsync(lastCreatedWeek);
+                            endDate = goal.End;
                         }
-                        // create a new week
-                        //* check the number of days that are left in the week*/
-                        //* finding the targeted percentage*
-                        // get the total number of weeks from goal
-                        var totalWeeks = goal.NumberOfWeeks;
-                        // calculate the percentage for every week
-                        var weekPercentage = 100 / totalWeeks;
-
-                        // get all weeks having GoalId
-                        var Weeks = await dataWeek.GetWeeksAsync(goal.Id);
-                        // get the last goal
-                        var week = Weeks.ToList().LastOrDefault();
-
-                        if (Daysleft > daynumber)
+                        else if(weeksLeft > 1)
                         {
-                            if (startDay == "Saturday")
-                            {
-                                dayValue = 6;
-
-
-                            }
-                            // how to find the end date
-                            var enddate = DateTime.Today.AddDays(dayValue);
-
-                            // *create a new week object*
-
-                            var newWeek = new Week
-                            {
-                                WeekNumber = lastCreatedWeek.WeekNumber + 1,
-                                TargetPercentage = weekPercentage,
-                                AccumulatedPercentage = 0,
-                                Active = true,
-                                StartDate = DateTime.Today,
-                                EndDate = enddate,
-                                GoalId = goal.Id
-                            };
-                            // save the newly created week to the database
-                            await dataWeek.AddWeekAsync(newWeek);
+                           // check if today's day of the week is friday
+                           if(dayValue.Equals(1) || dayValue.Equals(0))
+                           {
+                                var answer = await Application.Current.MainPage.DisplayAlert("Alert", " Creating a new week today, will automatically move the weeks start date to Sunday,Continue?", "Yes", "No");
+                                if (!answer)
+                                    return;
+                                else if(answer)
+                                {
+                                    DateTime SundayDate;
+                                    if(DateTime.Today.DayOfWeek.Equals("Friday"))
+                                    {
+                                        SundayDate = DateTime.Today.AddDays(2);
+                                        startDate = SundayDate;
+                                        endDate = SundayDate.AddDays(6);
+                                    }
+                                    else if(DateTime.Today.DayOfWeek.Equals("Saturday"))
+                                    {
+                                        SundayDate = DateTime.Today.AddDays(1);
+                                        startDate = SundayDate;
+                                        endDate = SundayDate.AddDays(6);
+                                    }
+                                         
+                                }
+                           }
+                           else
+                           {
+                                // subtract dayvalue from 6(Sunday's day value                                
+                                startDate = DateTime.Today;
+                                endDate = startDate.AddDays(dayValue);
+ 
+                           }
+                            // calculation to find the weeks number
+                            // get the date of the past saturdays day
+                            var saturdayDate = DateTime.Today.AddDays(dayValue);
+                            var totalDays = saturdayDate - LastCreatedWeek.EndDate;
+                            var divideTotaldays = totalDays.TotalDays / 7;
+                            WeekNumber = LastCreatedWeek.WeekNumber + (int) divideTotaldays;
                            
-                            // get goal 
-                            var Onegoal = await datagoal.GetGoalAsync(newWeek.GoalId);
-                            TimeSpan duration = week.EndDate - week.StartDate;
-                            var date = (double)duration.TotalDays;
-                            var notification = new NotificationRequest
+                           //create a new week
+                            var Newweek = new Week
                             {
-                                BadgeNumber = 1,
-                                Description = $"Week {newWeek.WeekNumber} of goal '{goal.Name}' is Due today!",
-                                Title = "Due-Date!",
-                                NotificationId = week.Id,
-                                Schedule =
-                                        {
-                                            NotifyTime = DateTime.Now.AddDays(date),
-                                        }
-                            };
-                            await LocalNotificationCenter.Current.Show(notification);
-                        }
-                        else if (Daysleft < daynumber)
-                        {
-                            var newWeek = new Week
-                            {
-                                WeekNumber = lastCreatedWeek.WeekNumber + 1,
-                                TargetPercentage = weekPercentage,
+                                EndDate = endDate,
+                                StartDate = startDate,
                                 AccumulatedPercentage = 0,
                                 Active = true,
-                                StartDate = DateTime.Today,
-                                EndDate = goal.End,
+                                WeekNumber = WeekNumber,
+                                TargetPercentage = weekPercentage,
+                                Progress = 0,
+                                Status = "Not Started",
                                 GoalId = goal.Id
                             };
-                            // save the newly created week to the database
-                            await dataWeek.AddWeekAsync(newWeek);                            
-                          
-                            TimeSpan duration = week.EndDate - week.StartDate;
-                            var date = (double)duration.TotalDays;
+                            // add the new week to the database
+                            await dataWeek.AddWeekAsync(Newweek);
                             var notification = new NotificationRequest
                             {
                                 BadgeNumber = 1,
-                                Description = $" Week {newWeek.WeekNumber} of goal '{goal.Name}' is Due today!",
+                                Description = $" Week {Newweek.WeekNumber} of goal '{goal.Name}' is Due today!",
                                 Title = "Due-Date!",
-                                NotificationId = week.Id,
+                                NotificationId = Newweek.Id,
                                 Schedule =
                                             {
-                                                NotifyTime = DateTime.Now.AddDays(date),
+                                                NotifyTime = DateTime.Today, //Newweek.EndDate,
                                             }
                             };
                             await LocalNotificationCenter.Current.Show(notification);
-                        }
+                        }                     
 
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"Failed to add new goal: {ex.Message}");
-                        await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
-                    }
-
-
+                    }                   
+                                       
                 }
-
+                else 
+                {
+                    return;                
+                }            
             }
             catch (Exception ex)
             {
@@ -531,6 +538,16 @@ namespace GO.ViewModels.Goals
                 IsBusy = false;
             }
 
+        }    
+        async Task DeleteWeek(Goal goal)
+        {
+            // Get last inserted week and delete it
+            var weeks = await dataWeek.GetWeeksAsync(goal.Id);
+            // get last week
+            var lastweek = weeks.ToList().LastOrDefault();
+
+            // delete week
+            await dataWeek.DeleteWeekAsync(lastweek.Id);
         }
         public async Task Refresh()
         {
