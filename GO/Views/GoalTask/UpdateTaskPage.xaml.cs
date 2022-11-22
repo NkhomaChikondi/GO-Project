@@ -65,7 +65,7 @@ namespace GO.Views.GoalTask
             Expiredlbl.Text = expired.Count().ToString();
         }
         private async void Button_Clicked_1(object sender, EventArgs e)
-        {
+        { 
             
            try
            {
@@ -105,12 +105,12 @@ namespace GO.Views.GoalTask
                 {
                     if(DateTime.Today > task.StartTask)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "You cannot change start date of a task that has already started", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's start date. You cannot change start date of a task that has already started", "Ok");
                         return;
                     }
                     if(newtask.StartTask > newtask.EndTask)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "Task's start date cannot be more than task's end date.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's start date.Task's start date cannot be more than task's end date.", "Ok");
                         return;
                     }
                     else if(DateTime.Today < task.StartTask)
@@ -118,26 +118,26 @@ namespace GO.Views.GoalTask
                         // make sure startday is not more than end date
                         if (newtask.StartTask > newtask.EndTask)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Alert", "Task's start date cannot be more than Task's end date.", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error!", " Failed to change task's start date.Task's start date cannot be more than Task's end date.", "Ok");
                             return;
                         }
                     }
                     else if (newtask.StartTask < DateTime.Today)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a task cannot be less than the date of today.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's start date. Task's start date cannot be less than the date of today.", "Ok");
                         return;
                     }
                 }
                 // check if newtask end date is not more than goal end date
                 if (newtask.EndTask > goal.End)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", $"End date of a task, cannot be more than goal's end date ({goal.enddatetostring}).", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", $" Failed to change task's end date. task's end date, cannot be more than goal's end date ({goal.enddatetostring}).", "Ok");
                     return;
                 }      
                 // check if the changed end date is below the date of today
                 if(newtask.EndTask < DateTime.Today)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "An updated End Date of a task, cannot be below the date of today", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's end date. task's end date, cannot be less than the date of today", "Ok");
                     return;
                 }
                 // check if the task has expired
@@ -146,12 +146,12 @@ namespace GO.Views.GoalTask
                      // make sure you cannot expand the end date of a task that has expired whilst it was completed
                     if (task.IsCompleted && task.Status == "Expired")
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "Cannot change the end date of a task that has expired whilst completed", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's end date. You Cannot change the end date of a task that has expired whilst completed", "Ok");
                         return;
                     }
                     else if (task.IsCompleted)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "You cannot make end date changes to a task that has already been completed, unless, you add more subtasks.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", " Failed to change task's end date. You cannot make end date changes to a task that has already been completed, unless, you add more subtasks.", "Ok");
                         return;
                     }
                    
@@ -199,7 +199,7 @@ namespace GO.Views.GoalTask
                     }
                     if (counter > 0)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update task, they're subtask's in it, whose end date is more than the task's selected end date. Go to tsubask page, find those tasks and modify their end dates", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to change task's end date. They are subtask's in this task whose end date, is more than the task's end date. Go to tsubask page, find those tasks and modify their end dates", "OK");
                         return;
                     }
                 }
@@ -239,13 +239,14 @@ namespace GO.Views.GoalTask
                 }               
                     // go back to the previous page
                     await Shell.Current.GoToAsync("..");
-                }
-                catch (Exception ex)
-                {                    
-                    await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to add new goal: {ex.Message}", "OK");
-                }
-            
-            }
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "Updated Successfully", "Ok");
+           }
+           catch (Exception ex)
+           {
+                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update new task: {ex.Message}", "OK");
+           }
+
+        }
         async Task SendNotification( DateTime end)
         {
             // create a new notification

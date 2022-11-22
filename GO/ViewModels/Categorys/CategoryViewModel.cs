@@ -106,6 +106,7 @@ namespace GO.ViewModels.Categorys
                     }
                 }
                 await Refresh();
+                await Application.Current.MainPage.DisplayAlert("Alert","Category has successfully been deleted.", "Ok");
             }
             else if (!ans)
             return;
@@ -140,9 +141,9 @@ namespace GO.ViewModels.Categorys
                     return;
                 }
                 categorydb.Name = UppercasedName;
-                await datastore.UpdateItemAsync(categorydb);
-                await Application.Current.MainPage.DisplayAlert("Alert!", "Updated Successfully", "OK");
+                await datastore.UpdateItemAsync(categorydb);                
                 await Refresh();
+                await Application.Current.MainPage.DisplayAlert("Alert!", "Updated Successfully", "OK");
             }
             catch (Exception ex)
             {

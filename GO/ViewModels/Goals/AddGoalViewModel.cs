@@ -74,8 +74,7 @@ namespace GO.ViewModels.Goals
             if (IsBusy == true)
                 return;
             try
-            {
-               
+            {               
                 // create a new goal object and save
                 var newGoal = new Goal
                 {
@@ -88,17 +87,16 @@ namespace GO.ViewModels.Goals
                     Percentage = 0,
                     Progress = 0,
                     CategoryId = categoryId
-
-
                 };
+
                 if (newGoal.Start < DateTime.Today)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a goal cannot be on a date that has already surpassed", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Start date of a goal, cannot be on a date that has already pass", "OK");
                     return;
                 }
                 if (newGoal.End < DateTime.Today)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "End date of a goal cannot be on a date that has already surpassed", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "End date of a goal cannot be on a date that has already pass", "OK");
                     return;
                 }
 
@@ -199,11 +197,12 @@ namespace GO.ViewModels.Goals
                 {
                     await CreateWeek(newestGoal);
 
-                    await Application.Current.MainPage.DisplayAlert("Alert!", $"Goal has successfully been Created with {newestGoal.NumberOfWeeks} weeks!, Create Tasks for the first week", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", $"Goal has successfully been Created with {newestGoal.NumberOfWeeks} weeks! Create Tasks for the first week", "OK");
                 }
                 else
                 {
                     await Shell.Current.GoToAsync("..");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", $" New Goal,added successfully.", "OK");
                 }
             }
 

@@ -196,8 +196,15 @@ namespace GO.ViewModels.Goals
                     {
                         // cancel its notification
                         LocalNotificationCenter.Current.Cancel(week.Id);
+                        await dataWeek.DeleteWeekAsync(week.Id);
+                        // get all days having the weekId
+                        var weekdays = await dataDow.GetDOWsAsync(week.Id);  
+                        // loop throogh the das and delete them
+                        foreach(var day in weekdays)
+                        {
+                            await dataDow.DeleteDOWAsync(day.DOWId);
+                        }
                     }
-
                 }
                 // loop through the tasks
                 foreach (var task in tasks)
@@ -217,6 +224,7 @@ namespace GO.ViewModels.Goals
                     }
                 }
                 await Refresh();
+                await Application.Current.MainPage.DisplayAlert("Alert", "Deleted successfully", "OK");
             }
             else if (!ans)
                 return;
@@ -394,13 +402,13 @@ namespace GO.ViewModels.Goals
 
                 if (DateTime.Today == goal.End)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Cannot create a new week, the goal for this week is expiring today", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Failed to create a new week. The goal for this week is expiring today", "Ok");
                     return;
                 }
 
                 else if (DateTime.Today > goal.End)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Cannot create a new week, the goal for this week expired", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Failed to create a new week. The goal for this week expired", "Ok");
                     return;
                 }
                 // check how many days are left till the goal is due
@@ -408,7 +416,7 @@ namespace GO.ViewModels.Goals
 
                 if (DaysTillTheGoalIsDue.TotalDays < 1)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Cannot create new week for this goal, it is expiring today.", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert", "Failed to create new week for this goal. It is expiring today.", "Ok");
                     return;
                 }
                 // get the weeks having the goal id
@@ -433,7 +441,7 @@ namespace GO.ViewModels.Goals
 
                     if (result.TotalDays <= 1)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "Cannot create a new week, the week's goal, has 1 day left before it expires.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Alert", "failed to create a new week. The week's goal has 1 day left before it expires.", "Ok");
                         return;
                     }
                     else
@@ -529,7 +537,7 @@ namespace GO.ViewModels.Goals
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Failed to create a new week, restart your app: {ex.Message}");
+                Debug.WriteLine($"Failed to create a new week {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
             }
 
@@ -539,16 +547,7 @@ namespace GO.ViewModels.Goals
             }
 
         }    
-        async Task DeleteWeek(Goal goal)
-        {
-            // Get last inserted week and delete it
-            var weeks = await dataWeek.GetWeeksAsync(goal.Id);
-            // get last week
-            var lastweek = weeks.ToList().LastOrDefault();
-
-            // delete week
-            await dataWeek.DeleteWeekAsync(lastweek.Id);
-        }
+       
         public async Task Refresh()
         {
             // set "IsBusy" to true

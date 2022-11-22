@@ -113,7 +113,7 @@ namespace GO.Views.Goal
                 {
                     if(DateTime.Today >= Goal.Start)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "You cannot change start date of a goal that has already started.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot change start date of a goal that has already started.", "Ok");
                         return;
                     }
                     else if(DateTime.Today < Goal.Start)
@@ -121,26 +121,26 @@ namespace GO.Views.Goal
                         // make sure startday is not more than end date
                         if(newGoal.Start > newGoal.End)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Alert", "Goal's start date cannot be more than goal's end date.", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error!", "Goal's start date cannot be more than goal's end date.", "Ok");
                             return;
                         }
                     }
                     else if(newGoal.Start < DateTime.Today)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a goal cannot be less than the date of today.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Start date of a goal cannot be less than the date of today.", "Ok");
                         return;
                     }
                 }
                 // check if the changed end date is below the date of today
                 if (newGoal.End < DateTime.Today)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "An updated End Date of a goal, cannot be below the date of today", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "An updated End Date of a goal, cannot be below the date of today", "Ok");
                     return;
                 }
                 // make sure you cannot expand the end date of a task that has expired whilst it was completed
                 if (Goal.Percentage == Goal.ExpectedPercentage && Goal.Status == "Expired")
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Cannot change the end date of a goal that has expired whilst completed", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error", "Fialed to change the end date. Cannot change the end date of a goal that has expired whilst completed", "Ok");
                     return;
                 }
                 // check if the incoming end date is not equal to the end date from the database
@@ -149,7 +149,7 @@ namespace GO.Views.Goal
                     // check if the goal is completed
                     if(Goal.Percentage == Goal.ExpectedPercentage)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "You cannot change the end date of a goal that has already been completed, unless, you add new tasks to it", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error", "failed to change the end date. Cannot change the end date of a goal that has already been completed, unless, you add new tasks to it", "Ok");
                         return;
                     }
                 
@@ -159,7 +159,7 @@ namespace GO.Views.Goal
                         // make sure the updated end date is more than todays date
                         if (newGoal.End < DateTime.Today)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Alert", "End Date of a task cannot be below the date of today", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error!", "End Date of a task cannot be below the date of today", "Ok");
                             return;
                         }
                             var result = await Application.Current.MainPage.DisplayAlert("Alert", "You are adjusting the end date of a goal that has expired. Continue?", "Yes", "No");
@@ -235,13 +235,13 @@ namespace GO.Views.Goal
 
             }
                 await dataGoal.UpdateGoalAsync(newestGoal);
-            // cancel its notification
-            await SendNotification();
+               // cancel its notification
+                 await SendNotification();                
+                await Shell.Current.GoToAsync("..");
                 await Application.Current.MainPage.DisplayAlert("Alert!", "Updated Successfully", "Ok");
-                await Shell.Current.GoToAsync("..");   
-                
-                
-        }
+
+
+            }
 
             catch (Exception ex)
             {

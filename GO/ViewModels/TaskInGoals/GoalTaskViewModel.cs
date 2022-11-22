@@ -406,21 +406,13 @@ namespace GO.ViewModels.TaskInGoals
                 }
 
                 await Refresh();
+                await Application.Current.MainPage.DisplayAlert("Alert!", "Deleted successfully", "Ok");
             }
             else if (!ans)
                 return;
           
         }
-      
-        async Task Getremainingdays()
-        { // get all categories
-            var tasks = await dataTask.GetTasksAsync(goalId);
-            foreach (var task in tasks)
-            {
-                task.enddatetostring = task.EndTask.ToShortDateString();
-                await dataTask.UpdateTaskAsync(task);
-            }
-        }
+     
         public async Task Refresh()
         {
             // set "IsBusy" to true

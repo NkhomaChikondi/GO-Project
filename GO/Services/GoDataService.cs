@@ -336,9 +336,12 @@ namespace GO.Services
             return await Task.FromResult(true);
         }
 
-        public Task<bool> DeleteDOWAsync(int id)
+        public async Task<bool> DeleteDOWAsync(int id)
         {
-            throw new NotImplementedException();
+            await Init();
+            // Remove the selected week item from the database
+            var deleteDow = await db.DeleteAsync<DOW>(id);
+            return await Task.FromResult(true);
         }
 
         public async Task<DOW> GetDOWAsync(int id)
@@ -389,7 +392,7 @@ namespace GO.Services
         public async Task<bool> DeleteWeekAsync(int id)
         {
             await Init();
-            // Remove the selected subtask item from the database
+            // Remove the selected week item from the database
             var deleteweek = await db.DeleteAsync<Week>(id);
             return await Task.FromResult(true);
         }

@@ -58,9 +58,9 @@ namespace GO.ViewModels.Categorys
                     CreatedOn = DateTime.Now,
                     goalNumber = 0                    
                 };
-                await datastore.AddItemAsync(newestCategory);
-                await Application.Current.MainPage.DisplayAlert("Alert!", "Added Successfully ", "OK");
+                await datastore.AddItemAsync(newestCategory);               
                 await Shell.Current.GoToAsync("..");
+                await Application.Current.MainPage.DisplayAlert("Alert!", "New Category,added Successfully ", "OK");
             }
             catch (Exception ex)
             {

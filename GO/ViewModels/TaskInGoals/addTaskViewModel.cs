@@ -172,11 +172,7 @@ namespace GO.ViewModels.TaskInGoals
                     DowId = DayId,
                     IsNotVisible = false
                 };
-                //check if the task already exist so you can either save or update
-                if (alltasks.Any(t => t.Id == newestTask.Id))
-                {
-                    await dataTask.UpdateTaskAsync(newestTask);
-                }
+              
                 #region check if task has been assigned a percentage
                 // counter value
                 int counter = 0;
@@ -191,7 +187,7 @@ namespace GO.ViewModels.TaskInGoals
 
                 if (counter == 3 && newestTask.Percentage == 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "Failed to add Task, retry", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add Task, retry", "Ok");
                     return;
                 }
                 #endregion
@@ -209,13 +205,16 @@ namespace GO.ViewModels.TaskInGoals
                     await Shell.Current.GoToAsync(route);
                     await Application.Current.MainPage.DisplayAlert("Alert", $"A new task for {dbDow.Name}, has been added! tap on {dbDow.Name}'s view task button, to check it out.", "Ok");
                 }
-                else                
-                await Shell.Current.GoToAsync("..");
-                
+                else
+                {
+                    await Shell.Current.GoToAsync("..");
+                    await Application.Current.MainPage.DisplayAlert("Alert", "New Task, Added Successfully", "Ok");
+                }
+               
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Failed to add new goal: {ex.Message}");
+                Debug.WriteLine($"Failed to add new task: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
             }
             finally
@@ -238,7 +237,7 @@ namespace GO.ViewModels.TaskInGoals
                 // check if goal has expired 
                 if(TaskInGoalId.Status == "Expire")
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Failed to add task! The goal of this task expired therefore, new tasks cannot be created","OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add task! The goal of this task expired therefore, new tasks cannot be created","OK");
                     return;
                 }
                 else
@@ -273,11 +272,11 @@ namespace GO.ViewModels.TaskInGoals
                         RemainingDays = (int)ts.TotalDays;
 
                     }
-                    //else
-                    //{
-                    //    await Application.Current.MainPage.DisplayAlert("Error!", $" Make sure the start and end date are on/ within the goal's start and end date. (From {TaskInGoalId.Start.ToLongDateString()} to {TaskInGoalId.End.ToLongDateString()}", "OK");
-                    //    return;
-                    //}
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", $" Make sure the start and end date are on/ within the goal's start and end date. (From {TaskInGoalId.Start.ToLongDateString()} to {TaskInGoalId.End.ToLongDateString()}", "OK");
+                        return;
+                    }
                     if (newtask.Description == null)
                         newtask.Description = $"No Description for {newtask.taskName}";
 
@@ -313,12 +312,13 @@ namespace GO.ViewModels.TaskInGoals
                     //var route = $"{nameof(GoalTaskPage)}?goalId={goalId}";
                     //await Shell.Current.GoToAsync(route);
                     await Shell.Current.GoToAsync("..");
+                    await Application.Current.MainPage.DisplayAlert("Alert", "New Task, Added Successfully", "Ok");
                 }
                
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Failed to add new goal: {ex.Message}");
+                Debug.WriteLine($"Failed to add new task: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
             }
             finally
@@ -347,16 +347,16 @@ namespace GO.ViewModels.TaskInGoals
             Taskcount = 0;          
         }
         // a method to assign percentage to the task
-        async Task AddPercentage()
-        {
-            // get all tasks having "this" goal id from the database 
-            var tasks = await dataTask.GetTasksAsync(goalId);
-            // get the total number of tasks 
-            double AllTaskCount = tasks.Count() + 1;
-            // divide 100 percent by the number of tasks
-            taskPercentage = 100.0 / AllTaskCount;
+        //async Task AddPercentage()
+        //{
+        //    // get all tasks having "this" goal id from the database 
+        //    var tasks = await dataTask.GetTasksAsync(goalId);
+        //    // get the total number of tasks 
+        //    double AllTaskCount = tasks.Count() + 1;
+        //    // divide 100 percent by the number of tasks
+        //    taskPercentage = 100.0 / AllTaskCount;
 
-        }
+        //}
         // a method to reassign percentage to all tasks in the database
         async void AddTaskPercent(Week week)
         {

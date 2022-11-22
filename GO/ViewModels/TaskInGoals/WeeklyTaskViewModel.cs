@@ -239,6 +239,7 @@ namespace GO.ViewModels.TaskInGoals
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowSaturday);
+                    
                 }
             }
             // check if the week is active
@@ -325,6 +326,7 @@ namespace GO.ViewModels.TaskInGoals
                
                 await CalculateTotalWeekPercentage(week);
                 await Refresh();
+                await Application.Current.MainPage.DisplayAlert("Alert!", "Deleted Successfully", "Ok");
             }
             else if (!ans)
                 return;
@@ -852,14 +854,14 @@ namespace GO.ViewModels.TaskInGoals
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot complete a task for a day that has surpassed!", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot complete this task. the day it was allocated to, has passed.", "Ok");
                         return;
                     }                 
                 }
                 else
                 {
                     //await Refresh();
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot complete this Task. The Task has expired!", "OK");                   
+                    await Application.Current.MainPage.DisplayAlert("Error!", "You Cannot complete this Task. The Task has expired.", "OK");                   
                     return;
                 }
                    
@@ -897,14 +899,14 @@ namespace GO.ViewModels.TaskInGoals
                     }
                     else 
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot Uncomplete a task for a day that has surpassed!", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot Uncomplete this task. The day it was allocated to, has passed.", "Ok");
                         return;
                     }
                 }
                 else
                 {
                     //await Refresh();
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot Uncomplete this task. The Task has expired!", "OK");                    
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot Uncomplete this task. The Task has expired!", "OK");                    
                     return;
                 }
                    
