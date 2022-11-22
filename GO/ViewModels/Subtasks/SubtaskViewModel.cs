@@ -178,6 +178,7 @@ namespace GO.ViewModels.Subtasks
                     await dataTask.UpdateTaskAsync(task);
                 }
                 await Refresh();
+                await Application.Current.MainPage.DisplayAlert("Alert!", "Deleted successfully", "Ok");
             }
             else if (!ans)
                 return;
@@ -221,13 +222,13 @@ namespace GO.ViewModels.Subtasks
                 // check if it has expired
                 if (taskOfSubtask.Status == "Expired")
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot complete a subtask whose task has expired.", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to complete this subtask. Its task has expired.", "Ok");
                     return;
                 }
                 // check if the subtask has expired
                 if (subtask.Status == "Expired")
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot complete a subtask that has expired.", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error", " Failed to complete this subtask. It has expired.", "Ok");
                     return;
                 }
 
@@ -252,7 +253,7 @@ namespace GO.ViewModels.Subtasks
                     else
                     {
                         //await Refresh();
-                        await Application.Current.MainPage.DisplayAlert("Alert!", "Cant Complete this subtask! It has expired!", "Ok");                       
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to complete this subtask. It has expired!", "Ok");                       
                         return;
                     }
                 }
@@ -284,13 +285,13 @@ namespace GO.ViewModels.Subtasks
                 // check if it has expired
                 if (taskOfSubtask.Status == "Expired")
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot uncomplete a subtask whose task has has expired.", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to Uncomplete a subtask. Its task has expired.", "Ok");
                     return;
                 }
                 // check if the subtask has expired
                 if (subtask.Status == "Expired")
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot uncomplete a subtask that has expired.", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error", " Failed to uncomplete a subtask. It has expired.", "Ok");
                     return;
                 }
                 // get the task equal to to subtasks taskId
@@ -314,7 +315,7 @@ namespace GO.ViewModels.Subtasks
                     else
                     {
                        // await Refresh();
-                        await Application.Current.MainPage.DisplayAlert("Alert!", "Cant UnComplete this subtask! It has expired!", "Ok");                      
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to uncomplete a subtask. It has expired!", "Ok");                      
                         return;
                     }
 

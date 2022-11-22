@@ -163,9 +163,8 @@ namespace GO.ViewModels.TaskInGoals
             var getweeks = await dataWeek.GetWeeksAsync(GoalId);
             // get the last inserted week
             var lastInsertedWeek = getweeks.ToList().LastOrDefault();
-            async Task createDow()
-            {
-                var alldows = await dataDow.GetDOWsAsync(lastInsertedWeek.Id);
+
+           var alldows = await dataDow.GetDOWsAsync(lastInsertedWeek.Id);
                 if (alldows.Count() > 0)
                     return;
                 else if (alldows.Count() == 0)
@@ -242,34 +241,32 @@ namespace GO.ViewModels.TaskInGoals
                     
                 }
             }
-            // check if the week is active
-            if(lastInsertedWeek.Active)
-            {
-                // call the createdow method
-                await createDow();
-            }
-            else if(!lastInsertedWeek.Active)
-            {
-                //check if the todays date is more than or equal to weeks start date and is less than or equal to end date
-                if(DateTime.Today >= lastInsertedWeek.StartDate && DateTime.Today <= lastInsertedWeek.EndDate)
-                {
-                    // set lastinsertedWeek to active
-                    lastInsertedWeek.Active = true;
-                    // update the database
-                    await dataWeek.UpdateWeekAsync(lastInsertedWeek);
-                    // call createdow method
-                    await createDow();
-                }
-            }
-            else 
-            {
-                await Application.Current.MainPage.DisplayAlert("Alert!", "Failed to create days of the week", "Ok");
-                return;
+            //// check if the week is active
+            //if(lastInsertedWeek.Active)
+            //{
+            //    // call the createdow method
+            //    await createDow();
+            //}
+            //else if(!lastInsertedWeek.Active)
+            //{
+            //    //check if the todays date is more than or equal to weeks start date and is less than or equal to end date
+            //    if(DateTime.Today >= lastInsertedWeek.StartDate && DateTime.Today <= lastInsertedWeek.EndDate)
+            //    {
+            //        // set lastinsertedWeek to active
+            //        lastInsertedWeek.Active = true;
+            //        // update the database
+            //        await dataWeek.UpdateWeekAsync(lastInsertedWeek);
+            //        // call createdow method
+            //        await createDow();
+            //    }
+            //}
+            //else 
+            //{
+            //    await Application.Current.MainPage.DisplayAlert("Alert!", "Failed to create days of the week", "Ok");
+            //    return;
             
-            }
-
-            
-        }
+            //}            
+        
         async Task OnaddTask()
         {
             var route = $"{nameof(AddPlannedTask)}?{nameof(addTaskViewModel.GoalId)}={goalId}";

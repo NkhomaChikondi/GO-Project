@@ -120,11 +120,12 @@ namespace GO.Views.GoalTask
                
                 // go back to the previous page
                 await Shell.Current.GoToAsync("..");
+                await Application.Current.MainPage.DisplayAlert("Alert", "Updated successfully.", "Ok");
             }
             catch (Exception ex)
             {
                // Debug.WriteLine($"Failed to add new goal: {ex.Message}");
-                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to add new goal: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update task: {ex.Message}", "OK");
             }
             finally
             {

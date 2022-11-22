@@ -91,11 +91,12 @@ namespace GO.Views.SubTaskView
                 await dataTask.UpdateSubTaskAsync(newestSubtask);
                 // go back to the previous page
                 await Shell.Current.GoToAsync("..");
+                await Application.Current.MainPage.DisplayAlert("Alert!", "Updated successfully", "Ok");
             }
             catch (Exception ex)
             {
 
-                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to add new goal: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update subtask: {ex.Message}", "OK");
             }
             finally
             {

@@ -82,7 +82,7 @@ namespace GO.ViewModels.Subtasks
                         //check if newestsubtask has got valid dates
                         if (newestSubtask.SubEnd > task.EndTask)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error!", $"The end date shouldn't be more than the task's End date ({task.enddatetostring})", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error!", $"End date of a subtask, shouldn't be more than the task's End date ({task.enddatetostring})", "Ok");
                             return;
                         }
                         else if (newestSubtask.SubStart > newestSubtask.SubEnd)
@@ -95,6 +95,7 @@ namespace GO.ViewModels.Subtasks
                         await SendNotification();
                     await TaskEnabled(task);
                     await Shell.Current.GoToAsync("..");
+                    await Application.Current.MainPage.DisplayAlert("Alert", " New subtask, added successfully", "Ok");
                 }
                 else if(task.WeekId > 0)
                 {
@@ -121,12 +122,13 @@ namespace GO.ViewModels.Subtasks
                     await dataSubTask.AddSubTaskAsync(newestSubtask);                   
                     await TaskEnabled(task);
                     await Shell.Current.GoToAsync("..");
+                    await Application.Current.MainPage.DisplayAlert("Alert", " New subtask, added successfully", "Ok");
                 }
              
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Failed to add new goal: {ex.Message}");
+                Debug.WriteLine($"Failed to add new Subtask: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error!", ex.Message, "OK");
             }
             finally

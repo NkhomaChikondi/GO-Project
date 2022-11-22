@@ -82,12 +82,12 @@ namespace GO.Views.SubTaskView
                 {
                     if (DateTime.Today > Subtask.SubStart)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "You cannot change start date of a subtask that has already started", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change start date. You cannot change start date of a subtask that has already started", "Ok");
                         return;
                     }
                     if (newSubtask.SubStart > newSubtask.SubEnd)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "Subtask's start date cannot be more than it's end date.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to Change start date. Subtask's start date cannot be more than it's end date.", "Ok");
                         return;
                     }
                     else if (DateTime.Today < Subtask.SubStart)
@@ -95,26 +95,26 @@ namespace GO.Views.SubTaskView
                         // make sure startday is not more than end date
                         if (newSubtask.SubStart > newSubtask.SubEnd)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Alert", "Subtask's start date cannot be more than it's end date.", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error!", "Failed to Change start date. Subtask's start date cannot be more than it's end date.", "Ok");
                             return;
                         }
                     }
                     else if (newSubtask.SubStart < DateTime.Today)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "Start date of a Subtask cannot be less than the date of today.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to Change start date. Start date of a Subtask cannot be less than the date of today.", "Ok");
                         return;
                     }
                 }
                 // check if newsubtask end date is not more than task
                 if (newSubtask.SubEnd > task.EndTask)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", $"End date of a Subtask, cannot be more than task's end date ({task.enddatetostring}).", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to change end date. End date of a Subtask, cannot be more than task's end date ({task.enddatetostring}).", "Ok");
                     return;
                 }
                 // check if the changed end date is below the date of today
                 if (newSubtask.SubEnd < DateTime.Today)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "An updated End Date of a Subtask, cannot be below the date of today", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change end date. An updated End Date of a Subtask, cannot be below the date of today", "Ok");
                     return;
                 }
                 if (newSubtask.SubEnd != Subtask.SubEnd)
@@ -122,12 +122,12 @@ namespace GO.Views.SubTaskView
                     // make sure you cannot expand the end date of a task that has expired whilst it was completed
                     if (Subtask.IsCompleted && Subtask.Status == "Expired")
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "Cannot change the end date of a Subtask that has expired whilst completed", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Failed to change end date", "Failed to change end date. Cannot change the end date of a Subtask that has expired whilst completed", "Ok");
                         return;
                     }
                     else if (Subtask.IsCompleted)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert", "You cannot make end date changes to a subtask that has already been completed, unless, you add more subtasks.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change end date. You cannot make end date changes to a subtask that has already been completed, unless, you add more subtasks.", "Ok");
                         return;
                     }
 
@@ -173,11 +173,12 @@ namespace GO.Views.SubTaskView
                 }
                 // go back to the previous page
                 await Shell.Current.GoToAsync("..");
+                await Application.Current.MainPage.DisplayAlert("Alert!", "Updated successfully", "Ok");
             }
             catch (Exception ex)
             {
                
-                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to add new goal: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update subtask: {ex.Message}", "OK");
             }
             finally
             {
