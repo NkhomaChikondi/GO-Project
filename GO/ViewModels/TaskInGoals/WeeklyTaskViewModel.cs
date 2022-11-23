@@ -274,23 +274,43 @@ namespace GO.ViewModels.TaskInGoals
         }
         async Task SendTaskId(GoalTask goalTask)
         {
+           
+            //
             // get the day for the task
             var day = await dataDow.GetDOWAsync(goalTask.DowId);
             // get the week for the day
             var week = await dataWeek.GetWeekAsync(day.WeekId);
             //check if they are subtasks inside the goaltask
             var subtasks = await dataSubTask.GetSubTasksAsync(goalTask.Id);
-            if(week.Active || subtasks.Count() > 0)
+            if (DateTime.Today > goalTask.CreatedOn)
             {
-                var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
-                await Shell.Current.GoToAsync(route);
+                // check if the task has subtasks
+                if(subtasks.Count() > 0)
+                {
+                    var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
+                    await Shell.Current.GoToAsync(route);
+                }
+                else if(subtasks.Count() == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot go to subtask page. This task expired with zero subtasks", "OK");
+                    return;
+                }
+
             }
-            else 
-            {               
-                await Application.Current.MainPage.DisplayAlert("Alert!", "There no subtasks in this task!", "Ok");
-                return;            
-            }                     
-                   
+            else
+            {
+                if (week.Active || subtasks.Count() > 0)
+                {
+                    var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
+                    await Shell.Current.GoToAsync(route);
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "There no subtasks in this task!", "Ok");
+                    return;
+                }
+            }
+
         }       
         async Task OnUpdateTask(GoalTask goalTask)
         {
