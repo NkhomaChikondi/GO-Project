@@ -19,6 +19,7 @@ namespace GO.ViewModels
         public IDataDow<DOW> dataDow { get; }
         public IDataWeek<Week> dataWeek { get; }
         public IGoalWeek<GoalWeek> datagoalweek { get; }
+        public IToast Datatoast { get; }
         public BaseViewmodel()
         {
             // exposing Godataservice to all view models
@@ -29,7 +30,7 @@ namespace GO.ViewModels
             dataDow = DependencyService.Get<IDataDow<DOW>>();
             dataWeek = DependencyService.Get<IDataWeek<Week>>();
             datagoalweek = DependencyService.Get<IGoalWeek<GoalWeek>>();
-
+            Datatoast = DependencyService.Get<IToast>();
         }
         bool isBusy;
         string Title;

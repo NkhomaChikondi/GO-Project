@@ -202,7 +202,7 @@ namespace GO.ViewModels.Goals
                 else
                 {
                     await Shell.Current.GoToAsync("..");
-                    await Application.Current.MainPage.DisplayAlert("Alert!", $" New Goal,added successfully.", "OK");
+                    Datatoast.toast("New goal added ");
                 }
             }
 

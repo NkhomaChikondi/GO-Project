@@ -198,9 +198,9 @@ namespace GO.ViewModels.Goals
                         LocalNotificationCenter.Current.Cancel(week.Id);
                         await dataWeek.DeleteWeekAsync(week.Id);
                         // get all days having the weekId
-                        var weekdays = await dataDow.GetDOWsAsync(week.Id);  
+                        var weekdays = await dataDow.GetDOWsAsync(week.Id);
                         // loop throogh the das and delete them
-                        foreach(var day in weekdays)
+                        foreach (var day in weekdays)
                         {
                             await dataDow.DeleteDOWAsync(day.DOWId);
                         }
@@ -224,7 +224,7 @@ namespace GO.ViewModels.Goals
                     }
                 }
                 await Refresh();
-                await Application.Current.MainPage.DisplayAlert("Alert", "Deleted successfully", "OK");
+                Datatoast.toast("Goal deleted ");
             }
             else if (!ans)
                 return;

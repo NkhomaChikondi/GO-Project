@@ -70,17 +70,17 @@
                                     <SwipeItem Command="{Binding Source={x:Reference CategoryPage},Path=BindingContext.UpdateCommand }"
                                       CommandParameter="{Binding .}"
                                       IsDestructive="True"  
-                                       BackgroundColor="#61a5c2"   
+                                       BackgroundColor="Transparent"   
                                       IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                                 Glyph={x:Static helpers:IconFont.BookEdit},Size=25,Color=#61a5c2}"
+                                                 Glyph={x:Static helpers:IconFont.BookEdit},Size=20,Color=LightGray}"
                                                Text="Edit"
                                 />
                                     <SwipeItem Command="{Binding Source={x:Reference CategoryPage},Path=BindingContext.DeleteCommand }"
                                        CommandParameter="{Binding .}"
                                        IsDestructive="True" 
-                                       BackgroundColor="LightCoral" 
+                                       BackgroundColor="Transparent" 
                                        IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                         Glyph={x:Static helpers:IconFont.Delete},Size=25,Color=#61a5c2 }"
+                                         Glyph={x:Static helpers:IconFont.Delete},Size=20,Color=#61a5c2 }"
                                                Text="Delete"
                                 />
                                 </SwipeView.LeftItems>

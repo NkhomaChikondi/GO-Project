@@ -178,7 +178,7 @@ namespace GO.ViewModels.Subtasks
                     await dataTask.UpdateTaskAsync(task);
                 }
                 await Refresh();
-                await Application.Current.MainPage.DisplayAlert("Alert!", "Deleted successfully", "Ok");
+                Datatoast.toast("Subtask deleted");
             }
             else if (!ans)
                 return;

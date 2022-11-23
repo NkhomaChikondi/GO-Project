@@ -406,7 +406,7 @@ namespace GO.ViewModels.TaskInGoals
                 }
 
                 await Refresh();
-                await Application.Current.MainPage.DisplayAlert("Alert!", "Deleted successfully", "Ok");
+                Datatoast.toast("Task deleted");
             }
             else if (!ans)
                 return;

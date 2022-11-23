@@ -24,12 +24,14 @@ namespace GO.Views.GoalTask
         public IDataTask<Models.GoalTask> dataTask { get; }
         public IDataGoal<Models.Goal> dataGoal { get; }
         public IDataSubtask<Subtask> datasubTask { get; }
+        public IToast GetToast { get; }
         public UpdateTaskPage()
         {
             InitializeComponent();
             dataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();
             dataGoal = DependencyService.Get<IDataGoal<Models.Goal>>();
             datasubTask = DependencyService.Get<IDataSubtask<Subtask>>();
+            GetToast = DependencyService.Get<IToast>();
             BindingContext = new addTaskViewModel();
             //detaillabel.TranslateTo(100, 0,3000, Easing.Linear);
         }
@@ -239,8 +241,8 @@ namespace GO.Views.GoalTask
                 }               
                     // go back to the previous page
                     await Shell.Current.GoToAsync("..");
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "Updated Successfully", "Ok");
-           }
+                GetToast.toast("Task Updated");
+            }
            catch (Exception ex)
            {
                 await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update new task: {ex.Message}", "OK");

@@ -60,7 +60,7 @@ namespace GO.ViewModels.Categorys
                 };
                 await datastore.AddItemAsync(newestCategory);               
                 await Shell.Current.GoToAsync("..");
-                await Application.Current.MainPage.DisplayAlert("Alert!", "New Category,added Successfully ", "OK");
+                Datatoast.toast("New category added successfully.");
             }
             catch (Exception ex)
             {

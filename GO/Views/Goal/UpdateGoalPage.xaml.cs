@@ -28,12 +28,14 @@ namespace GO.Views.Goal
         public IDataGoal<Models.Goal> dataGoal { get; }
         public IDataTask<Models.GoalTask> dataTask { get; }
         public IDataWeek<Week> dataWeek { get; }
+        public IToast GetToast { get; }
         public UpdateGoalPage()
         {
             InitializeComponent();
             dataGoal = DependencyService.Get<IDataGoal<Models.Goal>>();
             dataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();
             dataWeek = DependencyService.Get<IDataWeek<Week>>();
+            GetToast = DependencyService.Get<IToast>();
             BindingContext = new GoalViewModel();
             //detaillabel.TranslateTo(100, 0, 3000, Easing.Linear);
 
@@ -238,7 +240,7 @@ namespace GO.Views.Goal
                // cancel its notification
                  await SendNotification();                
                 await Shell.Current.GoToAsync("..");
-                await Application.Current.MainPage.DisplayAlert("Alert!", "Updated Successfully", "Ok");
+                GetToast.toast("Goal updated");
 
 
             }

@@ -22,6 +22,7 @@ namespace GO.Views.GoalTask
         Models.GoalTask GoalTask = new Models.GoalTask();
         public IDataWeek<Models.Week> dataWeek { get; }
         public IDataTask<Models.GoalTask> dataTask { get; }
+        public IToast GetToast { get; }
         public IDataSubtask<Subtask> datasubTask { get; }
         public UpdateWeekTask()
         {
@@ -29,6 +30,7 @@ namespace GO.Views.GoalTask
             dataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();
             dataWeek = DependencyService.Get < IDataWeek<Models.Week>>();
             datasubTask = DependencyService.Get<IDataSubtask<Subtask>>();
+            GetToast = DependencyService.Get<IToast>();
             BindingContext = new addTaskViewModel();
           //  detaillabel1.TranslateTo(100, 0, 3000, Easing.Linear);
         }
@@ -68,10 +70,10 @@ namespace GO.Views.GoalTask
                 // create a new task object
                 var newtask = new Models.GoalTask
                 {
-                    taskName = Tasknameeditor.Text,              
-                                      
+                    taskName = Tasknameeditor.Text,
+
                     Description = Desciptioneditor.Text,
-                   
+
                 };
                 // get all tasks in GoalId
                 var alltasks = await dataTask.GetTasksAsync(GoalTask.Id);
@@ -82,7 +84,7 @@ namespace GO.Views.GoalTask
                 {
                     await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
                     return;
-                }               
+                }
                 // check if goal has week or not
                 // get last inserted week in "this" goal
                 var week = await dataWeek.GetWeeksAsync(GoalTask.GoalId);
@@ -99,7 +101,7 @@ namespace GO.Views.GoalTask
                 var newestTask = new Models.GoalTask
                 {
                     Id = GoalTask.Id,
-                    taskName = UppercasedName,                   
+                    taskName = UppercasedName,
                     GoalId = GoalTask.GoalId,
                     IsCompleted = GoalTask.IsCompleted,
                     Description = newtask.Description,
@@ -117,14 +119,14 @@ namespace GO.Views.GoalTask
 
                 // add the new task to the database                
                 await dataTask.UpdateTaskAsync(newestTask);
-               
+
                 // go back to the previous page
                 await Shell.Current.GoToAsync("..");
-                await Application.Current.MainPage.DisplayAlert("Alert", "Updated successfully.", "Ok");
+                GetToast.toast("Task Updated");
             }
             catch (Exception ex)
             {
-               // Debug.WriteLine($"Failed to add new goal: {ex.Message}");
+                // Debug.WriteLine($"Failed to add new goal: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update task: {ex.Message}", "OK");
             }
             finally

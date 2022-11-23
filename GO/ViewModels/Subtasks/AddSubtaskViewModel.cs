@@ -95,7 +95,7 @@ namespace GO.ViewModels.Subtasks
                         await SendNotification();
                     await TaskEnabled(task);
                     await Shell.Current.GoToAsync("..");
-                    await Application.Current.MainPage.DisplayAlert("Alert", " New subtask, added successfully", "Ok");
+                    Datatoast.toast("New subtask added");
                 }
                 else if(task.WeekId > 0)
                 {
@@ -122,7 +122,7 @@ namespace GO.ViewModels.Subtasks
                     await dataSubTask.AddSubTaskAsync(newestSubtask);                   
                     await TaskEnabled(task);
                     await Shell.Current.GoToAsync("..");
-                    await Application.Current.MainPage.DisplayAlert("Alert", " New subtask, added successfully", "Ok");
+                    Datatoast.toast("New subtask added");
                 }
              
             }

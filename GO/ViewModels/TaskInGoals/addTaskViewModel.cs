@@ -208,7 +208,7 @@ namespace GO.ViewModels.TaskInGoals
                 else
                 {
                     await Shell.Current.GoToAsync("..");
-                    await Application.Current.MainPage.DisplayAlert("Alert", "New Task, Added Successfully", "Ok");
+                    Datatoast.toast("New task added");
                 }
                
             }
@@ -312,7 +312,7 @@ namespace GO.ViewModels.TaskInGoals
                     //var route = $"{nameof(GoalTaskPage)}?goalId={goalId}";
                     //await Shell.Current.GoToAsync(route);
                     await Shell.Current.GoToAsync("..");
-                    await Application.Current.MainPage.DisplayAlert("Alert", "New Task, Added Successfully", "Ok");
+                    Datatoast.toast("New task added");
                 }
                
             }

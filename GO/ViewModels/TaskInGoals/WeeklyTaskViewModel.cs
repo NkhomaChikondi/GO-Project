@@ -343,7 +343,7 @@ namespace GO.ViewModels.TaskInGoals
                
                 await CalculateTotalWeekPercentage(week);
                 await Refresh();
-                await Application.Current.MainPage.DisplayAlert("Alert!", "Deleted Successfully", "Ok");
+                Datatoast.toast("Task Deleted");
             }
             else if (!ans)
                 return;

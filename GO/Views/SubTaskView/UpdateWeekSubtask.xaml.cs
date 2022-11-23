@@ -19,6 +19,7 @@ namespace GO.Views.SubTaskView
 
         public string SubtaskId { get; set; }
         public Subtask GetSubtask = new Subtask();
+        public IToast GetToast { get; }
         public IDataSubtask<Subtask> dataTask { get; }
         public IDataTask<Models.GoalTask> datatask { get; }
         public UpdateWeekSubtask()
@@ -26,6 +27,7 @@ namespace GO.Views.SubTaskView
             InitializeComponent();
             dataTask = DependencyService.Get<IDataSubtask<Subtask>>();
             datatask = DependencyService.Get<IDataTask<Models.GoalTask>>();
+            GetToast = DependencyService.Get<IToast>();
             BindingContext = new AddSubtaskViewModel();
             //detaillabel4.TranslateTo(100, 0, 8000, Easing.Linear);
         }
@@ -91,7 +93,7 @@ namespace GO.Views.SubTaskView
                 await dataTask.UpdateSubTaskAsync(newestSubtask);
                 // go back to the previous page
                 await Shell.Current.GoToAsync("..");
-                await Application.Current.MainPage.DisplayAlert("Alert!", "Updated successfully", "Ok");
+                GetToast.toast("Subtask Updated");
             }
             catch (Exception ex)
             {
