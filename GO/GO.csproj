@@ -6,6 +6,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="EmbeddedFonts\Roboto-Black.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-BlackItalic.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Bold.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-BoldItalic.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Italic.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Light.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-LightItalic.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Medium.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-MediumItalic.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Regular.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Thin.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Black.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-BlackItalic.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Bold.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-BoldItalic.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Italic.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Light.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-LightItalic.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Medium.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-MediumItalic.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Regular.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Thin.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Plugin.LocalNotification" Version="10.0.2" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
     <PackageReference Include="Shiny.Core" Version="2.5.4" />

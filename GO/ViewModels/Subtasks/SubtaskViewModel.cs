@@ -369,13 +369,13 @@ namespace GO.ViewModels.Subtasks
             // loop the tasks
             foreach (var subtask in Allsubtask)
             {
-                if (!subtask.IsCompleted && DateTime.Today <= subtask.SubEnd)
+                if (!subtask.IsCompleted && DateTime.Today.Date <= subtask.SubEnd.Date)
                     subtask.Status = "Uncompleted";               
 
-                else if (subtask.IsCompleted && DateTime.Today <= subtask.SubEnd)
+                else if (subtask.IsCompleted && DateTime.Today.Date <= subtask.SubEnd.Date)
                     subtask.Status = "Completed";
 
-                else if (DateTime.Today > subtask.SubEnd)
+                else if (DateTime.Today.Date > subtask.SubEnd.Date)
                     subtask.Status = "Expired";
 
                 await dataSubTask.UpdateSubTaskAsync(subtask);
@@ -412,7 +412,7 @@ namespace GO.ViewModels.Subtasks
             // loop through the subtasks and check if the subtask has expired
             foreach (var subtask in Allsubtask)
             {
-                if (DateTime.Now > subtask.SubEnd)
+                if (DateTime.Today.Date > subtask.SubEnd.Date)
                     subtask.Status = "Expired";
                 await dataSubTask.UpdateSubTaskAsync(subtask);
             }

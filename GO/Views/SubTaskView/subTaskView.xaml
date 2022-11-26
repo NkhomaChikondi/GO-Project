@@ -40,11 +40,11 @@
             <Frame Grid.ColumnSpan="4">
                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                     <StackLayout Orientation="Horizontal">
-                        <Button x:Name="ball" Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="ball_Clicked"></Button>
-                        <Button x:Name="bnotstarted"  Margin="0,15,0,15"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Uncompleted" Clicked="bnotstarted_Clicked"></Button>
-                        <Button x:Name="bcompleted"  Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="bcompleted_Clicked"></Button>
-                        <Button x:Name="bduesoon"  Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="bduesoon_Clicked"></Button>
-                        <Button x:Name="bexpired"  Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="bexpired_Clicked"></Button>
+                        <Button x:Name="ball" Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="ball_Clicked"></Button>
+                        <Button x:Name="bnotstarted"  Margin="0,13,0,15"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Uncompleted" Clicked="bnotstarted_Clicked"></Button>
+                        <Button x:Name="bcompleted"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="bcompleted_Clicked"></Button>
+                        <Button x:Name="bduesoon"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="bduesoon_Clicked"></Button>
+                        <Button x:Name="bexpired"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="bexpired_Clicked"></Button>
                     </StackLayout>
                 </ScrollView>
             </Frame >

@@ -38,20 +38,20 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackLayout Grid.Row="0" Grid.ColumnSpan="4" x:Name="topRow" Orientation="Vertical">
-            <Frame Grid.ColumnSpan="4">
+            <Frame Grid.ColumnSpan="4" >
                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
-                    <StackLayout Orientation="Horizontal">
-                        <Button x:Name="btnall" Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btnall_Clicked"></Button>
-                        <Button x:Name="btnnotstarted"  Margin="0,15,0,15"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="btnnotstarted_Clicked"></Button>
-                        <Button x:Name="btninprogress" Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="btninprogress_Clicked"></Button>
-                        <Button x:Name="btncompleted"  Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="btncompleted_Clicked"></Button>
-                        <Button x:Name="duesoon"  Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="duesoon_Clicked"></Button>
-                        <Button x:Name="expired"  Margin="0,15,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="expired_Clicked"></Button>
+                    <StackLayout Orientation="Horizontal" >
+                        <Button x:Name="btnall" Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btnall_Clicked"></Button>
+                        <Button x:Name="btnnotstarted"  Margin="0,13,0,15"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="btnnotstarted_Clicked"></Button>
+                        <Button x:Name="btninprogress" Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="btninprogress_Clicked"></Button>
+                        <Button x:Name="btncompleted"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="btncompleted_Clicked"></Button>
+                        <Button x:Name="duesoon"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="duesoon_Clicked"></Button>
+                        <Button x:Name="expired"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="expired_Clicked"></Button>
                     </StackLayout>
                 </ScrollView>
 
             </Frame >
-            <StackLayout  Grid.ColumnSpan="4" Margin="14,5">
+            <StackLayout  Grid.ColumnSpan="4" Margin="14,6">
                 <Label Text="My Goals" FontAttributes="Bold" FontSize="Medium"/>
             </StackLayout>
 
@@ -97,42 +97,41 @@
                                 </ViewCell.ContextActions>
 
                                 <Grid ColumnSpacing="5" Padding="5">
-                                    <Frame
-                                    CornerRadius="15"
-                                    HasShadow="True"
-                                    BackgroundColor="White"
-                                    Padding="8"
-                                    Margin="5,0,7,0">
-                                        <Grid Padding="2">
+                                <Frame
+                                        CornerRadius="15"
+                                        HasShadow="True"
+                                        BackgroundColor="White"
+                                        Padding="8"
+                                        Margin="5,0,7,0">
+                                    <Grid Padding="2">
                                             <RelativeLayout VerticalOptions="Center"/>
 
                                             <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"  Orientation="Vertical" >
                                                 <Label Grid.Row="0" Grid.Column="0"  Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium"></Label>
-                                                <StackLayout Orientation="Horizontal" Margin="10,0,-10,0">
-                                                    <ProgressBar  Margin="18,0,-125,0" HorizontalOptions="CenterAndExpand"
-                                                        x:Name = "goalprogresbar"                                                                      
-                                                        Progress = "{Binding Progress}"
-                                                        FlowDirection = "LeftToRight"                                                                                                 
-                                                        ProgressColor = "#e76f51"
-                                                        ScaleX = "3.7"
-                                                        ScaleY = "2"   
+                                                <StackLayout Orientation="Horizontal">
+                                                <Label  Text=""  ></Label>
+                                                <ProgressBar HorizontalOptions="CenterAndExpand"
+                                                                x:Name = "goalprogresbar"                                                                      
+                                                                Progress = "{Binding Progress}"
+                                                                FlowDirection = "LeftToRight"                                                                                                 
+                                                                ProgressColor = "#e76f51"
+                                                                ScaleX = "3.3"
+                                                                ScaleY = "2.5"   
                                                                       
                                                     />
-                                                    <Label Grid.Column=" 4" Grid.Row="0" Margin="190,0,0,0"
-                                                       HorizontalTextAlignment="Start" >
-                                                        <Label.FormattedText>
-                                                            <FormattedString >
-                                                                <Span Text="{Binding Percentage}" FontSize="Small" />
-                                                                <Span Text="% " FontSize="Small"   />
-                                                            </FormattedString>
-                                                        </Label.FormattedText>
-                                                    </Label>
-                                                    <Label  Text="Due on:" FontSize="14" FontAttributes="Bold" TextColor="#adb5bd"></Label>
-                                                    <Label  Text="{Binding enddatetostring}" FontSize="14" FontAttributes="Bold" TextColor="#adb5bd"></Label>
-                                                  
-                                                </StackLayout>
-
-
+                                                <Label  Text=" "  ></Label>
+                                                <Label Grid.Column=" 4" Grid.Row="0" 
+                                                       HorizontalTextAlignment="Start"  >
+                                                     <Label.FormattedText>
+                                                        <FormattedString >
+                                                            <Span Text="{Binding Percentage}" FontSize="16" />
+                                                            <Span Text="% " FontSize="16"   />
+                                                        </FormattedString>
+                                                     </Label.FormattedText>
+                                                   </Label>
+                                                    <Label  Text="Due-on:" FontSize="17"  ></Label>
+                                                    <Label  Text="{Binding enddatetostring}" FontSize="17" ></Label>
+                                               </StackLayout>                                            
                                             </StackLayout>
 
                                         </Grid>
