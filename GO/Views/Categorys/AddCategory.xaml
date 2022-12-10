@@ -20,12 +20,12 @@
                 </Grid.RowDefinitions>
 
                 <StackLayout Orientation="Vertical"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="2" Padding="0"  Margin="9,20,20,0">
-                    <Label Grid.Row="0" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Text="Create A New Category" FontSize="Title" FontAttributes="Bold" Padding="20" ></Label>
+                    <Label Grid.Row="0" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Text="Create New Category" FontFamily="RobotoBlack" FontSize="Title" FontAttributes="Bold" Padding="20" ></Label>
                  </StackLayout>
                 <StackLayout Orientation="Vertical"   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="9,0,20,0">
                     <Label Text="Name:" FontSize="Medium" FontAttributes="Bold"></Label>
 
-                    <Editor  Text="{Binding Name}"  FontSize="Small" FontAttributes="None"  Grid.Column="0" MaxLength="55"   Placeholder="50 maximum characters" PlaceholderColor="OrangeRed" >
+                    <Editor  Text="{Binding Name}"  FontSize="Small" FontFamily="RobotoBold"  Grid.Column="0" MaxLength="55"   Placeholder="50 maximum characters" PlaceholderColor="OrangeRed" >
 
                     </Editor>
 

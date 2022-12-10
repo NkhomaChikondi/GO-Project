@@ -145,7 +145,7 @@ namespace GO.ViewModels.Goals
                     CreatedOn = DateTime.Now,
                     Start = start,
                     End = end,
-                    enddatetostring = End.ToShortDateString(),
+                    enddatetostring = End.ToLongDateString(),
                     Time = time,
                     Percentage = 0,
                     Status = "Not Started",

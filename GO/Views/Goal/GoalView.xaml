@@ -41,18 +41,18 @@
             <Frame Grid.ColumnSpan="4" >
                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                     <StackLayout Orientation="Horizontal" >
-                        <Button x:Name="btnall" Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btnall_Clicked"></Button>
-                        <Button x:Name="btnnotstarted"  Margin="0,13,0,15"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="btnnotstarted_Clicked"></Button>
-                        <Button x:Name="btninprogress" Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="btninprogress_Clicked"></Button>
-                        <Button x:Name="btncompleted"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="btncompleted_Clicked"></Button>
-                        <Button x:Name="duesoon"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="duesoon_Clicked"></Button>
-                        <Button x:Name="expired"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="expired_Clicked"></Button>
+                        <Button x:Name="btnall" Margin="0,13,0,15" FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btnall_Clicked"></Button>
+                        <Button x:Name="btnnotstarted"  Margin="0,13,0,15"  FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="btnnotstarted_Clicked"></Button>
+                        <Button x:Name="btninprogress" Margin="0,13,0,15" FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="btninprogress_Clicked"></Button>
+                        <Button x:Name="btncompleted"  Margin="0,13,0,15" FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="btncompleted_Clicked"></Button>
+                        <Button x:Name="duesoon" FontFamily="RobotoMedium" Margin="0,13,0,15" BackgroundColor="Transparent"  TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="duesoon_Clicked"></Button>
+                        <Button x:Name="expired" FontFamily="RobotoMedium"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="expired_Clicked"></Button>
                     </StackLayout>
                 </ScrollView>
 
             </Frame >
             <StackLayout  Grid.ColumnSpan="4" Margin="14,6">
-                <Label Text="My Goals" FontAttributes="Bold" FontSize="Medium"/>
+                <Label Text="Goals"  FontFamily="RobotoBlack" FontSize="19"/>
             </StackLayout>
 
         </StackLayout>
@@ -107,7 +107,7 @@
                                             <RelativeLayout VerticalOptions="Center"/>
 
                                             <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"  Orientation="Vertical" >
-                                                <Label Grid.Row="0" Grid.Column="0"  Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium"></Label>
+                                            <Label Grid.Row="0" Grid.Column="0"  Text="{Binding Name}" FontFamily="RobotoBold" FontSize="18.5"></Label>
                                                 <StackLayout Orientation="Horizontal">
                                                 <Label  Text=""  ></Label>
                                                 <ProgressBar HorizontalOptions="CenterAndExpand"
@@ -115,13 +115,13 @@
                                                                 Progress = "{Binding Progress}"
                                                                 FlowDirection = "LeftToRight"                                                                                                 
                                                                 ProgressColor = "#e76f51"
-                                                                ScaleX = "3.3"
+                                                                ScaleX = "3.2"
                                                                 ScaleY = "2.5"   
                                                                       
                                                     />
                                                 <Label  Text=" "  ></Label>
-                                                <Label Grid.Column=" 4" Grid.Row="0" 
-                                                       HorizontalTextAlignment="Start"  >
+                                                <Label Grid.Column=" 4" Grid.Row="0" FontFamily="RobotoMedium" 
+                                                       HorizontalTextAlignment="Start" Margin="0,5"  >
                                                      <Label.FormattedText>
                                                         <FormattedString >
                                                             <Span Text="{Binding Percentage}" FontSize="16" />
@@ -129,8 +129,8 @@
                                                         </FormattedString>
                                                      </Label.FormattedText>
                                                    </Label>
-                                                    <Label  Text="Due-on:" FontSize="17"  ></Label>
-                                                    <Label  Text="{Binding enddatetostring}" FontSize="17" ></Label>
+                                                <Label  Text="Due:" FontSize="15" FontFamily="RobotoMedium" Margin="0,5"></Label>
+                                                <Label  Text="{Binding enddatetostring}" FontSize="15" FontFamily="RobotoMedium" Margin="0,5"></Label>
                                                </StackLayout>                                            
                                             </StackLayout>
 
