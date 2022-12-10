@@ -38,11 +38,7 @@
             <Style TargetType="ContentPage">
                 <Setter Property="BackgroundColor" Value="#495057"/>
             </Style>
-            <Style TargetType="Label">
-                <Setter Property="FontSize" Value="Large"/>
-                <Setter Property="HorizontalOptions" Value="Start"/>
-            </Style>
-
+           
            
 
         </ResourceDictionary>        

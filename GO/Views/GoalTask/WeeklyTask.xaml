@@ -121,7 +121,7 @@
             </StackLayout>
 
 
-            <Frame Grid.Row="3" Grid.ColumnSpan="4" Grid.RowSpan="7" Margin="0,-23" BackgroundColor="#f9f9f9">
+            <Frame Grid.RowSpan="7" Margin="0,-23" BackgroundColor="#f9f9f9" HorizontalOptions="CenterAndExpand" >
 
                 <ScrollView VerticalOptions="FillAndExpand" Orientation="Vertical" VerticalScrollBarVisibility="Never" Grid.ColumnSpan="4">
                       <StackLayout>

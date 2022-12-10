@@ -132,20 +132,21 @@ namespace GO.ViewModels.Goals
             // get the tasks having the goal id
             var tasks = await dataTask.GetTasksAsync(goal.Id);
             // check if the goal has expired with no tasks
-            if (goal.Status == "Expired")
+            if (goal.Status == "Expired" && tasks.Count() == 0)
             {
-                // check if it has tasks
-                if (tasks.Count() == 0)
-                    await Application.Current.MainPage.DisplayAlert("Alert", "Cannot view tasks for this goal! It expired with no tasks.", "Ok");
-                return;
+                await Application.Current.MainPage.DisplayAlert("Alert", "Cannot view tasks for this goal! It expired with no tasks.", "Ok");
+                return;              
             }
-
+           
             else
             {
                 // check if the HAS WEEK in goal is == true
                 if (goal.HasWeek && !goal.Noweek)
                 {
-                    await CreateWeek(goal);
+                    if(goal.Status != "Expired")
+                    {
+                        await CreateWeek(goal);
+                    }                   
                     //await DeleteWeek(goal);
                     // get the last week's id in this goal
                     var weeks = await dataWeek.GetWeeksAsync(goal.Id);

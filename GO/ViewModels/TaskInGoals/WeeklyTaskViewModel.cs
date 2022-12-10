@@ -376,6 +376,7 @@ namespace GO.ViewModels.TaskInGoals
             }
             // get all tasks having sundayId
             var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
+            
             // check if week is active
             if (week.Active)
             {
@@ -1072,6 +1073,16 @@ namespace GO.ViewModels.TaskInGoals
             //var Dows = await dataDow.GetDOWsAsync();
             var tasks = await dataTask.GetTasksAsync(goalId, weekId);
             var dayTasks = tasks.Where(T => T.DowId == DowId).ToList();
+            // get week having the weekid
+            var week = await dataWeek.GetWeekAsync(weekId);            
+            // get goal
+            var goal = await datagoal.GetGoalAsync(week.GoalId);
+            // check if the week's goal has expired
+            if (DateTime.Today > goal.End && week.Active)
+            {
+                week.Active = false;
+                await dataWeek.UpdateWeekAsync(week);
+            }
             if (all)
                 // retrieve the categories back
                 dowTasks.AddRange(dayTasks);

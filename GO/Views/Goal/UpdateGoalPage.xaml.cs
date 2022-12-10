@@ -226,7 +226,7 @@ namespace GO.Views.Goal
                     Progress = Goal.Progress,
                     Status = Goal.Status,
                     Time = Goal.Time,
-                    enddatetostring = newGoal.End.ToShortDateString()
+                    enddatetostring = newGoal.End.ToLongDateString(),
                 };
 
             // check if updated goal's end date is more than dbgoal end date
