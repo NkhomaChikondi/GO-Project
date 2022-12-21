@@ -6,11 +6,11 @@
              xmlns:plugin="clr-namespace:ProgressRingControl.Forms.Plugin;assembly=ProgressRing.Forms.Plugin"
              xmlns:helpers="clr-namespace:GO.Font"
              xmlns:model="clr-namespace:GO.Models"
-             xmlns:Viewmodel1="clr-namespace:GO.ViewModels.Weeks"
-             x:Class="GO.Views.GoalTask.WeeklyTask"
-            
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             x:Class="GO.Views.GoalTask.WeeklyTask"            
              Title="Weekly Task"
              x:Name="WeeklyTaskPage">
+    
     <ContentPage.BindingContext>
         <Viewmodel:WeeklyTaskViewModel/>
     </ContentPage.BindingContext>
@@ -39,286 +39,97 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackLayout>
-            <Frame HasShadow="True" CornerRadius="25" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="4" BackgroundColor="#e9ecef" Padding="0,10,0,0">
-                <StackLayout Margin="10,0,20,0" Orientation="Vertical">
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" >
-                        <Image x:Name="isactive"  Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                    Glyph={x:Static helpers:IconFont.CircleOpacity},Size=15,Color=Green }"/>
-                        <Image x:Name="isnotactive" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                    Glyph={x:Static helpers:IconFont.CircleOpacity},Size=15,Color=Red }"/>
-                        <Label x:Name="Activename" Text="Active"/>
-                    </StackLayout>
-                    <StackLayout Margin="0,-29,13,0" Orientation="Horizontal"  HorizontalOptions="Start" VerticalOptions="Start"  >
-                        <ImageButton Margin="0,0,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                      Glyph={x:Static helpers:IconFont.CalendarWeek},Size=30,Color=#403d39
-                      }" HorizontalOptions="Start" VerticalOptions="Center"/>
+        <ScrollView Orientation="Vertical" VerticalScrollBarVisibility="Never">
+            <StackLayout>
 
-                        <Label Text="Plan Your Week" FontSize="18" VerticalOptions="Center" 
-                     FontAttributes="Bold" Margin="-20,0" TextColor="#403d39"/>
+                <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand">
+                    <StackLayout  Orientation="Horizontal" Margin="31,5">
+                        <Label Text="Weekly Statistics" FontAttributes="Bold" FontSize="19"></Label>
+                        <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.GraphOutline},Size=25,Color=#61a5c2}" />
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal"  Margin="3,0,0,0" >
-                        <Label  FontAttributes="Bold" TextColor="#f4978e" FontSize="Small" VerticalOptions="CenterAndExpand" 
-                                                   HorizontalOptions="StartAndExpand">
+                    <StackLayout >
+                        <Label Text="See how you have perfomed this week"  TextColor="Gray" FontAttributes="Italic" FontSize="17"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" Margin="0,79">
+
+                    <plugin:ProgressRing HeightRequest="40" Margin="20,0" Scale="4.8" WidthRequest="43" RingThickness="5" Progress=" 0.5" RingBaseColor="#495057" ProgressColor="#61a5c2"></plugin:ProgressRing>
+
+                </StackLayout>
+                <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Vertical" Margin="0,-130" >
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                        <Label Text="100"/>
+                        <Label Text="%"/>
+                    </StackLayout>
+                    <StackLayout>
+                        <Label Text="Week progress"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout HorizontalOptions="EndAndExpand" Margin="0,180,49,0">
+                    <Label Text="In Progress"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Margin="0,20">
+                    <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Vertical">
+                        <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.CalendarWeek},Size=20,Color=#61a5c2}" />
+                        <Label Text="1" FontAttributes="Bold" FontSize="16" Margin="39,0"/>
+                        <Label Text="Week Number"  TextColor="Gray" FontAttributes="Italic" FontSize="14" Margin="10,0"/>
+
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="StartAndExpand" Orientation="Vertical" >
+                        <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Target},Size=20,Color=#61a5c2}" />
+                        <Label Margin="18,0">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="From  "  />
-                                    <Span x:Name="startdate" Text= ""   />
-                                    <Span Text="  To  "/>
-                                    <Span x:Name="enddate" Text= ""   />
+                                    <Span Text="100"  FontAttributes="Bold" FontSize="16"/>
+
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
+                        <Label Text="Target %" TextColor="Gray" FontAttributes="Italic" FontSize="14" Margin="12,0"/>
+                    </StackLayout>
+
+                    <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Vertical" Margin="0,0,20,0">
+                        <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.CalendarWeekBegin},Size=20,Color=#61a5c2}" />
+                        <Label Text="1/09/89" FontAttributes="Bold" FontSize="16"/>
+                        <Label Text="Week starts" TextColor="Gray" FontAttributes="Italic" FontSize="14"/>
 
                     </StackLayout>
-                    <StackLayout Margin="3,0,0,0">
-                        <Label  FontAttributes="Bold" TextColor="#403d39" FontSize="Small" VerticalOptions="CenterAndExpand" 
-                                                   HorizontalOptions="StartAndExpand">
+                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Vertical" Margin="0,0,20,0">
+                        <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.CalendarWeekend},Size=20,Color=#61a5c2}" />
+                        <Label Text="11/0/98"  FontAttributes="Bold" FontSize="16"/>
+                        <Label Text="Week Ends" TextColor="Gray" FontAttributes="Italic" FontSize="14"/>
+
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,-12">
+                    <StackLayout Orientation="Horizontal">
+                        <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronDoubleLeft},Size=27,Color=#61a5c2}" />
+                        <Label Margin="0,10" FontAttributes="Bold" FontSize="15" >
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="Week's Target Percent: "  />
-                                    <Span x:Name="Weekspercentage" Text= ""   />
-
+                                    <Span Text="Week:"/>
+                                    <Span Text=" 1"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                    </StackLayout>
-
-                    <StackLayout Orientation="Vertical"  Margin="0,45" >
-                        <plugin:ProgressRing x:Name="progress" HeightRequest="50" Scale="2.9" WidthRequest="50" RingThickness="10"  RingBaseColor="#adb5bd" ProgressColor="#6f1d1b"></plugin:ProgressRing>
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,-35">
-                            <Label  x:Name="weeksaccumulatedpercentage" TextColor="#403d39" Text=" " FontSize="Medium" FontAttributes="Bold"/>
-                            <Label TextColor="#403d39" Text="%" FontSize="Medium" FontAttributes="Bold"/>
-                        </StackLayout>                      
-                    </StackLayout>
-                    <StackLayout HorizontalOptions="EndAndExpand" Margin="0,0,34,0">
-                        <Label x:Name="statusweek" Text=" " FontAttributes="Italic" TextColor="#f9dcc4" ></Label>
-                    </StackLayout>
-
-                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,28">
-                        <Label Text="Percentage For The Week's Completed Tasks" TextColor="#403d39" FontSize="15" FontAttributes="Bold"></Label>
+                        <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ChevronDoubleRight},Size=27,Color=#61a5c2}" />
                     </StackLayout>
                 </StackLayout>
 
-            </Frame>
-            <StackLayout BackgroundColor="#f8f9fa">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
-                    <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                    Glyph={x:Static helpers:IconFont.ChevronDoubleLeft},Size=35,Color=Black }" Clicked="ImageButton_Clicked"/>
-                    <Label Margin="0,20" FontSize="16" FontAttributes="Bold">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text=" Week:  "  />
-                                <Span x:Name="weeknum" Text= ""   />                               
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                    <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                    Glyph={x:Static helpers:IconFont.ChevronDoubleRight},Size=35,Color=Black }" Clicked="ImageButton_Clicked_1"/>
+                <StackLayout Margin="0,10">
+                    <microcharts:ChartView x:Name="chartView" HeightRequest="300" WidthRequest="250"/>
 
                 </StackLayout>
-
             </StackLayout>
-
-
-            <Frame Grid.RowSpan="7" Margin="0,-23" BackgroundColor="#f9f9f9" HorizontalOptions="CenterAndExpand" >
-
-                <ScrollView VerticalOptions="FillAndExpand" Orientation="Vertical" VerticalScrollBarVisibility="Never" Grid.ColumnSpan="4">
-                      <StackLayout>
-                        <StackLayout HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="4" >
-                            <Label Text="View Tasks For The Week" FontSize="Medium" FontAttributes="Bold"/>
-                        </StackLayout>
-                     
-                        <StackLayout HorizontalOptions="StartAndExpand" Grid.ColumnSpan="4" Margin="0,15" >
-                            <Frame CornerRadius="15" BorderColor="LightGray" HasShadow="True">
-                                <StackLayout Orientation="Horizontal" Spacing="15">
-                                   
-                                    <StackLayout Orientation="Horizontal" >
-
-                                        <Label Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Sunday" FontSize="Medium" FontAttributes="Bold" />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="number of tasks: " FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span x:Name="SunNumTask" Text=" " FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="Accumulated percentage: " FontSize="Small"  TextColor="#adb5bd"/>
-                                                    <Span x:Name="SunTasktotalpercentage"  Text=" " FontSize="Small" TextColor="#adb5bd"  />
-
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <StackLayout HorizontalOptions="EndAndExpand"  Grid.Column="4" Margin="6,9">
-                                            <Button x:Name="btnSun" CornerRadius="25" Text=" view Tasks" 
-                                                    Command="{Binding SunCommand}" TextColor="#61a5c2" BackgroundColor="#f8f9fa"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </StackLayout>
-                                
-                            </Frame>
-                            <Frame CornerRadius="15" BorderColor="LightGray" HasShadow="True">
-                                <StackLayout Orientation="Vertical" Spacing="15">
-                                    <StackLayout Orientation="Horizontal" >
-                                       
-                                        <Label Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Monday" FontSize="Medium" FontAttributes="Bold" />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="number of tasks: " FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span   x:Name="MonNumTask" Text="0" FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="Accumulated percentage: " FontSize="Small"  TextColor="#adb5bd"/>
-                                                    <Span  x:Name="MontotalTaskpercentage" Text=" " FontSize="Small" TextColor="#adb5bd"  />
-
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <StackLayout HorizontalOptions="EndAndExpand"  Grid.Column="4" Margin="6,9">
-                                            <Button  x:Name="btnMon" CornerRadius="25" Text=" view Tasks" Command="{Binding MonCommand}" TextColor="#61a5c2" BackgroundColor="#f8f9fa"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                   
-                                </StackLayout>
-
-                            </Frame>
-                            <Frame CornerRadius="15" BorderColor="LightGray" HasShadow="True">
-                                <StackLayout Orientation="Horizontal" Spacing="15">
-                                    <StackLayout Orientation="Horizontal" >
-
-                                        <Label Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Tuesday" FontSize="Medium" FontAttributes="Bold" />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="number of tasks: " FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span  x:Name="TueNumTask" Text="0" FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="Accumulated percentage: " FontSize="Small"  TextColor="#adb5bd"/>
-                                                    <Span  x:Name="TuetotalTaskpercentage" Text=" 10" FontSize="Small" TextColor="#adb5bd"  />
-
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <StackLayout HorizontalOptions="EndAndExpand"  Grid.Column="4" Margin="6,9">
-                                            <Button  x:Name="btnTue" CornerRadius="25" Text=" view Tasks" Command="{Binding TueCommand}" TextColor="#61a5c2" BackgroundColor="#f8f9fa"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </StackLayout>
-
-                            </Frame>
-                            <Frame CornerRadius="15" BorderColor="LightGray" HasShadow="True">
-                                <StackLayout Orientation="Horizontal" Spacing="15">
-                                    <StackLayout Orientation="Horizontal" >
-
-                                        <Label Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Wednesday" FontSize="Medium" FontAttributes="Bold" />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="number of tasks: " FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span x:Name="WedNumTask"  Text="0" FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="Accumulated percentage: " FontSize="Small"  TextColor="#adb5bd"/>
-                                                    <Span x:Name="wedtotalTaskpercentage"  Text=" 10" FontSize="Small" TextColor="#adb5bd"  />
-
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <StackLayout HorizontalOptions="EndAndExpand"  Grid.Column="4" Margin="6,9">
-                                            <Button  x:Name="btnWed" CornerRadius="25" Command="{Binding WedCommand}" Text=" view Tasks" TextColor="#61a5c2" BackgroundColor="#f8f9fa"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </StackLayout>
-
-                            </Frame>
-                            <Frame CornerRadius="15" BorderColor="LightGray" HasShadow="True">
-                                <StackLayout Orientation="Horizontal" Spacing="15">
-                                    <StackLayout Orientation="Horizontal" >
-
-                                        <Label Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Thursday" FontSize="Medium" FontAttributes="Bold" />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="number of tasks: " FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span x:Name="ThuNumTask"  Text=" " FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="Accumulated percentage: " FontSize="Small"  TextColor="#adb5bd"/>
-                                                    <Span x:Name="ThutotalTaskpercentage"  Text=" 10" FontSize="Small" TextColor="#adb5bd"  />
-
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <StackLayout HorizontalOptions="EndAndExpand"  Grid.Column="4" Margin="6,9">
-                                            <Button  x:Name="btnThu" CornerRadius="25" Command="{Binding ThuCommand}" Text=" view Tasks" TextColor="#61a5c2" BackgroundColor="#f8f9fa"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </StackLayout>
-
-                            </Frame>
-                            <Frame CornerRadius="15" BorderColor="LightGray" HasShadow="True">
-                                <StackLayout Orientation="Horizontal" Spacing="15">
-                                    <StackLayout Orientation="Horizontal" >
-
-                                        <Label Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Friday" FontSize="Medium" FontAttributes="Bold" />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="number of tasks: " FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span x:Name="friNumTask"  Text="0" FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="Accumulated percentage: " FontSize="Small"  TextColor="#adb5bd"/>
-                                                    <Span x:Name="fritotalTaskpercentage" Text=" 10" FontSize="Small" TextColor="#adb5bd"  />
-
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <StackLayout HorizontalOptions="EndAndExpand"  Grid.Column="4" Margin="6,9">
-                                            <Button  x:Name="btnFri" CornerRadius="25" Command="{Binding FriCommand}" Text=" view Tasks" TextColor="#61a5c2" BackgroundColor="#f8f9fa"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </StackLayout>
-
-                            </Frame>
-                            <Frame CornerRadius="15" BorderColor="LightGray" HasShadow="True">
-                                <StackLayout Orientation="Horizontal"  Spacing="15">
-                                    <StackLayout Orientation="Horizontal" >
-
-                                        <Label Grid.Column="0" Grid.ColumnSpan="4">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Saturday" FontSize="Medium" FontAttributes="Bold" />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="number of tasks: " FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span x:Name="SatNumTask"  Text="0" FontSize="Small" TextColor="#adb5bd"  />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="Accumulated percentage: " FontSize="Small"  TextColor="#adb5bd"/>
-                                                    <Span x:Name="SattotalTaskpercentage" Text=" 10" FontSize="Small" TextColor="#adb5bd"  />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <StackLayout HorizontalOptions="EndAndExpand"  Grid.Column="4" Margin="6,9">
-                                            <Button  x:Name="btnSat" CornerRadius="25" Command="{Binding SatCommand}" Text=" view Tasks" TextColor="#61a5c2" BackgroundColor="#f8f9fa"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </StackLayout>
-
-                            </Frame>
-
-
-                        </StackLayout>
-
-
-
-                    </StackLayout>
-                </ScrollView>
-            </Frame>
-           
-        </StackLayout>
-        
+        </ScrollView>
+       
         
 
 

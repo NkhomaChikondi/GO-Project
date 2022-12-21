@@ -40,6 +40,7 @@ namespace GO
             Routing.RegisterRoute(nameof(Helpaddsubtaskspage), typeof(Helpaddsubtaskspage));
             Routing.RegisterRoute(nameof(HelpweeklyTaskspage), typeof(HelpweeklyTaskspage));
             Routing.RegisterRoute(nameof(HelpWeekPage), typeof(HelpWeekPage ));
+            Routing.RegisterRoute(nameof(WeekTask), typeof(WeeklyTask));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
