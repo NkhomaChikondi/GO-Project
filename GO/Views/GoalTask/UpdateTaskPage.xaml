@@ -130,9 +130,9 @@
                                         <StackLayout Orientation="Horizontal">
                                             <StackLayout Orientation="Horizontal">
                                                 <Image Source="calendar.png" ></Image>
-                                                <Label Text="Created on:                   " TextColor="#61a5c2"></Label>
+                                                <Label Text="Created on:" TextColor="#61a5c2"></Label>
                                             </StackLayout>
-                                            <StackLayout>
+                                            <StackLayout HorizontalOptions="EndAndExpand">
                                                 <Label x:Name="Createdlbl" Text="" TextColor="OrangeRed"/>
                                             </StackLayout>
                                         </StackLayout>
@@ -141,9 +141,9 @@
                                         <StackLayout Orientation="Horizontal">
                                             <StackLayout Orientation="Horizontal">
                                                 <Image Source="flag.png" ></Image>
-                                                <Label Text="Status:                          " TextColor="#61a5c2"></Label>
+                                                <Label Text="Status:" TextColor="#61a5c2"></Label>
                                             </StackLayout>
-                                            <StackLayout>
+                                            <StackLayout HorizontalOptions="EndAndExpand">
                                                 <Label  x:Name="Statuslbl" Text="" TextColor="OrangeRed"/>
                                             </StackLayout>
                                         </StackLayout>

@@ -129,30 +129,35 @@ namespace GO.ViewModels.Goals
         }
         async Task selectGoalItem(Goal goal)
         {
+            // get the last week's id in this goal
+            //       var weeks = await dataWeek.GetWeeksAsync(goal.Id);
+            //        var lastweek = weeks.ToList().LastOrDefault();
+            //var route = $"{nameof(WeekTask)}?weekId={lastweek.Id}";
+            //await Shell.Current.GoToAsync(route);
             // get the tasks having the goal id
             var tasks = await dataTask.GetTasksAsync(goal.Id);
             // check if the goal has expired with no tasks
             if (goal.Status == "Expired" && tasks.Count() == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Alert", "Cannot view tasks for this goal! It expired with no tasks.", "Ok");
-                return;              
+                return;
             }
-           
+
             else
             {
                 // check if the HAS WEEK in goal is == true
                 if (goal.HasWeek && !goal.Noweek)
                 {
-                    if(goal.Status != "Expired")
+                    if (goal.Status != "Expired")
                     {
                         await CreateWeek(goal);
-                    }                   
+                    }
                     //await DeleteWeek(goal);
                     // get the last week's id in this goal
                     var weeks = await dataWeek.GetWeeksAsync(goal.Id);
                     var lastweek = weeks.ToList().LastOrDefault();
 
-                    var route = $"{nameof(WeeklyTask)}?weekId={lastweek.Id}";
+                    var route = $"{nameof(WeekTask)}?weekId={lastweek.Id}";
                     await Shell.Current.GoToAsync(route);
 
                 }

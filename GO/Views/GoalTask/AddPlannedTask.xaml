@@ -38,7 +38,7 @@
                     <StackLayout Margin="0,15,0,0">
                         <Label Text="Task Name:" TextColor="#61a5c2" FontSize="17" FontAttributes="Bold"></Label>
 
-                        <Editor  Text="{Binding Name}"  FontSize="Small" AutoSize="TextChanges" FontAttributes="None"  Grid.Column="0" MaxLength="55"   Placeholder="50 maximum characters" PlaceholderColor="OrangeRed" >
+                        <Editor  Text="{Binding Name}"  FontSize="Small" AutoSize="TextChanges" FontAttributes="None"  Grid.Column="0" MaxLength="100"   Placeholder="100 maximum characters" PlaceholderColor="OrangeRed" >
 
                         </Editor>
 

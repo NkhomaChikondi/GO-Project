@@ -41,6 +41,7 @@ namespace GO.ViewModels.TaskInGoals
         public AsyncCommand WedCommand { get; }
         public AsyncCommand ThuCommand { get; }
         public AsyncCommand FriCommand { get; }
+        public AsyncCommand weekStatsCommand { get; }
         public AsyncCommand SatCommand { get; }
         public AsyncCommand OnAddCommand { get; }
         public AsyncCommand<GoalTask> SendTaskIdCommand { get; }
@@ -73,6 +74,7 @@ namespace GO.ViewModels.TaskInGoals
             ThuCommand = new AsyncCommand(thuButton);
             FriCommand = new AsyncCommand(friButton);
             SatCommand = new AsyncCommand(satButton);
+            weekStatsCommand = new AsyncCommand(gotoWeekstats);
             SendTaskIdCommand = new AsyncCommand<GoalTask>(SendTaskId);
             OnUpdateCommand = new AsyncCommand<GoalTask>(OnUpdateTask);          
             DeleteCommand = new AsyncCommand<GoalTask>(deleteTask);
@@ -266,6 +268,11 @@ namespace GO.ViewModels.TaskInGoals
             //    return;
             
             //}            
+        async Task gotoWeekstats()
+        {
+            var route = $"{nameof(WeeklyTask)}";
+            await Shell.Current.GoToAsync(route);
+        }
         
         async Task OnaddTask()
         {
@@ -1069,56 +1076,59 @@ namespace GO.ViewModels.TaskInGoals
             await CreateDOW();
             await CalculateSubtaskPercentage();
                      // dows.Clear();
-            dowTasks.Clear();      
-            //var Dows = await dataDow.GetDOWsAsync();
-            var tasks = await dataTask.GetTasksAsync(goalId, weekId);
-            var dayTasks = tasks.Where(T => T.DowId == DowId).ToList();
-            // get week having the weekid
-            var week = await dataWeek.GetWeekAsync(weekId);            
-            // get goal
-            var goal = await datagoal.GetGoalAsync(week.GoalId);
-            // check if the week's goal has expired
-            if (DateTime.Today > goal.End && week.Active)
-            {
-                week.Active = false;
-                await dataWeek.UpdateWeekAsync(week);
-            }
-            if (all)
-                // retrieve the categories back
-                dowTasks.AddRange(dayTasks);
+            dowTasks.Clear();
+            // get all tasks having the goal id
+            var tasks = await dataTask.GetTasksAsync(GoalId);
+            dowTasks.AddRange(tasks);
+            ////var Dows = await dataDow.GetDOWsAsync();
+            //var tasks = await dataTask.GetTasksAsync(goalId, weekId);
+            //var dayTasks = tasks.Where(T => T.DowId == DowId).ToList();
+            //// get week having the weekid
+            //var week = await dataWeek.GetWeekAsync(weekId);            
+            //// get goal
+            //var goal = await datagoal.GetGoalAsync(week.GoalId);
+            //// check if the week's goal has expired
+            //if (DateTime.Today > goal.End && week.Active)
+            //{
+            //    week.Active = false;
+            //    await dataWeek.UpdateWeekAsync(week);
+            //}
+            //if (all)
+            //    // retrieve the categories back
+            //    dowTasks.AddRange(dayTasks);
 
-            //filter goals
-            else if (notstarted)
-            {
-                var notstartedtasks = tasks.Where(g => g.Status == "Not Started").ToList();
-                dowTasks.AddRange(notstartedtasks);
-            }
-            else if (completed)
-            {
-                var completedtasks = dayTasks.Where(g => g.IsCompleted).ToList();
-                dowTasks.AddRange(completedtasks);
-            }
-            else if(withSubtasks)
-            {
-                List<GoalTask> tasklist = new List<GoalTask>();
-                //loop through the tasks
-                foreach(var Task in dayTasks)
-                {
-                    // get tasks that have subtasks
-                    var subtasks = await dataSubTask.GetSubTasksAsync(Task.Id);
-                    if(subtasks.Count() >0)
-                    {
-                        tasklist.Add(Task);
-                    }
-                }
-                dowTasks.AddRange(tasklist);               
-            }
-            else if (inprogress)
-            {
-                var inprogressTasks = dayTasks.Where(g => g.Status == "In Progress").ToList();
-                dowTasks.AddRange(inprogressTasks);
-            }         
-           // await Getremainingdays();           
+            ////filter goals
+            //else if (notstarted)
+            //{
+            //    var notstartedtasks = tasks.Where(g => g.Status == "Not Started").ToList();
+            //    dowTasks.AddRange(notstartedtasks);
+            //}
+            //else if (completed)
+            //{
+            //    var completedtasks = dayTasks.Where(g => g.IsCompleted).ToList();
+            //    dowTasks.AddRange(completedtasks);
+            //}
+            //else if(withSubtasks)
+            //{
+            //    List<GoalTask> tasklist = new List<GoalTask>();
+            //    //loop through the tasks
+            //    foreach(var Task in dayTasks)
+            //    {
+            //        // get tasks that have subtasks
+            //        var subtasks = await dataSubTask.GetSubTasksAsync(Task.Id);
+            //        if(subtasks.Count() >0)
+            //        {
+            //            tasklist.Add(Task);
+            //        }
+            //    }
+            //    dowTasks.AddRange(tasklist);               
+            //}
+            //else if (inprogress)
+            //{
+            //    var inprogressTasks = dayTasks.Where(g => g.Status == "In Progress").ToList();
+            //    dowTasks.AddRange(inprogressTasks);
+            //}         
+            // await Getremainingdays();           
             //dows.AddRange(Dows);           
             //weekId = 0;
             IsBusy = false;

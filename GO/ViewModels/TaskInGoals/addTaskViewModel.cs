@@ -289,7 +289,7 @@ namespace GO.ViewModels.TaskInGoals
                         taskName = UppercasedName,
                         StartTask = starttime,
                         EndTask = endtime,
-                        enddatetostring = endtime.ToShortDateString(),
+                        enddatetostring = endtime.ToLongDateString(),
                         RemainingDays = remainingDays,
                         GoalId = goalId,
                         IsCompleted = false,

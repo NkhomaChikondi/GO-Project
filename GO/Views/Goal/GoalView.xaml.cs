@@ -214,5 +214,19 @@ namespace GO.Views.Goal
                 }
             }
         }
+
+        private async void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            ImageButton imageButton = (ImageButton)sender;
+            var goal = (Models.Goal)imageButton.BindingContext;
+            var goalid = goal.Id;
+            var action = await DisplayActionSheet("MENU", "Cancel","", "View Stats");
+            if(action == "View Stats")
+            {
+                var route = $"{nameof(GoalStats)}?GoalID={goal.Id}"; 
+                await Shell.Current.GoToAsync(route);
+            }
+           
+        }
     }
 }

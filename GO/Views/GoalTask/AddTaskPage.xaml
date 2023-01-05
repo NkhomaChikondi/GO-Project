@@ -48,7 +48,7 @@
                     </StackLayout>
                     <StackLayout Grid.Row="1" Grid.ColumnSpan="4" Margin="10" Orientation="Vertical">
                         <Label Text=" Task Name:"  TextColor="#61a5c2" FontSize="17" FontAttributes="Bold" />
-                        <Editor Text="{Binding Name}" Placeholder="50 maximum characters" MaxLength="50" AutoSize="TextChanges" />
+                        <Editor Text="{Binding Name}" Placeholder="50 maximum characters" MaxLength="100" AutoSize="TextChanges" />
                     </StackLayout>
                     <StackLayout Grid.Row="2" Grid.ColumnSpan="4" Margin="10" Orientation="Vertical">
                         <Label Text=" Description:"   TextColor="#61a5c2" FontSize="17" FontAttributes="Bold" />

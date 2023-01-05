@@ -202,3 +202,5 @@ C:\Users\User\Documents\GO-Project\Get Organized\GO\GO\bin\Debug\netstandard2.1\
 C:\Users\User\Documents\GO-Project\Get Organized\GO\GO\bin\Debug\netstandard2.1\ref\GO.dll
 C:\Users\User\Documents\GO-Project\Get Organized\GO\GO\bin\Debug\netstandard2.1\GO.pdb
 C:\Users\User\Documents\GO-Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\XamlC.stamp
+C:\Users\User\Documents\GO-Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Views\GoalTask\WeekTask.xaml.g.cs
+C:\Users\User\Documents\GO-Project\Get Organized\GO\GO\obj\Debug\netstandard2.1\Views\Goal\GoalStats.xaml.g.cs

@@ -3599,3 +3599,4 @@ C:\Users\User\Documents\GO-Project\Get Organized\GO\GO.Android\obj\Debug\100\and
 C:\Users\User\Documents\GO-Project\Get Organized\GO\GO.Android\obj\Debug\100\android\src\crc64bb223c2be3a01e03\SKGLViewRenderer.java
 C:\Users\User\Documents\GO-Project\Get Organized\GO\GO.Android\obj\Debug\100\android\src\crc64bb223c2be3a01e03\SKGLViewRendererBase_2.java
 C:\Users\User\Documents\GO-Project\Get Organized\GO\GO.Android\obj\Debug\100\android\src\crc64e9f97cf19b8286a9\ChartView.java
+C:\Users\User\Documents\GO-Project\Get Organized\GO\GO.Android\obj\Debug\100\res\drawable\blueskygradient.jpg

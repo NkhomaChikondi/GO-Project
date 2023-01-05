@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+              xmlns:helpers="clr-namespace:GO.Font"
+             Title="Get Organized"
+             x:Class="GO.Views.Goal.GoalStats">
+    <ContentPage.Resources>
+
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ScrollView>
+            <StackLayout Orientation="Vertical">
+                
+                    <StackLayout HorizontalOptions="CenterAndExpand">
+                        <StackLayout  Orientation="Horizontal"  Margin="34,5">
+                            <Label Text="Goal Statistics" FontAttributes="Bold" FontSize="19"></Label>
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.GraphOutline},Size=25,Color=#61a5c2}" />
+                        </StackLayout>
+                        <StackLayout >
+                            <Label Text="See how your goal has perfomed " TextColor="Gray" FontAttributes="Italic" FontSize="17"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="StartAndExpand" Margin="15,0">
+                        <Label Text="Complexity of goal" FontSize="19" TextColor="#495057" FontAttributes="Bold"/>
+                    </StackLayout>
+                    <StackLayout>
+                        <microcharts:ChartView x:Name="Piechartview" HeightRequest="300" WidthRequest="250"/>
+                        <StackLayout Orientation="Horizontal" Margin="10,0">
+                            <Label Text="Complexity level:" FontSize="14" TextColor="#495057"/>                            
+                            <Label x:Name="Complexitylevel" Text="" FontSize="14" TextColor="#495057"/>                            
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Margin="15,10">
+                        <Label Text="Goal's progress growth rate" FontSize="19" TextColor="#495057" FontAttributes="Bold"/>
+                       
+                    </StackLayout>
+                    <StackLayout Margin="10,10,0,10">
+                        <Label Text="Number of completed tasks" FontAttributes="Bold"  FontSize="13" TextColor="#495057"/>
+                        <microcharts:ChartView x:Name="chartview" HeightRequest="300" WidthRequest="250" />
+                        <Label Text="goal's Month"  FontSize="13" TextColor="#495057" Margin="0,0,10,10" FontAttributes="Bold" HorizontalOptions="EndAndExpand"/>
+                    </StackLayout>                   
+            </StackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

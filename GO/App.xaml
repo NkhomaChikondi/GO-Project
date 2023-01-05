@@ -39,8 +39,6 @@
                 <Setter Property="BackgroundColor" Value="#495057"/>
             </Style>
            
-           
-
         </ResourceDictionary>        
     </Application.Resources>
 </Application>

@@ -57,9 +57,8 @@
 
             </Frame >
             <StackLayout  Grid.ColumnSpan="4" Margin="14,5">
-                <Label Text="My Goal's Tasks" FontAttributes="Bold" FontSize="Medium"/>
+                <Label Text="My Tasks" TextColor="#495057" FontAttributes="Bold" FontSize="Medium"/>
             </StackLayout>
-
         </StackLayout>
         <AbsoluteLayout Grid.Row="2" Grid.ColumnSpan="4" IsVisible="True" x:Name="StackTasklist">
             <Label x:Name="noTasks" Margin="80,0,0,0" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="" FontSize="15"/>
@@ -87,7 +86,7 @@
                         <ViewCell>
                             <ViewCell.ContextActions>
                                 <MenuItem IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                                 Glyph={x:Static helpers:IconFont.BookEditOutline},Size=35,Color=#feeafa}"
+                                                 Glyph={x:Static helpers:IconFont.BookEdit},Size=30,Color=LightGray}"
                                           Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.OnUpdateCommand }"
                                           CommandParameter="{Binding .}"
                                              IsDestructive="True" 
@@ -96,7 +95,7 @@
                                        CommandParameter="{Binding .}"
                                        IsDestructive="True"                                                  
                                        IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                         Glyph={x:Static helpers:IconFont.DeleteCircleOutline},Size=40,Color=LightGray}" Text="Delete"/>
+                                         Glyph={x:Static helpers:IconFont.Delete},Size=40,Color=LightGray}" Text="Delete"/>
                                 </ViewCell.ContextActions>
 
                             <Grid ColumnSpacing="5" Padding="6">
@@ -119,25 +118,34 @@
                                                HorizontalTextAlignment="Start">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Text="{Binding taskName}" FontSize="Medium" FontAttributes="Bold" />
+                                                    <Span Text="{Binding taskName}" FontSize="Medium" TextColor="#495057" FontAttributes="Bold" />
                                                     <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="{Binding Status}" FontSize="15" FontAttributes="Bold" TextColor="#adb5bd"  />
-                                                    <Span Text="     Due on: " FontSize="15" FontAttributes="Bold" TextColor="#adb5bd"  />
-                                                    <Span Text="{Binding enddatetostring}" FontSize="14" FontAttributes="Bold"  TextColor="#adb5bd"/>
+                                                    <Span Text="Due on: " FontSize="15" FontAttributes="Bold" TextColor="#6c757d"  />
+                                                    <Span Text="{Binding enddatetostring}" FontSize="14" TextColor="#6c757d" FontAttributes="Bold" />
                                                     
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
 
                                         <Grid Grid.Column=" 4" Grid.Row="0" VerticalOptions="CenterAndExpand" Margin="0,-10,0,0">
-                                            <plugin:ProgressRing HeightRequest="43" Scale="1" WidthRequest="43" RingThickness="5" Progress="{Binding Progress}" RingBaseColor="#495057" ProgressColor="#61a5c2"></plugin:ProgressRing>
+
+                                            <plugin:ProgressRing HeightRequest="100" Scale="1" WidthRequest="100" RingThickness="5" Progress="{Binding Progress}" RingBaseColor="#495057" ProgressColor="#61a5c2"></plugin:ProgressRing>
                                             <StackLayout VerticalOptions="CenterAndExpand">
-                                                <Label FontAttributes="Bold" FontSize="Small" VerticalOptions="CenterAndExpand" Margin="0,30,0,0"
-                                                   HorizontalOptions="CenterAndExpand" TextColor="Gray" Text="{Binding PendingPercentage,StringFormat='{0}'}"/>
-                                                <Label Text="%" HorizontalTextAlignment="Center" FontSize="Small"/>
-                                                <Label Text="Subtask %" HorizontalTextAlignment="Center" FontSize="14" FontAttributes="Bold" TextColor="#adb5bd"/>
+                                                <Label  FontAttributes="Bold" FontSize="Small" VerticalOptions="CenterAndExpand" Margin="14,5,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span TextColor="Gray" Text="{Binding PendingPercentage,StringFormat='{0}'}"  />
+                                                            <Span TextColor="Gray" Text="%"  />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+
                                             </StackLayout>
+
+
                                         </Grid>
+
                                     </Grid>
                                 </Frame>
                             </Grid>
