@@ -115,6 +115,9 @@
                                                             <Span Text="{x:Static x:Environment.NewLine}" />
                                                             <Span Text="Due: " TextColor="#6c757d"  FontSize="14.5"/>
                                                             <Span Text="{Binding enddatetostring}" TextColor="#6c757d"   FontSize="14.5"/>
+                                                            <Span Text="   |   " TextColor="#495057" FontAttributes="Bold"   FontSize="16"/>
+                                                            <Span Text="Status: " TextColor="#6c757d"   FontSize="14.5"/>
+                                                            <Span Text="{Binding Status}" TextColor="#6c757d"  FontSize="14.5"/>
                                                         </FormattedString>
                                                     </Label.FormattedText>
                                                 </Label>
@@ -167,7 +170,7 @@
            
 
                 <ImageButton Margin="5,0,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                Glyph={x:Static helpers:IconFont.PlusCircle},Size=60,Color=#61a5c2
+                Glyph={x:Static helpers:IconFont.PlusCircle},Size=55,Color=#61a5c2
                 }"
                          BackgroundColor="Transparent"
                 Command="{Binding AddgoalCommand}"

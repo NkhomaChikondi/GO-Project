@@ -326,6 +326,7 @@ namespace GO.ViewModels.TaskInGoals
                 
                     // get subtasks for this tasks
                     var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+                    task.SubtaskNumber = subtasks.Count();
                     if (subtasks.Count() > 0)
                     {
                         if (subtasks.Any(S => S.Status == "Uncompleted"))
