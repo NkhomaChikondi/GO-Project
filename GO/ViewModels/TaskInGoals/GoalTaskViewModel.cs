@@ -436,7 +436,7 @@ namespace GO.ViewModels.TaskInGoals
             }
             else if (completed)
             {
-                var completedtasks = tasks.Where(g => g.IsCompleted).ToList();
+                var completedtasks = tasks.Where(g => g.Percentage == g.PendingPercentage).ToList();
                 goalTasks.AddRange(completedtasks);
             }
             else if (inprogress)

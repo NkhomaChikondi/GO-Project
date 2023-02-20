@@ -577,7 +577,7 @@ namespace GO.ViewModels.Goals
             }
             else if (completed)
             {
-                var completedtasks = goals.Where(g => g.Status == "Completed").ToList();
+                var completedtasks = goal.Where(g =>  g.Percentage == 100).ToList();
                 goals.AddRange(completedtasks);
             }
             else if (inprogress)

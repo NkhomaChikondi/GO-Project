@@ -137,7 +137,7 @@ namespace GO.Views.Goal
             expired.BackgroundColor = Color.Transparent;
             var goals = await dataGoal.GetGoalsAsync(categoryId);
             // get all subtasks not started
-            var completedGoals = goals.Where(s => s.Status == "Completed").ToList();
+            var completedGoals = goals.Where(s => s.Percentage==100).ToList();
             if (completedGoals.Count() == 0)
             {
                 nogoals.Text = " They are no goals that are Completed!";

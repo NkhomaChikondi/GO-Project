@@ -175,7 +175,7 @@ namespace GO.Views.GoalTask
             btwithsubtasks.BackgroundColor = Color.Transparent;
             var tasks = await DataTask.GetTasksAsync(GoalId);
             // get all subtasks not started
-            var CompletedTasks = tasks.Where(s => s.IsCompleted).ToList();
+            var CompletedTasks = tasks.Where(s => s.Percentage == s.PendingPercentage).ToList();
             if (CompletedTasks.Count() == 0)
             {
                 noTasks.Text = " They are no tasks that are completed!";

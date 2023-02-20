@@ -1,0 +1,8 @@
+
+function  addition( num1,num2)
+{
+    
+    sum = num1 + num2
+    return sum
+}
+console.log(addition(5,6))

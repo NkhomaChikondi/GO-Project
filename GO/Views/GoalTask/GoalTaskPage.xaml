@@ -122,9 +122,7 @@
                                                     <Span Text="{x:Static x:Environment.NewLine}" />
                                                     <Span Text="Due on: " FontSize="15"  TextColor="#6c757d"  />
                                                     <Span Text="{Binding enddatetostring}" FontSize="14" TextColor="#6c757d" />
-                                                    <Span Text="{x:Static x:Environment.NewLine}" />
-                                                    <Span Text="Number of subtask: " FontSize="14" TextColor="#6c757d"/>
-                                                    <Span Text="{Binding SubtaskNumber} " FontSize="14" TextColor="#6c757d"/>
+                                                   
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -134,7 +132,7 @@
 
                                             <plugin:ProgressRing HeightRequest="100" Scale="0.9" WidthRequest="100" RingThickness="5" Progress="{Binding Progress}" RingBaseColor="#495057" ProgressColor="#61a5c2"></plugin:ProgressRing>
                                             <StackLayout VerticalOptions="CenterAndExpand">
-                                                <Label  FontAttributes="Bold" FontSize="Small" VerticalOptions="CenterAndExpand" Margin="12,5,0,0">
+                                                <Label  FontAttributes="Bold" FontSize="Small" VerticalOptions="CenterAndExpand" Margin="14,5,0,0">
                                                     <Label.FormattedText>
                                                         <FormattedString>
                                                             <Span TextColor="Gray" Text="{Binding PendingPercentage,StringFormat='{0}'}"  />
