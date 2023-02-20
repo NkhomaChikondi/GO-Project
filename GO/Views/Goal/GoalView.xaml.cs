@@ -66,17 +66,18 @@ namespace GO.Views.Goal
             var goals = await dataGoal.GetGoalsAsync(categoryId);
             // get all subtasks not started
             var notstartedGoals = goals.Where(s => s.Status == "Not Started").ToList();
-            if (notstartedGoals.Count() == 0)
+            if (notstartedGoals.Count() != 0)
             {
-                nogoals.Text = " They are no Started goals!";
+
+                nogoals.Text = "";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.NotstartedGoals();
-                }
+                }                
             }
             else
             {
-                nogoals.Text = "";
+                nogoals.Text = " They are no Started goals!";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.NotstartedGoals();
@@ -109,21 +110,23 @@ namespace GO.Views.Goal
             var goals = await dataGoal.GetGoalsAsync(categoryId);
             // get all subtasks not started
             var inprogressGoals = goals.Where(s => s.Status == "InProgress").ToList();
-            if (inprogressGoals.Count() == 0)
-            {
-                nogoals.Text = " They are no goals in progress!";
-                if (BindingContext is GoalViewModel bvm)
-                {
-                    await bvm.InprogressGoals();
-                }
-            }
-            else
+            if (inprogressGoals.Count() != 0)
             {
                 nogoals.Text = "";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.InprogressGoals();
                 }
+               
+            }
+            else
+            {
+                nogoals.Text = " They are no goals in progress!";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.InprogressGoals();
+                }
+
             }
         }
 
@@ -138,9 +141,9 @@ namespace GO.Views.Goal
             var goals = await dataGoal.GetGoalsAsync(categoryId);
             // get all subtasks not started
             var completedGoals = goals.Where(s => s.Percentage==100).ToList();
-            if (completedGoals.Count() == 0)
+            if (completedGoals.Count() != 0)
             {
-                nogoals.Text = " They are no goals that are Completed!";
+                nogoals.Text = "";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.CompletedGoals();
@@ -148,7 +151,8 @@ namespace GO.Views.Goal
             }
             else
             {
-                nogoals.Text = "";
+              
+                nogoals.Text = " They are no goals that are Completed!";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.CompletedGoals();
@@ -168,21 +172,23 @@ namespace GO.Views.Goal
             var goals = await dataGoal.GetGoalsAsync(categoryId);
             var Date10 = DateTime.Today.AddDays(10);
             var duesoongoals = goals.Where(g => g.End <= Date10 && g.Status != "Expired").ToList();
-            if (duesoongoals.Count() == 0)
-            {
-                nogoals.Text = " They are no goals that are Due soon!";
-                if (BindingContext is GoalViewModel bvm)
-                {
-                    await bvm.DuesoonGoals();
-                }
-            }
-            else
+            if (duesoongoals.Count() != 0)
             {
                 nogoals.Text = "";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.DuesoonGoals();
                 }
+               
+            }
+            else
+            {
+                nogoals.Text = " They are no goals that are Due soon!";
+                if (BindingContext is GoalViewModel bvm)
+                {
+                    await bvm.DuesoonGoals();
+                }
+
             }
         }
 
@@ -197,17 +203,18 @@ namespace GO.Views.Goal
             var goals = await dataGoal.GetGoalsAsync(categoryId);
             // get all subtasks not started
             var expiredGoals = goals.Where(s => s.Status == "Expired").ToList();
-            if (expiredGoals.Count() == 0)
+            if (expiredGoals.Count() != 0)
             {
-                nogoals.Text = " They are no goals that have Expired!";
+                nogoals.Text = "";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.ExpiredGoals();
                 }
+               
             }
             else
             {
-                nogoals.Text = "";
+                nogoals.Text = " They are no goals that have Expired!";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.ExpiredGoals();
