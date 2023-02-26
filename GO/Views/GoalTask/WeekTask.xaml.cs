@@ -18,6 +18,8 @@ namespace GO.Views.GoalTask
     {
         public string weekId { get; set; }
         private int goalId;
+        int latestWeek;
+        List<Models.GoalTask> goalTasks = new List<Models.GoalTask>();
         public IDataGoal<Models.Goal> datagoal { get; }
         public IDataTask<Models.GoalTask> DataTask { get; }
         public IDataSubtask<Subtask> datasubtask { get; }
@@ -37,23 +39,35 @@ namespace GO.Views.GoalTask
         {
             base.OnAppearing();
             int.TryParse(weekId, out var result);
+            latestWeek = result;
             // get the  week having the week id
             var week = await dataWeek.GetWeekAsync(result);
             // get the goal having the goalid
             var goal = await datagoal.GetGoalAsync(week.GoalId);
             // pass the goal id to the private field
             goalId = goal.Id;
+            // get all tasks having goal id
+            var tasks = await DataTask.GetTasksAsync(goal.Id);
+            //call calculate weekdays method
+            await calculateWeekdays(latestWeek);
+            dateToday.Text = DateTime.Today.ToLongDateString().ToString();
+            // assign the tasks to goalaTask list           
+            foreach(var task in tasks)
+            {
+                goalTasks.Add(task);
+            }
+            
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 wvm.GoalId = goal.Id;
                 //wvm.DowId = selectedDow.DOWId;
                 wvm.WeekId = result;
-                await wvm.Refresh();
+               // await wvm.Refresh();
 
             }
         }
             private async void switch_Toggled(object sender, ToggledEventArgs e)
-        {
+            {
             Switch @switch = (Switch)sender;
             var task = (Models.GoalTask)@switch.BindingContext;
             var taskid = task.Id;
@@ -85,145 +99,211 @@ namespace GO.Views.GoalTask
 
         }
 
-        //private async void bdall_Clicked(object sender, EventArgs e)
-        //{
-        //    bdnotstarted.BackgroundColor = Color.Transparent;
-        //    bdall.BackgroundColor = Color.LightGray;
-        //    bdcompleted.BackgroundColor = Color.Transparent;
-        //    bdinprogress.BackgroundColor = Color.Transparent;
-        //    bdwithsubtasks.BackgroundColor = Color.Transparent;
-        //    if (BindingContext is WeeklyTaskViewModel bvm)
-        //    {
-        //        await bvm.AllGoals();
-        //    }
-        //}
+        private void frameTapSun(object sender, EventArgs e)
+        {
+            sundayTap();
+          
+        }
+        private async Task sundayTap()
+        {
+            var dowsList = await dataDow.GetDOWsAsync(latestWeek);
+            // get the id of dow sunday
+            var sunday = dowsList.Where(D => D.Name == "Sunday").FirstOrDefault();
+            // pass it to  the refresh method
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DaySelected = sunday.DOWId;
+                wvm.Refresh();
+            }
+            
+        }
 
-        //private async void bdnotstarted_Clicked(object sender, EventArgs e)
-        //{
-        //    bdnotstarted.BackgroundColor = Color.LightGray;
-        //    bdall.BackgroundColor = Color.Transparent;
-        //    bdcompleted.BackgroundColor = Color.Transparent;
-        //    bdinprogress.BackgroundColor = Color.Transparent;
-        //    bdwithsubtasks.BackgroundColor = Color.Transparent;
-        //    var tasks = await DataTask.GetTasksAsync(goalId, Idweek);
-        //    var dayTasks = tasks.Where(T => T.DowId == selecteddowId).ToList();
-        //    // get all subtasks not started
-        //    var notstartedTasks = dayTasks.Where(s => s.Status == "Not Started").ToList();
-        //    if (notstartedTasks.Count() == 0)
-        //    {
-        //        notasks.Text = " They are no tasks that have not Started!";
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.NotstartedGoals();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        notasks.Text = "";
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.NotstartedGoals();
-        //        }
-        //    }
+        private void frameTapmon(object sender, EventArgs e)
+        {
+            mondayTap();
+        }
+        private async Task mondayTap()
+        {
+            var dowsList = await dataDow.GetDOWsAsync(latestWeek);
+            // get the id of dow sunday
+            var sunday = dowsList.Where(D => D.Name == "Monday").FirstOrDefault();
+            // pass it to  the refresh method
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DaySelected = sunday.DOWId;
+                wvm.Refresh();
+            }
 
-        //}
+        }
 
-        //private async void bdinprogress_Clicked(object sender, EventArgs e)
-        //{
-        //    bdnotstarted.BackgroundColor = Color.Transparent;
-        //    bdall.BackgroundColor = Color.Transparent;
-        //    bdcompleted.BackgroundColor = Color.Transparent;
-        //    bdinprogress.BackgroundColor = Color.LightGray;
-        //    bdwithsubtasks.BackgroundColor = Color.Transparent;
-        //    var tasks = await DataTask.GetTasksAsync(goalId, Idweek);
-        //    var dayTasks = tasks.Where(T => T.DowId == selecteddowId).ToList();
-        //    // get all subtasks not started
-        //    var progressTasks = dayTasks.Where(s => s.Status == "In Progress").ToList();
-        //    if (progressTasks.Count() == 0)
-        //    {
-        //        notasks.Text = " They are no tasks In Progress!";
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.InprogressGoals();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        notasks.Text = "";
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.InprogressGoals();
-        //        }
-        //    }
-        //}
+        private void frameTapTue(object sender, EventArgs e)
+        {
+            tuesdayTap();
+        }
+        private async Task tuesdayTap()
+        {
+            var dowsList = await dataDow.GetDOWsAsync(latestWeek);
+            // get the id of dow sunday
+            var sunday = dowsList.Where(D => D.Name == "Tuesday").FirstOrDefault();
+            // pass it to  the refresh method
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DaySelected = sunday.DOWId;
+                wvm.Refresh();
+            }
 
-        //private async void bdcompleted_Clicked(object sender, EventArgs e)
-        //{
+        }
 
-        //    bdnotstarted.BackgroundColor = Color.Transparent;
-        //    bdall.BackgroundColor = Color.Transparent;
-        //    bdcompleted.BackgroundColor = Color.LightGray;
-        //    bdinprogress.BackgroundColor = Color.Transparent;
-        //    bdwithsubtasks.BackgroundColor = Color.Transparent;
-        //    var tasks = await DataTask.GetTasksAsync(goalId, Idweek);
-        //    var dayTasks = tasks.Where(T => T.DowId == selecteddowId).ToList();
-        //    // get all subtasks not started
-        //    var completedTasks = dayTasks.Where(s => s.Status == "Completed").ToList();
-        //    if (completedTasks.Count() == 0)
-        //    {
-        //        notasks.Text = " They are no completed tasks!";
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.CompletedGoals();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        notasks.Text = "";
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.CompletedGoals();
-        //        }
-        //    }
-        //}
+        private void frameTapWed(object sender, EventArgs e)
+        {
+            wednesdayTap();
+        }
+        private async Task wednesdayTap()
+        {
+            var dowsList = await dataDow.GetDOWsAsync(latestWeek);
+            // get the id of dow sunday
+            var sunday = dowsList.Where(D => D.Name == "Wednesday").FirstOrDefault();
+            // pass it to  the refresh method
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DaySelected = sunday.DOWId;
+                wvm.Refresh();
+            }
 
-        //private async void bdwithsubtasks_Clicked(object sender, EventArgs e)
-        //{
-        //    bdnotstarted.BackgroundColor = Color.Transparent;
-        //    bdall.BackgroundColor = Color.Transparent;
-        //    bdcompleted.BackgroundColor = Color.Transparent;
-        //    bdinprogress.BackgroundColor = Color.Transparent;
-        //    bdwithsubtasks.BackgroundColor = Color.LightGray;
-        //    var tasks = await DataTask.GetTasksAsync(goalId, Idweek);
-        //    var dayTasks = tasks.Where(T => T.DowId == selecteddowId).ToList();
-        //    // get all subtasks not started
-        //    List<Models.GoalTask> tasklist = new List<Models.GoalTask>();
-        //    //loop through the tasks
-        //    foreach (var Task in dayTasks)
-        //    {
-        //        // get tasks that have subtasks
-        //        var subtasks = await datasubtask.GetSubTasksAsync(Task.Id);
-        //        if (subtasks.Count() > 0)
-        //        {
-        //            tasklist.Add(Task);
-        //        }
-        //    }
-        //    if (tasklist.Count() == 0)
-        //    {
-        //        notasks.Text = " They are no subtasks in this tasks!";
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.WithsubtasksTask();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        notasks.Text = "";
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.WithsubtasksTask();
-        //        }
-        //    }
-        //}
+        }
+
+        private void frameTapThur(object sender, EventArgs e)
+        {
+            thursdayTap();
+        }
+
+
+        private async Task thursdayTap()
+        {
+            var dowsList = await dataDow.GetDOWsAsync(latestWeek);
+            // get the id of dow sunday
+            var sunday = dowsList.Where(D => D.Name == "Thurday").FirstOrDefault();
+            // pass it to  the refresh method
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DaySelected = sunday.DOWId;
+                wvm.Refresh();
+            }
+
+        }
+
+        private void frameTapFri(object sender, EventArgs e)
+        {
+            fridayTap();
+        }
+        private async Task fridayTap()
+        {
+            var dowsList = await dataDow.GetDOWsAsync(latestWeek);
+            // get the id of dow sunday
+            var sunday = dowsList.Where(D => D.Name == "Friday").FirstOrDefault();
+            // pass it to  the refresh method
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DaySelected = sunday.DOWId;
+                wvm.Refresh();
+            }
+
+        }
+
+        private void frameTapSat(object sender, EventArgs e)
+        {
+            saturdayTap();
+        }
+        private async Task saturdayTap()
+        {
+            var dowsList = await dataDow.GetDOWsAsync(latestWeek);
+            // get the id of dow sunday
+            var sunday = dowsList.Where(D => D.Name == "Saturday").FirstOrDefault();
+            // pass it to  the refresh method
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DaySelected = sunday.DOWId;
+                wvm.Refresh();
+            }
+
+        }
+        private async Task calculateWeekdays(int Id)
+        {
+            bool dayselected = false; ;
+            // create a list of days
+            List<String> weekDays = new List<string>();
+            //add items to list
+            weekDays.Add("Sunday");
+            weekDays.Add("Monday");
+            weekDays.Add("Tuesday");
+            weekDays.Add("Wednesday");
+            weekDays.Add("Thursday");
+            weekDays.Add("Friday");
+            weekDays.Add("Saturday");
+
+            // create anothe  list having the ui day dates
+            List<string> daydates = new List<string>();
+            daydates.Add(Sunday.Text);
+            daydates.Add(Monday.Text);
+            daydates.Add(Tuesday.Text);
+            daydates.Add(Wednesday.Text);
+            daydates.Add(Thursday.Text);
+            daydates.Add(Friday.Text);
+            daydates.Add(Saturday.Text);
+            double counter = 0.0;
+
+            // get the week having the same Id as the incoming Id
+            var week = await dataWeek.GetWeekAsync(Id);
+            // loop through the list
+            foreach(var day in weekDays)
+            {
+                if (week.StartDate.DayOfWeek.ToString() == day)
+                {
+                    if (!dayselected)
+                    {
+                        if (day == "Sunday")
+                            Sunday.Text = week.StartDate.Day.ToString();
+                        if (day == "Monday")
+                            Monday.Text = week.StartDate.Day.ToString();
+                        if (day == "Tuesday")
+                            Tuesday.Text = week.StartDate.Day.ToString();
+                        if (day == "Wednesday")
+                            Wednesday.Text = week.StartDate.Day.ToString();
+                        if (day == "Thursday")
+                            Thursday.Text = week.StartDate.Day.ToString();
+                        if (day == "Friday")
+                            Friday.Text = week.StartDate.Day.ToString();
+                        if (day == "Saturday")
+                            Saturday.Text = week.StartDate.Day.ToString();
+
+                    }
+                    dayselected = true;
+                }
+                else
+                {
+                    dayselected = true;
+                    counter++;
+
+                    if (day == "Sunday")
+                        Sunday.Text = week.StartDate.AddDays(counter).Day.ToString();
+                    if (day == "Monday")
+                        Monday.Text = week.StartDate.AddDays(counter).Day.ToString();
+                    if (day == "Tuesday")
+                        Tuesday.Text = week.StartDate.AddDays(counter).Day.ToString();
+                    if (day == "Wednesday")
+                        Wednesday.Text = week.StartDate.AddDays(counter).Day.ToString();
+                    if (day == "Thursday")
+                        Thursday.Text = week.StartDate.AddDays(counter).Day.ToString();
+                    if (day == "Friday")
+                        Friday.Text = week.StartDate.AddDays(counter).Day.ToString();
+                    if (day == "Saturday")
+                        Saturday.Text = week.StartDate.AddDays(counter).Day.ToString();
+                }                   
+                
+                //dayselected = false;
+                //counter = 0.0;
+            }
+        }
     }
 }
+    

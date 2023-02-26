@@ -42,7 +42,7 @@
 
                                     <StackLayout Orientation="Horizontal">
                                         <StackLayout HorizontalOptions="StartAndExpand">
-                                            <Label Text="December 21,2022" FontSize="16" TextColor="#495057"/>
+                                            <Label x:Name="dateToday" Text="" FontSize="16" TextColor="#495057"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="10,0" >
                                             <Label Text="  Weekly Stats" FontSize="17" FontAttributes="Bold" TextColor="#61a5c2" />
@@ -61,45 +61,66 @@
                                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                                     <StackLayout Orientation="Horizontal">
                                         <Frame CornerRadius="10">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="frameTapSun"/>
+                                            </Frame.GestureRecognizers>
                                             <StackLayout Orientation="Vertical">
-                                                <Label Text="23" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
+                                                <Label x:Name="Sunday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
                                                 <Label Text="Sun" FontSize="16"/>
                                             </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="frameTapmon"/>
+                                            </Frame.GestureRecognizers>
                                             <StackLayout Orientation="Vertical">
-                                                <Label Text="23" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Sun" FontSize="16"/>
+                                                <Label x:Name="Monday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
+                                                <Label Text="Mon" FontSize="16"/>
                                             </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="frameTapTue"/>
+                                            </Frame.GestureRecognizers>
                                             <StackLayout Orientation="Vertical">
-                                                <Label Text="23" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Sun" FontSize="16"/>
+                                                <Label x:Name="Tuesday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
+                                                <Label Text="Tue" FontSize="16"/>
                                             </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="frameTapWed"/>
+                                            </Frame.GestureRecognizers>
                                             <StackLayout Orientation="Vertical">
-                                                <Label Text="23" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Sun" FontSize="16"/>
+                                                <Label x:Name="Wednesday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
+                                                <Label Text="Wed" FontSize="16"/>
                                             </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="frameTapThur"/>
+                                            </Frame.GestureRecognizers>
                                             <StackLayout Orientation="Vertical">
-                                                <Label Text="23" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Sun" FontSize="16"/>
+                                                <Label x:Name="Thursday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
+                                                <Label Text="Thurs" FontSize="16"/>
                                             </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="frameTapFri"/>
+                                            </Frame.GestureRecognizers>
                                             <StackLayout Orientation="Vertical">
-                                                <Label Text="23" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Sun" FontSize="16"/>
+                                                <Label x:Name="Friday"  FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
+                                                <Label Text="Fri" FontSize="16"/>
                                             </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="frameTapSat"/>
+                                            </Frame.GestureRecognizers>
                                             <StackLayout Orientation="Vertical">
-                                                <Label Text="23" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Sun" FontSize="16"/>
+                                                <Label x:Name="Saturday"  FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
+                                                <Label Text="Sat" FontSize="16"/>
                                             </StackLayout>
                                         </Frame>
                                     </StackLayout>
