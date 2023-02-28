@@ -32,7 +32,7 @@
             </Grid.RowDefinitions>
      
                 <StackLayout Margin="5,4,12,0">
-                    <StackLayout HorizontalOptions="FillAndExpand">
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
                         <Frame CornerRadius="10" Padding="0" >
                             <Frame Grid.Row="0" Grid.RowSpan="2" BackgroundColor="#e9ecef">
@@ -54,98 +54,109 @@
                             </Frame>
 
                         </Frame>
-                    <ScrollView Orientation="Vertical" VerticalScrollBarVisibility="Never"> 
-                        <Frame BackgroundColor="#f8f9fa">
+                   
+                        <Frame BackgroundColor="#f8f9fa"  >
                             <StackLayout>
                                 <Label Text="Create tasks for the Week" HorizontalOptions="CenterAndExpand" TextColor="#495057" FontSize="19" FontAttributes="Bold"/>
                                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
-                                    <StackLayout Orientation="Horizontal">
+                                    <StackLayout Orientation="Horizontal" >
                                         <Frame CornerRadius="10">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapSun"/>
                                             </Frame.GestureRecognizers>
-                                            <StackLayout Orientation="Vertical">
-                                                <Label x:Name="Sunday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Sun" FontSize="16"/>
-                                            </StackLayout>
+                                            <StackLayout Orientation="Vertical" Margin="0,-16">
+                                                <Label x:Name="Sunday" FontSize="19" FontAttributes="Bold"  TextColor="#495057"/>
+                                                <Label Text="Sun" FontSize="16" FontAttributes="Bold"/>
+                                            <Label/>
+                                        </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapmon"/>
                                             </Frame.GestureRecognizers>
-                                            <StackLayout Orientation="Vertical">
+                                        <StackLayout Orientation="Vertical" Margin="0,-16">
                                                 <Label x:Name="Monday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Mon" FontSize="16"/>
-                                            </StackLayout>
+                                            <Label Text="Mon" FontSize="16" FontAttributes="Bold"/>
+                                            <Label/>
+                                        </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapTue"/>
                                             </Frame.GestureRecognizers>
-                                            <StackLayout Orientation="Vertical">
+                                        <StackLayout Orientation="Vertical" Margin="0,-16">
                                                 <Label x:Name="Tuesday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Tue" FontSize="16"/>
-                                            </StackLayout>
+                                            <Label Text="Tue" FontSize="16" FontAttributes="Bold"/>
+                                            <Label/>
+                                        </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapWed"/>
                                             </Frame.GestureRecognizers>
-                                            <StackLayout Orientation="Vertical">
+                                        <StackLayout Orientation="Vertical" Margin="0,-16">
                                                 <Label x:Name="Wednesday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Wed" FontSize="16"/>
-                                            </StackLayout>
+                                            <Label Text="Wed" FontSize="16" FontAttributes="Bold"/>
+                                            <Label/>
+                                        </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapThur"/>
                                             </Frame.GestureRecognizers>
-                                            <StackLayout Orientation="Vertical">
+                                        <StackLayout Orientation="Vertical" Margin="0,-16">
                                                 <Label x:Name="Thursday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Thurs" FontSize="16"/>
-                                            </StackLayout>
+                                            <Label Text="Thur" FontSize="16" FontAttributes="Bold"/>
+                                            <Label/>
+                                        </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapFri"/>
                                             </Frame.GestureRecognizers>
-                                            <StackLayout Orientation="Vertical">
+                                        <StackLayout Orientation="Vertical" Margin="0,-16">
                                                 <Label x:Name="Friday"  FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Fri" FontSize="16"/>
-                                            </StackLayout>
+                                            <Label Text="Fri" FontSize="16" FontAttributes="Bold"/>
+                                            <Label/>
+                                        </StackLayout>
                                         </Frame>
                                         <Frame CornerRadius="10">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapSat"/>
                                             </Frame.GestureRecognizers>
-                                            <StackLayout Orientation="Vertical">
+                                        <StackLayout Orientation="Vertical" Margin="0,-16">
                                                 <Label x:Name="Saturday"  FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                                <Label Text="Sat" FontSize="16"/>
-                                            </StackLayout>
+                                            <Label Text="Sat" FontSize="16" FontAttributes="Bold"/>
+                                            <Label/>
+                                        </StackLayout>
                                         </Frame>
                                     </StackLayout>
                                 </ScrollView>
-                                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,10">
+                                           
+                            </StackLayout>
+                        </Frame>
+                                    
+                </StackLayout>
+             
+                    <StackLayout Orientation="Vertical" HorizontalOptions="StartAndExpand" >
 
-                                    <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                       Glyph={x:Static helpers:IconFont.FilterCheckOutline},Size=30,Color=DarkGray}"/>
-                                    <Label Text="Filter" FontSize="18"/>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,10">
+                            <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                       Glyph={x:Static helpers:IconFont.FilterCheckOutline},Size=26,Color=DarkGray}"/>
+                            <Label Text="Sort" FontSize="17"/>
+                        </StackLayout>
+                        <Label FontSize="19" FontAttributes="Bold" TextColor="#495057">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Monday"/>
+                                    <Span Text=" tasks"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <AbsoluteLayout Grid.Row="1" Grid.ColumnSpan="4" IsVisible="True" x:Name="WeekStackTasklist" >
 
-
-                                </StackLayout>
-                                <StackLayout Orientation="Vertical" HorizontalOptions="StartAndExpand" Margin="0,-15">
-                                    <Label FontSize="19" FontAttributes="Bold" TextColor="#495057">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Monday"/>
-                                                <Span Text=" tasks"/>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <AbsoluteLayout Grid.Row="1" Grid.ColumnSpan="4" IsVisible="True" x:Name="WeekStackTasklist" >
-
-                                        <Label x:Name="notasks" Margin="80,0,0,0" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="" FontSize="15"/>
-                                        <ListView ItemsSource="{Binding dowTasks}"
+                            <Label x:Name="notasks" Margin="80,0,0,0" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="" FontSize="15"/>
+                            <ListView ItemsSource="{Binding dowTasks}"
                                           AbsoluteLayout.LayoutFlags="All"
 						                          AbsoluteLayout.LayoutBounds="0,0,1,1"
                                            CachingStrategy="RecycleElement"
@@ -157,99 +168,99 @@
                                            SeparatorVisibility="Default"
                                                   VerticalScrollBarVisibility="Never"
                                            IsRefreshing="{Binding IsBusy,Mode=OneWay}">
-                                            <ListView.Behaviors>
+                                <ListView.Behaviors>
 
-                                                <xct:EventToCommandBehavior EventName="ItemTapped"
+                                    <xct:EventToCommandBehavior EventName="ItemTapped"
                                               Command="{Binding SendTaskIdCommand}"
                                               EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
-                                            </ListView.Behaviors>
+                                </ListView.Behaviors>
 
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <ViewCell>
-                                                        <ViewCell.ContextActions>
-                                                            <MenuItem IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <ViewCell.ContextActions>
+                                                <MenuItem IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                                  Glyph={x:Static helpers:IconFont.BookEditOutline},Size=35,Color=#feeafa}"
                                           Command="{Binding Source={x:Reference weekTasksPage},Path=BindingContext.OnUpdateCommand }"
                                           CommandParameter="{Binding .}"
                                              IsDestructive="True" 
                                           Text=" Edit"/>
-                                                            <MenuItem  Command="{Binding Source={x:Reference weekTasksPage},Path=BindingContext.DeleteCommand }"
+                                                <MenuItem  Command="{Binding Source={x:Reference weekTasksPage},Path=BindingContext.DeleteCommand }"
                                        CommandParameter="{Binding .}"
                                        IsDestructive="True"                                                  
                                        IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                          Glyph={x:Static helpers:IconFont.DeleteCircleOutline},Size=40,Color=LightGray}"
                                            
                                                Text="Delete"/>
-                                                        </ViewCell.ContextActions>
+                                            </ViewCell.ContextActions>
 
-                                                        <Grid ColumnSpacing="5" Padding="5">
-                                                            <Frame CornerRadius="10" 
+                                            <Grid ColumnSpacing="5" Padding="5">
+                                                <Frame CornerRadius="10" 
                                                            HasShadow="true"
                                                            BackgroundColor="White"                                 
                                                            Padding="5">
 
-                                                                <Grid   HorizontalOptions="FillAndExpand">
+                                                    <Grid   HorizontalOptions="FillAndExpand">
 
-                                                                    <StackLayout x:Name="switchStack" Grid.Row="0" Grid.Column="0" Padding="0,-30,0,0" Orientation="Horizontal">
-                                                                        <Switch 
+                                                        <StackLayout x:Name="switchStack" Grid.Row="0" Grid.Column="0" Padding="0,-30,0,0" Orientation="Horizontal">
+                                                            <Switch 
                                                x:Name="WeekswitchTasks" 
                                                 IsEnabled="{Binding IsEnabled}"
                                                 IsToggled="{Binding IsCompleted}"
                                                 Toggled="switch_Toggled">
-                                                                        </Switch>
-                                                                    </StackLayout>
+                                                            </Switch>
+                                                        </StackLayout>
 
 
 
 
-                                                                    <Label Grid.Column=" 0" Grid.ColumnSpan="4" Grid.Row="0" x:Name="label"  Padding="47,10,0,0"
+                                                        <Label Grid.Column=" 0" Grid.ColumnSpan="4" Grid.Row="0" x:Name="label"  Padding="47,10,0,0"
                                         
                                                HorizontalTextAlignment="Start">
-                                                                        <Label.FormattedText>
-                                                                            <FormattedString>
-                                                                                <Span Text="{Binding taskName}" FontSize="Medium" FontAttributes="Bold"/>
-                                                                                <Span Text="{x:Static x:Environment.NewLine}" />
-                                                                                <Span Text="Number of Subtasks: " FontSize="Small" TextColor="#adb5bd"/>
-                                                                                <Span Text="{Binding SubtaskNumber}" FontSize="Small" TextColor="#adb5bd"/>
-                                                                            </FormattedString>
-                                                                        </Label.FormattedText>
-                                                                    </Label>
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="{Binding taskName}" FontSize="Medium" FontAttributes="Bold"/>
+                                                                    <Span Text="{x:Static x:Environment.NewLine}" />
+                                                                    <Span Text="Number of Subtasks: " FontSize="Small" TextColor="#adb5bd"/>
+                                                                    <Span Text="{Binding SubtaskNumber}" FontSize="Small" TextColor="#adb5bd"/>
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
 
 
 
-                                                                    <Grid Grid.Column=" 4" Grid.Row="0" VerticalOptions="CenterAndExpand" Margin="0,-10,0,0">
+                                                        <Grid Grid.Column=" 4" Grid.Row="0" VerticalOptions="CenterAndExpand" Margin="0,-10,0,0">
 
-                                                                        <plugin:ProgressRing HeightRequest="100" Scale="1" WidthRequest="100" RingThickness="5" Progress="{Binding Progress}" RingBaseColor="#495057" ProgressColor="#61a5c2"></plugin:ProgressRing>
-                                                                        <StackLayout VerticalOptions="CenterAndExpand">
-                                                                            <Label  FontAttributes="Bold" FontSize="Small" VerticalOptions="CenterAndExpand" Margin="14,5,0,0">
-                                                                                <Label.FormattedText>
-                                                                                    <FormattedString>
-                                                                                        <Span TextColor="Gray" Text="{Binding PendingPercentage,StringFormat='{0}'}"  />
-                                                                                        <Span TextColor="Gray" Text="%"  />
-                                                                                    </FormattedString>
-                                                                                </Label.FormattedText>
-                                                                            </Label>
-
-
-                                                                        </StackLayout>
+                                                            <plugin:ProgressRing HeightRequest="100" Scale="1" WidthRequest="100" RingThickness="5" Progress="{Binding Progress}" RingBaseColor="#495057" ProgressColor="#61a5c2"></plugin:ProgressRing>
+                                                            <StackLayout VerticalOptions="CenterAndExpand">
+                                                                <Label  FontAttributes="Bold" FontSize="Small" VerticalOptions="CenterAndExpand" Margin="14,5,0,0">
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span TextColor="Gray" Text="{Binding PendingPercentage,StringFormat='{0}'}"  />
+                                                                            <Span TextColor="Gray" Text="%"  />
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
 
 
-                                                                    </Grid>
+                                                            </StackLayout>
 
-                                                                </Grid>
-
-                                                            </Frame>
 
                                                         </Grid>
 
+                                                    </Grid>
 
-                                                    </ViewCell>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
+                                                </Frame>
 
-                                        <ImageButton x:Name="addbtn" Margin="5,5,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                            </Grid>
+
+
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <ImageButton x:Name="addbtn" Margin="5,5,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                         Glyph={x:Static helpers:IconFont.PlusCircle},Size=60,Color=#61a5c2
                                         }"
                                                     BackgroundColor="Transparent"
@@ -259,24 +270,10 @@
                                                     AbsoluteLayout.LayoutFlags="PositionProportional"
 			                            AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
                                                                                                                           />
-                                    </AbsoluteLayout>
-                                </StackLayout>
-
-                            </StackLayout>
-
-                        </Frame>
-                    </ScrollView>
-                   
-                       
+                        </AbsoluteLayout>
                     </StackLayout>
-                   
-                </StackLayout>
+            </StackLayout>
            
-                
-        
-           
-                
-            
         </Grid>
     </ContentPage.Content>
 </ContentPage>
