@@ -38,7 +38,18 @@
                             <Frame Grid.Row="0" Grid.RowSpan="2" BackgroundColor="#e9ecef">
                                 <StackLayout>
                                     <Label Text="Weekly Tasks" FontSize="Large" TextColor="#495057" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-                                    <Label Text="Today" FontSize="18" FontAttributes="Bold" TextColor="#495057"/>
+                                  <Label HorizontalOptions="CenterAndExpand" FontAttributes="Italic" FontSize="15">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="From: "/>
+                                            <Span x:Name="startDatetxt" Text=" "/>
+                                            <Span  Text="  To: "/>
+                                            <Span x:Name="endDatetxt" Text=" "/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+
+                                  </Label>
+                                <Label Text="Today" FontSize="18" FontAttributes="Bold" TextColor="#495057"/>
 
                                     <StackLayout Orientation="Horizontal">
                                         <StackLayout HorizontalOptions="StartAndExpand">
@@ -60,73 +71,73 @@
                                 <Label Text="Create tasks for the Week" HorizontalOptions="CenterAndExpand" TextColor="#495057" FontSize="19" FontAttributes="Bold"/>
                                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                                     <StackLayout Orientation="Horizontal" >
-                                        <Frame CornerRadius="10">
+                                        <Frame CornerRadius="15" x:Name="framesun" BackgroundColor="White">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapSun"/>
                                             </Frame.GestureRecognizers>
                                             <StackLayout Orientation="Vertical" Margin="0,-16">
-                                                <Label x:Name="Sunday" FontSize="19" FontAttributes="Bold"  TextColor="#495057"/>
-                                                <Label Text="Sun" FontSize="16" FontAttributes="Bold"/>
+                                            <Label x:Name="Sunday" FontSize="14" FontAttributes="Bold" TextColor="#495057" />
+                                            <Label Text="Sun" FontSize="14" FontAttributes="Italic"  HorizontalOptions="CenterAndExpand"/>
                                             <Label/>
                                         </StackLayout>
                                         </Frame>
-                                        <Frame CornerRadius="10">
+                                    <Frame CornerRadius="15" x:Name="framemon" BackgroundColor="white">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapmon"/>
                                             </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Vertical" Margin="0,-16">
-                                                <Label x:Name="Monday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                            <Label Text="Mon" FontSize="16" FontAttributes="Bold"/>
+                                            <Label x:Name="Monday" FontSize="14" FontAttributes="Bold" TextColor="#495057"/>
+                                            <Label Text="Mon" FontSize="14" FontAttributes="Italic"  HorizontalOptions="CenterAndExpand"  />
                                             <Label/>
                                         </StackLayout>
                                         </Frame>
-                                        <Frame CornerRadius="10">
+                                    <Frame CornerRadius="15" x:Name="frametue" BackgroundColor="White">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapTue"/>
                                             </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Vertical" Margin="0,-16">
-                                                <Label x:Name="Tuesday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                            <Label Text="Tue" FontSize="16" FontAttributes="Bold"/>
+                                            <Label x:Name="Tuesday" FontSize="14" FontAttributes="Bold" TextColor="#495057"/>
+                                            <Label Text="Tue" FontSize="14" FontAttributes="Italic" HorizontalOptions="CenterAndExpand" />
                                             <Label/>
                                         </StackLayout>
                                         </Frame>
-                                        <Frame CornerRadius="10">
+                                    <Frame CornerRadius="15" x:Name="framewed" BackgroundColor="White">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapWed"/>
                                             </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Vertical" Margin="0,-16">
-                                                <Label x:Name="Wednesday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                            <Label Text="Wed" FontSize="16" FontAttributes="Bold"/>
+                                            <Label x:Name="Wednesday" FontSize="14" FontAttributes="Bold" />
+                                            <Label Text="Wed" FontSize="14" FontAttributes="Italic"  HorizontalOptions="CenterAndExpand" />
                                             <Label/>
                                         </StackLayout>
                                         </Frame>
-                                        <Frame CornerRadius="10">
+                                    <Frame CornerRadius="15" x:Name="framethu" BackgroundColor="White">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapThur"/>
                                             </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Vertical" Margin="0,-16">
-                                                <Label x:Name="Thursday" FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                            <Label Text="Thur" FontSize="16" FontAttributes="Bold"/>
+                                            <Label x:Name="Thursday" FontSize="14" FontAttributes="Bold" TextColor="#495057"/>
+                                            <Label Text="Thur" FontSize="14" FontAttributes="Italic"  />
                                             <Label/>
                                         </StackLayout>
                                         </Frame>
-                                        <Frame CornerRadius="10">
+                                    <Frame CornerRadius="15" x:Name="framefri" BackgroundColor="white">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapFri"/>
                                             </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Vertical" Margin="0,-16">
-                                                <Label x:Name="Friday"  FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                            <Label Text="Fri" FontSize="16" FontAttributes="Bold"/>
+                                            <Label x:Name="Friday"  FontSize="14" FontAttributes="Bold" />
+                                            <Label Text="Fri" FontSize="14" FontAttributes="Italic"  HorizontalOptions="CenterAndExpand"/>
                                             <Label/>
                                         </StackLayout>
                                         </Frame>
-                                        <Frame CornerRadius="10">
+                                    <Frame CornerRadius="15" x:Name="framesat" BackgroundColor="white">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="frameTapSat"/>
                                             </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Vertical" Margin="0,-16">
-                                                <Label x:Name="Saturday"  FontSize="19" FontAttributes="Bold" TextColor="#495057"/>
-                                            <Label Text="Sat" FontSize="16" FontAttributes="Bold"/>
+                                            <Label x:Name="Saturday"  FontSize="14" FontAttributes="Bold" TextColor="#495057"/>
+                                            <Label Text="Sat" FontSize="14" FontAttributes="Italic"  HorizontalOptions="CenterAndExpand" />
                                             <Label/>
                                         </StackLayout>
                                         </Frame>
@@ -138,25 +149,49 @@
                                     
                 </StackLayout>
              
-                    <StackLayout Orientation="Vertical" HorizontalOptions="StartAndExpand" >
-
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,10">
-                            <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                       Glyph={x:Static helpers:IconFont.FilterCheckOutline},Size=26,Color=DarkGray}"/>
-                            <Label Text="Sort" FontSize="17"/>
-                        </StackLayout>
-                        <Label FontSize="19" FontAttributes="Bold" TextColor="#495057">
+                    <StackLayout Orientation="Vertical" >
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                        <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                       Glyph={x:Static helpers:IconFont.ChevronDoubleLeft},Size=26,Color= #61a5c2}" Clicked="LeftClicked"/>
+                        <Label FontSize="15"  FontAttributes="Bold" TextColor="#61a5c2" Margin="0,13">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="Monday"/>
-                                    <Span Text=" tasks"/>
+                                    <Span Text="Week "/>
+                                    <Span x:Name="weeknumber" Text="#"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <AbsoluteLayout Grid.Row="1" Grid.ColumnSpan="4" IsVisible="True" x:Name="WeekStackTasklist" >
+                        <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                       Glyph={x:Static helpers:IconFont.ChevronDoubleRight},Size=26,Color=#61a5c2}" Clicked="RightClicked"/>
+                        <Label x:Name="status" FontSize="14" FontAttributes="Italic" TextColor="#f07167" Margin="-5,14"/>
+                    </StackLayout>
+                     <StackLayout Orientation="Horizontal">
+                        <StackLayout HorizontalOptions="StartAndExpand" Margin="5,0">
+                            <Label FontSize="19" FontAttributes="Bold" TextColor="#495057">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span x:Name="Daytask" Text=""/>
+                                        <Span Text=" tasks"/>
+                                        <Span Text=" ("/>
+                                        <Span x:Name="taskNumber" Text=""/>
+                                        <Span Text=" )"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout  HorizontalOptions="EndAndExpand" >
 
-                            <Label x:Name="notasks" Margin="80,0,0,0" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="" FontSize="15"/>
-                            <ListView ItemsSource="{Binding dowTasks}"
+                            <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                       Glyph={x:Static helpers:IconFont.FilterCheckOutline},Size=26,Color=#495057}"/>
+                        </StackLayout>
+
+                    </StackLayout>
+                   
+                        <AbsoluteLayout Grid.Row="1" Grid.ColumnSpan="4" x:Name="WeekStackTasklist" >
+
+                            <Label x:Name="notasks" Margin="50,18,0,0" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="" FontSize="15"/>
+                            
+                            <ListView x:Name="listView" ItemsSource="{Binding dowTasks}"
                                           AbsoluteLayout.LayoutFlags="All"
 						                          AbsoluteLayout.LayoutBounds="0,0,1,1"
                                            CachingStrategy="RecycleElement"
@@ -226,9 +261,7 @@
                                                                 </FormattedString>
                                                             </Label.FormattedText>
                                                         </Label>
-
-
-
+                                                        
                                                         <Grid Grid.Column=" 4" Grid.Row="0" VerticalOptions="CenterAndExpand" Margin="0,-10,0,0">
 
                                                             <plugin:ProgressRing HeightRequest="100" Scale="1" WidthRequest="100" RingThickness="5" Progress="{Binding Progress}" RingBaseColor="#495057" ProgressColor="#61a5c2"></plugin:ProgressRing>
@@ -260,7 +293,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
 
-                            <ImageButton x:Name="addbtn" Margin="5,5,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                            <ImageButton IsVisible="true" x:Name="addbtn" Margin="5,5,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                         Glyph={x:Static helpers:IconFont.PlusCircle},Size=60,Color=#61a5c2
                                         }"
                                                     BackgroundColor="Transparent"

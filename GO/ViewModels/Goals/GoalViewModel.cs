@@ -150,7 +150,7 @@ namespace GO.ViewModels.Goals
                 {
                     if (goal.Status != "Expired")
                     {
-                        await CreateWeek(goal);
+                       await CreateWeek(goal);
                     }
                     //await DeleteWeek(goal);
                     // get the last week's id in this goal
@@ -429,6 +429,7 @@ namespace GO.ViewModels.Goals
                 var GoalWeeks = await dataWeek.GetWeeksAsync(goal.Id);
                 // get the last created week
                 var LastCreatedWeek = GoalWeeks.ToList().LastOrDefault();
+                
                 // check if today's date is more that last created week end date
                 if(DateTime.Today > LastCreatedWeek.EndDate)
                 {

@@ -86,6 +86,14 @@ namespace GO.ViewModels.TaskInGoals
                 var dows = await dataDow.GetDOWsAsync(lastweek.Id);
                 // get the selected dow
                 var selecteddow = dows.Where(D => D.IsSelected).FirstOrDefault();
+                if(selecteddow == null)
+                {
+                    // get the dow whose day is equal to today's day
+                    var day = dows.Where(d => d.Name == DateTime.Today.DayOfWeek.ToString()).FirstOrDefault();
+                    // dayId will be equal to day's Id
+                    DayId = day.DOWId;
+                }
+                else
                 DayId = selecteddow.DOWId;
             }               
            
@@ -152,7 +160,7 @@ namespace GO.ViewModels.TaskInGoals
                 }
 
                     var newestTask = new GoalTask
-                {
+                    {
                     taskName = UppercasedName,
                     StartTask = starttime,
                     EndTask = endtime,
@@ -198,19 +206,9 @@ namespace GO.ViewModels.TaskInGoals
                 AddTaskPercent(lastweek);
                 
                 // get the name of the day having dowId
-                var dbDow = await dataDow.GetDOWAsync(newestTask.DowId);
-                if (dowtask.Count() == 0)
-                {
-                    var route = $"{nameof(WeeklyTask)}?weekId={newestTask.WeekId}";
-                    await Shell.Current.GoToAsync(route);
-                    await Application.Current.MainPage.DisplayAlert("Alert", $"A new task for {dbDow.Name}, has been added! tap on {dbDow.Name}'s view task button, to check it out.", "Ok");
-                }
-                else
-                {
+                var dbDow = await dataDow.GetDOWAsync(newestTask.DowId);               
                     await Shell.Current.GoToAsync("..");
-                    Datatoast.toast("New task added");
-                }
-               
+                    Datatoast.toast("New task added");             
             }
             catch (Exception ex)
             {

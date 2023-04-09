@@ -28,7 +28,7 @@ namespace GO
         protected override void OnStart()
         {
             base.OnStart();
-           // CreateNewWeek();
+           //CreateNewWeek();
         }
 
         protected override void OnSleep()
