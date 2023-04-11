@@ -41,7 +41,7 @@
                    
                     <StackLayout Grid.Row="2" Grid.ColumnSpan="4">
 
-                        <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="Add Goal" Command="{Binding subTaskAddCommand}" CornerRadius="15" Margin="20,20,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"
+                        <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="Add Subtask" Command="{Binding subTaskAddCommand}" CornerRadius="15" Margin="20,20,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"
                      
                         ></Button>
 

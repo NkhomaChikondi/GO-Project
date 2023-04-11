@@ -45,7 +45,7 @@ namespace GO.Views.GoalTask
         {
             base.OnAppearing();
             int.TryParse(weekId, out var result);
-           
+
             if (!Clicked)
             {
                 latestWeek = result;
@@ -69,7 +69,7 @@ namespace GO.Views.GoalTask
 
                 //call calculate weekdays method
                 await calculateWeekdays(latestWeek);
-              
+
                 addbtn.IsVisible = true;
                 dateToday.Text = DateTime.Today.ToLongDateString().ToString();
                 //get all tasks having the goal id for the latest week
@@ -85,12 +85,12 @@ namespace GO.Views.GoalTask
                         wvm.GoalId = goal.Id;
                         wvm.WeekId = result;
                         taskNumber.Text = "0";
-                       // await showButtonclicked(0);
+                        // await showButtonclicked(0);
                         await wvm.Refresh();
                     }
                 }
                 else if (weekTasks.Count() != 0)
-                {                     
+                {
                     if (BindingContext is WeeklyTaskViewModel wvm)
                     {
                         wvm.GoalId = goal.Id;
@@ -100,7 +100,7 @@ namespace GO.Views.GoalTask
                         {
                             // get the first task
                             var firstTask = weekTasks.ToList().FirstOrDefault();
-                            wvm.DaySelected = firstTask.DowId;                               
+                            wvm.DaySelected = firstTask.DowId;
                             await showButtonclicked(firstTask.DowId);
                             Daytask.Text = firstTask.StartTask.DayOfWeek.ToString();
                         }
@@ -114,37 +114,37 @@ namespace GO.Views.GoalTask
                         }
                         wvm.WeekId = result;
                         await wvm.Refresh();
-                           
-                               
+
+
                     }
                 }
             }
-            
+
             else if (Clicked)
             {
                 //call calculate weekdays method
                 await calculateWeekdays(weekNumber);
                 // get the  week having the week id
-              var  week = await dataWeek.GetWeekAsync(weekNumber);
-              if(DateTime.Today > week.EndDate)
-              {
+                var week = await dataWeek.GetWeekAsync(weekNumber);
+                if (DateTime.Today > week.EndDate)
+                {
                     week.Active = false;
                     await dataWeek.UpdateWeekAsync(week);
 
-              }
-                   
+                }
+
                 // get the goal having the goalid
-               var goal = await datagoal.GetGoalAsync(week.GoalId);
+                var goal = await datagoal.GetGoalAsync(week.GoalId);
                 // pass the goal id to the private field
                 goalId = goal.Id;
-               
+
                 //get all tasks having the goal id for the latest week
                 var Tasks = await DataTask.GetTasksAsync(goalId);
                 // get tasks thats have the weeknmber id
                 var weekTasks = Tasks.Where(d => d.WeekId == weekNumber).ToList();
                 if (week.Active)
                 {
-                 
+
                     if (weekTasks.Count() == 0)
                     {
                         status.Text = "Active";
@@ -187,7 +187,7 @@ namespace GO.Views.GoalTask
                                 // get the last inserted task
                                 var lastTask = weekTasks.LastOrDefault();
                                 wvm.DaySelected = lastTask.DowId;
-                                 Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
+                                Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
                                 await showButtonclicked(lastTask.DowId);
                             }
                             wvm.WeekId = weekNumber;
@@ -196,7 +196,7 @@ namespace GO.Views.GoalTask
                     }
                 }
                 else if (!week.Active)
-                {                  
+                {
 
                     if (weekTasks.Count() == 0)
                     {
@@ -254,12 +254,12 @@ namespace GO.Views.GoalTask
                     }
                 }
 
-               
-                }
-            }           
-           
-        
-          
+
+            }
+        }
+
+
+
         private async void switch_Toggled(object sender, ToggledEventArgs e)
         {
             Switch @switch = (Switch)sender;
@@ -296,18 +296,18 @@ namespace GO.Views.GoalTask
         private void frameTapSun(object sender, EventArgs e)
         {
             sundayTap();
-          
+
         }
         private async Task sundayTap()
         {
-            if(BindingContext is WeeklyTaskViewModel wvm)
+            if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 Daytask.Text = "Sunday";
-                await wvm.sunButton();                
+                await wvm.sunButton();
                 //get dayselected
                 await showButtonclicked(wvm.DaySelected);
             }
-            
+
         }
         private void frameTapmon(object sender, EventArgs e)
         {
@@ -336,7 +336,7 @@ namespace GO.Views.GoalTask
                 //get dayselected
                 await showButtonclicked(wvm.DaySelected);
             }
-        }        
+        }
         private void frameTapWed(object sender, EventArgs e)
         {
             wednesdayTap();
@@ -373,11 +373,11 @@ namespace GO.Views.GoalTask
         private async Task fridayTap()
         {
             if (BindingContext is WeeklyTaskViewModel wvm)
-            {                
+            {
                 Daytask.Text = "Friday";
                 //get dayselected
                 await showButtonclicked(wvm.DaySelected);
-                await wvm.friButton();             
+                await wvm.friButton();
             }
 
         }
@@ -416,7 +416,7 @@ namespace GO.Views.GoalTask
             weekDays.Add("Wednesday");
             weekDays.Add("Thursday");
             weekDays.Add("Friday");
-            weekDays.Add("Saturday");         
+            weekDays.Add("Saturday");
 
             double counter = 0.0;
 
@@ -446,7 +446,7 @@ namespace GO.Views.GoalTask
                             string month = date.Substring(0, 6);
                             Monday.Text = month;
                         }
-                           
+
                         if (day == "Tuesday")
                         {
                             var date = week.StartDate.ToLongDateString();
@@ -478,9 +478,9 @@ namespace GO.Views.GoalTask
                             string month = date.Substring(0, 6);
                             Saturday.Text = month;
                         }
-                        dayselected = true;  
-                    }                 
-                   
+                        dayselected = true;
+                    }
+
                 }
                 else if (dayselected)
                 {
@@ -492,49 +492,49 @@ namespace GO.Views.GoalTask
                         string date = startDate.ToLongDateString();
                         Sunday.Text = date.Substring(0, 6);
                     }
-                   
+
                     if (day == "Monday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         string date = startDate.ToLongDateString();
                         Monday.Text = date.Substring(0, 6);
                     }
-                       
+
                     if (day == "Tuesday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         string date = startDate.ToLongDateString();
                         Tuesday.Text = date.Substring(0, 6);
                     }
-                       
+
                     if (day == "Wednesday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         string date = startDate.ToLongDateString();
                         Wednesday.Text = date.Substring(0, 6);
                     }
-                      
+
                     if (day == "Thursday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         string date = startDate.ToLongDateString();
                         Thursday.Text = date.Substring(0, 6);
                     }
-                        
+
                     if (day == "Friday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         string date = startDate.ToLongDateString();
                         Friday.Text = date.Substring(0, 6);
                     }
-                       
+
                     if (day == "Saturday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         string date = startDate.ToLongDateString();
                         Saturday.Text = date.Substring(0, 6);
                     }
-                      
+
                 }
 
             }
@@ -549,13 +549,13 @@ namespace GO.Views.GoalTask
             // get weeks
             var weeks = await dataWeek.GetWeeksAsync(goalId);
             int count = weeks.Count();
-            if(count - clicks < 0)
+            if (count - clicks < 0)
             {
                 await App.Current.MainPage.DisplayAlert("Alert", "No Weeks left", "Ok");
                 clicks--;
                 return;
             }
-            else 
+            else
             {
                 // Week activeWeek = weeks.ElementAtOrDefault(count -clicks);
                 Week activeWeek = weeks.ElementAt(count - clicks);
@@ -575,9 +575,10 @@ namespace GO.Views.GoalTask
                     weekNumber = activeWeek.Id;
                     //call the onapperance method
                     OnAppearing();
-                }                
-            }           
+                }
+            }
         }
+
         private void RightClicked(object sender, EventArgs e)
         {
             RightClickMethod();
@@ -615,7 +616,7 @@ namespace GO.Views.GoalTask
                     weekNumber = activeWeek.Id;
                     // get the last week
                     var lastWeek = weeks.LastOrDefault();
-                    if(activeWeek.Id == lastWeek.Id)
+                    if (activeWeek.Id == lastWeek.Id)
                     {
                         Clicked = false;
                     }
@@ -631,106 +632,153 @@ namespace GO.Views.GoalTask
             // get all tasks havng the dowd
             var daytasks = await DataTask.GetTasksAsync(goalId);
             var dowtask = daytasks.Where(d => d.DowId == id).ToList();
-         
-                taskNumber.Text = dowtask.Count().ToString();
-                var startday = dow.Name;
-                if (startday == "Sunday")
-                {
-                    Daytask.Text = startday;
-                    framesun.BackgroundColor = Color.LightGray;
-                    framemon.BackgroundColor = Color.White;
-                    frametue.BackgroundColor = Color.White;
-                    framewed.BackgroundColor = Color.White;
-                    framethu.BackgroundColor = Color.White;
-                    framefri.BackgroundColor = Color.White;
-                    framesat.BackgroundColor = Color.White;
 
-                }
-                else if (startday == "Monday")
-                {
-                    Daytask.Text = startday;
-                    framesun.BackgroundColor = Color.White;
-                    framemon.BackgroundColor = Color.LightGray;
-                    frametue.BackgroundColor = Color.White;
-                    framewed.BackgroundColor = Color.White;
-                    framethu.BackgroundColor = Color.White;
-                    framefri.BackgroundColor = Color.White;
-                    framesat.BackgroundColor = Color.White;
+            taskNumber.Text = dowtask.Count().ToString();
+            var startday = dow.Name;
+            if (startday == "Sunday")
+            {
+                Daytask.Text = startday;
+                framesun.BackgroundColor = Color.LightGray;
+                framemon.BackgroundColor = Color.White;
+                frametue.BackgroundColor = Color.White;
+                framewed.BackgroundColor = Color.White;
+                framethu.BackgroundColor = Color.White;
+                framefri.BackgroundColor = Color.White;
+                framesat.BackgroundColor = Color.White;
 
-                }
-                else if (startday == "Tuesday")
-                {
-                    Daytask.Text = startday;
-                    framesun.BackgroundColor = Color.White;
-                    framemon.BackgroundColor = Color.White;
-                    frametue.BackgroundColor = Color.LightGray;
-                    framewed.BackgroundColor = Color.White;
-                    framethu.BackgroundColor = Color.White;
-                    framefri.BackgroundColor = Color.White;
-                    framesat.BackgroundColor = Color.White;
+            }
+            else if (startday == "Monday")
+            {
+                Daytask.Text = startday;
+                framesun.BackgroundColor = Color.White;
+                framemon.BackgroundColor = Color.LightGray;
+                frametue.BackgroundColor = Color.White;
+                framewed.BackgroundColor = Color.White;
+                framethu.BackgroundColor = Color.White;
+                framefri.BackgroundColor = Color.White;
+                framesat.BackgroundColor = Color.White;
 
-                }
-                else if (startday == "Wednesday")
-                {
-                    Daytask.Text = startday;
-                    framesun.BackgroundColor = Color.White;
-                    framemon.BackgroundColor = Color.White;
-                    frametue.BackgroundColor = Color.White;
-                    framewed.BackgroundColor = Color.LightGray;
-                    framethu.BackgroundColor = Color.White;
-                    framefri.BackgroundColor = Color.White;
-                    framesat.BackgroundColor = Color.White;
+            }
+            else if (startday == "Tuesday")
+            {
+                Daytask.Text = startday;
+                framesun.BackgroundColor = Color.White;
+                framemon.BackgroundColor = Color.White;
+                frametue.BackgroundColor = Color.LightGray;
+                framewed.BackgroundColor = Color.White;
+                framethu.BackgroundColor = Color.White;
+                framefri.BackgroundColor = Color.White;
+                framesat.BackgroundColor = Color.White;
 
-                }
-                else if (startday == "Thursday")
-                {
-                    Daytask.Text = startday;
-                    framesun.BackgroundColor = Color.White;
-                    framemon.BackgroundColor = Color.White;
-                    frametue.BackgroundColor = Color.White;
-                    framewed.BackgroundColor = Color.White;
-                    framethu.BackgroundColor = Color.LightGray;
-                    framefri.BackgroundColor = Color.White;
-                    framesat.BackgroundColor = Color.White;
+            }
+            else if (startday == "Wednesday")
+            {
+                Daytask.Text = startday;
+                framesun.BackgroundColor = Color.White;
+                framemon.BackgroundColor = Color.White;
+                frametue.BackgroundColor = Color.White;
+                framewed.BackgroundColor = Color.LightGray;
+                framethu.BackgroundColor = Color.White;
+                framefri.BackgroundColor = Color.White;
+                framesat.BackgroundColor = Color.White;
 
-                }
-                else if (startday == "Friday")
-                {
-                    Daytask.Text = startday;
-                    framesun.BackgroundColor = Color.White;
-                    framemon.BackgroundColor = Color.White;
-                    frametue.BackgroundColor = Color.White;
-                    framewed.BackgroundColor = Color.White;
-                    framethu.BackgroundColor = Color.White;
-                    framefri.BackgroundColor = Color.LightGray;
-                    framesat.BackgroundColor = Color.White;
+            }
+            else if (startday == "Thursday")
+            {
+                Daytask.Text = startday;
+                framesun.BackgroundColor = Color.White;
+                framemon.BackgroundColor = Color.White;
+                frametue.BackgroundColor = Color.White;
+                framewed.BackgroundColor = Color.White;
+                framethu.BackgroundColor = Color.LightGray;
+                framefri.BackgroundColor = Color.White;
+                framesat.BackgroundColor = Color.White;
 
-                }
-                else if (startday == "Saturday")
-                {
-                    Daytask.Text = startday;
-                    framesun.BackgroundColor = Color.White;
-                    framemon.BackgroundColor = Color.White;
-                    frametue.BackgroundColor = Color.White;
-                    framewed.BackgroundColor = Color.White;
-                    framethu.BackgroundColor = Color.White;
-                    framefri.BackgroundColor = Color.White;
-                    framesat.BackgroundColor = Color.LightGray;
+            }
+            else if (startday == "Friday")
+            {
+                Daytask.Text = startday;
+                framesun.BackgroundColor = Color.White;
+                framemon.BackgroundColor = Color.White;
+                frametue.BackgroundColor = Color.White;
+                framewed.BackgroundColor = Color.White;
+                framethu.BackgroundColor = Color.White;
+                framefri.BackgroundColor = Color.LightGray;
+                framesat.BackgroundColor = Color.White;
 
-                }
-                else
-                {
-                    framesun.BackgroundColor = Color.White;
-                    framemon.BackgroundColor = Color.White;
-                    frametue.BackgroundColor = Color.White;
-                    framewed.BackgroundColor = Color.White;
-                    framethu.BackgroundColor = Color.White;
-                    framefri.BackgroundColor = Color.White;
-                    framesat.BackgroundColor = Color.White;
+            }
+            else if (startday == "Saturday")
+            {
+                Daytask.Text = startday;
+                framesun.BackgroundColor = Color.White;
+                framemon.BackgroundColor = Color.White;
+                frametue.BackgroundColor = Color.White;
+                framewed.BackgroundColor = Color.White;
+                framethu.BackgroundColor = Color.White;
+                framefri.BackgroundColor = Color.White;
+                framesat.BackgroundColor = Color.LightGray;
 
+            }
+            else
+            {
+                framesun.BackgroundColor = Color.White;
+                framemon.BackgroundColor = Color.White;
+                frametue.BackgroundColor = Color.White;
+                framewed.BackgroundColor = Color.White;
+                framethu.BackgroundColor = Color.White;
+                framefri.BackgroundColor = Color.White;
+                framesat.BackgroundColor = Color.White;
+
+            }
+        }
+
+        private async void ImageButton_Clicked(object sender, EventArgs e)
+        {
+           
+            var action = await DisplayActionSheet("Sort tasks by:", "Cancel", "", "All","Not Started","In Progress","Completed","With subtasks");
+            if (action == "All")
+            {
+                if (BindingContext is WeeklyTaskViewModel bvm)
+                {
+                    await bvm.AllTasks();
                 }
-        }         
-    }       
+            }
+
+            else if (action == "Not Started")
+            {
+                if (BindingContext is WeeklyTaskViewModel bvm)
+                {
+                    await bvm.NotstartedTasks();
+                }
+            }
+
+            else if (action == "In Progress")
+            {
+                if (BindingContext is WeeklyTaskViewModel bvm)
+                {
+                    await bvm.InprogressTasks();
+                }
+            }
+
+            else if (action == "Completed")
+            {
+                if (BindingContext is WeeklyTaskViewModel bvm)
+                {
+                    await bvm.CompletedTasks();
+                }
+            }
+
+            else if (action == "With subtasks")
+            {
+                if (BindingContext is WeeklyTaskViewModel bvm)
+                {
+                    await bvm.Withsubtasks();
+                }
+            }
+        }
+    }
+
 }
+
 
     

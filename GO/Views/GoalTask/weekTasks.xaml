@@ -43,15 +43,7 @@
         </Grid.RowDefinitions>
         <StackLayout Grid.Row="0" x:Name="weektasktoprow" Grid.ColumnSpan="4" Orientation="Vertical">
             <Frame Grid.ColumnSpan="4">
-                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
-                    <StackLayout Orientation="Horizontal">
-                        <Button x:Name="bdall" Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="bdall_Clicked"></Button>
-                        <Button x:Name="bdnotstarted"  Margin="0,13,0,15"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="bdnotstarted_Clicked"></Button>
-                        <Button x:Name="bdwithsubtasks"  Margin="0,13,0,15"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="With Subtasks" Clicked="bdwithsubtasks_Clicked"></Button>
-                        <Button x:Name="bdinprogress" Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="bdinprogress_Clicked"></Button>
-                        <Button x:Name="bdcompleted"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="bdcompleted_Clicked"></Button>
-                    </StackLayout>
-                </ScrollView>
+              
 
             </Frame >
             <StackLayout  Grid.ColumnSpan="4" Orientation="Horizontal" x:Name="tasknameandlockedstack">

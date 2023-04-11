@@ -195,9 +195,7 @@ namespace GO.ViewModels.Goals
                 await SendNotification();
                 if (HasWeek)
                 {
-                    await CreateWeek(newestGoal);
-
-                    await Application.Current.MainPage.DisplayAlert("Alert!", $"Goal has successfully been Created with {newestGoal.NumberOfWeeks} weeks! Create Tasks for the first week", "OK");
+                    await CreateWeek(newestGoal);                  
                 }
                 else
                 {
@@ -309,8 +307,9 @@ namespace GO.ViewModels.Goals
             GetWeek = week;          
             await SendWeeklyNotification(lastGoal); 
             // navigate to page
-            var route = $"{nameof(WeeklyTask)}?weekId={week.Id}";
+            var route = $"{nameof(WeekTask)}?weekId={week.Id}";
             await Shell.Current.GoToAsync(route);
+            Datatoast.toast($"New goal with weeks, has been added ");
 
         }
         async Task SendWeeklyNotification( Goal goal)

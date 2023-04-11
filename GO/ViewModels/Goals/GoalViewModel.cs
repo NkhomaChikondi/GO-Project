@@ -266,9 +266,9 @@ namespace GO.ViewModels.Goals
                             var weektasks = await dataTask.GetTasksAsync(goal.Id, week.Id);
                             // loop through the tasks 
                             foreach(var task in weektasks)
-                            {
+                            {                               
                                 // check if task is complete
-                                if(task.IsCompleted)
+                                if (task.IsCompleted)
                                 {
                                     TaskPercentage += task.Percentage;
                                 }

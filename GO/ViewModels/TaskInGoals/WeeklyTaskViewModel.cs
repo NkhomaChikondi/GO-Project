@@ -23,10 +23,9 @@ namespace GO.ViewModels.TaskInGoals
         private bool all = true;
         private bool notstarted;
         private bool inprogress;
-        private bool withSubtasks;
+        private bool withSubtasks; 
         private bool completed;
-        private bool duesoon;
-        private bool expired;
+       
         private int daySelected;
         private string dayName;
 
@@ -58,8 +57,7 @@ namespace GO.ViewModels.TaskInGoals
         public bool Notstarted { get => notstarted; set => notstarted = value; }
         public bool Inprogress { get => inprogress; set => inprogress = value; }
         public bool Completed { get => completed; set => completed = value; }
-        public bool Duesoon { get => duesoon; set => duesoon = value; }
-        public bool Expired { get => expired; set => expired = value; }
+      
         public int GoalId { get => goalId; set => goalId = value; }
         public bool WithSubtasks { get => withSubtasks; set => withSubtasks = value; }
         public int DaySelected { get => daySelected; set => daySelected = value; }
@@ -85,82 +83,51 @@ namespace GO.ViewModels.TaskInGoals
             HelpCommand = new AsyncCommand(GotoHelpPage);
             HelpWeekCommand = new AsyncCommand(GotoHelpweekPage);
         }
-        public async Task AllGoals()
+        public async Task AllTasks()
         {
             all = true;
-            notstarted = false;
-            duesoon = false;
-            inprogress = false;
-            expired = false;
+            notstarted = false;          
+            inprogress = false;           
             WithSubtasks = false;
             await Refresh();
         }
-        public async Task NotstartedGoals()
+        public async Task NotstartedTasks()
         {
             all = false;
-            notstarted = true;
-            duesoon = false;
+            notstarted = true;          
             inprogress = false;
-            completed = false;
-            expired = false;
+            completed = false;            
             WithSubtasks = false;
             await Refresh();
         }
-        public async Task WithsubtasksTask()
+        public async Task Withsubtasks()
         {
             all = false;
             notstarted = false;
-            withSubtasks = true;
-            duesoon = false;
+            withSubtasks = true;            
             inprogress = false;
-            completed = false;
-            expired = false;
+            completed = false;           
             await Refresh();
         }
-        public async Task InprogressGoals()
+        public async Task InprogressTasks()
         {
             all = false;
-            notstarted = false;
-            duesoon = false;
-            inprogress = true;
-            expired = false;
+            notstarted = false;           
+            inprogress = true;           
             WithSubtasks = false;
             completed = false;
             await Refresh();
         }
-        public async Task CompletedGoals()
+        public async Task CompletedTasks()
         {
             all = false;
-            notstarted = false;
-            duesoon = false;
+            notstarted = false;           
             inprogress = false;
             WithSubtasks = false;
-            expired = false;
             completed = true;
             await Refresh();
         }
-        public async Task DuesoonGoals()
-        {
-            all = false;
-            notstarted = false;
-            duesoon = true;
-            inprogress = false;
-            WithSubtasks = false;
-            expired = false;
-            completed = false;
-            await Refresh();
-        }
-        public async Task ExpiredGoals()
-        {
-            all = false;
-            notstarted = false;
-            duesoon = false;
-            inprogress = false;
-            WithSubtasks = false;
-            expired = true;
-            completed = false;
-            await Refresh();
-        }
+      
         // seed the days of the week into the database upon startup
         async Task CreateDOW()
         {
@@ -249,7 +216,7 @@ namespace GO.ViewModels.TaskInGoals
             }     
         async Task gotoWeekstats()
         {
-            var route = $"{nameof(WeeklyTask)}";
+            var route = $"{nameof(WeeklyTask)}?weekId={weekId}";
             await Shell.Current.GoToAsync(route);
         }        
         async Task OnaddTask()
@@ -609,13 +576,15 @@ namespace GO.ViewModels.TaskInGoals
                     else
                     {
                         await Application.Current.MainPage.DisplayAlert("Error!", "You cannot complete this task. the day it was allocated to, has passed.", "Ok");
+                        await Refresh();
                         return;
                     }                 
                 }
                 else
                 {
                     //await Refresh();
-                    await Application.Current.MainPage.DisplayAlert("Error!", "You Cannot complete this Task. The Task has expired.", "OK");                   
+                    await Application.Current.MainPage.DisplayAlert("Error!", "You Cannot complete this Task. The Task has expired.", "OK");
+                    await Refresh();
                     return;
                 }
                    
@@ -639,7 +608,7 @@ namespace GO.ViewModels.TaskInGoals
                 var week = await dataWeek.GetWeekAsync(day.WeekId);
                 if (week.Active)
                 {
-                    if(day.ValidDay)
+                    if(DateTime.Today.DayOfWeek.ToString() == day.Name)
                     { //check if it has subtask
                         if (subtasks.Count() > 0)
                             return;
@@ -654,13 +623,15 @@ namespace GO.ViewModels.TaskInGoals
                     else 
                     {
                         await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot Uncomplete this task. The day it was allocated to, has passed.", "Ok");
+                        await Refresh();
                         return;
                     }
                 }
                 else
                 {
                     //await Refresh();
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot Uncomplete this task. The Task has expired!", "OK");                    
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot Uncomplete this task. The Task has expired!", "OK");
+                    await Refresh();
                     return;
                 }
                    
@@ -807,7 +778,19 @@ namespace GO.ViewModels.TaskInGoals
                      // dows.Clear();
             dowTasks.Clear();
             // get all tasks having the goal id
-            var tasks = await dataTask.GetTasksAsync(GoalId,weekId);      
+            var tasks = await dataTask.GetTasksAsync(GoalId,weekId);
+            if(tasks.Count() >0)
+            {
+                foreach (var task in tasks)
+                {
+                    /// calculate number of sbtasks in the tasks
+                    var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+                    task.SubtaskNumber = subtasks.Count();
+                    // update task
+                    await dataTask.UpdateTaskAsync(task);
+                }
+            }
+
             //if(tasks.Count() == 0)
             //{
             //    await Application.Current.MainPage.DisplayAlert("Alert", "They are no tasks for this week! tap on + button to add new tasks.", "Ok");
@@ -816,7 +799,54 @@ namespace GO.ViewModels.TaskInGoals
             // get tasks that have the incoming id
             var dayTasks = tasks.Where(t => t.DowId == daySelected).ToList();          
             dayName = null;
-            dowTasks.AddRange(dayTasks);
+            if (all)
+                // retrieve the categories back
+                dowTasks.AddRange(dayTasks);
+            //filter goals
+            else if (notstarted)
+            {
+                var notstartedtasks = dayTasks.Where(g => g.Status == "Not Started").ToList();
+                if(notstartedtasks.Count == 0)
+                    Datatoast.toast("No tasks!");
+                else
+                dowTasks.AddRange(notstartedtasks);
+            }
+            else if (completed)
+            {
+               var completedtasks = dayTasks.Where(g => g.IsCompleted).ToList();
+                if (completedtasks.Count == 0)
+                    Datatoast.toast("No tasks!");
+                else
+                dowTasks.AddRange(completedtasks);
+            }
+            else if (inprogress)
+            {
+                var inprogressTasks = dayTasks.Where(g => g.PendingPercentage > 0 && g.Status != "Expired").ToList();
+                if(inprogressTasks.Count == 0)
+                    Datatoast.toast("No tasks!");
+                else
+                dowTasks.AddRange(inprogressTasks);
+            }
+           
+            else if (withSubtasks)
+            {
+                List<GoalTask> tasklist = new List<GoalTask>();
+                //loop through the tasks
+                foreach (var Task in dayTasks)
+                {
+                    // get tasks that have subtasks
+                    var subtasks = await dataSubTask.GetSubTasksAsync(Task.Id);
+                    if (subtasks.Count() > 0)
+                    {
+                        tasklist.Add(Task);
+                    }
+                }
+                if(tasklist.Count == 0)
+                    Datatoast.toast("No tasks!");
+                else
+                dowTasks.AddRange(tasklist);
+            }
+          
             IsBusy = false;          
         }
     }

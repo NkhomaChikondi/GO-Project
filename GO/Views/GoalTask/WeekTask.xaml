@@ -55,9 +55,9 @@
                                         <StackLayout HorizontalOptions="StartAndExpand">
                                             <Label x:Name="dateToday" Text="" FontSize="16" TextColor="#495057"/>
                                         </StackLayout>
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="10,0" >
-                                            <Label Text="  Weekly Stats" FontSize="17" FontAttributes="Bold" TextColor="#61a5c2" />
-                                            <ImageButton Command="{Binding weekStatsCommand}" BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="10,0">
+                                        <Label Text="  View weekly stats" FontSize="16" FontAttributes="Bold" TextColor="#61a5c2"  Margin="0,7" />
+                                            <ImageButton Margin="-5,0"  Command="{Binding weekStatsCommand}" BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                        Glyph={x:Static helpers:IconFont.ChevronRight},Size=28,Color=#61a5c2}"/>
                                         </StackLayout>
                                     </StackLayout>
@@ -181,7 +181,7 @@
                         </StackLayout>
                         <StackLayout  HorizontalOptions="EndAndExpand" >
 
-                            <ImageButton BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                            <ImageButton Clicked="ImageButton_Clicked" BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                        Glyph={x:Static helpers:IconFont.FilterCheckOutline},Size=26,Color=#495057}"/>
                         </StackLayout>
 

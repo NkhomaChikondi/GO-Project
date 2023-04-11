@@ -21,7 +21,7 @@ namespace GO.Views.GoalTask
         public string weekId { get; set; }
        
         // properties for Dows Id
-        private int SunId;
+        private static Week GetWeek;
         private int MonId;
         private int TueId;
         private int WedId;
@@ -50,9 +50,28 @@ namespace GO.Views.GoalTask
             chartView.Chart = new BarChart { Entries = entries, IsAnimated=true,AnimationDuration=ts,  AnimationProgress= 5,LabelTextSize = 30 };
 
         }
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            int.TryParse(weekId, out var result);
+            // get the week throgh the id
+            var Week = await dataWeek.GetWeekAsync(result);
+            GetWeek = Week;
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                await wvm.CalculateTotalWeekPercentage(Week);
+            }
+            progressring.Progress = Week.Progress;
+            wkpercentage.Text = Week.AccumulatedPercentage.ToString();
+            status.Text = Week.Status;           
+            target.Text = Week.TargetPercentage.ToString();
+            startdate.Text = Week.StartDate.ToShortDateString();
+            enddate.Text = Week.EndDate.ToShortDateString();
+        }
         private List<ChartEntry> entries = new List<ChartEntry>
         {
-           new ChartEntry(212)
+
+           new ChartEntry((float) GetWeek.AccumulatedPercentage)
             {
                 Label = "Sunday",
                 ValueLabel = "112",

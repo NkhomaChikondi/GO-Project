@@ -104,10 +104,10 @@ namespace GO.ViewModels.Subtasks
                     {
                         CreatedOn = DateTime.Now,
                         Status = "Uncompleted",
-                        SubEnd = endDate,
+                        SubEnd = task.EndTask,
                         Due_On = null,
                         SubStart = startDate,
-                        enddatetostring =null,
+                        enddatetostring = task.EndTask.ToLongDateString(),
                         IsCompleted = false,
                         SubName = UppercasedName,
                         Percentage = 0,
