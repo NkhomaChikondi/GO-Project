@@ -21,7 +21,7 @@ namespace GO.Views.GoalTask
         public string weekId { get; set; }
        
         // properties for Dows Id
-        private static Week GetWeek;
+        private Week GetWeek;
         private int MonId;
         private int TueId;
         private int WedId;
@@ -56,7 +56,6 @@ namespace GO.Views.GoalTask
             int.TryParse(weekId, out var result);
             // get the week throgh the id
             var Week = await dataWeek.GetWeekAsync(result);
-            GetWeek = Week;
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 await wvm.CalculateTotalWeekPercentage(Week);
@@ -70,53 +69,30 @@ namespace GO.Views.GoalTask
         }
         private List<ChartEntry> entries = new List<ChartEntry>
         {
-
-           new ChartEntry((float) GetWeek.AccumulatedPercentage)
+           new ChartEntry(514)
             {
-                Label = "Sunday",
-                ValueLabel = "112",
+                Label = "CT",
+                ValueLabel = "5",
                 Color = SKColor.Parse("#012a4a")
             },
             new ChartEntry(248)
             {
-                Label = "Monday",
-                ValueLabel = "648",
-                Color = SKColor.Parse("#013a63")
-            },
-            new ChartEntry(248)
-            {
-                Label = "Tuesday",
-                ValueLabel = "648",
-                Color = SKColor.Parse("#2a6f97")
-            },
-            new ChartEntry(248)
-            {
-                Label = "wednesday",
+                Label = "UT",
                 ValueLabel = "648",
                 Color = SKColor.Parse("#ff8600")
             },
-            new ChartEntry(128)
+            new ChartEntry(248)
             {
-                Label = "Thursday",
-                ValueLabel = "428",
-                Color = SKColor.Parse("#468faf")
-            },
-            new ChartEntry(514)
-            {
-                Label = "Friday",
-                ValueLabel = "214",
+                Label = "CS",
+                ValueLabel = "648",
                 Color = SKColor.Parse("#89c2d9")
             },
             new ChartEntry(248)
             {
-                Label = "Saturday",
+                Label = "US",
                 ValueLabel = "648",
-                Color = SKColor.Parse("#a9d6e5")
-                
-            }
-           
-
-
+                Color = SKColor.Parse("#ffb5a7")
+            },      
         };
     }
 }

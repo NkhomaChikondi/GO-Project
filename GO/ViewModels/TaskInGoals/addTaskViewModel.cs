@@ -131,84 +131,93 @@ namespace GO.ViewModels.TaskInGoals
                 // get the last inserted week
                 var lastweek = week.ToList().LastOrDefault();
                 // get all tasks in GoalId
-                var alltasks = await dataTask.GetTasksAsync(goalId,lastweek.Id);
+                var alltasks = await dataTask.GetTasksAsync(goalId,lastweek.Id);                
                 var dowtask = alltasks.Where(D => D.DowId == DayId).ToList();
-                // change the first letter of the Task name to upercase
-                var UppercasedName = char.ToUpper(newtask.taskName[0]) + newtask.taskName.Substring(1);
-                //check if the new task already exist in the database
-                if (dowtask.Any(T => T.taskName == UppercasedName))
+                // check if the tasks for the day has surpassed 5              
+                if (dowtask.Count() >= 5)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot add any new task, Maximum number of tasks (5) added to a day, has been reached. ", "OK");
                     return;
                 }
-                // get goal from the goal table through the given Id
-                var TaskInGoalId = await datagoal.GetGoalAsync(goalId);
-              
-                if (newtask.Description == null)
-                    newtask.Description = $"No Description for {newtask.taskName}";
-                //call the add percentage method
-                  //await AddweekTaskPercentage();
-                // check if goal has week or not
-                // get last inserted week in "this" goal
-               
-                if (DateTime.Today >= lastweek.StartDate && DateTime.Today <= lastweek.EndDate)
+                else
                 {
-                    // set lastinsertedWeek to active
-                    lastweek.Active = true;
-                    // update the database
-                    await dataWeek.UpdateWeekAsync(lastweek);
-                }
+                    // change the first letter of the Task name to upercase
+                    var UppercasedName = char.ToUpper(newtask.taskName[0]) + newtask.taskName.Substring(1);
+                    //check if the new task already exist in the database
+                    if (dowtask.Any(T => T.taskName == UppercasedName))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
+                        return;
+                    }
+                    // get goal from the goal table through the given Id
+                    var TaskInGoalId = await datagoal.GetGoalAsync(goalId);
+
+                    if (newtask.Description == null)
+                        newtask.Description = $"No Description for {newtask.taskName}";
+                    //call the add percentage method
+                    //await AddweekTaskPercentage();
+                    // check if goal has week or not
+                    // get last inserted week in "this" goal
+
+                    if (DateTime.Today >= lastweek.StartDate && DateTime.Today <= lastweek.EndDate)
+                    {
+                        // set lastinsertedWeek to active
+                        lastweek.Active = true;
+                        // update the database
+                        await dataWeek.UpdateWeekAsync(lastweek);
+                    }
 
                     var newestTask = new GoalTask
                     {
-                    taskName = UppercasedName,
-                    StartTask = starttime,
-                    EndTask = endtime,
-                    enddatetostring = endtime.ToLongDateString(),
-                    RemainingDays = remainingDays,
-                    GoalId = goalId,
-                    IsCompleted = false,
-                    Description = newtask.Description,
-                    PendingPercentage = 0,
-                    Percentage = taskPercentage,
-                    Status = "Not Started",
-                    CompletedSubtask = 0,
-                    IsEnabled = true,
-                    CreatedOn = DateTime.Now,
-                    IsVisible = true,  
-                    WeekId = lastweek.Id,
-                    DowId = DayId,
-                    IsNotVisible = false
-                };
-              
-                #region check if task has been assigned a percentage
-                // counter value
-                int counter = 0;
-                // check if task percent has been assigned to task's percentage
+                        taskName = UppercasedName,
+                        StartTask = starttime,
+                        EndTask = endtime,
+                        enddatetostring = endtime.ToLongDateString(),
+                        RemainingDays = remainingDays,
+                        GoalId = goalId,
+                        IsCompleted = false,
+                        Description = newtask.Description,
+                        PendingPercentage = 0,
+                        Percentage = taskPercentage,
+                        Status = "Not Started",
+                        CompletedSubtask = 0,
+                        IsEnabled = true,
+                        CreatedOn = DateTime.Now,
+                        IsVisible = true,
+                        WeekId = lastweek.Id,
+                        DowId = DayId,
+                        IsNotVisible = false
+                    };
 
-                while (counter < 3 && newestTask.Percentage == 0)
-                {
-                    await AddweekTaskPercentage(lastweek);
-                    newestTask.Percentage = taskPercentage;
-                    counter++;
-                }
+                    #region check if task has been assigned a percentage
+                    // counter value
+                    int counter = 0;
+                    // check if task percent has been assigned to task's percentage
 
-                if (counter == 3 && newestTask.Percentage == 0)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add Task, retry", "Ok");
-                    return;
-                }
-                #endregion
+                    while (counter < 3 && newestTask.Percentage == 0)
+                    {
+                        await AddweekTaskPercentage(lastweek);
+                        newestTask.Percentage = taskPercentage;
+                        counter++;
+                    }
 
-                // add the new task to the database                
-                await dataTask.AddTaskAsync(newestTask);
-                // call the add percentage method
-                AddTaskPercent(lastweek);
-                
-                // get the name of the day having dowId
-                var dbDow = await dataDow.GetDOWAsync(newestTask.DowId);               
+                    if (counter == 3 && newestTask.Percentage == 0)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add Task, retry", "Ok");
+                        return;
+                    }
+                    #endregion
+
+                    // add the new task to the database                
+                    await dataTask.AddTaskAsync(newestTask);
+                    // call the add percentage method
+                    AddTaskPercent(lastweek);
+
+                    // get the name of the day having dowId
+                    var dbDow = await dataDow.GetDOWAsync(newestTask.DowId);
                     await Shell.Current.GoToAsync("..");
-                    Datatoast.toast("New task added");             
+                    Datatoast.toast("New task added");
+                }                         
             }
             catch (Exception ex)
             {
