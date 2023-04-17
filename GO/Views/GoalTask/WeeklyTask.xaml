@@ -40,9 +40,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ScrollView Orientation="Vertical" VerticalScrollBarVisibility="Never">
-            <StackLayout>
+            <StackLayout BackgroundColor="#f8f9fa">
 
-                <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand">
+                <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" Margin="0,3">
                     <StackLayout  Orientation="Horizontal" Margin="31,5">
                         <Label Text="    Weekly Statistics" FontAttributes="Bold" FontSize="19"></Label>
                         <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
@@ -52,12 +52,12 @@
                         <Label Text="See how your goal has perfomed this week"  TextColor="Gray" FontAttributes="Italic" FontSize="17"/>
                     </StackLayout>
                 </StackLayout>
-                <StackLayout Margin="0,12">
-                    <StackLayout HorizontalOptions="CenterAndExpand">
-                        <Label Text="Total accumulated percentage" FontAttributes="Bold" FontSize="17"/>
-                    </StackLayout>
-                    <Frame CornerRadius="15" HasShadow="True">
+                <StackLayout Margin="0,3">                    
+                    <Frame CornerRadius="15" HasShadow="True">                        
                         <StackLayout>
+                            <StackLayout HorizontalOptions="CenterAndExpand">
+                                <Label Text="Total accumulated percentage" FontAttributes="Bold" FontSize="17"/>
+                            </StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" Margin="0,79">
 
                                 <plugin:ProgressRing x:Name="progressring" HeightRequest="40" Margin="20,0" Scale="4.8" WidthRequest="43" RingThickness="5" Progress=" 0.5" RingBaseColor="#495057" ProgressColor="#61a5c2"></plugin:ProgressRing>
@@ -107,12 +107,13 @@
                 </StackLayout>
                
                
-                <StackLayout Margin="0,12">
-                    <StackLayout HorizontalOptions="CenterAndExpand">
-                        <Label Text="Total number of tasks and subtasks" FontAttributes="Bold" FontSize="18"/>
-                    </StackLayout>
+                <StackLayout Margin="0,2">
+                   
                     <Frame CornerRadius="15" HasShadow="True">
                         <StackLayout>
+                            <StackLayout HorizontalOptions="CenterAndExpand">
+                                <Label Text="Total number of tasks and subtasks" FontAttributes="Bold" FontSize="18"/>
+                            </StackLayout>
                             <StackLayout Orientation="Horizontal">
                                 <StackLayout HorizontalOptions="StartAndExpand"  Margin="17,0" Orientation="Horizontal" >
                                     <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
@@ -133,12 +134,12 @@
                     </Frame>                   
 
                 </StackLayout>
-                <StackLayout Margin="0,12">
-                    <StackLayout HorizontalOptions="CenterAndExpand">
-                        <Label Text="Perfomance Graph" FontAttributes="Bold" FontSize="18.5"/>
-                    </StackLayout>
+                <StackLayout Margin="0,2">                  
                     <Frame CornerRadius="15" HasShadow="True">
                         <StackLayout>
+                            <StackLayout HorizontalOptions="CenterAndExpand">
+                                <Label Text="Perfomance Graph" FontAttributes="Bold" FontSize="18.5"/>
+                            </StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand" Margin="17,0">
                                 <Label Text="Key:"  FontSize="16.5"/>
                             </StackLayout>
@@ -159,12 +160,12 @@
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                                         <Image  Margin="0,-15" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                    Glyph={x:Static helpers:IconFont.Square},Size=20,Color=#89c2d9}"/>
-                                        <Label Text=":Completed Subtasks(CS)" FontSize="12.5"  Margin="0,8" />
+                                        <Label Text=": Completed Subtasks(CS)" FontSize="13"  Margin="0,8" />
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
                                         <Image Margin="0,-11" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                    Glyph={x:Static helpers:IconFont.Square},Size=20,Color=#ffb5a7}"/>
-                                        <Label Text=":Uncompleted Subtasks(US)" FontSize="12.5"  Margin="0,8"/>
+                                        <Label Text=": Uncompleted Subtasks(US)" FontSize="13"  Margin="0,8"/>
                                     </StackLayout>
                                 </StackLayout>
                             </StackLayout>
@@ -172,12 +173,13 @@
                         </StackLayout>
                     </Frame>
                  
-                    <StackLayout Orientation="Vertical"  Margin="0,12">
-                        <StackLayout HorizontalOptions="CenterAndExpand">
-                            <Label Text="Perfomance Rating" FontAttributes="Bold" FontSize="18.5"/>
-                        </StackLayout>
+                    <StackLayout Orientation="Vertical"  Margin="0,2">
+                       
                         <Frame CornerRadius="15" HasShadow="True">
                             <StackLayout>
+                                <StackLayout HorizontalOptions="CenterAndExpand">
+                                    <Label Text="Perfomance Rating" FontAttributes="Bold" FontSize="18.5"/>
+                                </StackLayout>
                                 <StackLayout >
                                     <ProgressBar Margin="12,0"
                                x:Name = "Weeklyprogresbar"                                                                      
