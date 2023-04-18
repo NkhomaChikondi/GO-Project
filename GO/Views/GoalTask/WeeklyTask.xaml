@@ -56,16 +56,18 @@
                         <StackLayout Margin="0,12">
 
                             <StackLayout>
-                                <StackLayout HorizontalOptions="CenterAndExpand">
+                                <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
                                     <Label>
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Week " FontAttributes="Bold" FontSize="17"/>
-                                                <Span x:Name="wknum" Text="Total weekly accumulated percentage" FontAttributes="Bold" FontSize="17"/>                                              
+                                                <Span x:Name="wknum" Text="" FontAttributes="Bold" FontSize="17"/>                                              
                                                 <Span Text=" accumulated percentage" FontAttributes="Bold" FontSize="17"/>
                                             </FormattedString>
                                         </Label.FormattedText>
-                                    </Label>                                    
+                                    </Label>
+                                    <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.InformationOutline},Size=23,Color=#d00000}" Clicked="ImageButton_Clicked" BackgroundColor="Transparent" />
                                 </StackLayout>
                                 <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" Margin="0,79">
 
@@ -187,8 +189,10 @@
                        
                         <Frame CornerRadius="15" HasShadow="True">
                             <StackLayout>
-                                <StackLayout HorizontalOptions="CenterAndExpand">
+                                <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
                                     <Label Text="Perfomance Rating" FontAttributes="Bold" FontSize="18.5"/>
+                                    <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.InformationOutline},Size=23,Color=#d00000}" BackgroundColor="Transparent" Clicked="ImageButton_Clicked_1"/>
                                 </StackLayout>
                                 <StackLayout >
                                     <ProgressBar Margin="12,0"

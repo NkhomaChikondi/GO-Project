@@ -261,5 +261,22 @@ namespace GO.Views.GoalTask
                 }
             }
         }
+
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {           
+            Application.Current.MainPage.DisplayAlert("INFO", "*  The progress bar is showing the progress of your week. The total percentage of all" +
+                " completed tasks within the week is indicated on the middle.\n \n * " +
+                "Target percent is the percent that has to be reached that week if all tasks are completed. \n \n * The dates are showing the start date and end date of your week.", "OK");
+        }
+
+        private void ImageButton_Clicked_1(object sender, EventArgs e)
+        {
+            Application.Current.MainPage.DisplayAlert("INFO", "\b Bad Rating \b \n * When all the tasks created within the week are less than 5. \n" +
+                "* The rating will be slighlty above bad when all tasks(less than 5) are completed. \n \n" +
+                "\b Better Rating \b \n * When Tasks created within the week are more than 5 and atleast half of those are completed. \n \n" +
+                "\b Good Rating\b \n * When tasks created within the week are more 7 and atleast 3/4 of those are completed \n \n" +
+                "\b Best Rating\b \n * When all the tasks (more than 7) are completed \n \n" +                
+                "\b Note:\b \n * points for your rating can also be gained by completing subtasks even when the task is not fully completed", "OK");
+        }
     }
 }
