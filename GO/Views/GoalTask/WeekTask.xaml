@@ -55,10 +55,22 @@
                                         <StackLayout HorizontalOptions="StartAndExpand">
                                             <Label x:Name="dateToday" Text="" FontSize="16" TextColor="#495057"/>
                                         </StackLayout>
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="10,0">
-                                           <Label Text="  View weekly stats" FontSize="15" FontAttributes="Bold" TextColor="#61a5c2"  Margin="10,0" />
-                                            <ImageButton Margin="-5,0"  Command="{Binding weekStatsCommand}" BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                       Glyph={x:Static helpers:IconFont.ChevronRight},Size=28,Color=#61a5c2}"/>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="10,0">
+                                          <Label  TextColor="#61a5c2"  >
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding weekStatsCommand}"/>
+                                            </Label.GestureRecognizers>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="View week " FontAttributes="Bold" FontSize="16"/>
+                                                    <Span x:Name="weekstats" Text=""  FontAttributes="Bold" FontSize="16"/>
+                                                    <Span Text=" stats" FontAttributes="Bold" FontSize="16"/>
+                                                   
+                                                    <Span Text=" >" FontSize="20" FontAttributes="Bold"  />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                          
                                         </StackLayout>
                                     </StackLayout>
                                 </StackLayout>

@@ -20,12 +20,20 @@ namespace GO.Views.GoalTask
     {
         public string weekId { get; set; }
         private int totalSubtaks = 0;
-   
+        private int dividedTasks = 0;
+        private int dividedsubTasks = 0;
+        private double progress = 0.0;
+
         private static int completedtasks = 0;
         private static int UncompletedTasks = 0;
         private static int completedSubtasks = 0;
         private static int UncompletedSubtasks = 0;
-        private double progress = 0.0;
+
+        int completedTaskscount = 0;
+        int uncompletedTaskscount = 0;
+        int completedSubtaskscount = 0;
+        int uncompletedSubtaskscount = 0;
+
         public IDataGoal<Models.Goal> datagoal { get; }
         public IDataTask<Models.GoalTask> DataTask { get; }
         public IDataWeek<Week> dataWeek { get; }
@@ -52,52 +60,59 @@ namespace GO.Views.GoalTask
             int.TryParse(weekId, out var result);
             // get the week throgh the id
             var Week = await dataWeek.GetWeekAsync(result);
-            var Weektasks = await DataTask.GetTasksAsync(Week.GoalId, Week.Id);
-            await perfomanceRating(Week);
-            // divide tasks count with 514
-            var dividedTasks = 0;
-            var dividedsubTasks = 0;
-            // loop trhu the tasks to get subtasks
-            foreach (var task in Weektasks)
-            {
-                //get completed tasks
-                if (task.IsCompleted)
-                    completedtasks += 1;
-                else if (!task.IsCompleted)
-                    UncompletedTasks += 1;
-                //get subtasks
-                var subtasks = await dataSubtask.GetSubTasksAsync(task.Id);
-                if (subtasks.Count() > 0)
-                    dividedsubTasks = 514 / subtasks.Count();
-                foreach(var subtask in subtasks)
-                {
-                    //get completed subtasks
-                    if (subtask.IsCompleted)
-                        completedtasks += 1;
-                    else if (!task.IsCompleted)
-                        UncompletedSubtasks += 1;
-                }                
-                totalSubtaks += subtasks.Count();            
-                
-            }
+            var Weektasks = await DataTask.GetTasksAsync(Week.GoalId, Week.Id);       
             if (Weektasks.Count() > 0)
             {
+                // get the number of all completed tasks
+                var ct = Weektasks.Where(T => T.IsCompleted).ToList();
+                if(ct.Count> 0)
+                {
+                    completedtasks = ct.Count();
+                    completedTaskscount = completedtasks;
+                }
+                
+                var ut = Weektasks.Where(t => !t.IsCompleted).ToList();
+                if (ut.Count > 0)
+                {
+                    UncompletedTasks = ut.Count();
+                    uncompletedTaskscount = UncompletedTasks;
+                }
+               
+                foreach (var task in Weektasks)
+                {
+                    // get subtasks in the task
+                    var subtasks = await dataSubtask.GetSubTasksAsync(task.Id);
+                    if (subtasks.Count() > 0)
+                    {
+                        totalSubtaks += subtasks.Count();
+                        dividedsubTasks = 514 / subtasks.Count();
+                        foreach (var subtask in subtasks)
+                        {
+                            //get completed subtasks
+                            if (subtask.IsCompleted)
+                                completedSubtasks += 1;
+                            else if (!task.IsCompleted)
+                                UncompletedSubtasks += 1;
+                        }
+                    }
+
+                }
+                //assign new values to the completed and uncompleted tasks and subtasks
                 dividedTasks = 514 / Weektasks.Count();
                 completedtasks = completedtasks * dividedTasks;
                 UncompletedTasks = UncompletedTasks * dividedTasks;
-            }
 
-            if (completedSubtasks >0 || UncompletedSubtasks>0)
-            {               
-                completedSubtasks = completedtasks * dividedTasks;
-                UncompletedSubtasks = UncompletedTasks * dividedTasks;
+                completedSubtaskscount = completedSubtasks;
+                uncompletedSubtaskscount = UncompletedSubtasks;
+                completedSubtasks = completedSubtasks * dividedsubTasks;
+                UncompletedSubtasks = UncompletedSubtasks * dividedsubTasks;
             }
-
 
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 await wvm.CalculateTotalWeekPercentage(Week);                           
             }
+            wknum.Text = Week.WeekNumber.ToString();
             progressring.Progress = Week.Progress;
             wkpercentage.Text = Week.AccumulatedPercentage.ToString();
             status.Text = Week.Status;           
@@ -112,25 +127,25 @@ namespace GO.Views.GoalTask
            new ChartEntry(completedtasks)
             {
                 Label = "CT",
-                ValueLabel = "5",
+                ValueLabel = completedTaskscount.ToString(),
                 Color = SKColor.Parse("#012a4a")
             },
             new ChartEntry(UncompletedTasks)
             {
                 Label = "UT",
-                ValueLabel = "648",
+                ValueLabel = uncompletedTaskscount.ToString(),
                 Color = SKColor.Parse("#ff8600")
             },
             new ChartEntry(completedSubtasks)
             {
                 Label = "CS",
-                ValueLabel = "648",
+                ValueLabel = completedSubtaskscount.ToString(),
                 Color = SKColor.Parse("#89c2d9")
             },
             new ChartEntry(UncompletedSubtasks)
             {
                 Label = "US",
-                ValueLabel = "648",
+                ValueLabel = uncompletedSubtaskscount.ToString(),
                 Color = SKColor.Parse("#ffb5a7")
             },
         };
@@ -138,10 +153,18 @@ namespace GO.Views.GoalTask
 
             TimeSpan ts = new TimeSpan(0, 0, 0, 5);
             chartView.Chart = new BarChart { Entries = entries, IsAnimated = true, AnimationDuration = ts, AnimationProgress = 5, LabelTextSize = 30 };
+            await perfomanceRating(Week);
+
             completedSubtasks = 0;
             completedtasks = 0;
             UncompletedSubtasks = 0;
             UncompletedTasks = 0;
+            uncompletedSubtaskscount = 0;
+            completedSubtaskscount = 0;
+            completedTaskscount = 0;
+            uncompletedTaskscount = 0;
+            dividedsubTasks = 0;
+            dividedTasks = 0;
         }
         async Task perfomanceRating(Week week)
         {
@@ -149,6 +172,8 @@ namespace GO.Views.GoalTask
             var weekTasks = await DataTask.GetTasksAsync(week.GoalId, week.Id);
             //get completed tasks
             var completedTasks = weekTasks.Where(d => d.IsCompleted).ToList();
+            // get tasks whose pending percentages are more than 0
+            var pendingPercentageTasks = weekTasks.Where(p => p.PendingPercentage > 0 && !p.IsCompleted).ToList();
             if(weekTasks.Count() <= 4 && completedTasks.Count() == 0)
             {
                 progress = 0;
@@ -162,10 +187,16 @@ namespace GO.Views.GoalTask
                     Weeklyprogresbar.Progress = progress / 10;
                     progress = 0;
                 }
+                else if(pendingPercentageTasks.Count> 0)
+                {
+                    progress = 1.25;
+                    Weeklyprogresbar.Progress = progress / 10;
+                    progress = 0;
+                }
             }
-            else if(weekTasks.Count() >= 5 && weekTasks.Count() < 7) 
+            if(weekTasks.Count() >= 5 && weekTasks.Count() < 7) 
             {
-                if(completedTasks.Count() >= (2 * (completedTasks.Count) / 4))
+                if(completedTasks.Count() > 0 && completedTasks.Count() >= (2 * (completedTasks.Count) / 4))
                 {
                     progress = 5;
                     Weeklyprogresbar.Progress = progress / 10;
@@ -178,6 +209,12 @@ namespace GO.Views.GoalTask
                     progress = 0;
                 }
                 // here the subtasks will be calculated
+                else if (pendingPercentageTasks.Count > 0)
+                {
+                    progress = 2.5;
+                    Weeklyprogresbar.Progress = progress / 10;
+                    progress = 0;
+                }
                 else 
                 {
                     progress = 0;
@@ -185,9 +222,9 @@ namespace GO.Views.GoalTask
                     progress = 0;
                 }
             }
-            else if(weekTasks.Count() >= 7)
+            if(weekTasks.Count() >= 7)
             {
-                if (completedTasks.Count() >= (3 * (completedTasks.Count) / 4))
+                if (completedTasks.Count() > 0 && completedTasks.Count() >= (3 * (completedTasks.Count) / 4))
                 {
                     progress = 7.5;
                     Weeklyprogresbar.Progress = progress / 10;
@@ -200,6 +237,12 @@ namespace GO.Views.GoalTask
                     progress = 0;
                 }
                 // here the subtasks will be calculated
+                else if (pendingPercentageTasks.Count > 0)
+                {
+                    progress = 3.75;
+                    Weeklyprogresbar.Progress = progress / 10;
+                    progress = 0;
+                }
                 else
                 {
                     progress = 0;
@@ -208,7 +251,7 @@ namespace GO.Views.GoalTask
                 }
 
             }
-            else if(weekTasks.Count() >= 7)
+            if(weekTasks.Count() >= 7)
             {
                 if(weekTasks.Count() == completedTasks.Count())
                 {

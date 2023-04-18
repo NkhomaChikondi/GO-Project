@@ -258,8 +258,6 @@ namespace GO.Views.GoalTask
             }
         }
 
-
-
         private async void switch_Toggled(object sender, ToggledEventArgs e)
         {
             Switch @switch = (Switch)sender;
@@ -423,6 +421,7 @@ namespace GO.Views.GoalTask
             // get the week having the same Id as the incoming Id
             var week = await dataWeek.GetWeekAsync(Id);
             weeknumber.Text = week.WeekNumber.ToString();
+            weekstats.Text = weeknumber.Text;
             startDatetxt.Text = week.StartDate.ToLongDateString();
             endDatetxt.Text = week.EndDate.ToLongDateString();
             // loop through the list
