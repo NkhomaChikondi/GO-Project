@@ -4745,24 +4745,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {},
+    "C:\\Users\\Roose\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj",
+      "projectUniqueName": "C:\\Users\\Roose\\Documents\\GO_Project\\GO.Android\\GO.Android.csproj",
       "projectName": "GO.Android",
-      "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.Android\\GO.Android.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO.Android\\obj\\",
+      "projectPath": "C:\\Users\\Roose\\Documents\\GO_Project\\GO.Android\\GO.Android.csproj",
+      "packagesPath": "C:\\Users\\Roose\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Roose\\Documents\\GO_Project\\GO.Android\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Roose\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -4776,8 +4776,8 @@
       "frameworks": {
         "monoandroid10.0": {
           "projectReferences": {
-            "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO\\GO.csproj": {
-              "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\Get Organized\\GO\\GO\\GO.csproj"
+            "C:\\Users\\Roose\\Documents\\GO_Project\\GO\\GO.csproj": {
+              "projectPath": "C:\\Users\\Roose\\Documents\\GO_Project\\GO\\GO.csproj"
             }
           }
         }
