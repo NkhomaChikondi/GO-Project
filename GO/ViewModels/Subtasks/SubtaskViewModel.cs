@@ -243,12 +243,23 @@ namespace GO.ViewModels.Subtasks
                     var week = await dataWeek.GetWeekAsync(day.WeekId);
                     if(week.Active)
                     {
-                        subtask.IsCompleted = IsComplete;
-                        subtask.Status = "Completed";
-                        await dataSubTask.UpdateSubTaskAsync(subtask);
-                        await CheckTaskCompletion(task);
-                        await setStatus();
-                        await GetCompletedTasks();
+                        // check if day is valid
+                        if(DateTime.Today.Date < task.StartTask.Date || DateTime.Today.Date > task.StartTask.Date)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error!", "failed to complete this subtask. the day it was allocated to, has either passed or not reached yet.", "Ok");
+                            await Refresh();
+                            return;
+                        }
+                        else 
+                        {
+                            subtask.IsCompleted = IsComplete;
+                            subtask.Status = "Completed";
+                            await dataSubTask.UpdateSubTaskAsync(subtask);
+                            await CheckTaskCompletion(task);
+                            await setStatus();
+                            await GetCompletedTasks();
+                        }
+                       
                     }
                     else
                     {

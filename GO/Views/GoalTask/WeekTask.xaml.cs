@@ -95,23 +95,14 @@ namespace GO.Views.GoalTask
                     {
                         wvm.GoalId = goal.Id;
                         listView.IsVisible = true;
-                        notasks.IsVisible = false;
-                        if (wvm.DaySelected == 0)
-                        {
-                            // get the first task
-                            var firstTask = weekTasks.ToList().FirstOrDefault();
-                            wvm.DaySelected = firstTask.DowId;
-                            await showButtonclicked(firstTask.DowId);
-                            Daytask.Text = firstTask.StartTask.DayOfWeek.ToString();
-                        }
-                        else
-                        {
+                        notasks.IsVisible = false;                   
+                                                
                             // get the last inserted task
                             var lastTask = weekTasks.ToList().LastOrDefault();
                             wvm.DaySelected = lastTask.DowId;
                             await showButtonclicked(lastTask.DowId);
                             Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
-                        }
+                        
                         wvm.WeekId = result;
                         await wvm.Refresh();
 

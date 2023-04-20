@@ -90,8 +90,10 @@
                         </StackLayout>
                         
                         <StackLayout  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Margin="18" Orientation="Vertical">
-                            <StackLayout Grid.Row="4" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand">
+                            <StackLayout Grid.Row="4" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
                                 <Label Text="Select Task Type for Goal"  TextColor="#61a5c2" FontSize="17"  FontFamily="RobotoBold" />
+                               <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.InformationOutline},Size=23,Color=#d00000}" BackgroundColor="Transparent" Clicked="ImageButton_Clicked"/>
                             </StackLayout>
                             <StackLayout Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal">
                                 <StackLayout Grid.Column="0" Grid.ColumnSpan="4"  Margin="15,0" Orientation="Horizontal">

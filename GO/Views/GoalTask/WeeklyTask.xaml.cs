@@ -110,6 +110,8 @@ namespace GO.Views.GoalTask
 
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
+                wvm.GoalId = Week.GoalId;
+                wvm.WeekId = Week.Id;
                 await wvm.CalculateTotalWeekPercentage(Week);                           
             }
             wknum.Text = Week.WeekNumber.ToString();

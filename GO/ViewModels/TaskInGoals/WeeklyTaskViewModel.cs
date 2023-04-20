@@ -327,53 +327,7 @@ namespace GO.ViewModels.TaskInGoals
                 //update dow
                 await dataDow.UpdateDOWAsync(dow);
             }
-            await Refresh();
-
-
-            // check if week is active
-            if (week.Active)
-            {
-                if(DateTime.Today >= week.StartDate && DateTime.Today <= week.EndDate)
-                {
-                    //check if today is sunday
-                    if (DateTime.Today.DayOfWeek == DayOfWeek.Sunday)
-                    {
-                        var route = $"{nameof(weekTasks)}?weekId={weekId}";
-                        await Shell.Current.GoToAsync(route);                       
-                    }
-                    else if(DateTime.Today.DayOfWeek != DayOfWeek.Sunday)
-                    {
-                        // check if it has tasks 
-                        if(tasks.Count().Equals(0))
-                        {
-                            await Application.Current.MainPage.DisplayAlert("Alert!", "Cannot create tasks! Sunday tasks can only be created on Sunday", "Ok");
-                            return;
-                        }
-                        else 
-                        {
-                            var route = $"{nameof(weekTasks)}?weekId={weekId}";
-                            await Shell.Current.GoToAsync(route);
-                        }                       
-                    }
-                }
-               
-            }
-            else if(!week.Active)
-            {   // get tasks for this days
-                var sundayTasks = tasks.Where(d => d.DowId == dowId).ToList();
-                if (sundayTasks.Count() == 0)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "They are no tasks to view for Sunday.", "Ok");
-                    return;
-                }
-                else
-                {
-                    var route = $"{nameof(weekTasks)}?weekId={weekId}";
-                    await Shell.Current.GoToAsync(route);
-                }
-            }
-          
-            
+            await Refresh();            
         }
         public async Task monButton()
         {
@@ -558,6 +512,7 @@ namespace GO.ViewModels.TaskInGoals
                 // check if the day name is less than or equal to the day of today                
                 // get the week the day is assigned to
                 var week = await dataWeek.GetWeekAsync(day.WeekId);
+
                 if (week.Active)
                 {
                     if(DateTime.Today.DayOfWeek.ToString() == day.Name)
@@ -572,10 +527,10 @@ namespace GO.ViewModels.TaskInGoals
                             await SetStatus();
                             await CalculateTotalWeekPercentage(week);
                         }
-                    }
+                    }                 
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot complete this task. the day it was allocated to, has passed.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot complete this task. the day it was allocated to, has either passed or not reached yet.", "Ok");
                         await Refresh();
                         return;
                     }                 
@@ -713,11 +668,10 @@ namespace GO.ViewModels.TaskInGoals
             double TaskPercentage = 0;
             double subtaskpercentage = 0;
             double Accumulated = 0;
-             
-            // get all tasks having the goal id
-            var tasks = await dataTask.GetTasksAsync(GoalId);
+
+
             // get all tasks having the week id
-            var weekTasks = tasks.Where(T => T.WeekId == week.Id).ToList();
+            var weekTasks = await dataTask.GetTasksAsync(GoalId, weekId);
             if (weekTasks.Count() == 0)
                 return;
             else
@@ -791,12 +745,6 @@ namespace GO.ViewModels.TaskInGoals
                 }
             }
 
-            //if(tasks.Count() == 0)
-            //{
-            //    await Application.Current.MainPage.DisplayAlert("Alert", "They are no tasks for this week! tap on + button to add new tasks.", "Ok");
-            //    return;
-            //}
-            // get tasks that have the incoming id
             var dayTasks = tasks.Where(t => t.DowId == daySelected).ToList();          
             dayName = null;
             if (all)

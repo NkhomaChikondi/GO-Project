@@ -99,14 +99,14 @@ namespace GO.ViewModels.Subtasks
                 }
                 else if(task.WeekId > 0)
                 {
-                     // create a new subtask object 
+                    // create a new subtask object 
                     var newestSubtask = new Subtask
                     {
                         CreatedOn = DateTime.Now,
                         Status = "Uncompleted",
                         SubEnd = task.EndTask,
                         Due_On = null,
-                        SubStart = startDate,
+                        SubStart = task.StartTask,
                         enddatetostring = task.EndTask.ToLongDateString(),
                         IsCompleted = false,
                         SubName = UppercasedName,

@@ -32,6 +32,11 @@ namespace GO.Views.Goal
                 noWeek.IsChecked = false;
 
         }
+
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage.DisplayAlert("INFO", "\b ONCE-OFF TASKS \b \n * Select when you want your goal to have tasks that are not repeated (Once-off). \n\n WEEKLY TASKS \n * selected when you want want to have tasks that can be repeated weekly.", "OK");
+        }
     }
 
 }
