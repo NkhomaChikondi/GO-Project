@@ -148,7 +148,8 @@ namespace GO.ViewModels.TaskInGoals
 
                         Name = "Sunday",
                         WeekId = lastInsertedWeek.Id,
-                        IsSelected = false
+                        IsSelected = false,
+                        Date = new DateTime()
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowSunday);
@@ -157,7 +158,8 @@ namespace GO.ViewModels.TaskInGoals
                     {
                         Name = "Monday",
                         WeekId = lastInsertedWeek.Id,
-                        IsSelected = false
+                        IsSelected = false,
+                        Date = new DateTime()
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowMonday);
@@ -166,7 +168,8 @@ namespace GO.ViewModels.TaskInGoals
                     {
                         Name = "Tuesday",
                         WeekId = lastInsertedWeek.Id,
-                        IsSelected = false
+                        IsSelected = false,
+                        Date = new DateTime()
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowTuesday);
@@ -176,7 +179,7 @@ namespace GO.ViewModels.TaskInGoals
                         Name = "Wednesday",
                         WeekId = lastInsertedWeek.Id,
                         IsSelected = false,
-                        ValidDay = false
+                        Date = new DateTime()
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowWednesday);
@@ -187,7 +190,7 @@ namespace GO.ViewModels.TaskInGoals
                         Name = "Thursday",
                         WeekId = lastInsertedWeek.Id,
                         IsSelected = false,
-                        ValidDay = false
+                        Date = new DateTime()
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowThursday);
@@ -197,7 +200,7 @@ namespace GO.ViewModels.TaskInGoals
                         Name = "Friday",
                         WeekId = lastInsertedWeek.Id,
                         IsSelected = false,
-                        ValidDay = false
+                        Date = new DateTime()
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowFriday);
@@ -207,7 +210,7 @@ namespace GO.ViewModels.TaskInGoals
                         Name = "Saturday",
                         WeekId = lastInsertedWeek.Id,
                         IsSelected = false,
-                        ValidDay = false
+                        Date = new DateTime()
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowSaturday);

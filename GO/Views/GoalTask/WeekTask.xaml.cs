@@ -23,6 +23,16 @@ namespace GO.Views.GoalTask
         private bool Clicked = false;
         private int weekNumber = 0;
         private int clicks = 1;
+        private int weektaskCount = 0;
+        private bool newtaskAdded = false;
+        // properties for day dates
+        private DateTime sunDate = new DateTime();
+        private DateTime monDate = new DateTime();
+        private DateTime tueDate = new DateTime();
+        private DateTime wedDate = new DateTime();
+        private DateTime thuDate = new DateTime();
+        private DateTime friDate = new DateTime();
+        private DateTime satDate = new DateTime();
 
         int latestWeek;
         List<Models.GoalTask> goalTasks = new List<Models.GoalTask>();
@@ -74,6 +84,19 @@ namespace GO.Views.GoalTask
                 dateToday.Text = DateTime.Today.ToLongDateString().ToString();
                 //get all tasks having the goal id for the latest week
                 var weekTasks = await DataTask.GetTasksAsync(goalId, latestWeek);
+                if(weektaskCount == 0)
+                {
+                    newtaskAdded = false;
+                }
+                else if(weekTasks.Count() > weektaskCount)
+                {
+                    newtaskAdded = true;
+                  weektaskCount =  weekTasks.Count();
+                }
+                else if(weekTasks.Count() <= weektaskCount)                
+                    newtaskAdded = false;
+
+                weektaskCount = weekTasks.Count();
                 if (weekTasks.Count() == 0)
                 {
                     listView.IsVisible = false;
@@ -99,10 +122,33 @@ namespace GO.Views.GoalTask
                                                 
                             // get the last inserted task
                             var lastTask = weekTasks.ToList().LastOrDefault();
+                        if(newtaskAdded)
+                        {
                             wvm.DaySelected = lastTask.DowId;
                             await showButtonclicked(lastTask.DowId);
                             Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
-                        
+                            newtaskAdded = false;
+                        }
+                        else
+                        {
+                            if (lastTask.StartTask > DateTime.Today)
+                            {
+                                // get a task whose start date is today
+                                var task = weekTasks.Where(s => s.StartTask.Date == DateTime.Today.Date).FirstOrDefault();
+                                if (task == null)
+                                {
+                                    wvm.DaySelected = lastTask.DowId;
+                                    await showButtonclicked(lastTask.DowId);
+                                    Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
+                                }
+                                else
+                                {
+                                    wvm.DaySelected = task.DowId;
+                                    await showButtonclicked(task.DowId);
+                                    Daytask.Text = task.StartTask.DayOfWeek.ToString();
+                                }
+                            }
+                        }                                           
                         wvm.WeekId = result;
                         await wvm.Refresh();
 
@@ -135,6 +181,19 @@ namespace GO.Views.GoalTask
                 var weekTasks = Tasks.Where(d => d.WeekId == weekNumber).ToList();
                 if (week.Active)
                 {
+                    if (weektaskCount == 0)
+                    {
+                        newtaskAdded = false;
+                    }
+                    else if (weekTasks.Count() > weektaskCount)
+                    {
+                        newtaskAdded = true;
+                        weektaskCount = weekTasks.Count();
+                    }
+                    else if (weekTasks.Count() <= weektaskCount)
+                        newtaskAdded = false;
+
+                    weektaskCount = weekTasks.Count();
 
                     if (weekTasks.Count() == 0)
                     {
@@ -165,21 +224,34 @@ namespace GO.Views.GoalTask
                         if (BindingContext is WeeklyTaskViewModel wvm)
                         {
                             wvm.GoalId = goal.Id;
-                            if (wvm.DaySelected == 0)
+                            // get the last inserted task
+                            var lastTask = weekTasks.ToList().LastOrDefault();
+                            if (newtaskAdded)
                             {
-                                // get the first task
-                                var firstTask = weekTasks.ToList().FirstOrDefault();
-                                wvm.DaySelected = firstTask.DowId;
-                                // Daytask.Text = firstTask.StartTask.DayOfWeek.ToString();
-                                await showButtonclicked(firstTask.DowId);
+                                wvm.DaySelected = lastTask.DowId;
+                                await showButtonclicked(lastTask.DowId);
+                                Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
+                                newtaskAdded = false;
                             }
                             else
                             {
-                                // get the last inserted task
-                                var lastTask = weekTasks.LastOrDefault();
-                                wvm.DaySelected = lastTask.DowId;
-                                Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
-                                await showButtonclicked(lastTask.DowId);
+                                if (lastTask.StartTask > DateTime.Today)
+                                {
+                                    // get a task whose start date is today
+                                    var task = weekTasks.Where(s => s.StartTask.Date == DateTime.Today.Date).FirstOrDefault();
+                                    if (task == null)
+                                    {
+                                        wvm.DaySelected = lastTask.DowId;
+                                        await showButtonclicked(lastTask.DowId);
+                                        Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
+                                    }
+                                    else
+                                    {
+                                        wvm.DaySelected = task.DowId;
+                                        await showButtonclicked(task.DowId);
+                                        Daytask.Text = task.StartTask.DayOfWeek.ToString();
+                                    }
+                                }
                             }
                             wvm.WeekId = weekNumber;
                             await wvm.Refresh();
@@ -365,8 +437,8 @@ namespace GO.Views.GoalTask
             {
                 Daytask.Text = "Friday";
                 //get dayselected
-                await showButtonclicked(wvm.DaySelected);
                 await wvm.friButton();
+                await showButtonclicked(wvm.DaySelected);               
             }
 
         }
@@ -427,18 +499,21 @@ namespace GO.Views.GoalTask
                         if (day == "Sunday")
                         {
                             var date = week.StartDate.ToLongDateString();
+                            sunDate = week.StartDate;
                             string month = date.Substring(0, 6);
                             Sunday.Text = month;
                         }
                         if (day == "Monday")
                         {
                             var date = week.StartDate.ToLongDateString();
+                            sunDate = week.StartDate;
                             string month = date.Substring(0, 6);
                             Monday.Text = month;
                         }
 
                         if (day == "Tuesday")
                         {
+                            sunDate = week.StartDate;
                             var date = week.StartDate.ToLongDateString();
                             string month = date.Substring(0, 6);
                             Tuesday.Text = month;
@@ -446,24 +521,28 @@ namespace GO.Views.GoalTask
 
                         if (day == "Wednesday")
                         {
+                            sunDate = week.StartDate;
                             var date = week.StartDate.ToLongDateString();
                             string month = date.Substring(0, 6);
                             Wednesday.Text = month;
                         }
                         if (day == "Thursday")
                         {
+                            sunDate = week.StartDate;
                             var date = week.StartDate.ToLongDateString();
                             string month = date.Substring(0, 6);
                             Thursday.Text = month;
                         }
                         if (day == "Friday")
                         {
+                            sunDate = week.StartDate;
                             var date = week.StartDate.ToLongDateString();
                             string month = date.Substring(0, 6);
                             Friday.Text = month;
                         }
                         if (day == "Saturday")
                         {
+                            sunDate = week.StartDate;
                             var date = week.StartDate.ToLongDateString();
                             string month = date.Substring(0, 6);
                             Saturday.Text = month;
@@ -479,6 +558,7 @@ namespace GO.Views.GoalTask
                     if (day == "Sunday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
+                        sunDate = startDate;
                         string date = startDate.ToLongDateString();
                         Sunday.Text = date.Substring(0, 6);
                     }
@@ -486,6 +566,7 @@ namespace GO.Views.GoalTask
                     if (day == "Monday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
+                        monDate = startDate;
                         string date = startDate.ToLongDateString();
                         Monday.Text = date.Substring(0, 6);
                     }
@@ -493,6 +574,7 @@ namespace GO.Views.GoalTask
                     if (day == "Tuesday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
+                        tueDate = startDate;
                         string date = startDate.ToLongDateString();
                         Tuesday.Text = date.Substring(0, 6);
                     }
@@ -500,6 +582,7 @@ namespace GO.Views.GoalTask
                     if (day == "Wednesday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
+                        wedDate = startDate;
                         string date = startDate.ToLongDateString();
                         Wednesday.Text = date.Substring(0, 6);
                     }
@@ -507,6 +590,7 @@ namespace GO.Views.GoalTask
                     if (day == "Thursday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
+                        thuDate = startDate;
                         string date = startDate.ToLongDateString();
                         Thursday.Text = date.Substring(0, 6);
                     }
@@ -514,6 +598,7 @@ namespace GO.Views.GoalTask
                     if (day == "Friday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
+                        friDate = startDate;
                         string date = startDate.ToLongDateString();
                         Friday.Text = date.Substring(0, 6);
                     }
@@ -521,6 +606,7 @@ namespace GO.Views.GoalTask
                     if (day == "Saturday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
+                        satDate = startDate;
                         string date = startDate.ToLongDateString();
                         Saturday.Text = date.Substring(0, 6);
                     }
@@ -627,6 +713,11 @@ namespace GO.Views.GoalTask
             var startday = dow.Name;
             if (startday == "Sunday")
             {
+                if(dow.Date == new DateTime())
+                {
+                    dow.Date = sunDate;
+                    await dataDow.UpdateDOWAsync(dow);
+                }
                 Daytask.Text = startday;
                 framesun.BackgroundColor = Color.LightGray;
                 framemon.BackgroundColor = Color.White;
@@ -639,6 +730,11 @@ namespace GO.Views.GoalTask
             }
             else if (startday == "Monday")
             {
+                if (dow.Date == new DateTime())
+                {
+                    dow.Date = monDate;
+                    await dataDow.UpdateDOWAsync(dow);
+                }
                 Daytask.Text = startday;
                 framesun.BackgroundColor = Color.White;
                 framemon.BackgroundColor = Color.LightGray;
@@ -651,6 +747,11 @@ namespace GO.Views.GoalTask
             }
             else if (startday == "Tuesday")
             {
+                if (dow.Date == new DateTime())
+                {
+                    dow.Date = tueDate;
+                    await dataDow.UpdateDOWAsync(dow);
+                }
                 Daytask.Text = startday;
                 framesun.BackgroundColor = Color.White;
                 framemon.BackgroundColor = Color.White;
@@ -663,6 +764,11 @@ namespace GO.Views.GoalTask
             }
             else if (startday == "Wednesday")
             {
+                if (dow.Date == new DateTime())
+                {
+                    dow.Date = wedDate;
+                    await dataDow.UpdateDOWAsync(dow);
+                }
                 Daytask.Text = startday;
                 framesun.BackgroundColor = Color.White;
                 framemon.BackgroundColor = Color.White;
@@ -675,6 +781,11 @@ namespace GO.Views.GoalTask
             }
             else if (startday == "Thursday")
             {
+                if (dow.Date == new DateTime())
+                {
+                    dow.Date = thuDate;
+                    await dataDow.UpdateDOWAsync(dow);
+                }
                 Daytask.Text = startday;
                 framesun.BackgroundColor = Color.White;
                 framemon.BackgroundColor = Color.White;
@@ -687,6 +798,11 @@ namespace GO.Views.GoalTask
             }
             else if (startday == "Friday")
             {
+                if (dow.Date == new DateTime())
+                {
+                    dow.Date = friDate;
+                    await dataDow.UpdateDOWAsync(dow);
+                }
                 Daytask.Text = startday;
                 framesun.BackgroundColor = Color.White;
                 framemon.BackgroundColor = Color.White;
@@ -699,6 +815,11 @@ namespace GO.Views.GoalTask
             }
             else if (startday == "Saturday")
             {
+                if (dow.Date == new DateTime())
+                {
+                    dow.Date = satDate;
+                    await dataDow.UpdateDOWAsync(dow);
+                }
                 Daytask.Text = startday;
                 framesun.BackgroundColor = Color.White;
                 framemon.BackgroundColor = Color.White;

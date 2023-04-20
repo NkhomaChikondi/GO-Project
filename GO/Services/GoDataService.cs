@@ -321,7 +321,7 @@ namespace GO.Services
                 DOWId = item.DOWId,
                 Name = item.Name,
                 WeekId = item.WeekId,
-                ValidDay = item.ValidDay,
+                Date = item.Date,
                 IsSelected = item.IsSelected
               
             };

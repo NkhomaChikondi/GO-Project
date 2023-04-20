@@ -29,6 +29,7 @@ namespace GO.ViewModels.TaskInGoals
         private double taskPercentage;
         private double totalPendingPercentage;
         private int selectedItem;
+        private DOW selectedDay;
         private int DayId;
         public List<DOWPicker> dowpicker { get; set; }
         public string DowName { get; set; }
@@ -94,7 +95,13 @@ namespace GO.ViewModels.TaskInGoals
                     DayId = day.DOWId;
                 }
                 else
-                DayId = selecteddow.DOWId;
+                {
+                    selectedDay = selecteddow;
+                    starttime = selectedDay.Date;
+                    endtime = selectedDay.Date;
+                    DayId = selecteddow.DOWId;
+                }
+               
             }               
            
         }      
