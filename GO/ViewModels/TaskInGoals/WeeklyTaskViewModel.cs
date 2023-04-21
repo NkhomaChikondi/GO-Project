@@ -18,7 +18,7 @@ namespace GO.ViewModels.TaskInGoals
     {
         private int goalId;
         private int dowId;
-        private double roundedtask;
+        private double roundedtask = 0;
         private int weekId;
         private bool all = true;
         private bool notstarted;
@@ -599,20 +599,16 @@ namespace GO.ViewModels.TaskInGoals
         }
         async Task CalculateSubtaskPercentage()
         {
-
             // get all week having the goal id
             var weeks = await dataWeek.GetWeeksAsync(goalId);
             // loop through the week and get the days id
             foreach(var week in weeks)
             {
-                // get all days having the week id
-                var days = await dataDow.GetDOWsAsync(week.Id);
-                // loop through the days to get tasks having the day id
-                foreach(var day in days)
+                // get all tasks having the week id
+                var weekTasks = await dataTask.GetTasksAsync(goalId,week.Id);
+                if (weekTasks.Count() > 0)
                 {
-                    var Daytasks = await dataTask.GetTasksAsync(GoalId, day.DOWId);
-                    //loop through the tasks to get their subtasks
-                    foreach(var task in Daytasks)
+                    foreach (var task in weekTasks)
                     {
                         // get all subtasks having the tasks id
                         var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
@@ -622,25 +618,27 @@ namespace GO.ViewModels.TaskInGoals
                             task.IsEnabled = true;
 
                         }
-                        // set task.pending percentage to zero
-                        roundedtask = 0;
-                        // loop through the subtasks
-                        foreach (var subtask in subtasks)
+                        else
                         {
-                            // check if they are completed
-                            if (subtask.IsCompleted)
+                            // loop through the subtasks
+                            foreach (var subtask in subtasks)
                             {
-
-                                roundedtask += subtask.Percentage;
+                                // check if they are completed
+                                if (subtask.IsCompleted)
+                                {
+                                    roundedtask += subtask.Percentage;
+                                }
                             }
                         }
+                        task.PendingPercentage = 0;
                         task.PendingPercentage = Math.Round(roundedtask, 1);
                         task.Progress = task.PendingPercentage / task.Percentage;
                         await dataTask.UpdateTaskAsync(task);
                         await SetStatus();
+                        roundedtask = 0;
                     }
-
                 }
+               
             }          
         }       
         async Task SetStatus()

@@ -887,6 +887,20 @@ namespace GO.Views.GoalTask
                 }
             }
         }
+
+        private void ImageButton_Clicked_1(object sender, EventArgs e)
+        {
+            Application.Current.MainPage.DisplayAlert("INFO", "* The first week of a goal will be created upon creating your goal. \n " +
+                "* The proceeding weeks in the goal, will be created automatically upon tapping on the goal after the end date of the previous week has surpassed. \n" +
+                "* A week ends on saturday and a new week is created on Sunday or on any day you tap on the goal when the previous week has expired. ", "OK");
+        }
+
+        private void ImageButton_Clicked_2(object sender, EventArgs e)
+        {
+            Application.Current.MainPage.DisplayAlert("INFO", "* The scrollable tabs below are indicating the dates and days from the start of your week to the end date. \n " +
+               "* Tapping on any day, will load tasks that are assigned to that day. \n * New tasks can be added to the day provided the date has not surpass. if you add a new task task on a day that has surpass, that new task will be added to the day whose date is equal to the date of that day.\n\n" +
+               "NOTE \n * If a day is having N/A indicated on top, it means that day doesnt fall within the week's start or end day and it does nothing.", "OK");
+        }
     }
 
 }

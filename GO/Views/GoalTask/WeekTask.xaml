@@ -37,7 +37,12 @@
                         <Frame CornerRadius="10" Padding="0" >
                             <Frame Grid.Row="0" Grid.RowSpan="2" BackgroundColor="#e9ecef">
                                 <StackLayout>
-                                    <Label Text="Weekly Tasks" FontSize="Large" TextColor="#495057" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                    <Label Text="Weekly Tasks" FontSize="Large" TextColor="#495057" FontAttributes="Bold" />
+                                    <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.InformationOutline},Size=23,Color=#d00000}" BackgroundColor="Transparent" Clicked="ImageButton_Clicked_1"/>
+
+                                </StackLayout>                                   
                                   <Label HorizontalOptions="CenterAndExpand" FontAttributes="Italic" FontSize="15">
                                     <Label.FormattedText>
                                         <FormattedString>
@@ -80,7 +85,11 @@
                    
                         <Frame BackgroundColor="#f8f9fa"  >
                             <StackLayout>
-                                <Label Text="Create tasks for the Week" HorizontalOptions="CenterAndExpand" TextColor="#495057" FontSize="19" FontAttributes="Bold"/>
+                            <StackLayout Orientation="Horizontal"  HorizontalOptions="CenterAndExpand">
+                                <Label Text="Create tasks for the Week" TextColor="#495057" FontSize="19" FontAttributes="Bold"/>
+                                <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.InformationOutline},Size=23,Color=#d00000}" BackgroundColor="Transparent" Clicked="ImageButton_Clicked_2"/>
+                            </StackLayout>                                
                                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                                     <StackLayout Orientation="Horizontal" >
                                         <Frame CornerRadius="15" x:Name="framesun" BackgroundColor="White">

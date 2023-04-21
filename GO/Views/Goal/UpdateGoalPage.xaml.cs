@@ -27,6 +27,7 @@ namespace GO.Views.Goal
         Models.Goal Goal = new Models.Goal();
         public IDataGoal<Models.Goal> dataGoal { get; }
         public IDataTask<Models.GoalTask> dataTask { get; }
+        public IDataSubtask<Models.Subtask> dataSubtask { get; }
         public IDataWeek<Week> dataWeek { get; }
         public IToast GetToast { get; }
         public UpdateGoalPage()
@@ -35,6 +36,7 @@ namespace GO.Views.Goal
             dataGoal = DependencyService.Get<IDataGoal<Models.Goal>>();
             dataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();
             dataWeek = DependencyService.Get<IDataWeek<Week>>();
+            dataSubtask = DependencyService.Get<IDataSubtask<Subtask>>();
             GetToast = DependencyService.Get<IToast>();
             BindingContext = new GoalViewModel();
             //detaillabel.TranslateTo(100, 0, 3000, Easing.Linear);
@@ -228,15 +230,19 @@ namespace GO.Views.Goal
                     Time = Goal.Time,
                     enddatetostring = newGoal.End.ToLongDateString(),
                 };
-
-            // check if updated goal's end date is more than dbgoal end date
-            if (newestGoal.End > Goal.End )
-            {
-                LocalNotificationCenter.Current.Cancel(newestGoal.Id);
-                // create a new notification
-
-            }
                 await dataGoal.UpdateGoalAsync(newestGoal);
+                // check if updated goal's end date is more than dbgoal end date
+                if (newestGoal.End > Goal.End )
+                {
+                   LocalNotificationCenter.Current.Cancel(newestGoal.Id);
+                  // check if it has weeks
+                    if(Goal.HasWeek)
+                    {
+                        await RecalculateWeekpercentage(newestGoal.NumberOfWeeks);
+                    }
+
+                 }
+              
                // cancel its notification
                  await SendNotification();                
                 await Shell.Current.GoToAsync("..");
@@ -290,6 +296,45 @@ namespace GO.Views.Goal
             {
                 var route = $"{nameof(GoalTaskPage)}?goalId={Goal.Id}";
                 await Shell.Current.GoToAsync(route);
+            }
+        }
+        async Task RecalculateWeekpercentage(int num)
+        {
+            // get all weeks having the goal Id
+            var weeks = await dataWeek.GetWeeksAsync(GoalId);
+            // calculate the new percentage
+            var newweekPercentage = 100 / num;
+            foreach (var week in weeks)
+            {
+                // assign the new percentage to the week percentage
+                week.TargetPercentage = newweekPercentage;
+                // get tasks having the week's Id
+                var tasks = await dataTask.GetTasksAsync(GoalId, week.Id);
+                if(tasks.Count() > 0)
+                {
+                    // loop through the tasks inside the tasks and recalculate their percentage
+                    foreach (var task in tasks)
+                    {
+                        task.Percentage = newweekPercentage / tasks.Count();                       
+
+                        // get subtasks having the tasks Id
+                        var subtasks = await dataSubtask.GetSubTasksAsync(task.Id);
+                        task.PendingPercentage = 0;
+                        if (subtasks.Count() > 0)
+                        {
+                            // loop through the subtasks to recalculate their percentage
+                            foreach (var subtask in subtasks)
+                            {
+                                subtask.Percentage = task.Percentage / subtasks.Count();
+                              
+                                task.PendingPercentage += subtask.Percentage;
+                                await dataSubtask.UpdateSubTaskAsync(subtask);
+                            }
+                        }
+                        await dataTask.UpdateTaskAsync(task);
+                    }
+                }
+                await dataWeek.UpdateWeekAsync(week);
             }
         }
     }

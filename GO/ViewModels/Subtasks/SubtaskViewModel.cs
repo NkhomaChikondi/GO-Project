@@ -177,6 +177,11 @@ namespace GO.ViewModels.Subtasks
                     task.PendingPercentage -= subtask.Percentage;
                     await dataTask.UpdateTaskAsync(task);
                 }
+                if(subtasks.Count() == 0)
+                {
+                    task.IsCompleted = false;
+                    await dataTask.UpdateTaskAsync(task);
+                }
                 await Refresh();
                 Datatoast.toast("Subtask deleted");
             }
