@@ -6,7 +6,7 @@
              x:Class="GO.Views.Categorys.CategoryView"
               x:Name="CategoryPage"
                xmlns:helpers="clr-namespace:GO.Font"
-             Title="Get Organized">
+             Title=" GO (Get Organized)">
 
     <ContentPage.BindingContext>
         <Viewmodel:CategoryViewModel/>

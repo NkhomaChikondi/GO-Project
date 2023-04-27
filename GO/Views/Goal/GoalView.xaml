@@ -51,8 +51,10 @@
                 </ScrollView>
 
             </Frame >
-            <StackLayout  Grid.ColumnSpan="4" Margin="14,6">
+            <StackLayout Orientation="Horizontal" Grid.ColumnSpan="4" Margin="14,6">
                 <Label Text="Goals" TextColor="#495057"  FontFamily="RobotoBlack" FontSize="19"/>
+                <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.InformationOutline},Size=21,Color=#d00000}" Clicked="ImageButton_Clicked" BackgroundColor="Transparent" />
             </StackLayout>
 
         </StackLayout>
@@ -121,8 +123,7 @@
                                                         </FormattedString>
                                                     </Label.FormattedText>
                                                 </Label>
-                                                <ImageButton Clicked="ImageButton_Clicked"  HorizontalOptions="EndAndExpand" BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                                 Glyph={x:Static helpers:IconFont.DotsVertical},Size=23,Color=Black}"/>
+                                               
                                             </StackLayout>
                                            
                                             <StackLayout Orientation="Horizontal">
