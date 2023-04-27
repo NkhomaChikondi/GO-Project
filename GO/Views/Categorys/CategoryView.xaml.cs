@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace GO.Views.Category
+namespace GO.Views.Categorys
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CategoryView : ContentPage
@@ -34,14 +34,13 @@ namespace GO.Views.Category
                 return true;
             }));
         }
-        
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            
+
             // get all categories in the database
             var categories = await dataCategory.GetItemsAsync();
-             
+
             if (categories.Count() == 0)
             {
                 NoCategory.IsVisible = true;
@@ -55,11 +54,9 @@ namespace GO.Views.Category
             }
             if (BindingContext is CategoryViewModel cvm)
             {
-                await cvm.Refresh();                         
+                await cvm.Refresh();
             }
         }
-       
-
 
     }
 }

@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Xamarin.Forms.Xaml.XamlResourceIdAttribute("GO.Views.Categorys.CategoryView.xaml", "Views/Categorys/CategoryView.xaml", typeof(global::GO.Views.Category.CategoryView))]
+[assembly: global::Xamarin.Forms.Xaml.XamlResourceIdAttribute("GO.Views.Categorys.CategoryView.xaml", "Views/Categorys/CategoryView.xaml", typeof(global::GO.Views.Categorys.CategoryView))]
 
-namespace GO.Views.Category {
+namespace GO.Views.Categorys {
     
     
     [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("Views\\Categorys\\CategoryView.xaml")]

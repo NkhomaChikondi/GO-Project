@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Roose\\Documents\\GO_Project\\GO.iOS\\GO.iOS.csproj": {}
+    "C:\\Users\\User\\Documents\\GO-Project\\GO.iOS\\GO.iOS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Roose\\Documents\\GO_Project\\GO.iOS\\GO.iOS.csproj": {
+    "C:\\Users\\User\\Documents\\GO-Project\\GO.iOS\\GO.iOS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Roose\\Documents\\GO_Project\\GO.iOS\\GO.iOS.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\GO-Project\\GO.iOS\\GO.iOS.csproj",
         "projectName": "GO.iOS",
-        "projectPath": "C:\\Users\\Roose\\Documents\\GO_Project\\GO.iOS\\GO.iOS.csproj",
-        "packagesPath": "C:\\Users\\Roose\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Roose\\Documents\\GO_Project\\GO.iOS\\obj\\",
+        "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\GO.iOS\\GO.iOS.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\User\\Documents\\GO-Project\\GO.iOS\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Roose\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -32,8 +32,8 @@
         "frameworks": {
           "xamarinios10": {
             "projectReferences": {
-              "C:\\Users\\Roose\\Documents\\GO_Project\\GO\\GO.csproj": {
-                "projectPath": "C:\\Users\\Roose\\Documents\\GO_Project\\GO\\GO.csproj"
+              "C:\\Users\\User\\Documents\\GO-Project\\GO\\GO.csproj": {
+                "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\GO\\GO.csproj"
               }
             }
           }
@@ -97,20 +97,20 @@
         }
       }
     },
-    "C:\\Users\\Roose\\Documents\\GO_Project\\GO\\GO.csproj": {
+    "C:\\Users\\User\\Documents\\GO-Project\\GO\\GO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Roose\\Documents\\GO_Project\\GO\\GO.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\GO-Project\\GO\\GO.csproj",
         "projectName": "GO",
-        "projectPath": "C:\\Users\\Roose\\Documents\\GO_Project\\GO\\GO.csproj",
-        "packagesPath": "C:\\Users\\Roose\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Roose\\Documents\\GO_Project\\GO\\obj\\",
+        "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\GO\\GO.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\User\\Documents\\GO-Project\\GO\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Roose\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -193,7 +193,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.406\\RuntimeIdentifierGraph.json"
         }
       }
     }

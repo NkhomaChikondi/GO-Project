@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-             xmlns:Viewmodel="clr-namespace:GO.ViewModels.Categorys"
-             xmlns:model="clr-namespace:GO.Models"
-             x:Class="GO.Views.Category.CategoryView"
-               x:Name="CategoryPage"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+                 xmlns:Viewmodel="clr-namespace:GO.ViewModels.Categorys"
+             x:Class="GO.Views.Categorys.CategoryView"
+              x:Name="CategoryPage"
                xmlns:helpers="clr-namespace:GO.Font"
              Title="Get Organized">
-                       
+
     <ContentPage.BindingContext>
         <Viewmodel:CategoryViewModel/>
     </ContentPage.BindingContext>
@@ -22,7 +21,6 @@
             </OnPlatform>
         </ResourceDictionary>
     </ContentPage.Resources>
-
     <Grid VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -37,7 +35,7 @@
                     <DataTemplate>
                         <Grid HorizontalOptions="FillAndExpand">
                             <Image Source="{Binding image}" Aspect="AspectFill"/>
-                        </Grid>                        
+                        </Grid>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
@@ -46,11 +44,11 @@
                              SelectedIndicatorColor="DarkGray"
                              IndicatorSize="10"
                              VerticalOptions="Center">
-                
+
             </IndicatorView>
         </StackLayout>
         <Label Grid.Row="2" Grid.ColumnSpan="4" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" Text="Categories"></Label>
-        
+
         <StackLayout Grid.Row="2" Grid.ColumnSpan="4" Margin="0,30"  >
             <Label  Text="Tap on the add button to create categories" FontSize="Medium" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Margin="0,40,0,0" IsVisible="{Binding Nocategory}" x:Name="NoCategory"></Label>
             <AbsoluteLayout>
@@ -62,7 +60,7 @@
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="0" />
                     </CollectionView.ItemsLayout>
-                  
+
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <SwipeView>
@@ -117,7 +115,7 @@
                                                    VerticalOptions="End">
                                                         <Label.FormattedText>
                                                             <FormattedString>
-                                                                <Span Text="Goals: " />                                                              
+                                                                <Span Text="Goals: " />
                                                                 <Span  Text="{Binding goalNumber}" />
                                                             </FormattedString>
                                                         </Label.FormattedText>
@@ -128,20 +126,20 @@
                                                 </StackLayout>
 
                                             </StackLayout>
-                                          
+
                                         </StackLayout>
-                                       
-                                        
+
+
                                     </Frame>
                                 </Grid>
                             </SwipeView>
-                           
+
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
 
 
                 </CollectionView>
-              
+
                 <ImageButton x:Name="btnimage" Margin="0,20,9,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                 Glyph={x:Static helpers:IconFont.PlusCircle},Size=60,Color=#61a5c2 
                 }"
@@ -152,11 +150,11 @@
                          AbsoluteLayout.LayoutFlags="PositionProportional"
 				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
             />
-              
+
             </AbsoluteLayout>
-           
-           
+
+
         </StackLayout>
-       
+
     </Grid>
 </ContentPage>

@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:plugin="clr-namespace:ProgressRingControl.Forms.Plugin;assembly=ProgressRing.Forms.Plugin"
-             xmlns:helpers="clr-namespace:GO.Font" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:Viewmodel="clr-namespace:GO.ViewModels.TaskInGoals"
+             xmlns:helpers="clr-namespace:GO.Font" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:Viewmodel="clr-namespace:GO.ViewModels.TaskInGoals"
              x:Name="weekTasksPage"
              Title="Get Organized"
              x:Class="GO.Views.GoalTask.WeekTask">
