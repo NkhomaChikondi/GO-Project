@@ -39,6 +39,7 @@
   <ItemGroup>
     <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
     <PackageReference Include="Plugin.LocalNotification" Version="10.0.2" />
+    <PackageReference Include="Plugin.Share" Version="7.1.1" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
     <PackageReference Include="Shiny.Core" Version="2.5.4" />
     <PackageReference Include="Shiny.Jobs" Version="2.5.4" />

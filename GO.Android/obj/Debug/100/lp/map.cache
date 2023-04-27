@@ -1,6 +1,8 @@
 FormsViewGroup.dll
 Microcharts.Droid.dll
+Plugin.CurrentActivity.dll
 Plugin.LocalNotification.dll
+Plugin.Share.dll
 ProgressRing.Forms.Plugin.Android.dll
 SkiaSharp.dll
 SkiaSharp.Views.Android.dll

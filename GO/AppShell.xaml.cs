@@ -4,8 +4,10 @@ using GO.Views.Categorys;
 using GO.Views.Goal;
 using GO.Views.GoalTask;
 using GO.Views.SubTaskView;
+using Plugin.Share;
 using System;
 using System.Collections.Generic;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GO
@@ -46,7 +48,19 @@ namespace GO
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//LoginPage");
+            string email = "chikondinkhoma51@gmail.com";
+            string subject = "Feedback: GO App";
+            await Email.ComposeAsync(subject, "", email);
+           
         }
+
+        //private async void MenuItem_Clicked(object sender, EventArgs e)
+        //{
+        //    await Share.RequestAsync(new ShareTextRequest
+        //    {
+        //       Text = "",
+        //        Title = "Share Text"
+        //    });
+        //}              
     }
 }

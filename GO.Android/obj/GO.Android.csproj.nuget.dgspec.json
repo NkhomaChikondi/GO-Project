@@ -50,6 +50,10 @@
               "target": "Package",
               "version": "[10.0.2, )"
             },
+            "Plugin.Share": {
+              "target": "Package",
+              "version": "[7.1.1, )"
+            },
             "Refractored.MvvmHelpers": {
               "target": "Package",
               "version": "[1.6.2, )"
@@ -133,6 +137,10 @@
             "Plugin.LocalNotification": {
               "target": "Package",
               "version": "[10.0.2, )"
+            },
+            "Plugin.Share": {
+              "target": "Package",
+              "version": "[7.1.1, )"
             },
             "Refractored.MvvmHelpers": {
               "target": "Package",

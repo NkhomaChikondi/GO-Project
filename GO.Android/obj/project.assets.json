@@ -124,6 +124,15 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "Plugin.CurrentActivity/1.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/MonoAndroid10/Plugin.CurrentActivity.dll": {}
+        },
+        "runtime": {
+          "lib/MonoAndroid10/Plugin.CurrentActivity.dll": {}
+        }
+      },
       "Plugin.LocalNotification/10.0.2": {
         "type": "package",
         "dependencies": {
@@ -140,6 +149,21 @@
         },
         "runtime": {
           "lib/monoandroid10.0/Plugin.LocalNotification.dll": {}
+        }
+      },
+      "Plugin.Share/7.1.1": {
+        "type": "package",
+        "dependencies": {
+          "Plugin.CurrentActivity": "1.0.1",
+          "Xamarin.Android.Support.CustomTabs": "25.4.0.2"
+        },
+        "compile": {
+          "lib/MonoAndroid10/Plugin.Share.Abstractions.dll": {},
+          "lib/MonoAndroid10/Plugin.Share.dll": {}
+        },
+        "runtime": {
+          "lib/MonoAndroid10/Plugin.Share.Abstractions.dll": {},
+          "lib/MonoAndroid10/Plugin.Share.dll": {}
         }
       },
       "Refractored.MvvmHelpers/1.6.2": {
@@ -404,6 +428,45 @@
         "runtime": {
           "lib/MonoAndroid10/ProgressRing.Forms.Plugin.Android.dll": {},
           "lib/MonoAndroid10/ProgressRing.Forms.Plugin.dll": {}
+        }
+      },
+      "Xamarin.Android.Support.Annotations/25.4.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/MonoAndroid70/Xamarin.Android.Support.Annotations.dll": {}
+        },
+        "runtime": {
+          "lib/MonoAndroid70/Xamarin.Android.Support.Annotations.dll": {}
+        }
+      },
+      "Xamarin.Android.Support.Compat/25.4.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.Android.Support.Annotations": "[25.4.0.2]"
+        },
+        "compile": {
+          "lib/MonoAndroid70/Xamarin.Android.Support.Compat.dll": {}
+        },
+        "runtime": {
+          "lib/MonoAndroid70/Xamarin.Android.Support.Compat.dll": {}
+        },
+        "build": {
+          "build/MonoAndroid70/Xamarin.Android.Support.Compat.targets": {}
+        }
+      },
+      "Xamarin.Android.Support.CustomTabs/25.4.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.Android.Support.Compat": "[25.4.0.2]"
+        },
+        "compile": {
+          "lib/MonoAndroid70/Xamarin.Android.Support.CustomTabs.dll": {}
+        },
+        "runtime": {
+          "lib/MonoAndroid70/Xamarin.Android.Support.CustomTabs.dll": {}
+        },
+        "build": {
+          "build/MonoAndroid70/Xamarin.Android.Support.CustomTabs.targets": {}
         }
       },
       "Xamarin.AndroidX.Activity/1.2.4.1": {
@@ -2107,6 +2170,7 @@
         "dependencies": {
           "Microcharts.Forms": "0.9.5.9",
           "Plugin.LocalNotification": "10.0.2",
+          "Plugin.Share": "7.1.1",
           "Refractored.MvvmHelpers": "1.6.2",
           "Shiny.Core": "2.5.4",
           "Shiny.Jobs": "2.5.4",
@@ -2355,6 +2419,21 @@
         "packageIcon.png"
       ]
     },
+    "Plugin.CurrentActivity/1.0.1": {
+      "sha512": "lzspruFRwQRo5T1K4JNOJVvSNBLE9+jOvX9CGWB6sJ7q2GeXxY76LLTdirkhiq1/yYgBXkXsXIBzlRoCGJDuJA==",
+      "type": "package",
+      "path": "plugin.currentactivity/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "content/MonoAndroid10/MainApplication.cs.pp",
+        "lib/MonoAndroid10/Plugin.CurrentActivity.dll",
+        "lib/MonoAndroid10/Plugin.CurrentActivity.xml",
+        "plugin.currentactivity.1.0.1.nupkg.sha512",
+        "plugin.currentactivity.nuspec",
+        "readme.txt"
+      ]
+    },
     "Plugin.LocalNotification/10.0.2": {
       "sha512": "LHKmG8Ykj7cunAteehwKyAXvpzgWTqvqFwdSwIpsu/BQNgZZsWDL2/FB+GIm43OfSkC2ceQUcSjP/RpPQ1EuVw==",
       "type": "package",
@@ -2376,6 +2455,42 @@
         "lib/xamarinios10/Plugin.LocalNotification.xml",
         "plugin.localnotification.10.0.2.nupkg.sha512",
         "plugin.localnotification.nuspec"
+      ]
+    },
+    "Plugin.Share/7.1.1": {
+      "sha512": "07mFq3H9eeX2TGNKitmByjDKZl/3KXZrT2jv/27mEEnY7me/lHQSX52mI0B1mVTZquCloNmZm12EcV1t4fFSSA==",
+      "type": "package",
+      "path": "plugin.share/7.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid10/Plugin.Share.Abstractions.dll",
+        "lib/MonoAndroid10/Plugin.Share.Abstractions.pdb",
+        "lib/MonoAndroid10/Plugin.Share.Abstractions.xml",
+        "lib/MonoAndroid10/Plugin.Share.dll",
+        "lib/MonoAndroid10/Plugin.Share.pdb",
+        "lib/MonoAndroid10/Plugin.Share.xml",
+        "lib/UAP10/Plugin.Share.Abstractions.dll",
+        "lib/UAP10/Plugin.Share.Abstractions.pdb",
+        "lib/UAP10/Plugin.Share.Abstractions.xml",
+        "lib/UAP10/Plugin.Share.XML",
+        "lib/UAP10/Plugin.Share.dll",
+        "lib/UAP10/Plugin.Share.pdb",
+        "lib/UAP10/Plugin.Share.pri",
+        "lib/Xamarin.iOS10/Plugin.Share.Abstractions.dll",
+        "lib/Xamarin.iOS10/Plugin.Share.Abstractions.pdb",
+        "lib/Xamarin.iOS10/Plugin.Share.Abstractions.xml",
+        "lib/Xamarin.iOS10/Plugin.Share.dll",
+        "lib/Xamarin.iOS10/Plugin.Share.xml",
+        "lib/netstandard1.0/Plugin.Share.Abstractions.dll",
+        "lib/netstandard1.0/Plugin.Share.Abstractions.pdb",
+        "lib/netstandard1.0/Plugin.Share.Abstractions.xml",
+        "lib/netstandard1.0/Plugin.Share.deps.json",
+        "lib/netstandard1.0/Plugin.Share.dll",
+        "lib/netstandard1.0/Plugin.Share.pdb",
+        "lib/netstandard1.0/Plugin.Share.xml",
+        "plugin.share.7.1.1.nupkg.sha512",
+        "plugin.share.nuspec"
       ]
     },
     "Refractored.MvvmHelpers/1.6.2": {
@@ -3005,6 +3120,47 @@
         "lib/portable-net45+wp80+win8+wpa81/ProgressRing.Forms.Plugin.dll",
         "xam.plugins.forms.progressring.0.1.2.nupkg.sha512",
         "xam.plugins.forms.progressring.nuspec"
+      ]
+    },
+    "Xamarin.Android.Support.Annotations/25.4.0.2": {
+      "sha512": "4Gkj6OCOJO7jn4drGZxeCCaEVHOjUu0RzsEzZaAZJzrLNqEHqoYrKwIlbsecfEpjbAcyT77Sb8wkZnZNFPdlaA==",
+      "type": "package",
+      "path": "xamarin.android.support.annotations/25.4.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "THIRD-PARTY-NOTICES.txt",
+        "lib/MonoAndroid70/Xamarin.Android.Support.Annotations.dll",
+        "xamarin.android.support.annotations.25.4.0.2.nupkg.sha512",
+        "xamarin.android.support.annotations.nuspec"
+      ]
+    },
+    "Xamarin.Android.Support.Compat/25.4.0.2": {
+      "sha512": "k+bZ2ArXV7x1U5xomEiCVRoWHAWr6VKhF6Ziqd1DdK4ZZ4W+J0Dsi5oR2QcQHhIodb7j7cfuDcBAEs0KYvOmuQ==",
+      "type": "package",
+      "path": "xamarin.android.support.compat/25.4.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "THIRD-PARTY-NOTICES.txt",
+        "build/MonoAndroid70/Xamarin.Android.Support.Compat.targets",
+        "lib/MonoAndroid70/Xamarin.Android.Support.Compat.dll",
+        "xamarin.android.support.compat.25.4.0.2.nupkg.sha512",
+        "xamarin.android.support.compat.nuspec"
+      ]
+    },
+    "Xamarin.Android.Support.CustomTabs/25.4.0.2": {
+      "sha512": "Hj/PWWFQpOrIrRDz857tMpdmaHi3r+aSlyHrMGeS3D1dUu/6Wi1XIZdIOGYv+C/cyzBHZf0npifbtQN78mWJVA==",
+      "type": "package",
+      "path": "xamarin.android.support.customtabs/25.4.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "THIRD-PARTY-NOTICES.txt",
+        "build/MonoAndroid70/Xamarin.Android.Support.CustomTabs.targets",
+        "lib/MonoAndroid70/Xamarin.Android.Support.CustomTabs.dll",
+        "xamarin.android.support.customtabs.25.4.0.2.nupkg.sha512",
+        "xamarin.android.support.customtabs.nuspec"
       ]
     },
     "Xamarin.AndroidX.Activity/1.2.4.1": {
@@ -4734,6 +4890,7 @@
       "GO >= 1.0.0",
       "Microcharts.Forms >= 0.9.5.9",
       "Plugin.LocalNotification >= 10.0.2",
+      "Plugin.Share >= 7.1.1",
       "Refractored.MvvmHelpers >= 1.6.2",
       "Shiny.Core >= 2.5.4",
       "Shiny.Jobs >= 2.5.4",
@@ -4793,6 +4950,10 @@
           "Plugin.LocalNotification": {
             "target": "Package",
             "version": "[10.0.2, )"
+          },
+          "Plugin.Share": {
+            "target": "Package",
+            "version": "[7.1.1, )"
           },
           "Refractored.MvvmHelpers": {
             "target": "Package",
