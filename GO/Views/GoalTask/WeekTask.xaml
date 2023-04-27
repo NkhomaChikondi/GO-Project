@@ -205,7 +205,7 @@
                         <StackLayout  HorizontalOptions="EndAndExpand" >
 
                             <ImageButton Clicked="ImageButton_Clicked" BackgroundColor="Transparent" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                       Glyph={x:Static helpers:IconFont.FilterCheckOutline},Size=26,Color=#495057}"/>
+                                       Glyph={x:Static helpers:IconFont.Sort},Size=26,Color=#495057}"/>
                         </StackLayout>
 
                     </StackLayout>

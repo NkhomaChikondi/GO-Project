@@ -5154,3 +5154,4 @@ C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\stamp\_ConvertResour
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\stamp\_GenerateJavaStubs.stamp
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\stamp\_ResolveLibraryProjectImports.stamp
+C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\res\drawable\categorry.png

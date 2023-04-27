@@ -80,7 +80,7 @@
     -->
    
    
-      <FlyoutItem Title="Category" Icon="icon_about.png">
+      <FlyoutItem Title="Category" Icon="categorry.png">
         <ShellContent Route="CategoryView" ContentTemplate="{DataTemplate local:CategoryView}" />
     </FlyoutItem>
     <FlyoutItem Title="About" Icon="icon_about.png">
