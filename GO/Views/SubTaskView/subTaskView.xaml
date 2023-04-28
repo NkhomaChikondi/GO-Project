@@ -48,8 +48,10 @@
                     </StackLayout>
                 </ScrollView>
             </Frame >
-            <StackLayout  Grid.ColumnSpan="4" Margin="14,5">
+            <StackLayout  Grid.ColumnSpan="4" Margin="14,5" Orientation="Horizontal">
                 <Label Text="Subtasks" TextColor="#495057" FontAttributes="Bold" FontSize="Medium"/>
+                <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.InformationOutline},Size=21,Color=#d00000}" Clicked="ImageButton_Clicked" BackgroundColor="Transparent" />
             </StackLayout>
         </StackLayout>
         <AbsoluteLayout  Grid.Row="2"   Grid.ColumnSpan="4" x:Name="StackSublist" IsVisible="True" Margin="0,-4" >

@@ -212,8 +212,13 @@ namespace GO.Views.SubTaskView
                 {
                     await bvm.ExpiredGoals();
                 }
-            }
-           
+            }           
+        }
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage.DisplayAlert("INFO", "* All task's subtasks will be listed on this page.\n \n * Scroll through the horizontal tab to filter the subtasks list according to your preference." +
+               "\n \n * Each listed subtask will have \n  1. Name  \n  2. Toggle switch to either complete or uncomplete a subtask. \n  3. Due date" +
+               "\n\n * Long press on a task to edit or delete.", "OK");
         }
     }
 }

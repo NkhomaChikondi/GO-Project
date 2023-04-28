@@ -293,6 +293,13 @@ namespace GO.Views.GoalTask
                 }
             }
         }
+
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage.DisplayAlert("INFO", "* All goal's tasks will be listed on this page.\n \n * Scroll through the horizontal tab to filter the tasks list according to your preference." +
+               "\n \n * Each listed task will have \n  1. Name \n  2. A progress bar that shows the progress of the subtask's of the task  (if any). \n  3. Toggle switch to either complete or uncomplete a task. \n  4. Due date" +
+               "\n \n * Tap on  task to go to subtask page. \n\n * Long press on a task to edit or delete. \n\n NB: The toggle switch of a task having subtask, will be disabled since it waits for the subtasks in it to be completed.", "OK");
+        }
     }
 
 }

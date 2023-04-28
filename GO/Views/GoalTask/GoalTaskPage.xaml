@@ -56,8 +56,10 @@
                 </ScrollView>
 
             </Frame >
-            <StackLayout  Grid.ColumnSpan="4" Margin="14,5">
+            <StackLayout  Grid.ColumnSpan="4" Margin="14,5" Orientation="Horizontal">
                 <Label Text="Tasks" TextColor="#495057" FontAttributes="Bold" FontSize="Medium"/>
+                <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.InformationOutline},Size=21,Color=#d00000}" Clicked="ImageButton_Clicked" BackgroundColor="Transparent" />
             </StackLayout>
         </StackLayout>
         <AbsoluteLayout Grid.Row="2" Grid.ColumnSpan="4" IsVisible="True" x:Name="StackTasklist">
