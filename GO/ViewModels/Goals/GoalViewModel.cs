@@ -33,7 +33,7 @@ namespace GO.ViewModels.Goals
         public AsyncCommand<Goal> DeleteCommand { get; }
         public AsyncCommand<Goal> UpdateCommand { get; }
         public AsyncCommand RefreshCommand { get; }
-        public AsyncCommand HelpCommand { get; }
+       
         public AsyncCommand<Goal> ItemSelectedCommand { get; }
         // get only those withna categoryId
 
@@ -61,7 +61,7 @@ namespace GO.ViewModels.Goals
             UpdateCommand = new AsyncCommand<Goal>(OnUpdateGoal);
             RefreshCommand = new AsyncCommand(Refresh);
             ItemSelectedCommand = new AsyncCommand<Goal>(selectGoalItem);
-            HelpCommand = new AsyncCommand(GotoHelpPage);
+           
         }
         public async Task AllGoals()
         {
@@ -169,11 +169,7 @@ namespace GO.ViewModels.Goals
             }
 
         }
-        async Task GotoHelpPage()
-        {
-            var route = $"{nameof(Helpgoalpage)}";
-            await Shell.Current.GoToAsync(route);
-        }
+       
 
         async Task OnUpdateGoal(Goal goal)
         {

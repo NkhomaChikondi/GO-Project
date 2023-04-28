@@ -17,17 +17,7 @@
                 <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
             </OnPlatform>
         </ResourceDictionary>
-    </ContentPage.Resources>
-    <ContentPage.ToolbarItems>
-        <ToolbarItem 
-                 IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                   Glyph={x:Static helpers:IconFont.Help},Size=20,Color=#feeafa}"                     
-                 Order="Primary"
-                 Priority="0"
-            Command="{Binding HelpCommand}"
-        />
-
-    </ContentPage.ToolbarItems>
+    </ContentPage.Resources>    
 
     <Grid  VerticalOptions="FillAndExpand" BackgroundColor="#f8f9fa">
         

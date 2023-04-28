@@ -116,8 +116,7 @@ namespace GO.Views.Goal
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.InprogressGoals();
-                }
-               
+                }               
             }
             else
             {
@@ -126,7 +125,6 @@ namespace GO.Views.Goal
                 {
                     await bvm.InprogressGoals();
                 }
-
             }
         }
 
@@ -178,8 +176,7 @@ namespace GO.Views.Goal
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.DuesoonGoals();
-                }
-               
+                }              
             }
             else
             {
@@ -188,7 +185,6 @@ namespace GO.Views.Goal
                 {
                     await bvm.DuesoonGoals();
                 }
-
             }
         }
 
@@ -209,8 +205,7 @@ namespace GO.Views.Goal
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.ExpiredGoals();
-                }
-               
+                }               
             }
             else
             {
@@ -221,13 +216,11 @@ namespace GO.Views.Goal
                 }
             }
         }
-
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
             Application.Current.MainPage.DisplayAlert("INFO", "* All goals will be listed on this page.\n \n * Scroll through the horizontal tab to filter the goal list according to your preference." +
                 "\n \n * Each listed goal will have \n  1. Name \n  2. A progress bar that shows the progress of the goal in percentage. \n  3. Status. \n  4. Due date \n\n *" +
-                " A goal will only be completed through the tasks that are created in it. \n * Tap on the goal to go to task page. \n\n * Long press on a goal to edit or delete.", "OK");
-              
+                " A goal will only be completed through the tasks that are created in it. \n * Tap on the goal to go to task page. \n\n * Long press on a goal to edit or delete.", "OK");              
         }
 
         //private async void ImageButton_Clicked(object sender, EventArgs e)

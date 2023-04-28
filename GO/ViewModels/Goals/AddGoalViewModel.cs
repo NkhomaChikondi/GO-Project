@@ -37,7 +37,7 @@ namespace GO.ViewModels.Goals
        private Week GetWeek;
 
         public AsyncCommand AddGoalCommand { get; set; }
-        public AsyncCommand HelpCommand { get; }
+       
         public string Name { get => name; set => name = value; }
         public DateTime End { get => end; set => end = value; }
         public DateTime Start { get => start; set => start = value; }
@@ -58,15 +58,11 @@ namespace GO.ViewModels.Goals
             // get Inotification Manager interface through the dependency service
 
             AddGoalCommand = new AsyncCommand(AddGoal);
-            HelpCommand = new AsyncCommand(GotoHelpPage);
+          
             goals = new ObservableRangeCollection<Goal>();
 
         }
-        async Task GotoHelpPage()
-        {
-            var route = $"{nameof(Helpaddgoalpage)}";
-            await Shell.Current.GoToAsync(route);
-        }
+       
 
         async Task AddGoal()
         {

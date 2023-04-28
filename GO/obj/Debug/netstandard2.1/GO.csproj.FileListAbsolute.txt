@@ -274,7 +274,6 @@ C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\Goal\AddGoa
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\Goal\GoalStats.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\Goal\GoalView.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\Goal\Helpaddgoalpage.xaml.g.cs
-C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\Goal\Helpgoalpage.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\Goal\UpdateGoalPage.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView\AddPlannedSubtask.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView\AddSubtask.xaml.g.cs
