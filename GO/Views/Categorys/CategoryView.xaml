@@ -21,6 +21,16 @@
             </OnPlatform>
         </ResourceDictionary>
     </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+                 IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Help},Size=20,Color=#feeafa}"                     
+                 Order="Primary"
+                 Priority="0"
+            Command="{Binding HelpCommand}"
+        />
+
+    </ContentPage.ToolbarItems>
     <Grid VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -47,7 +57,10 @@
 
             </IndicatorView>
         </StackLayout>
-        <Label Grid.Row="2" Grid.ColumnSpan="4" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" Text="Categories"></Label>
+        <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand">
+            <Label   FontSize="21" FontAttributes="Bold"  Text="Categories"></Label>
+           
+        </StackLayout>       
 
         <StackLayout Grid.Row="2" Grid.ColumnSpan="4" Margin="0,30"  >
             <Label  Text="Tap on the add button to create categories" FontSize="Medium" Grid.ColumnSpan="4" HorizontalOptions="CenterAndExpand" Margin="0,40,0,0" IsVisible="{Binding Nocategory}" x:Name="NoCategory"></Label>
@@ -70,17 +83,15 @@
                                       IsDestructive="True"  
                                        BackgroundColor="Transparent"   
                                       IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                                 Glyph={x:Static helpers:IconFont.BookEdit},Size=20,Color=LightGray}"
-                                               Text="Edit"
-                                />
-                                    <SwipeItem Command="{Binding Source={x:Reference CategoryPage},Path=BindingContext.DeleteCommand }"
+                                                 Glyph={x:Static helpers:IconFont.BookEditOutline},Size=25,Color=LightGray}"
+                                               Text="Edit"/>
+                                    <SwipeItem Command="{Binding Source={x:Reference CategoryPage},Path=BindingContext.DeleteCommand}"
                                        CommandParameter="{Binding .}"
                                        IsDestructive="True" 
                                        BackgroundColor="Transparent" 
                                        IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                         Glyph={x:Static helpers:IconFont.Delete},Size=20,Color=#61a5c2 }"
-                                               Text="Delete"
-                                />
+                                         Glyph={x:Static helpers:IconFont.DeleteCircleOutline},Size=25,Color=#61a5c2 }"
+                                               Text="Delete"/>
                                 </SwipeView.LeftItems>
                                 <Grid Padding="10">
                                     <Grid.RowDefinitions>
@@ -92,26 +103,30 @@
                                         <ColumnDefinition Width="80" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Frame Grid.Column="0" Padding="5,16" Grid.ColumnSpan="4" Grid.RowSpan="3" Margin="10,0,0,0" WidthRequest="200" HasShadow="True" BorderColor="WhiteSmoke" >
+                                    <Frame Grid.Column="0" Padding="5,10" Grid.ColumnSpan="4" Grid.RowSpan="3" Margin="5,0,0,0" WidthRequest="200" HasShadow="True" BorderColor="WhiteSmoke" >
                                         <StackLayout>
                                             <StackLayout Grid.ColumnSpan="2"  Grid.RowSpan="2" Orientation="Horizontal" >
                                                 <Image 
                                          Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                         Glyph={x:Static helpers:IconFont.Layers},Size=55,Color=LightGray }" >
+                                         Glyph={x:Static helpers:IconFont.Layers},Size=50,Color=LightGray }" >
                                                 </Image>
                                                 <StackLayout>
-                                                    <Label Grid.Column="1"                                            
-                                                      Text="{Binding Name}"
+                                                    <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                                                        <Label Grid.Column="1"                                            
+                                                          Text="{Binding Name}"
                                                          FontFamily="RobotoBlack"
-                                                           FontSize="Medium"
+                                                           FontSize="18"
+                                                               
                                                       LineBreakMode="TailTruncation" 
                                                 />
+                                                    </ScrollView>
+                                               
                                                     <Label  Grid.Row="1"
                                                    Grid.Column="1"
                                       
                                                    LineBreakMode="TailTruncation"
                                                  FontFamily="RobotoLight"
-                                                            FontSize="17"
+                                                            FontSize="16"
                                                    VerticalOptions="End">
                                                         <Label.FormattedText>
                                                             <FormattedString>

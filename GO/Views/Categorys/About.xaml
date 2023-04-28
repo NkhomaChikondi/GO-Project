@@ -15,7 +15,7 @@
              <ScrollView>
                 <StackLayout HorizontalOptions="CenterAndExpand">
                     <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,18">
-                        <Label Text="ABOUT PAGE" TextColor="#495057" FontFamily="RobotoBlack" FontSize="20" FontAttributes="Bold"/>
+                    <Label Text="ABOUT PAGE" TextColor="#61a5c2" FontFamily="RobotoBlack" FontSize="20" FontAttributes="Bold"/>
                     </StackLayout>
                     <StackLayout Orientation="Vertical" Margin="10,0,0,10">
                         <StackLayout Orientation="Horizontal">
@@ -31,12 +31,12 @@
                     </StackLayout>
                     <StackLayout Margin="10,0">
                         <StackLayout HorizontalOptions="CenterAndExpand">
-                            <Label Text="GO Main Features"  TextColor="#495057" FontFamily="RobotoBlack" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="GO Main Features"  TextColor="#61a5c2" FontFamily="RobotoBlack" FontSize="18" FontAttributes="Bold"/>
                         </StackLayout>
                     <StackLayout Orientation="Vertical">
                         <StackLayout>
                             <StackLayout Orientation="Horizontal">
-                                <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.ArrowRight},
+                                <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.ArrowRightBold},
                                 Size=23,Color=#495057}" BackgroundColor="Transparent"/>
                                 <Label Text="Creation of goals" TextColor="#495057" FontAttributes="Bold"  FontSize="18" />
                             </StackLayout>
@@ -46,7 +46,7 @@
                     <StackLayout Orientation="Vertical">
                             <StackLayout>
                                 <StackLayout Orientation="Horizontal">
-                                    <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.ArrowRight},
+                                <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.ArrowRightBold},
                                 Size=23,Color=#495057}" BackgroundColor="Transparent"/>
                                     <Label Text="Breaking goals into tasks" TextColor="#495057" FontAttributes="Bold"  FontSize="18" />
                                 </StackLayout>
@@ -57,7 +57,7 @@
                 <StackLayout Orientation="Vertical">
                     <StackLayout Margin="13,0,0,8">
                         <StackLayout Orientation="Horizontal">
-                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.ArrowRight},
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.ArrowRightBold},
                                 Size=23,Color=#495057}" BackgroundColor="Transparent"/>
                             <Label Text="Progress Tracking (Percentage system)" TextColor="#495057" FontAttributes="Bold"  FontSize="18" />
                         </StackLayout>

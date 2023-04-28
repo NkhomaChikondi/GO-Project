@@ -25,8 +25,9 @@ namespace GO.ViewModels.Categorys
         public AsyncCommand<Category> ActionCommand { get; }
         public AsyncCommand<int> DetailCommand { get; }
         public AsyncCommand<Category> ItemSelectedCommand { get; }
+        public AsyncCommand HelpCommand { get; }
 
-     
+
         public bool Isvisible { get => isvisible; set => isvisible = value; }
         public string Oldname { get => oldname; set => oldname = value; }
         public bool HasCategory { get => hasCategory; set => hasCategory = value; }
@@ -65,8 +66,8 @@ namespace GO.ViewModels.Categorys
             UpdateCommand = new AsyncCommand<Category>(updateCategory);
             DetailCommand = new AsyncCommand<int>(getCategory);
             ItemSelectedCommand = new AsyncCommand<Category>(selectItem);
+            HelpCommand = new AsyncCommand(GotoHelpPage);
         }
-
      
         async Task addCategory()
         {
@@ -126,7 +127,7 @@ namespace GO.ViewModels.Categorys
                 // get the categoryfrom the database
                 var categorydb = await datastore.GetItemAsync(category.Id);
                 // add an item
-                var name = await Application.Current.MainPage.DisplayPromptAsync("Edit Category", "Name", "OK", "Cancel",$"{categorydb.Name}");
+                var name = await Application.Current.MainPage.DisplayPromptAsync("Edit Category ", $"{categorydb.Name}", "OK", "Cancel",$"{categorydb.Name}");
                 if (string.IsNullOrEmpty(name))
                 {                   
                     return;
@@ -188,6 +189,11 @@ namespace GO.ViewModels.Categorys
 
             }
 
+        }
+        async Task GotoHelpPage()
+        {
+            var route = $"{nameof(HelpPage)}";
+            await Shell.Current.GoToAsync(route);
         }
         public async Task Refresh()
         {
