@@ -148,8 +148,7 @@ namespace GO.Views.Goal
                 }
             }
             else
-            {
-              
+            {              
                 nogoals.Text = " They are no goals that are Completed!";
                 if (BindingContext is GoalViewModel bvm)
                 {

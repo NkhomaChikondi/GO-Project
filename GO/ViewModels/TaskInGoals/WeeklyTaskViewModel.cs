@@ -304,9 +304,8 @@ namespace GO.ViewModels.TaskInGoals
                 return;
 
         }
-
         //method for dow buttons
-       public async Task sunButton()
+        public async Task sunButton()
         {
             // get week having the weekid
             var week = await dataWeek.GetWeekAsync(weekId);

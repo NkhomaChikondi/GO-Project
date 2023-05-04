@@ -84,7 +84,11 @@ namespace GO.ViewModels.Goals
                     Progress = 0,
                     CategoryId = categoryId
                 };
-
+                if (string.IsNullOrEmpty(name))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Please enter the name for the goal. ", "OK");
+                    return;
+                }
                 if (newGoal.Start < DateTime.Today)
                 {
                     await Application.Current.MainPage.DisplayAlert("Error!", "Start date of a goal, cannot be on a date that has already pass", "OK");

@@ -73,7 +73,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:Goal">
                             <ViewCell >
-                                <ViewCell.ContextActions >
+                                <ViewCell.ContextActions>
                                     <MenuItem IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                                  Glyph={x:Static helpers:IconFont.BookEdit},Size=30,Color=LightGray}"
                                           Command="{Binding Source={x:Reference GoalPage},Path=BindingContext.UpdateCommand }"
@@ -95,8 +95,7 @@
                                         BackgroundColor="White"
                                         Padding="8"
                                         Margin="5,0,7,0">
-                                    <Grid Padding="2">
-                                           
+                                    <Grid Padding="2">                                    
 
                                          <StackLayout  Orientation="Vertical" >
                                             <StackLayout Orientation="Horizontal">

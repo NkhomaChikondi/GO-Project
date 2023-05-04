@@ -14,9 +14,9 @@ namespace GO.ViewModels.Categorys
     public class AddCategoryViewModel: BaseViewmodel
     {
 
-        
-        private string name;
-        private string description;
+
+        private string name = null;
+        private string description = null;
 
       
         public string Name { get => name; set => name = value; }
@@ -39,6 +39,11 @@ namespace GO.ViewModels.Categorys
                     Name = name,
                     Description = description
                 };
+                if (string.IsNullOrEmpty(name))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Please enter a name for the category. ", "OK");
+                    return;
+                }
                 var allCategories = await datastore.GetItemsAsync();
                 // change the first letter of the Task name to upercase
                 var UppercasedName = char.ToUpper(newCategory.Name[0]) + newCategory.Name.Substring(1);
