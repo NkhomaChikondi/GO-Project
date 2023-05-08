@@ -105,47 +105,112 @@ namespace GO.Views.GoalTask
                 // check if the updated start date is not equal to that from the database
                 if(newtask.StartTask.Date != task.StartTask.Date)
                 {
-                    if(DateTime.Today > task.StartTask)
+                    if(task.IsCompleted)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's start date. You cannot change start date of a task that has already started", "Ok");
-                        return;
-                    }
-                    if(newtask.StartTask > newtask.EndTask)
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's start date.Task's start date cannot be more than task's end date.", "Ok");
-                        return;
-                    }
-                    else if(DateTime.Today < task.StartTask)
-                    {
-                        // make sure startday is not more than end date
-                        if (newtask.StartTask > newtask.EndTask)
-                        {
-                            await Application.Current.MainPage.DisplayAlert("Error!", " Failed to change task's start date.Task's start date cannot be more than Task's end date.", "Ok");
-                            return;
-                        }
-                    }
-                    else if (newtask.StartTask < DateTime.Today)
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's start date. Task's start date cannot be less than the date of today.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's start date. Start date of a task that is completed cannot be changed.", "Ok");
                         return;
                     }
                 }
-                // check if newtask end date is not more than goal end date
-                if (newtask.EndTask > goal.End)
+                if (newtask.StartTask < DateTime.Today)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", $" Failed to change task's end date. task's end date, cannot be more than goal's end date ({goal.enddatetostring}).", "Ok");
-                    return;
-                }      
-                // check if the changed end date is below the date of today
-                if(newtask.EndTask < DateTime.Today)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's end date. task's end date, cannot be less than the date of today", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's start date. Task's start date cannot be less than the date of today.", "Ok");
                     return;
                 }
+
+                if (newtask.StartTask > task.StartTask)
+                {
+                    // make sure the start date is not above the end date
+                    if (newtask.StartTask > newtask.EndTask)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to update task.Task's start date cannot be more than task's end date.", "Ok");
+                        return;
+                    }
+                    else
+                    {
+                        var result = await Application.Current.MainPage.DisplayAlert("Alert!", "By updating you task's start date to a later date, if it has subtask's, all subtask's whose end date is below the new task's start date will be deleted", "Yes", "No");
+                       if(result)
+                       {
+                            // check if it has subtasks
+                            var subtasks = await datasubTask.GetSubTasksAsync(task.Id);
+                            if(subtasks.Count() > 0)
+                            {
+                                // get subtasks whose end date is below the newtask.start date
+                                var invalidSubtasks = subtasks.Where(S => S.SubEnd < newtask.StartTask).ToList();
+                                if(invalidSubtasks.Count() > 0)
+                                {
+                                    // delete subtasks
+                                    foreach (var subtask in invalidSubtasks)
+                                    {
+                                        await datasubTask.DeleteSubTaskAsync(subtask.Id);
+                                        LocalNotificationCenter.Current.Cancel(subtask.Id);
+                                    }
+                                }
+                            }
+                       }
+                       else                        
+                        return;
+                    }
+                }
+                      
+                if(newtask.StartTask > newtask.EndTask)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to update task. Task's start date cannot be more than task's end date.", "Ok");
+                    return;
+                }
+                else if(DateTime.Today < task.StartTask)
+                {
+                    // make sure startday is not more than end date
+                    if (newtask.StartTask > newtask.EndTask)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", " Failed to change task's start date.Task's start date cannot be more than Task's end date.", "Ok");
+                        return;
+                    }
+                }
+                
+               
+                
                 // check if the task has expired
                 if(newtask.EndTask != task.EndTask)                  
                 {
-                     // make sure you cannot expand the end date of a task that has expired whilst it was completed
+                    // check if newtask end date is not more than goal end date
+                    if (newtask.EndTask > goal.End)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", $" Failed to change task's end date. task's end date, cannot be more than goal's end date ({goal.enddatetostring}).", "Ok");
+                        return;
+                    }
+                    if(DateTime.Today == newtask.EndTask)
+                    {
+                        var result = await Application.Current.MainPage.DisplayAlert("Alert!", "You're choosing to end you task today, all subtasks if any, whose dates surpass the end date will be deleted. Continue?", "Yes", "No");
+                        if (result)
+                        {
+                            // check if it has subtasks
+                            var subtasks = await datasubTask.GetSubTasksAsync(task.Id);
+                            if (subtasks.Count() > 0)
+                            {
+                                // get subtasks whose end date is below the newtask.start date
+                                var invalidSubtasks = subtasks.Where(S => S.SubEnd > newtask.EndTask).ToList();
+                                if (invalidSubtasks.Count() > 0)
+                                {
+                                    // delete subtasks
+                                    foreach (var subtask in invalidSubtasks)
+                                    {
+                                        await datasubTask.DeleteSubTaskAsync(subtask.Id);
+                                        LocalNotificationCenter.Current.Cancel(subtask.Id);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                            return;
+                    }
+                    // check if the changed end date is below the date of today
+                    if (newtask.EndTask < DateTime.Today)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's end date. task's end date, cannot be less than the date of today", "Ok");
+                        return;
+                    }
+
+                    // make sure you cannot expand the end date of a task that has expired whilst it was completed
                     if (task.IsCompleted && task.Status == "Expired")
                     {
                         await Application.Current.MainPage.DisplayAlert("Error!", "Failed to change task's end date. You Cannot change the end date of a task that has expired whilst completed", "Ok");
@@ -172,17 +237,14 @@ namespace GO.Views.GoalTask
                                 task.Status = "Not Started";
                         }
                         else if (!result)
-                            return;
-                        
-                        
-                    }
-                        
+                            return;                     
+                    }                        
                 }
                                          
                 if(newtask.EndTask > task.EndTask)
                 {
-                //cancel task notification
-                LocalNotificationCenter.Current.Cancel(task.Id);
+                    //cancel task notification
+                     LocalNotificationCenter.Current.Cancel(task.Id);
                   
                 }
               

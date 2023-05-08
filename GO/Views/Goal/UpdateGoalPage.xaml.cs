@@ -107,7 +107,7 @@ namespace GO.Views.Goal
                         // check that start date is not more than end date
                         if (newGoal.Start > newGoal.End)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error!", "Failed to update. Start Date of a goal cannot be more than the end date of the goal.", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error!", "Failed to update goal. Start Date of a goal cannot be more than the end date of the goal.", "Ok");
                             return;
                         }
                         // check that a start date of a goal is not equal to its end date
@@ -520,7 +520,7 @@ namespace GO.Views.Goal
                     // check if updated goal's end date is more than dbgoal end date
                     if (newestGoal.End > Goal.End)
                     {
-                        LocalNotificationCenter.Current.Cancel(newestGoal.Id);
+                        LocalNotificationCenter.Current.Cancel(Goal.Id);
                         // check if it has weeks
                         if (Goal.HasWeek)
                         {
@@ -532,15 +532,11 @@ namespace GO.Views.Goal
                     await Shell.Current.GoToAsync("..");
                     GetToast.toast("Goal updated");
                 }
-
-
             }
-
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update goal: {ex.Message}", "OK");
             }
-
             finally
             {
                 IsBusy = false;
