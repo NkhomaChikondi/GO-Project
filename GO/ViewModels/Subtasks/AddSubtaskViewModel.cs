@@ -17,8 +17,8 @@ namespace GO.ViewModels.Subtasks
     public class AddSubtaskViewModel : BaseViewmodel
     {
         private string name;
-        private DateTime startDate = DateTime.Today;
-        private DateTime endDate = DateTime.Today;
+        private DateTime startDate;
+        private DateTime endDate;
         private double duration;
         private double percentage;
         private int getTaskId;
@@ -48,7 +48,12 @@ namespace GO.ViewModels.Subtasks
             if (IsBusy == true)
                 return;
             try
-            {               
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Please enter the name for the Subtask. ", "OK");
+                    return;
+                }
                 // change the first letter of the Task name to upercase
                 var UppercasedName = char.ToUpper(name[0]) + name.Substring(1);
                

@@ -66,11 +66,11 @@ namespace GO.Views.GoalTask
                 {
                     week.Active = false;
                     await dataWeek.UpdateWeekAsync(week);
-                    status.Text = "Expired";
+                    status.Text = "Expired Week";
                 }
                 else
                 {
-                    status.Text = "Active";
+                    status.Text = "Active Week";
                 }
                 // get the goal having the goalid
                 var goal = await datagoal.GetGoalAsync(week.GoalId);
@@ -84,19 +84,20 @@ namespace GO.Views.GoalTask
                 dateToday.Text = DateTime.Today.ToLongDateString().ToString();
                 //get all tasks having the goal id for the latest week
                 var weekTasks = await DataTask.GetTasksAsync(goalId, latestWeek);
-                if(weektaskCount == 0)
-                {
-                    newtaskAdded = false;
-                }
-                else if(weekTasks.Count() > weektaskCount)
+                
+                if(weekTasks.Count() > weektaskCount)
                 {
                     newtaskAdded = true;
                   weektaskCount =  weekTasks.Count();
                 }
+               else if (weektaskCount == 0)
+                {
+                    newtaskAdded = false;
+                }
+
                 else if(weekTasks.Count() <= weektaskCount)                
                     newtaskAdded = false;
-
-                weektaskCount = weekTasks.Count();
+                               
                 if (weekTasks.Count() == 0)
                 {
                     listView.IsVisible = false;
@@ -122,6 +123,7 @@ namespace GO.Views.GoalTask
                                                 
                             // get the last inserted task
                             var lastTask = weekTasks.ToList().LastOrDefault();
+                        var daydate = lastTask.StartTask;
                         if(newtaskAdded)
                         {
                             wvm.DaySelected = lastTask.DowId;
@@ -506,14 +508,14 @@ namespace GO.Views.GoalTask
                         if (day == "Monday")
                         {
                             var date = week.StartDate.ToLongDateString();
-                            sunDate = week.StartDate;
+                            monDate = week.StartDate;
                             string month = date.Substring(0, 6);
                             Monday.Text = month;
                         }
 
                         if (day == "Tuesday")
                         {
-                            sunDate = week.StartDate;
+                            tueDate = week.StartDate;
                             var date = week.StartDate.ToLongDateString();
                             string month = date.Substring(0, 6);
                             Tuesday.Text = month;
@@ -521,28 +523,28 @@ namespace GO.Views.GoalTask
 
                         if (day == "Wednesday")
                         {
-                            sunDate = week.StartDate;
+                            wedDate = week.StartDate;
                             var date = week.StartDate.ToLongDateString();
                             string month = date.Substring(0, 6);
                             Wednesday.Text = month;
                         }
                         if (day == "Thursday")
                         {
-                            sunDate = week.StartDate;
+                            thuDate = week.StartDate;
                             var date = week.StartDate.ToLongDateString();
                             string month = date.Substring(0, 6);
                             Thursday.Text = month;
                         }
                         if (day == "Friday")
                         {
-                            sunDate = week.StartDate;
+                            friDate = week.StartDate;
                             var date = week.StartDate.ToLongDateString();
                             string month = date.Substring(0, 6);
                             Friday.Text = month;
                         }
                         if (day == "Saturday")
                         {
-                            sunDate = week.StartDate;
+                            satDate = week.StartDate;
                             var date = week.StartDate.ToLongDateString();
                             string month = date.Substring(0, 6);
                             Saturday.Text = month;
@@ -654,7 +656,6 @@ namespace GO.Views.GoalTask
                 }
             }
         }
-
         private void RightClicked(object sender, EventArgs e)
         {
             RightClickMethod();
@@ -887,14 +888,12 @@ namespace GO.Views.GoalTask
                 }
             }
         }
-
         private void ImageButton_Clicked_1(object sender, EventArgs e)
         {
             Application.Current.MainPage.DisplayAlert("INFO", "* The first week of a goal will be created upon creating your goal. \n " +
                 "* The proceeding weeks in the goal, will be created automatically upon tapping on the goal after the end date of the previous week has surpassed. \n" +
                 "* A week ends on saturday and a new week is created on Sunday or on any day you tap on the goal when the previous week has expired. ", "OK");
         }
-
         private void ImageButton_Clicked_2(object sender, EventArgs e)
         {
             Application.Current.MainPage.DisplayAlert("INFO", "* The scrollable tabs below are indicating the dates and days from the start of your week to the end date. \n " +

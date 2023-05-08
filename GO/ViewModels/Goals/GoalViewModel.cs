@@ -168,9 +168,7 @@ namespace GO.ViewModels.Goals
                 }
             }
 
-        }
-       
-
+        }      
         async Task OnUpdateGoal(Goal goal)
         {
             var route = $"{nameof(UpdateGoalPage)}?goalId={goal.Id}";
@@ -232,8 +230,6 @@ namespace GO.ViewModels.Goals
                 return;
 
         }
-
-
         async Task calculateGoalPercentage()
         {
             double TaskPercentage = 0;
@@ -371,8 +367,7 @@ namespace GO.ViewModels.Goals
                     goal.DaysLeft = 0;
                 await datagoal.UpdateGoalAsync(goal);
             }
-        }
-       
+        }       
         async Task CreateWeek(Goal goal)
         {
             if (IsBusy.Equals(true))
@@ -549,8 +544,7 @@ namespace GO.ViewModels.Goals
                 IsBusy = false;
             }
 
-        }    
-       
+        }           
         public async Task Refresh()
         {
             // set "IsBusy" to true

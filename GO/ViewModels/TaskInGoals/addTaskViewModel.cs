@@ -92,7 +92,7 @@ namespace GO.ViewModels.TaskInGoals
                     if(DateTime.Today.Date < lastweek.StartDate.Date)
                     {
                         // get the dow whose day whose date is equal to
-                        var day = dows.Where(d => d.Date.Date == lastweek.StartDate.Date).FirstOrDefault();
+                        var day = dows.Where(d => d.Name == lastweek.StartDate.DayOfWeek.ToString()).FirstOrDefault();                        
                         // dayId will be equal to day's Id
                         DayId = day.DOWId;
                     }
@@ -137,6 +137,11 @@ namespace GO.ViewModels.TaskInGoals
                     Description = description,
                     GoalId = goalId
                 };
+                if (string.IsNullOrEmpty(name))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Please enter the name for the Task. ", "OK");
+                    return;
+                }
                 //get goal of the task
                 //var goal = await datagoal.GetGoalAsync(GoalId);
                 //// check if the goal hasnt expired yet
@@ -185,6 +190,7 @@ namespace GO.ViewModels.TaskInGoals
                     }
                     // get dow having the DayId
                     var dow = await dataDow.GetDOWAsync(DayId);
+                    // get date                
                     var newestTask = new GoalTask
                     {
                         taskName = UppercasedName,
@@ -279,6 +285,11 @@ namespace GO.ViewModels.TaskInGoals
                         GoalId = goalId
 
                     };
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Please enter the name for the goal. ", "OK");
+                        return;
+                    }
                     // get all tasks in GoalId
                     var alltasks = goalTasks.Where(T => T.GoalId == GoalId).ToList();
                     // change the first letter of the Task name to upercase
