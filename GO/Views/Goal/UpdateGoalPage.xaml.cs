@@ -6,6 +6,7 @@ using GO.Views.GoalTask;
 using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,7 +43,6 @@ namespace GO.Views.Goal
             GetToast = DependencyService.Get<IToast>();
             BindingContext = new GoalViewModel();
             //detaillabel.TranslateTo(100, 0, 3000, Easing.Linear);
-
         }
         protected async override void OnAppearing()
         {
@@ -74,7 +74,6 @@ namespace GO.Views.Goal
             var expiredtasks = tasks.Where(E => E.Status == "Expired").ToList();
             Expiredtasks.Text = expiredtasks.Count().ToString();
         }
-
         private async void Button_Clicked(object sender, EventArgs e)
         {
             // check if the app is busy
@@ -101,7 +100,7 @@ namespace GO.Views.Goal
                  if (newGoal.Description == null)
                      newGoal.Description = $"No Description for \" {UppercasedName}\" ";
                 double weeksNumber = Goal.NumberOfWeeks;
-                if(Goal.Noweek)
+                if (Goal.Noweek)
                 {
                     if (newGoal.Start != Goal.Start)
                     {
@@ -114,17 +113,17 @@ namespace GO.Views.Goal
                         // check that a start date of a goal is not equal to its end date
                         if (newGoal.Start == newGoal.End)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error!", "Failed to update. Start Date of a goal cannot be equal to the goal's end date.", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error!", "Failed to update. Start Date of a goal cannot be equal to the its end date.", "Ok");
                             return;
                         }
                         // first check if a goal has tasks
                         var goaltasks = await dataTask.GetTasksAsync(Goal.Id);
                         if (goaltasks.Count() > 0)
                         {
-                            // make sure today's date is more than the newgoal start date
+                            // check if today's date is more than the newgoal start date
                             if (DateTime.Today > newGoal.Start)
                             {
-                                await App.Current.MainPage.DisplayAlert("Alert!", "Failed to update goal, start date can not be less than today's date", "OK");
+                                await Application.Current.MainPage.DisplayAlert("Alert!", "Failed to update goal, today's date cannot be more than the start date", "OK");
                                 return;
                             }
                             else if (DateTime.Today <= newGoal.Start)
@@ -137,10 +136,10 @@ namespace GO.Views.Goal
                                     var validTasks = goaltasks.Where(t => t.EndTask > newGoal.Start && t.EndTask < Goal.End).ToList();
                                     if (endedtasks.Count() > 0 || validTasks.Count() > 0)
                                     {
-                                        var Result = await Application.Current.MainPage.DisplayAlert("Alert!", "All tasks in this goal that have ended, will be deleted. All tasks whose start date is before the new goal's start date, if completed, will be uncompleted and then they will automatically be moved to another date. Continue?", "Yes", "No");
+                                        var Result = await Application.Current.MainPage.DisplayAlert("Alert!", "All expired tasks, will be deleted. All tasks whose start date is before the new goal's start date, if completed, will be uncompleted and then they will automatically be moved to another date. Continue?", "Yes", "No");
                                         if (Result)
                                         {
-                                            if (endedtasks.Count() > 0 )
+                                            if (endedtasks.Count() > 0)
                                             {
                                                 // loop through each task nand delete it
                                                 foreach (var task in endedtasks)
@@ -148,7 +147,7 @@ namespace GO.Views.Goal
                                                     await deleteTask(task);
                                                 }
                                                 //check if it has valid tasks
-                                                if(validTasks.Count() > 0)
+                                                if (validTasks.Count() > 0)
                                                 {
                                                     // if the tasks where completed, they will be uncompleted
                                                     foreach (var task in validTasks)
@@ -163,9 +162,7 @@ namespace GO.Views.Goal
                                                         await dataTask.UpdateTaskAsync(task);
                                                     }
                                                 }
-
                                             }
-
                                             else if (validTasks.Count() > 0)
                                             {
                                                 // if the tasks where completed, they will be uncompleted
@@ -175,7 +172,7 @@ namespace GO.Views.Goal
                                                     {
                                                         task.IsCompleted = false;
                                                     }
-                                                        
+
                                                     // give the task the start date of the goal's start date
                                                     task.StartTask = newGoal.Start;
                                                     //task.EndTask = newGoal.End;
@@ -188,36 +185,19 @@ namespace GO.Views.Goal
                             }
                         }
                     }
-                    // check if the changed end date is below the date of today
-                    if (newGoal.End < DateTime.Today)
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "An updated End Date of a goal, cannot be below the date of today", "Ok");
-                        return;
-                    }
-                    // make sure you cannot expand the end date of a task that has expired whilst it was completed
-                    if (Goal.Percentage == Goal.ExpectedPercentage && Goal.Status == "Expired")
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to change the end date. Cannot change the end date of a goal that has expired whilst completed", "Ok");
-                        return;
-                    }
                     // check if the incoming end date is not equal to the end date from the database
                     if (newGoal.End != Goal.End)
                     {
-                        // check if the goal is completed
-                        if (Goal.Percentage == Goal.ExpectedPercentage)
+                        // check if the changed end date is below the date of today
+                        if (newGoal.End < DateTime.Today)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Failed to change the end date. Cannot change the end date of a goal that has already been completed, unless, you add new tasks to it", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error!", "An updated End Date of a goal, cannot be below the date of today", "Ok");
                             return;
                         }
+
                         // check if todays date is more than goal.end date
-                        if (DateTime.Today > Goal.End && newGoal.End > Goal.End)
+                        if (DateTime.Today > Goal.End)
                         {
-                            // make sure the updated end date is more than todays date
-                            if (newGoal.End < DateTime.Today)
-                            {
-                                await Application.Current.MainPage.DisplayAlert("Error", "End Date of a task cannot be below the date of today", "Ok");
-                                return;
-                            }
                             var result = await Application.Current.MainPage.DisplayAlert("Alert", "You are adjusting the end date of a goal that has expired. Continue?", "Yes", "No");
                             if (result)
                             {
@@ -227,34 +207,15 @@ namespace GO.Views.Goal
                             else if (!result)
                                 return;
                         }
-
-                        //// recalculate number of weeks in goal
-                        //var duration = newGoal.End - newGoal.Start;
-                        //// divide the duration by 7
-                        //double doubleduration = duration.TotalDays;
-                        //weeksNumber = doubleduration / 7;
-                        //// get the remainder if any from the above division
-                        //var remainder = weeksNumber % 7;
-                        //if (remainder != 0)
-                        //{
-                        //    // add 1 to weeknumber
-                        //    weeksNumber = weeksNumber + 1;
-                        //}
                     }
                     else if (newGoal.End < Goal.End)
                     {
                         // check if they are no tasks whose end date surpasses the goals end date
                         // get tasks having the goals id
                         var tasks = await dataTask.GetTasksAsync(Goal.Id);
-                        // loop through the tasks
-                        var counter = 0;
-                        foreach (var task in tasks)
-                        {
-                            if (task.EndTask > Goal.End)
-                                counter += 1;
-
-                        }
-                        if (counter > 0)
+                        // get weeks whose end date is more than the new goal end date
+                        var invalidTasks = tasks.Where(w => w.EndTask > newGoal.End).ToList();
+                        if (invalidTasks.Count() > 0)
                         {
                             await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update goal, they are task's in it, whose end date is more than the goal's selected end date. Go to task page, find those tasks and modify their end dates", "OK");
                             return;
@@ -296,170 +257,283 @@ namespace GO.Views.Goal
                     await Shell.Current.GoToAsync("..");
                     GetToast.toast("Goal updated");
                 }
-                else if(Goal.HasWeek)
+                else if (Goal.HasWeek)
                 {
-                    // get the week number
-                    // recalculate number of weeks in goal
-                    var duration = newGoal.End - newGoal.Start;
-                    // divide the duration by 7
-                    double doubleduration = duration.TotalDays;
-                    weeksNumber = doubleduration / 7;
-                    // get the remainder if any from the above division
-                    var remainder = weeksNumber % 7;
-                    if (remainder != 0)
+                    double weekPercentage;                
+                    if (newGoal.Start != Goal.Start || newGoal.End != Goal.End)
                     {
-                        // add 1 to weeknumber
-                        weeksNumber = weeksNumber + 1;
-                    }
-                    // get all weeks in this goal
-                    var goalWeeks = await dataWeek.GetWeeksAsync(Goal.Id);
-                    if(newGoal.Start > Goal.Start)
-                    {
-                        // create a dow variable
-                        DOW dOW = null ;
-                        // get all weeks whose end date is below the new start date
-                        var allWeeks = goalWeeks.Where(w => w.EndDate.Date < newGoal.Start.Date).ToList();
-                        var leftWeeks = goalWeeks.Where(w => w.EndDate.Date > newGoal.Start.Date).ToList();
-                        if (allWeeks.Count() > 0)
+                        // get the week number
+                        // recalculate number of weeks in goal
+                        var duration = newGoal.End - newGoal.Start;
+                        // divide the duration by 7
+                        double doubleduration = duration.TotalDays;
+                        weeksNumber = doubleduration / 7;
+                        // get the remainder if any from the above division
+                        var remainder = weeksNumber % 7;
+                        if (remainder != 0)
                         {
-                            // delete all weeks whose end date is below 
-                            foreach (var week in allWeeks)
+                            // add 1 to weeknumber
+                            weeksNumber = weeksNumber + 1;
+                        }
+                        // get all weeks in this goal
+                        var goalWeeks = await dataWeek.GetWeeksAsync(Goal.Id);
+                        if (newGoal.Start > Goal.Start)
+                        {
+                            // create a dow variable
+                            // get all weeks whose end date is below the new start date
+                            var expiredWeeks = goalWeeks.Where(w => w.EndDate < newGoal.Start).ToList();
+                            var non_expiredWeeks = goalWeeks.Where(w => w.EndDate > newGoal.Start).ToList();
+                            if (non_expiredWeeks.Count() == 0 && goalWeeks.Count() > 0)
                             {
-                                await deleteweeklyTask(week);
+                                await App.Current.MainPage.DisplayAlert("Alert", "Failed to update this goal. All weeks in this goal have expired", "Ok");
+                                return;
+                            }
+                            else if (non_expiredWeeks.Count() > 0)
+                            {
+                                if (expiredWeeks.Count() > 0)
+                                {
+                                    // delete all weeks whose end date is below 
+                                    foreach (var week in expiredWeeks)
+                                    {
+                                        await deleteweeklyTask(week);
+                                    }
+                                }
+                                // check if the start day is on saturday
+                                if (newGoal.Start.DayOfWeek.ToString() == "Saturday")
+                                {
+                                    await App.Current.MainPage.DisplayAlert("Alert", "Your goal's start day will be moved to Sunday since a goal cannot start on Saturday", "OK");
+                                    //the date will be moved to sunday
+                                    newGoal.Start.AddDays(1);
+                                } 
+                                // get the first week of all non_expired Weeks
+                                var firstWeek = non_expiredWeeks.FirstOrDefault();
+                                // change its start date to the one of new goal start date
+                                firstWeek.StartDate = newGoal.Start;
+                                await dataWeek.UpdateWeekAsync(firstWeek);
+                                // check if the week has tasks
+                                var weektasks = await dataTask.GetTasksAsync(GoalId, firstWeek.Id);
+                                if (weektasks.Count() > 0)
+                                {
+                                    // get all days in the week
+                                    var weekdays = await dataDow.GetDOWsAsync(firstWeek.Id);
+                                    // delete days whose date is before the new start date
+                                    var expiredDays = weekdays.Where(d => d.Date < newGoal.Start.Date).ToList();
+                                    if (expiredDays.Count() > 0)
+                                    {
+                                        // loop through the expired days and delete the days and its tasks 
+                                        foreach (var day in expiredDays)
+                                        {
+                                            // get tasks having the the days id
+                                            var tasks = await dataTask.GetTasksAsync(day.DOWId);
+                                            if (tasks.Count() > 0)
+                                            {
+                                                // loop through the tasks to get their subtasks
+                                                foreach (var task in tasks)
+                                                {
+                                                    var subtasks = await dataSubtask.GetSubTasksAsync(task.Id);
+                                                    // delete task
+                                                    await dataTask.DeleteTaskAsync(task.Id);
+                                                    if (subtasks.Count() > 0)
+                                                    {
+                                                        // loop through the tasks and delete all of them
+                                                        foreach (var subtask in subtasks)
+                                                        {
+                                                            // delete subtast
+                                                            await dataSubtask.DeleteSubTaskAsync(subtask.Id);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            // delete day
+                                            await dataDow.DeleteDOWAsync(day.DOWId);
+                                        }
+                                    }
+                                }
+                            }
+                            // restructure the week number
+                            int counter = 0;
+                            //loop through the weeks
+                            var newgoalWeeks = await dataWeek.GetWeeksAsync(Goal.Id);
+                            foreach (var wik in newgoalWeeks)
+                            {
+                                counter++;
+                                wik.WeekNumber = counter;
+                                await dataWeek.UpdateWeekAsync(wik);
+                            }
+                            counter = 0;
+                        }
+                        else if (newGoal.Start < Goal.Start)
+                        {
+                            weekPercentage = 100 / weeksNumber;
+                            // make sure todays date is more than the new goal start day
+                            if (DateTime.Today.Date > newGoal.Start.Date)
+                            {
+                                await App.Current.MainPage.DisplayAlert("Error", "Failed to update goal, today's date cannot be more than goal's start date.", "OK");
+                                return;
+                            }
+                            else if (DateTime.Today.Date <= newGoal.Start.Date)
+                            {
+                                // check if the adjusted start date is in the same week as the old start date
+                                // get all weeks in the goal
+                                var weeks = await dataWeek.GetWeeksAsync(Goal.Id);
+                                // get the week having week number 1
+                                var weekOne = weeks.Where(w => w.WeekNumber == 1).FirstOrDefault();
+
+                                CultureInfo ci = CultureInfo.InvariantCulture;
+                                DateTimeFormatInfo dfi = DateTimeFormatInfo.GetInstance(ci);
+                                Calendar cal = ci.Calendar;
+
+                                int week1 = cal.GetWeekOfYear(newGoal.Start, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+                                int week2 = cal.GetWeekOfYear(weekOne.StartDate, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+
+                                if (week1 == week2)
+                                {
+                                    weekOne.StartDate = newGoal.Start;
+                                    await dataWeek.UpdateWeekAsync(weekOne);
+                                }
+                                else if (week1 != week2)
+                                {                                   
+                                    // check if the start day is on saturday
+                                    if (newGoal.Start.DayOfWeek.ToString() == "Saturday")
+                                    {
+                                        await App.Current.MainPage.DisplayAlert("Alert", "Your goal's start day will be moved to Sunday since a goal cannot start on Saturday", "OK");
+                                        //the date will be moved to sunday
+                                        newGoal.Start.AddDays(1);
+                                    }
+
+                                    // check if the incoming end date is not equal to the end date from the database
+                                    if (newGoal.End != Goal.End)
+                                    {
+                                        // check if the changed end date is below the date of today
+                                        if (newGoal.End < DateTime.Today)
+                                        {
+                                            await Application.Current.MainPage.DisplayAlert("Error!", "An updated End Date of a goal, cannot be below the date of today", "Ok");
+                                            return;
+                                        }
+                                        // make sure you cannot expand the end date of a task that has expired whilst it was completed
+                                        if (Goal.Percentage == Goal.ExpectedPercentage && Goal.Status == "Expired")
+                                        {
+                                            await Application.Current.MainPage.DisplayAlert("Error", "Failed to change the end date. Cannot change the end date of a goal that has expired whilst completed", "Ok");
+                                            return;
+                                        }
+                                        // check if the goal is completed
+                                        if (Goal.Percentage == Goal.ExpectedPercentage)
+                                        {
+                                            await Application.Current.MainPage.DisplayAlert("Error", "Failed to change the end date. Cannot change the end date of a goal that has already been completed, unless, you add new tasks to it", "Ok");
+                                            return;
+                                        }
+                                        // check if todays date is more than goal.end date
+                                        if (DateTime.Today > Goal.End && newGoal.End > Goal.End)
+                                        {
+                                            // make sure the updated end date is more than todays date
+                                            if (newGoal.End < DateTime.Today)
+                                            {
+                                                await Application.Current.MainPage.DisplayAlert("Error", "End Date of a task cannot be below the date of today", "Ok");
+                                                return;
+                                            }
+                                            var result = await Application.Current.MainPage.DisplayAlert("Alert", "You are adjusting the end date of a goal that has expired. Continue?", "Yes", "No");
+                                            if (result)
+                                            {
+                                                if (Goal.Status == "Expired")
+                                                    Goal.Status = "In Progress";
+                                            }
+                                            else if (!result)
+                                                return;
+                                        }
+                                        else if (newGoal.End < Goal.End)
+                                        {
+                                            // check if they are no weeks whose end date surpasses the goals end date
+                                            // get weeks having the goals id
+                                            var goalWks = await dataWeek.GetWeeksAsync(Goal.Id);
+                                            // get weeks whose end date is more than the new goal end date
+                                            var invalidWeeks = goalWks.Where(w => w.EndDate > newGoal.End).ToList();
+                                            if (invalidWeeks.Count() > 0)
+                                            {
+                                                var response = await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update goal, they are weeks in it, whose end date is more than the goal's selected end date.Do you want to delete those weeks?", "Yes", "No");
+                                                if (response)
+                                                {
+                                                    // loop through the weeks and delete them
+                                                    foreach (var week in invalidWeeks)
+                                                    {
+                                                        await deleteweeklyTask(week);
+                                                    }
+                                                    // recalculate the number of weeks available
+                                                    // get all weeks in the database
+                                                    var dbWeeks = await dataWeek.GetWeeksAsync(Goal.Id);
+                                                    weeksNumber = dbWeeks.Count();
+                                                    weekPercentage = 100 / weeksNumber;
+                                                }
+                                                else if (!response)
+                                                    return;
+                                            }
+                                        }
+                                    }
+                                    // delete all created weeks inside the app
+                                    foreach (var Week in weeks)
+                                    {
+                                        await deleteweeklyTask(Week);
+                                    }
+                                    // get the date of nextsunday
+                                    DateTime nextSaturday = newGoal.Start.AddDays(6 - (int)newGoal.Start.DayOfWeek);
+                                    // create a new week
+                                    var newWeek = new Week
+                                    {
+                                        EndDate = nextSaturday,
+                                        StartDate = newGoal.Start,
+                                        AccumulatedPercentage = 0,
+                                        Active = true,
+                                        WeekNumber = 1,
+                                        TargetPercentage = weekPercentage,
+                                        Progress = 0,
+                                        Status = "Not Started",
+                                        GoalId = Goal.Id
+                                    };
+                                    await dataWeek.AddWeekAsync(newWeek);
+                                    GetToast.toast("New week created");
+                                }
+
                             }
                         }
-                        // loop through all the weeks to get the day whose date is equal to weeks start date
-                        foreach (var week in leftWeeks)
-                        {
-                            // get all days in the week
-                            var days = await dataDow.GetDOWsAsync(week.Id);
-                            // loop through the days and get the one having the date
-                            foreach (var day in days)
-                            {
-                                if(day.Date == newGoal.Start.Date)
-                                {
-                                    dOW = day;
-                                    return;
-                                }
-                            }                           
-                        }
-                        // get get the week of the day
-                        var dayWeek = leftWeeks.Where(W => W.Id == dOW.WeekId).FirstOrDefault();
-                        
                     }
 
+                    // create a new goal object
+                    var newestGoal = new Models.Goal
+                    {
+                        Id = GoalId,
+                        Name = UppercasedName,
+                        Description = Desclbl.Text,
+                        End = enddatepicker.Date,
+                        CreatedOn = Convert.ToDateTime(Createdlbl.Text),
+                        Start = Startdatepicker.Date,
+                        CategoryId = Goal.CategoryId,
+                        HasWeek = Goal.HasWeek,
+                        Noweek = Goal.Noweek,
+                        NumberOfWeeks = (int)weeksNumber,
+                        Percentage = Goal.Percentage,
+                        ExpectedPercentage = Goal.ExpectedPercentage,
+                        Progress = Goal.Progress,
+                        Status = Goal.Status,
+                        Time = Goal.Time,
+                        enddatetostring = newGoal.End.ToLongDateString(),
+                    };
+                    await dataGoal.UpdateGoalAsync(newestGoal);
+                    // check if updated goal's end date is more than dbgoal end date
+                    if (newestGoal.End > Goal.End)
+                    {
+                        LocalNotificationCenter.Current.Cancel(newestGoal.Id);
+                        // check if it has weeks
+                        if (Goal.HasWeek)
+                        {
+                            await RecalculateWeekpercentage(newestGoal.NumberOfWeeks);
+                        }
+                    }
+                    // cancel its notification
+                    await SendNotification();
+                    await Shell.Current.GoToAsync("..");
+                    GetToast.toast("Goal updated");
                 }
-               // await goalrules(newGoal);
-                //// check if the changed end date is below the date of today
-                //if (newGoal.End < DateTime.Today)
-                //{
-                //    await Application.Current.MainPage.DisplayAlert("Error!", "An updated End Date of a goal, cannot be below the date of today", "Ok");
-                //    return;
-                //}
-                //// make sure you cannot expand the end date of a task that has expired whilst it was completed
-                //if (Goal.Percentage == Goal.ExpectedPercentage && Goal.Status == "Expired")
-                //{
-                //    await Application.Current.MainPage.DisplayAlert("Error", "Failed to change the end date. Cannot change the end date of a goal that has expired whilst completed", "Ok");
-                //    return;
-                //}
-                //// check if the incoming end date is not equal to the end date from the database
-                //if (newGoal.End != Goal.End)
-                //{      
-                //    // check if the goal is completed
-                //    if(Goal.Percentage == Goal.ExpectedPercentage)
-                //    {
-                //        await Application.Current.MainPage.DisplayAlert("Error", "Failed to change the end date. Cannot change the end date of a goal that has already been completed, unless, you add new tasks to it", "Ok");
-                //        return;
-                //    }
-                
-                //        // check if todays date is more than goal.end date
-                //    if (DateTime.Today > Goal.End && newGoal.End > Goal.End)
-                //    {
-                //        // make sure the updated end date is more than todays date
-                //        if (newGoal.End < DateTime.Today)
-                //        {
-                //            await Application.Current.MainPage.DisplayAlert("Error!", "End Date of a task cannot be below the date of today", "Ok");
-                //            return;
-                //        }
-                //            var result = await Application.Current.MainPage.DisplayAlert("Alert", "You are adjusting the end date of a goal that has expired. Continue?", "Yes", "No");
-                //        if (result)
-                //        {
-                //            if (Goal.Status == "Expired")
-                //                Goal.Status = "In Progress";
-                //        }                                        
-                //        else if (!result)
-                //            return;
-                //    }             
-                
-                //    // recalculate number of weeks in goal
-                //    var duration = newGoal.End - newGoal.Start;
-                //    // divide the duration by 7
-                //    double doubleduration = duration.TotalDays;
-                //    weeksNumber = doubleduration / 7;
-                //    // get the remainder if any from the above division
 
-                //    var remainder = weeksNumber % 7;
-                //    if (remainder != 0)
-                //    {
 
-                //        // add 1 to weeknumber
-                //        weeksNumber = weeksNumber + 1;
-                //    }
-                //}
-                //else if(newGoal.End < Goal.End)
-                //{
-                //    // check if they are no tasks whose end date surpasses the goals end date
-                //    // get tasks having the goals id
-                //    var tasks = await dataTask.GetTasksAsync(Goal.Id);
-                //    // loop through the tasks
-                //    var counter = 0;
-                //    foreach (var task in tasks)
-                //    {
-                //        if(task.EndTask > Goal.End)                        
-                //            counter += 1;       
-                        
-                //    }
-                //    if(counter > 0)
-                //    {
-                //        await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update goal, they are task's in it, whose end date is more than the goal's selected end date. Go to task page, find those tasks and modify their end dates","OK");
-                //        return;
-                //    }
-                //}
-                //// create a new goal object
-                //var newestGoal = new Models.Goal
-                //{
-                //    Id = GoalId,
-                //    Name = UppercasedName,
-                //    Description = Desclbl.Text,
-                //    End = enddatepicker.Date,
-                //    CreatedOn = Convert.ToDateTime(Createdlbl.Text),
-                //    Start = Startdatepicker.Date,
-                //    CategoryId = Goal.CategoryId,
-                //    HasWeek = Goal.HasWeek,
-                //    Noweek = Goal.Noweek,
-                //    NumberOfWeeks = (int)weeksNumber,
-                //    Percentage = Goal.Percentage,
-                //    ExpectedPercentage = Goal.ExpectedPercentage,
-                //    Progress = Goal.Progress,
-                //    Status = Goal.Status,
-                //    Time = Goal.Time,
-                //    enddatetostring = newGoal.End.ToLongDateString(),
-                //};
-                //await dataGoal.UpdateGoalAsync(newestGoal);
-                //// check if updated goal's end date is more than dbgoal end date
-                //if (newestGoal.End > Goal.End )
-                //{
-                //    LocalNotificationCenter.Current.Cancel(newestGoal.Id);
-                //    // check if it has weeks
-                //    if(Goal.HasWeek)
-                //    {
-                //        await RecalculateWeekpercentage(newestGoal.NumberOfWeeks);
-                //    }
-                //}              
-                //// cancel its notification
-                // await SendNotification();                
-                //await Shell.Current.GoToAsync("..");
-                //GetToast.toast("Goal updated");
             }
 
             catch (Exception ex)
@@ -683,9 +757,11 @@ namespace GO.Views.Goal
                 foreach (var subtask in subtasks)
                 {
                     await dataSubtask.DeleteSubTaskAsync(subtask.Id);
+                    LocalNotificationCenter.Current.Cancel(subtask.Id);
                 }
             }
-            await dataTask.DeleteTaskAsync(goalTask.Id);             
+            await dataTask.DeleteTaskAsync(goalTask.Id);
+            LocalNotificationCenter.Current.Cancel(goalTask.Id);
         }
         async Task deleteweeklyTask(Models.Week week)
         {
@@ -704,22 +780,28 @@ namespace GO.Views.Goal
                         var subtasks = await dataSubtask.GetSubTasksAsync(task.Id);
                         // delete task
                         await dataTask.DeleteTaskAsync(task.Id);
-                        if(subtasks.Count() > 0)
+                        LocalNotificationCenter.Current.Cancel(task.Id);
+                        if (subtasks.Count() > 0)
                         {
                             // loop through the tasks and delete all of them
                             foreach (var subtask in subtasks)
                             {
                                 // delete subtast
                                 await dataSubtask.DeleteSubTaskAsync(subtask.Id);
+                                LocalNotificationCenter.Current.Cancel(subtask.Id);
                             }
                         }
                     }                    
                 }
                 // delete day
                 await dataDow.DeleteDOWAsync(day.DOWId);
+                LocalNotificationCenter.Current.Cancel(day.DOWId);
             }
             // delete week
-            await dataWeek.DeleteWeekAsync(week.Id);           
+            await dataWeek.DeleteWeekAsync(week.Id);
+            LocalNotificationCenter.Current.Cancel(week.Id);
         }
+
     }
 }
+

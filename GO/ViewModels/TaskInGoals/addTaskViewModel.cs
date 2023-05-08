@@ -20,8 +20,8 @@ namespace GO.ViewModels.TaskInGoals
     {
         private int goalId;
         private string name;
-        private DateTime starttime = DateTime.Now;
-        private DateTime endtime = DateTime.Now;
+        private DateTime starttime;
+        private DateTime endtime;
         private string description;
         private int remainingDays = 0;
         private double percentageProgress = 0;
@@ -89,10 +89,20 @@ namespace GO.ViewModels.TaskInGoals
                 var selecteddow = dows.Where(D => D.IsSelected).FirstOrDefault();
                 if(selecteddow == null)
                 {
-                    // get the dow whose day is equal to today's day
-                    var day = dows.Where(d => d.Name == DateTime.Today.DayOfWeek.ToString()).FirstOrDefault();
-                    // dayId will be equal to day's Id
-                    DayId = day.DOWId;
+                    if(DateTime.Today.Date < lastweek.StartDate.Date)
+                    {
+                        // get the dow whose day whose date is equal to
+                        var day = dows.Where(d => d.Date.Date == lastweek.StartDate.Date).FirstOrDefault();
+                        // dayId will be equal to day's Id
+                        DayId = day.DOWId;
+                    }
+                    else if(DateTime.Today.Date >= lastweek.StartDate.Date)
+                    { // get the dow whose day is equal to today's day
+                        var day = dows.Where(d => d.Name == DateTime.Today.DayOfWeek.ToString()).FirstOrDefault();
+                        // dayId will be equal to day's Id
+                        DayId = day.DOWId; 
+                    }
+                  
                 }
                 else
                 {
@@ -173,12 +183,13 @@ namespace GO.ViewModels.TaskInGoals
                         // update the database
                         await dataWeek.UpdateWeekAsync(lastweek);
                     }
-
+                    // get dow having the DayId
+                    var dow = await dataDow.GetDOWAsync(DayId);
                     var newestTask = new GoalTask
                     {
                         taskName = UppercasedName,
-                        StartTask = starttime,
-                        EndTask = endtime,
+                        StartTask = dow.Date,
+                        EndTask = dow.Date,
                         enddatetostring = endtime.ToLongDateString(),
                         RemainingDays = remainingDays,
                         GoalId = goalId,

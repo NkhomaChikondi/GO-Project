@@ -5166,13 +5166,12 @@ C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\android\assets\Plugi
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\android\assets\Xamarin.Android.Support.Annotations.dll
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\android\assets\Xamarin.Android.Support.Compat.dll
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\android\assets\Xamarin.Android.Support.CustomTabs.dll
-C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\androidx\jl\7c762aa7-841e-4d4d-a38e-eed76fed12fd.jar
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\stamp\_AndroidXJetifyJavaLibraryRules.stamp
-C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\androidx\proguard\2feaf4f4-4b04-4945-99ea-abc940675d19.cfg
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\stamp\_AndroidXJetifyProguardRules.stamp
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\androidx\_AndroidXJetifyProguardRules.jetify
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\stamp\_AndroidXCecilfy.stamp
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\stamp\_AndroidXJetifyManifest.stamp
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\androidx\_AndroidXJetifyManifest.jetify
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\stamp\_CopyIntermediateAssemblies.stamp
-C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\android\assets\Plugin.Share.pdb
+C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\androidx\jl\422fb9b0-f4f7-4b5d-8f95-09d6594eb750.jar
+C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\androidx\proguard\9a944b79-f8b0-4a49-8c36-d16730b9f35a.cfg
