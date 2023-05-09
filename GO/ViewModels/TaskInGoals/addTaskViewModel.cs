@@ -20,8 +20,8 @@ namespace GO.ViewModels.TaskInGoals
     {
         private int goalId;
         private string name;
-        private DateTime starttime;
-        private DateTime endtime;
+        private DateTime starttime = DateTime.Today;
+        private DateTime endtime = DateTime.Today;
         private string description;
         private int remainingDays = 0;
         private double percentageProgress = 0;

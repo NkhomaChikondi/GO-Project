@@ -253,19 +253,26 @@ namespace GO.Views.GoalTask
                     // check if they are no subtasks whose end date surpasses the tasks end date
                     // get tasks having the goals id
                     var subtasks = await datasubTask.GetSubTasksAsync(task.Id);
-                    // loop through the subtasks
-                    var counter = 0;
-                    foreach (var subtask in subtasks)
+                    // get subtasks whose end date is more than task end date
+                    var Invalidsubtasks = subtasks.Where(S => S.SubEnd > task.EndTask).ToList();
+                    if (Invalidsubtasks.Count() > 0)
                     {
-                        if (subtask.SubEnd > task.EndTask)
-                            counter += 1;
-
-                    }
-                    if (counter > 0)
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to change task's end date. They are subtask's in this task whose end date, is more than the task's end date. Go to tsubask page, find those tasks and modify their end dates", "OK");
-                        return;
-                    }
+                        var result = await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to change task's end date. They are subtasks in this task whose end date is more than the task's end date. Do you wish to delete them?", "Yes", "No");
+                        if (result)
+                        {
+                            foreach (var subtask in Invalidsubtasks)
+                            {
+                                await datasubTask.DeleteSubTaskAsync(subtask.Id);
+                                LocalNotificationCenter.Current.Cancel(subtask.Id);
+                            }
+                            GetToast.toast("Subtasks deleted");
+                        }
+                        else if (!result)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error", "Change the date", "Ok");
+                            return;
+                        }
+                    }                        
                 }
 
                 var newTask = new Models.GoalTask
