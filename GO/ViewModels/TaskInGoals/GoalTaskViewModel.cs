@@ -15,12 +15,10 @@ using Xamarin.Forms;
 namespace GO.ViewModels.TaskInGoals
 {
 
-    [QueryProperty(nameof(GoalId), (nameof(GoalId)))]
+    //[QueryProperty(nameof(GoalId), (nameof(GoalId)))]
     public class GoalTaskViewModel : BaseViewmodel
     {
-
         //I cant see where the ObserableRangeCollection/ObservableCor 
-
         #region Commands
         public AsyncCommand RefreshCommand { get; }
         public AsyncCommand OnAddCommand { get; }
@@ -234,7 +232,7 @@ namespace GO.ViewModels.TaskInGoals
         // pass the goal id to add task view model
         async Task OnaddTask()
         {
-            var route = $"{nameof(AddTaskPage)}?{nameof(addTaskViewModel.GoalId)}={goalId}";
+            var route = $"{nameof(AddTaskPage)}?GetGoalId={GoalId}";
             await Shell.Current.GoToAsync(route);
         }
         async Task GotoHelpPage()
@@ -278,14 +276,25 @@ namespace GO.ViewModels.TaskInGoals
                 return;
             else if(!task.IsCompleted)
             {
-                //check if it has subtask
-                if (subtasks.Count() > 0)
-                    return;
-                else if(subtasks.Count() == 0)
+                // check if the task has started 
+                if(DateTime.Today < task.StartTask)
                 {
-                    task.IsCompleted = IsComplete;
-                    await dataTask.UpdateTaskAsync(task);
-                }                         
+                    await Application.Current.MainPage.DisplayAlert("Error", "You cannot complete a task whose start date has not been reached yet", "Ok");
+                    await Refresh();
+                    return;
+                }
+                else
+                {
+                    //check if it has subtask
+                    if (subtasks.Count() > 0)
+                        return;
+                    else if (subtasks.Count() == 0)
+                    {
+                        task.IsCompleted = IsComplete;
+                        await dataTask.UpdateTaskAsync(task);
+                    }
+                }
+                                     
             }
             return;
         }
@@ -343,8 +352,10 @@ namespace GO.ViewModels.TaskInGoals
                             }
                         }
                     }
+                    
                     task.PendingPercentage = Math.Round(subtaskpercentage, 2);
                     task.Progress = task.PendingPercentage / task.Percentage;
+
                     await dataTask.UpdateTaskAsync(task);
 
                     subtaskpercentage = 0;                    
@@ -377,7 +388,6 @@ namespace GO.ViewModels.TaskInGoals
                 await dataTask.UpdateTaskAsync(task);
             }         
         }
-
         async Task deleteCategory(GoalTask goalTask)
         {
             if (goalTask == null)

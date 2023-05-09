@@ -257,7 +257,6 @@ namespace GO.Services
             await db.InsertAsync(subtask);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> UpdateSubTaskAsync(Subtask item)
         {
             // modifying subtask item in the database
@@ -265,7 +264,6 @@ namespace GO.Services
             await db.UpdateAsync(item);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> DeleteSubTaskAsync(int id)
         {
             await Init();
@@ -273,7 +271,6 @@ namespace GO.Services
             var deleteSubTask = await db.DeleteAsync<Subtask>(id);
             return await Task.FromResult(true);
         }
-
         public async Task<Subtask> GetSubTaskAsync(int id)
         {
             await Init();
@@ -281,10 +278,8 @@ namespace GO.Services
             var subtask = await db.Table<Subtask>().Where(d => d.Id == id).FirstOrDefaultAsync();
             return subtask;
         }
-
         public async Task<IEnumerable<Subtask>> GetSubTasksAsync(int Id, bool forceRefresh = false)
         {
-
             await Init();
             // get all subtasks in the database
             var allSubTasks = await db.Table<Subtask>().Where(g => g.TaskId == Id).ToListAsync();

@@ -135,31 +135,28 @@ namespace GO.ViewModels.Subtasks
             var goal = await datagoal.GetGoalAsync(task.GoalId);
             // check if the goal has a week
             if(goal.Noweek)
-            {
-                var route = $"{nameof(AddSubtask)}?{nameof(AddSubtaskViewModel.GetTaskId)}={taskid}";
+            {                
+                var route = $"{nameof(AddSubtask)}?GetTaskId={taskid}";
                 await Shell.Current.GoToAsync(route);
-
             }
             if(goal.HasWeek)
             {
                 var route = $"{nameof(AddPlannedSubtask)}?{nameof(AddSubtaskViewModel.GetTaskId)}={taskid}";
                 await Shell.Current.GoToAsync(route);
-
             }
-
         }
         async Task deleteSubTask(Subtask subtask)
         {
             if (subtask == null)
                 return;
-            var ans = await Application.Current.MainPage.DisplayAlert("Delete Subtask!", "All Subtasks will be deleted. Continue?", "Yes", "No");
+            var ans = await Application.Current.MainPage.DisplayAlert("Delete Subtask!", "You are deleting the selected subtask. Continue?", "Yes", "No");
             if (ans)
             {
                 await dataSubTask.DeleteSubTaskAsync(subtask.Id);
                 //cancel notification
                 LocalNotificationCenter.Current.Cancel(subtask.Id);
                 // get the task with the passed task id
-                var task = await dataTask.GetTaskAsync(Taskid);
+                var task = await dataTask.GetTaskAsync(Taskid);                
                 // get allsubtasks having the task id
                 var subtasks = await dataSubTask.GetSubTasksAsync(Taskid);
                 if(subtasks.Count() > 0)
@@ -170,16 +167,19 @@ namespace GO.ViewModels.Subtasks
                         stask.Percentage = task.Percentage / subtasks.Count();
                         await dataSubTask.UpdateSubTaskAsync(stask);
                     }
-                }               
+                }             
+                else if(subtasks.Count() == 0)
+                {
+                    task.IsCompleted = false;
+                    task.IsEnabled = true;
+                    await dataTask.UpdateTaskAsync(task);
+                }
                 // check if the deleted subtask was completed
                 if (subtask.IsCompleted)
                 {
                     task.PendingPercentage -= subtask.Percentage;
-                    await dataTask.UpdateTaskAsync(task);
-                }
-                if(subtasks.Count() == 0)
-                {
-                    task.IsCompleted = false;
+                    task.PendingPercentage = Math.Round(task.PendingPercentage, 2);
+                    task.Progress = task.PendingPercentage / task.Percentage;
                     await dataTask.UpdateTaskAsync(task);
                 }
                 await Refresh();

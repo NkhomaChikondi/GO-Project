@@ -20,8 +20,8 @@ namespace GO.ViewModels.TaskInGoals
     {
         private int goalId;
         private string name;
-        private DateTime starttime = DateTime.Today;
-        private DateTime endtime = DateTime.Today;
+        private DateTime starttime;
+        private DateTime endtime;
         private string description;
         private int remainingDays = 0;
         private double percentageProgress = 0;
@@ -101,8 +101,7 @@ namespace GO.ViewModels.TaskInGoals
                         var day = dows.Where(d => d.Name == DateTime.Today.DayOfWeek.ToString()).FirstOrDefault();
                         // dayId will be equal to day's Id
                         DayId = day.DOWId; 
-                    }
-                  
+                    }                  
                 }
                 else
                 {
@@ -110,10 +109,8 @@ namespace GO.ViewModels.TaskInGoals
                     starttime = selectedDay.Date;
                     endtime = selectedDay.Date;
                     DayId = selecteddow.DOWId;
-                }
-               
-            }               
-           
+                }               
+            }           
         }      
 
         async Task AddTaskWeek()

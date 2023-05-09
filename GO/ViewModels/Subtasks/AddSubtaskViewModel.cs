@@ -13,14 +13,12 @@ using Xamarin.Forms;
 
 namespace GO.ViewModels.Subtasks
 {
-    [QueryProperty(nameof(GetTaskId), (nameof(GetTaskId)))]
+    //[QueryProperty(nameof(GetTaskId), (nameof(GetTaskId)))]
     public class AddSubtaskViewModel : BaseViewmodel
     {
-        // get the task having the GetTaskId
-
         private string name;
-        private DateTime startDate = DateTime.Today;
-        private DateTime endDate = DateTime.Today;
+        private DateTime startDate;
+        private DateTime endDate;
         private double duration;
         private double percentage;
         private int getTaskId;

@@ -517,7 +517,7 @@ namespace GO.ViewModels.TaskInGoals
 
                 if (week.Active)
                 {
-                    if(DateTime.Today.DayOfWeek.ToString() == day.Name)
+                    if(DateTime.Today.Date == day.Date.Date)
                     {
                         if (subtasks.Count() > 0)
                             return;
@@ -565,7 +565,7 @@ namespace GO.ViewModels.TaskInGoals
                 var week = await dataWeek.GetWeekAsync(day.WeekId);
                 if (week.Active)
                 {
-                    if(DateTime.Today.DayOfWeek.ToString() == day.Name)
+                    if (DateTime.Today.Date == day.Date.Date)
                     { //check if it has subtask
                         if (subtasks.Count() > 0)
                             return;

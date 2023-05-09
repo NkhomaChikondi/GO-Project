@@ -56,7 +56,7 @@
                             <StackLayout Grid.ColumnSpan="2" Orientation="Vertical">
                                 <Label Margin="12,0" Text="Start date" FontAttributes="Bold" FontSize="16"/>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                                    <DatePicker Date="{Binding StartDate}" FontSize="15"/>
+                                    <DatePicker x:Name="subtaskstartdate" Date="{Binding StartDate}" FontSize="15"/>
                                     <Image Margin="-10,0" HorizontalOptions="StartAndExpand" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                                  Glyph={x:Static helpers:IconFont.ChevronDown},Size=25,Color=Black}"/>
                                 </StackLayout>
@@ -65,7 +65,7 @@
                                 <StackLayout Margin="75,0,0,0"  Grid.ColumnSpan="2" Orientation="Vertical">
                                     <Label Margin="12,0" Text="End date" FontAttributes="Bold"  FontSize="16"/>
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-                                        <DatePicker Date="{Binding EndDate}" FontSize="15"/>
+                                        <DatePicker x:Name="subtaskenddate" Date="{Binding EndDate}" FontSize="15"/>
                                         <Image Margin="-10,0" HorizontalOptions="EndAndExpand" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                                  Glyph={x:Static helpers:IconFont.ChevronDown},Size=25,Color=Black}"/>
                                     </StackLayout>

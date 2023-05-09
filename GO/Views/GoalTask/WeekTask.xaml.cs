@@ -128,7 +128,9 @@ namespace GO.Views.GoalTask
                         {
                             wvm.DaySelected = lastTask.DowId;
                             await showButtonclicked(lastTask.DowId);
-                            Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
+                            // get the dow
+                            var day = await dataDow.GetDOWAsync(lastTask.DowId);
+                            Daytask.Text = day.Name;
                             newtaskAdded = false;
                         }
                         else
@@ -141,13 +143,17 @@ namespace GO.Views.GoalTask
                                 {
                                     wvm.DaySelected = lastTask.DowId;
                                     await showButtonclicked(lastTask.DowId);
-                                    Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
+                                    // get the dow
+                                    var day = await dataDow.GetDOWAsync(lastTask.DowId);
+                                    Daytask.Text = day.Name;                                    
                                 }
                                 else
                                 {
                                     wvm.DaySelected = task.DowId;
                                     await showButtonclicked(task.DowId);
-                                    Daytask.Text = task.StartTask.DayOfWeek.ToString();
+                                    // get the dow
+                                    var day = await dataDow.GetDOWAsync(task.DowId);
+                                    Daytask.Text = day.Name;                                    
                                 }
                             }
                         }                                           
