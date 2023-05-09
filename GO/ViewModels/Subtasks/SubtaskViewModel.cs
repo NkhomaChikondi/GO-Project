@@ -156,19 +156,19 @@ namespace GO.ViewModels.Subtasks
                 //cancel notification
                 LocalNotificationCenter.Current.Cancel(subtask.Id);
                 // get the task with the passed task id
-                var task = await dataTask.GetTaskAsync(Taskid);                
+                var task = await dataTask.GetTaskAsync(Taskid);
                 // get allsubtasks having the task id
-                var subtasks = await dataSubTask.GetSubTasksAsync(Taskid);
-                if(subtasks.Count() > 0)
+                var allSubtasks = await dataSubTask.GetSubTasksAsync(Taskid);
+                if (allSubtasks.Count() > 0)
                 {
                     //loop through them
-                    foreach (var stask in subtasks)
+                    foreach (var stask in allSubtasks)
                     {
-                        stask.Percentage = task.Percentage / subtasks.Count();
+                        stask.Percentage = task.Percentage / allSubtasks.Count();
                         await dataSubTask.UpdateSubTaskAsync(stask);
                     }
-                }             
-                else if(subtasks.Count() == 0)
+                }
+                else if (allSubtasks.Count() == 0)
                 {
                     task.IsCompleted = false;
                     task.IsEnabled = true;
@@ -224,67 +224,73 @@ namespace GO.ViewModels.Subtasks
                 return;
             else if(!subtask.IsCompleted)
             {
-                // check if it has expired
-                if (taskOfSubtask.Status == "Expired")
+                if (DateTime.Today < subtask.SubStart)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to complete this subtask. Its task has expired.", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error", "You cannot complete a subtask whose start date has not been reached yet", "Ok");
+                    await Refresh();
                     return;
-                }
-                // check if the subtask has expired
-                if (subtask.Status == "Expired")
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error", " Failed to complete this subtask. It has expired.", "Ok");
-                    return;
-                }
-
-                // get the task equal to to subtasks taskId
-                var task = await dataTask.GetTaskAsync(subtask.TaskId);
-                // check if task dayis is greater than zero
-                if (task.DowId > 0)
-                {
-                    // get the day for the task
-                    var day = await dataDow.GetDOWAsync(task.DowId);
-                    // get the week for the dow
-                    var week = await dataWeek.GetWeekAsync(day.WeekId);
-                    if(week.Active)
-                    {
-                        // check if day is valid
-                        if(DateTime.Today.Date < task.StartTask.Date || DateTime.Today.Date > task.StartTask.Date)
-                        {
-                            await Application.Current.MainPage.DisplayAlert("Error!", "failed to complete this subtask. the day it was allocated to, has either passed or not reached yet.", "Ok");
-                            await Refresh();
-                            return;
-                        }
-                        else 
-                        {
-                            subtask.IsCompleted = IsComplete;
-                            subtask.Status = "Completed";
-                            await dataSubTask.UpdateSubTaskAsync(subtask);
-                            await CheckTaskCompletion(task);
-                            await setStatus();
-                            await GetCompletedTasks();
-                        }
-                       
-                    }
-                    else
-                    {
-                        //await Refresh();
-                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to complete this subtask. It has expired!", "Ok");                       
-                        return;
-                    }
                 }
                 else
                 {
-                    // check if all subtasks have been completed and turn the task.iscompleted to true
-                    subtask.IsCompleted = IsComplete;
-                    subtask.Status = "Completed";
-                    await dataSubTask.UpdateSubTaskAsync(subtask);
-                    await CheckTaskCompletion(task);
-                    await GetCompletedTasks();
-                }
-                
-            }
-           
+                    // check if it has expired
+                    if (taskOfSubtask.Status == "Expired")
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to complete this subtask. Its task has expired.", "Ok");
+                        return;
+                    }
+                    // check if the subtask has expired
+                    if (subtask.Status == "Expired")
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", " Failed to complete this subtask. It has expired.", "Ok");
+                        return;
+                    }
+                    // get the task equal to to allSubtasks taskId
+                    var task = await dataTask.GetTaskAsync(subtask.TaskId);
+                    // check if task dayis is greater than zero
+                    if (task.DowId > 0)
+                    {
+                        // get the day for the task
+                        var day = await dataDow.GetDOWAsync(task.DowId);
+                        // get the week for the dow
+                        var week = await dataWeek.GetWeekAsync(day.WeekId);
+                        if (week.Active)
+                        {
+                            // check if day is valid
+                            if (DateTime.Today.Date < task.StartTask.Date || DateTime.Today.Date > task.StartTask.Date)
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Error!", "failed to complete this subtask. the day it was allocated to, has either passed or not reached yet.", "Ok");
+                                await Refresh();
+                                return;
+                            }
+                            else
+                            {
+                                subtask.IsCompleted = IsComplete;
+                                subtask.Status = "Completed";
+                                await dataSubTask.UpdateSubTaskAsync(subtask);
+                                await CheckTaskCompletion(task);
+                                await setStatus();
+                                await GetCompletedTasks();
+                            }
+
+                        }
+                        else
+                        {
+                            //await Refresh();
+                            await Application.Current.MainPage.DisplayAlert("Error!", "Failed to complete this subtask. It has expired!", "Ok");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        // check if all allSubtasks have been completed and turn the task.iscompleted to true
+                        subtask.IsCompleted = IsComplete;
+                        subtask.Status = "Completed";
+                        await dataSubTask.UpdateSubTaskAsync(subtask);
+                        await CheckTaskCompletion(task);
+                        await GetCompletedTasks();
+                    }
+                }             
+            }            
         }      
         public async Task UnCompleteSubtask(int SubtaskId, bool IsComplete)
         {
@@ -310,7 +316,7 @@ namespace GO.ViewModels.Subtasks
                     await Application.Current.MainPage.DisplayAlert("Error", " Failed to uncomplete a subtask. It has expired.", "Ok");
                     return;
                 }
-                // get the task equal to to subtasks taskId
+                // get the task equal to to allSubtasks taskId
                 var task = await dataTask.GetTaskAsync(subtask.TaskId);
                 // check if task dayis is greater than zero
                 if (task.DowId > 0)
@@ -350,9 +356,9 @@ namespace GO.ViewModels.Subtasks
         // setting status for subtask
         async Task CheckTaskCompletion(GoalTask task)
         {            
-            // get the subtasks that are in there
+            // get the allSubtasks that are in there
             var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-            //check if all subtasks are completed
+            //check if all allSubtasks are completed
             if (subtasks.All(t => t.IsCompleted))
                 task.IsCompleted = true;
             else if (subtasks.Any(t => !t.IsCompleted))
@@ -363,9 +369,9 @@ namespace GO.ViewModels.Subtasks
         {
                        // get the task 
             var task = await dataTask.GetTaskAsync(taskid);
-            // get all subtasks having the task id
+            // get all allSubtasks having the task id
             var subtasks = await dataSubTask.GetSubTasksAsync(taskid);
-            // loop through the subtasks
+            // loop through the allSubtasks
             foreach(var subtask in subtasks)
             {
                 subtask.Percentage = task.Percentage / subtasks.Count();
@@ -400,11 +406,11 @@ namespace GO.ViewModels.Subtasks
         async Task GetCompletedTasks()
         {
             double subtaskpercentage = 0;
-            // get all subtasks having the task id
+            // get all allSubtasks having the task id
             var subtasks = await dataSubTask.GetSubTasksAsync(taskid);
             // get the task having the taskid
             var task = await dataTask.GetTaskAsync(taskid);
-            //get completed subtasks
+            //get completed allSubtasks
             var completedSubtasks = subtasks.Where(c => c.IsCompleted).ToList();
             // loop through the task
             foreach (var subtask in  completedSubtasks)
@@ -425,7 +431,7 @@ namespace GO.ViewModels.Subtasks
             await CalculateSubtaskPercentage();
             // get all Subtasks
             var Allsubtask = await dataSubTask.GetSubTasksAsync(Taskid);
-            // loop through the subtasks and check if the subtask has expired
+            // loop through the allSubtasks and check if the subtask has expired
             foreach (var subtask in Allsubtask)
             {
                 if (DateTime.Today.Date > subtask.SubEnd.Date)

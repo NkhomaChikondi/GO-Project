@@ -352,12 +352,14 @@ namespace GO.ViewModels.TaskInGoals
                             }
                         }
                     }
-                    
+                    else if(subtasks.Count() == 0)
+                    {
+                        if (!task.IsEnabled)
+                            task.IsEnabled = true;
+                    }
                     task.PendingPercentage = Math.Round(subtaskpercentage, 2);
                     task.Progress = task.PendingPercentage / task.Percentage;
-
                     await dataTask.UpdateTaskAsync(task);
-
                     subtaskpercentage = 0;                    
                 }
                 
