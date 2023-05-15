@@ -282,7 +282,7 @@ namespace GO.Views.GoalTask
                     Description = DescEditor.Text,
                     CreatedOn = Convert.ToDateTime(Createdlbl.Text),
                     Status = Statuslbl.Text,
-                    StartTask = GoalTask.StartTask,
+                    StartTask = newtask.StartTask,
                     EndTask = EndPicker.Date,
                     DowId = GoalTask.DowId,
                     RemainingDays = remainingDays,

@@ -145,13 +145,10 @@
                 </StackLayout>
                 <StackLayout Orientation="Vertical"  HorizontalOptions="CenterAndExpand">
                     
-                     <Label Text="Create Subtasks For Your Task!" FontSize="20" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                     <Label Text="Create subtasks for your task!" FontSize="16" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                     <StackLayout  HorizontalOptions="CenterAndExpand">
-                        <Label Text="Achieve your tasks, one subtask at a time" FontSize="16" FontAttributes="Italic" Margin="30,0" />
                         <Button   Grid.Column="0"  Grid.ColumnSpan="4" Text="   Create Subtask    " Command="{Binding sendsubtaskidCommand}" HorizontalOptions="CenterAndExpand"  CornerRadius="15" Margin="0,20"  BackgroundColor="#61a5c2" CharacterSpacing="10" />
-
-                    </StackLayout>
-                                       
+                    </StackLayout>                                       
                    </StackLayout>
             </StackLayout>
         </StackLayout>        

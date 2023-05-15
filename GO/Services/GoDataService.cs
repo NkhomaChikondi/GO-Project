@@ -192,7 +192,6 @@ namespace GO.Services
 
         public async Task<bool> UpdateTaskAsync(GoalTask item)
         {
-
             // modifying task item in the database
             await Init();
             await db.UpdateAsync(item);
@@ -207,7 +206,6 @@ namespace GO.Services
 
             return await Task.FromResult(true);
         }
-
         public async Task<GoalTask> GetTaskAsync(int id)
         {
 
@@ -216,7 +214,6 @@ namespace GO.Services
             var taskId = await db.Table<GoalTask>().Where(d => d.Id == id).FirstOrDefaultAsync();
             return taskId;
         }
-
         public async Task<IEnumerable<GoalTask>> GetTasksAsync(int Id, bool forceRefresh = false)
         {
             await Init();

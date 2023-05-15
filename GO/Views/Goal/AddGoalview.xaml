@@ -38,7 +38,7 @@
                                                  Glyph={x:Static helpers:IconFont.Target},Size=25,Color=#61a5c2}"/>
                             </StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
-                                <Label Text="Take control of your life by creating goals!!" Margin="19,0" TextColor="Gray" FontFamily="RobotoLightItalic" FontSize="19"/>                                
+                                <Label Text="Control your life, create goals!" Margin="19,0" TextColor="Gray" FontFamily="RobotoLightItalic" FontSize="19"/>                                
                             </StackLayout>
                                                    
                         </StackLayout>

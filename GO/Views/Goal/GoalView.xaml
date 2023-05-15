@@ -175,13 +175,12 @@
         
      
         <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="StackGoalblank" IsVisible="False">
-            <StackLayout Margin="0,90">
+            <StackLayout Margin="0,80">
                 <StackLayout>
                     <Image Source="goalpic.png"/>
                 </StackLayout>
                 <StackLayout Margin="40,30">
-                    <Label Text="Create Your First Goal" FontSize="20" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-                    <Label Text="Get started by creating goals for your Category" FontSize="16" />
+                    <Label Text="Create Your First Goal!" FontSize="16" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>                 
 
                     <Button   Grid.Column="0"  Grid.ColumnSpan="4" Text="   Create Goal    " Command="{Binding AddgoalCommand}" HorizontalOptions="FillAndExpand"  CornerRadius="15" Margin="0,20"  BackgroundColor="#61a5c2" CharacterSpacing="10" />
 

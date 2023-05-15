@@ -168,24 +168,16 @@
 
         </AbsoluteLayout>
         <StackLayout Grid.Row=" 3" Grid.Column="0" Grid.ColumnSpan="4" IsVisible="False" x:Name="StackTaskBlank">
-            <StackLayout Margin="0,90">
+            <StackLayout Margin="0,80">
                 <StackLayout>
                     <Image Source="blankpic.jpg"/>
                 </StackLayout>
                 <StackLayout Margin="40,30">
-                    <Label Text="Create Your First Task" FontSize="20" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-                    <Label Text="Get started by creating tasks for your goal" FontSize="16" />
-
+                    <Label Text="Create tasks for your goal!" FontAttributes="Bold" FontSize="16" HorizontalOptions="CenterAndExpand"/>
                     <Button   Grid.Column="0"  Grid.ColumnSpan="4" Text="   Create Task    " Command="{Binding OnAddCommand}" HorizontalOptions="FillAndExpand"  CornerRadius="15" Margin="0,20"  BackgroundColor="#61a5c2" CharacterSpacing="10" />
-
-
                 </StackLayout>
-
             </StackLayout>
-        </StackLayout>
-        
-        
-      
+        </StackLayout>           
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy  }"
                            VerticalOptions="CenterAndExpand"

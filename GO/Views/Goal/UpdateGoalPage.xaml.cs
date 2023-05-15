@@ -731,7 +731,7 @@ namespace GO.Views.Goal
                         //            {
                         //                if (task.IsCompleted)
                         //                    task.IsCompleted = false;
-                        //                await dataTask.UpdateTaskAsync(task);
+                        //                await dataSubtask.UpdateTaskAsync(task);
                         //            }
                         //        }
                         //        else if (!result)

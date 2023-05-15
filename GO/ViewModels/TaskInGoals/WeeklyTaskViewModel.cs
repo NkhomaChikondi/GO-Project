@@ -405,7 +405,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-           // var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
+           // var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);
             await Refresh();
 
         }
@@ -432,7 +432,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-            //var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
+            //var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);
             await Refresh();
 
         }
@@ -460,7 +460,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-            //var tasks = await dataTask.GetTasksAsync(goalId, week.Id);
+            //var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);
             await Refresh();
         }
        public async Task satButton()
@@ -486,7 +486,7 @@ namespace GO.ViewModels.TaskInGoals
                 await dataDow.UpdateDOWAsync(dow);
             }
             // get all tasks having sundayId
-            //var tasks = await dataTask.GetTasksAsync(goalId, week.Id);        
+            //var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);        
             await Refresh();
         }
         async Task GotoHelpPage()

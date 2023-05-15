@@ -383,7 +383,7 @@ namespace GO.ViewModels.TaskInGoals
         //async Task AddPercentage()
         //{
         //    // get all tasks having "this" goal id from the database 
-        //    var tasks = await dataTask.GetTasksAsync(goalId);
+        //    var tasks = await dataSubtask.GetTasksAsync(goalId);
         //    // get the total number of tasks 
         //    double AllTaskCount = tasks.Count() + 1;
         //    // divide 100 percent by the number of tasks

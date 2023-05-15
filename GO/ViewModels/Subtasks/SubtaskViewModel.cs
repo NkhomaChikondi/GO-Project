@@ -383,7 +383,7 @@ namespace GO.ViewModels.Subtasks
             }
             //task.PendingPercentage = Math.Round(completedTaskpercent, 2);
             //task.Progress = task.PendingPercentage / task.Percentage;
-            //await dataTask.UpdateTaskAsync(task);
+            //await dataSubtask.UpdateTaskAsync(task);
         }
         async Task setStatus()
         {
