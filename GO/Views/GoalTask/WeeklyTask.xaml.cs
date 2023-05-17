@@ -181,22 +181,22 @@ namespace GO.Views.GoalTask
                 progress = 0;
                 Weeklyprogresbar.Progress = progress;
             }
-            else if(weekTasks.Count()> 0 && weekTasks.Count() <= 4)
+            else if(weekTasks.Count()> 0 && weekTasks.Count() <= 5)
             {
                 if(completedTasks.Count > 0)
                 {
-                    progress = 1.25;
+                    progress = 2.5;
                     Weeklyprogresbar.Progress = progress / 10;
                     progress = 0;
                 }
                 else if(pendingPercentageTasks.Count> 0)
                 {
-                    progress = 1.25;
+                    progress = 2.5;
                     Weeklyprogresbar.Progress = progress / 10;
                     progress = 0;
                 }
             }
-            if(weekTasks.Count() >= 5 && weekTasks.Count() < 7) 
+            if(weekTasks.Count() > 5 && weekTasks.Count() < 7) 
             {
                 if(completedTasks.Count() > 0 && completedTasks.Count() >= (2 * (completedTasks.Count) / 4))
                 {

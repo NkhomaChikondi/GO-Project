@@ -81,7 +81,7 @@ namespace GO.Views.GoalTask
                 await calculateWeekdays(latestWeek);
 
                 addbtn.IsVisible = true;
-                dateToday.Text = DateTime.Today.ToLongDateString().ToString();
+                dateToday.Text = DateTime.Today.ToLongDateString().Substring(DateTime.Today.DayOfWeek.ToString().Length + 1).TrimStart(); 
                 //get all tasks having the goal id for the latest week
                 var weekTasks = await DataTask.GetTasksAsync(goalId, latestWeek);
                 
