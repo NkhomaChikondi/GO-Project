@@ -95,7 +95,7 @@
                                     CheckedChanged="noWeek_CheckedChanged">
 
                                     </CheckBox>
-                                    <Label Margin="0,20" FontSize="15" FontAttributes="Bold" Text="Once-Off Tasks"/>
+                                    <Label Margin="0,20" FontSize="15" FontAttributes="Bold" Text="Once-Off"/>
                                 </StackLayout>
                                 <StackLayout Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="4"  Margin="43,0,0,0" Orientation="Horizontal">
                                     <StackLayout Margin="0,0,0,0"  Grid.ColumnSpan="2" Orientation="Horizontal">
@@ -105,7 +105,7 @@
                                               Color="#61a5c2"
                                                CheckedChanged="Hasweek_CheckedChanged">
                                         </CheckBox>
-                                        <Label Margin="0,20"  FontSize="15" FontAttributes="Bold" Text="Weekly Tasks"/>
+                                        <Label Margin="0,20"  FontSize="15" FontAttributes="Bold" Text="Weekly"/>
                                     </StackLayout>
                                 </StackLayout>
                             </StackLayout>

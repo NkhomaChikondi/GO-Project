@@ -296,7 +296,7 @@ namespace GO.Views.GoalTask
                     Percentage = GoalTask.Percentage,
                     Progress = GoalTask.Progress,
                     WeekId = GoalTask.WeekId,
-                    enddatetostring = EndPicker.Date.ToLongDateString()
+                    enddatetostring = EndPicker.Date.ToString("dd MMMM yyyy")
                     };
 
                 // add the new task to the database                

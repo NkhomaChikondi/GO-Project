@@ -48,9 +48,9 @@
                                   <Label HorizontalOptions="CenterAndExpand" FontAttributes="Italic" FontSize="15">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="From: "/>
+                                            <Span Text="From: " FontSize="15.5"/>
                                             <Span x:Name="startDatetxt" Text=" "/>
-                                            <Span  Text="  To: "/>
+                                            <Span  Text="  To: " FontSize="15.5"/>
                                             <Span x:Name="endDatetxt" Text=" "/>
                                         </FormattedString>
                                     </Label.FormattedText>
@@ -62,23 +62,23 @@
                                         <StackLayout HorizontalOptions="StartAndExpand">
                                             <Label x:Name="dateToday" Text="" FontSize="16" TextColor="#495057"/>
                                         </StackLayout>
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="10,0">
-                                          <Label  TextColor="#61a5c2"  >
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="9,0">
+                                        <Label  TextColor="#61a5c2" >
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding weekStatsCommand}"/>
                                             </Label.GestureRecognizers>
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Text="View week " FontAttributes="Bold" FontSize="16"/>
-                                                    <Span x:Name="weekstats" Text=""  FontAttributes="Bold" FontSize="16"/>
-                                                    <Span Text=" stats" FontAttributes="Bold" FontSize="16"/>
+                                                    <Span Text="Week " FontAttributes="Bold" FontSize="18" />
+                                                    <Span x:Name="weekstats" Text=""  FontAttributes="Bold" FontSize="18" />
+                                                    <Span Text=" stats" FontAttributes="Bold" FontSize="18" />                                                  
                                                    
-                                                    <Span Text=" >" FontSize="20" FontAttributes="Bold"  />
                                                 </FormattedString>
                                             </Label.FormattedText>
-                                        </Label>
-                                          
-                                        </StackLayout>
+                                          </Label>
+                                          <ImageButton Margin="-9,-10" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                               Glyph={x:Static helpers:IconFont.ChevronRight},Size=38,Color=#61a5c2}" BackgroundColor="Transparent" Command="{Binding weekStatsCommand}"/>
+                                    </StackLayout>
                                     </StackLayout>
                                 </StackLayout>
                             </Frame>

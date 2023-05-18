@@ -81,7 +81,7 @@ namespace GO.Views.GoalTask
                 await calculateWeekdays(latestWeek);
 
                 addbtn.IsVisible = true;
-                dateToday.Text = DateTime.Today.ToLongDateString().Substring(DateTime.Today.DayOfWeek.ToString().Length + 1).TrimStart(); 
+                dateToday.Text = DateTime.Today.ToString("dd MMMM yyyy"); 
                 //get all tasks having the goal id for the latest week
                 var weekTasks = await DataTask.GetTasksAsync(goalId, latestWeek);
                 
@@ -205,7 +205,7 @@ namespace GO.Views.GoalTask
 
                     if (weekTasks.Count() == 0)
                     {
-                        status.Text = "Active";
+                        status.Text = "Active Week";
                         addbtn.IsVisible = true;
                         listView.IsVisible = false;
                         notasks.IsVisible = true;
@@ -271,7 +271,7 @@ namespace GO.Views.GoalTask
 
                     if (weekTasks.Count() == 0)
                     {
-                        status.Text = "Expired";
+                        status.Text = "Expired Week";
                         addbtn.IsVisible = false;
                         listView.IsVisible = false;
                         notasks.IsVisible = true;
@@ -296,7 +296,7 @@ namespace GO.Views.GoalTask
                     else if (weekTasks.Count() != 0)
                     {
 
-                        status.Text = "Expired";
+                        status.Text = "Expired Week";
                         addbtn.IsVisible = false;
                         listView.IsVisible = true;
                         notasks.IsVisible = false;
@@ -328,7 +328,6 @@ namespace GO.Views.GoalTask
 
             }
         }
-
         private async void switch_Toggled(object sender, ToggledEventArgs e)
         {
             Switch @switch = (Switch)sender;
@@ -361,7 +360,6 @@ namespace GO.Views.GoalTask
             return;
 
         }
-
         private void frameTapSun(object sender, EventArgs e)
         {
             sundayTap();
@@ -493,8 +491,8 @@ namespace GO.Views.GoalTask
             var week = await dataWeek.GetWeekAsync(Id);
             weeknumber.Text = week.WeekNumber.ToString();
             weekstats.Text = weeknumber.Text;
-            startDatetxt.Text = week.StartDate.ToLongDateString();
-            endDatetxt.Text = week.EndDate.ToLongDateString();
+            startDatetxt.Text = week.StartDate.ToString("dd MMMM yyyy");
+            endDatetxt.Text = week.EndDate.ToString("dd MMMM yyyy");
             // loop through the list
             foreach (var day in weekDays)
             {
@@ -506,54 +504,54 @@ namespace GO.Views.GoalTask
                     {
                         if (day == "Sunday")
                         {
-                            var date = week.StartDate.ToLongDateString();
-                            sunDate = week.StartDate;
-                            string month = date.Substring(0, 6);
-                            Sunday.Text = month;
+                            var date = week.StartDate.ToLongDateString().Substring(week.StartDate.DayOfWeek.ToString().Length + 2).TrimStart();
+                            sunDate = week.StartDate;     
+                            var dowdate = sunDate.ToString("dd MMMM");
+                            Sunday.Text = dowdate; //date.Substring(0, date.Length - 6);
                         }
                         if (day == "Monday")
                         {
-                            var date = week.StartDate.ToLongDateString();
+                            var date = week.StartDate.ToLongDateString().Substring(week.StartDate.DayOfWeek.ToString().Length + 2).TrimStart();
                             monDate = week.StartDate;
-                            string month = date.Substring(0, 6);
-                            Monday.Text = month;
+                            var dowdate = monDate.ToString("dd MMMM");
+                            Monday.Text = dowdate;//date.Substring(0, date.Length - 6);
                         }
 
                         if (day == "Tuesday")
                         {
                             tueDate = week.StartDate;
-                            var date = week.StartDate.ToLongDateString();
-                            string month = date.Substring(0, 6);
-                            Tuesday.Text = month;
+                            var date = week.StartDate.ToLongDateString().Substring(week.StartDate.DayOfWeek.ToString().Length).TrimStart();
+                            var dowdate = tueDate.ToString("dd MMMM");
+                            Tuesday.Text = dowdate; //date.Substring(0, date.Length - 4);
                         }
 
                         if (day == "Wednesday")
                         {
                             wedDate = week.StartDate;
-                            var date = week.StartDate.ToLongDateString();
-                            string month = date.Substring(0, 6);
-                            Wednesday.Text = month;
+                            var date = week.StartDate.ToLongDateString().Substring(week.StartDate.DayOfWeek.ToString().Length + 2).TrimStart();
+                            var dowdate = wedDate.ToString("dd MMMM");
+                            Wednesday.Text = dowdate;//date.Substring(0, date.Length - 6);
                         }
                         if (day == "Thursday")
-                        {
+                        {                           
                             thuDate = week.StartDate;
-                            var date = week.StartDate.ToLongDateString();
-                            string month = date.Substring(0, 6);
-                            Thursday.Text = month;
+                            var date = week.StartDate.ToLongDateString().Substring(week.StartDate.DayOfWeek.ToString().Length).TrimStart();
+                            var dowdate = thuDate.ToString("dd MMMM");
+                            Thursday.Text = dowdate;//date.Substring(0, date.Length - 4);
                         }
-                        if (day == "Friday")
+                        if (day == "Friday")   
                         {
                             friDate = week.StartDate;
-                            var date = week.StartDate.ToLongDateString();
-                            string month = date.Substring(0, 6);
-                            Friday.Text = month;
+                            var date = week.StartDate.ToLongDateString().Substring(week.StartDate.DayOfWeek.ToString().Length + 2).TrimStart();
+                            var dowdate = friDate.ToString("dd MMMM");
+                            Friday.Text = dowdate;//date.Substring(0, date.Length - 6);
                         }
                         if (day == "Saturday")
                         {
                             satDate = week.StartDate;
-                            var date = week.StartDate.ToLongDateString();
-                            string month = date.Substring(0, 6);
-                            Saturday.Text = month;
+                            var date = week.StartDate.ToLongDateString().Substring(week.StartDate.DayOfWeek.ToString().Length + 2).TrimStart();
+                            var dowdate = satDate.ToString("dd MMMM");
+                            Saturday.Text = dowdate;//date.Substring(0, date.Length - 6);
                         }
                         dayselected = true;
                     }
@@ -567,60 +565,65 @@ namespace GO.Views.GoalTask
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         sunDate = startDate;
-                        string date = startDate.ToLongDateString();
-                        Sunday.Text = date.Substring(0, 6);
+                        string date = startDate.ToLongDateString().Substring(startDate.DayOfWeek.ToString().Length).TrimStart();
+                        var dowdate = sunDate.ToString("dd MMMM");
+                        Sunday.Text = dowdate;//date.Substring(0, date.Length - 4);
                     }
 
                     if (day == "Monday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         monDate = startDate;
-                        string date = startDate.ToLongDateString();
-                        Monday.Text = date.Substring(0, 6);
+                        string date = startDate.ToLongDateString().Substring(startDate.DayOfWeek.ToString().Length ).TrimStart();
+                        var dowdate = monDate.ToString("dd MMMM");
+                        Monday.Text = dowdate; //date.Substring(0, date.Length - 4);
                     }
 
                     if (day == "Tuesday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         tueDate = startDate;
-                        string date = startDate.ToLongDateString();
-                        Tuesday.Text = date.Substring(0, 6);
+                        string date = startDate.ToLongDateString().Substring(startDate.DayOfWeek.ToString().Length ).TrimStart();
+                        var dowdate = tueDate.ToString("dd MMMM");
+                        Tuesday.Text = dowdate;//date.Substring(0, date.Length - 4);
                     }
 
                     if (day == "Wednesday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         wedDate = startDate;
-                        string date = startDate.ToLongDateString();
-                        Wednesday.Text = date.Substring(0, 6);
+                        var date = startDate.ToLongDateString().Substring(startDate.DayOfWeek.ToString().Length ).TrimStart();
+                        var dowdate = wedDate.ToString("dd MMMM");
+                        Wednesday.Text = dowdate;//date.Substring(0, date.Length );
                     }
 
                     if (day == "Thursday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
+                        var date =startDate.ToLongDateString().Substring(startDate.DayOfWeek.ToString().Length).TrimStart();
                         thuDate = startDate;
-                        string date = startDate.ToLongDateString();
-                        Thursday.Text = date.Substring(0, 6);
+                        var dowdate = thuDate.ToString("dd MMMM");
+                        Thursday.Text = dowdate;//date.Substring(0,date.Length - 4);                 
                     }
 
                     if (day == "Friday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         friDate = startDate;
-                        string date = startDate.ToLongDateString();
-                        Friday.Text = date.Substring(0, 6);
+                        string date = startDate.ToLongDateString().Substring(startDate.DayOfWeek.ToString().Length ).TrimStart();
+                        var dowdate = friDate.ToString("dd MMMM");
+                        Friday.Text = dowdate;//date.Substring(0, date.Length - 4);
                     }
 
                     if (day == "Saturday")
                     {
                         DateTime startDate = week.StartDate.AddDays(counter);
                         satDate = startDate;
-                        string date = startDate.ToLongDateString();
-                        Saturday.Text = date.Substring(0, 6);
+                        string date = startDate.ToLongDateString().Substring(startDate.DayOfWeek.ToString().Length).TrimStart();
+                        var dowdate = satDate.ToString("dd MMMM");
+                        Saturday.Text = dowdate;//date.Substring(0, date.Length - 4);
                     }
-
                 }
-
             }
         }
         private void LeftClicked(object sender, EventArgs e)
