@@ -95,12 +95,16 @@ namespace GO.ViewModels.TaskInGoals
                         var day = dows.Where(d => d.Name == lastweek.StartDate.DayOfWeek.ToString()).FirstOrDefault();                        
                         // dayId will be equal to day's Id
                         DayId = day.DOWId;
+                        starttime = lastweek.StartDate.Date;
+                        endtime =  lastweek.StartDate.Date;
                     }
                     else if(DateTime.Today.Date >= lastweek.StartDate.Date)
                     { // get the dow whose day is equal to today's day
                         var day = dows.Where(d => d.Name == DateTime.Today.DayOfWeek.ToString()).FirstOrDefault();
                         // dayId will be equal to day's Id
-                        DayId = day.DOWId; 
+                        DayId = day.DOWId;
+                        starttime = DateTime.Today.Date;
+                        endtime = DateTime.Today.Date;
                     }                  
                 }
                 else
@@ -186,13 +190,16 @@ namespace GO.ViewModels.TaskInGoals
                         await dataWeek.UpdateWeekAsync(lastweek);
                     }
                     // get dow having the DayId
-                    var dow = await dataDow.GetDOWAsync(DayId);
+                    //var dow = await dataDow.GetDOWAsync(DayId);
+                    //starttime = selectedDay.Date;
+                    //endtime =
+
                     // get date                
                     var newestTask = new GoalTask
                     {
                         taskName = UppercasedName,
-                        StartTask = dow.Date,
-                        EndTask = dow.Date,
+                        StartTask = starttime.Date,
+                        EndTask = endtime.Date,
                         enddatetostring = endtime.ToString("dd MMMM yyyy"),
                         RemainingDays = remainingDays,
                         GoalId = goalId,

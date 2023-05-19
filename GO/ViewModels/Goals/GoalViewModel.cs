@@ -459,7 +459,7 @@ namespace GO.ViewModels.Goals
                         else if(weeksLeft > 1)
                         {
                            // check if today's day of the week is friday
-                           if(dayValue.Equals(1) || dayValue.Equals(0))
+                           if(dayValue.Equals(0))
                            {
                                 var answer = await Application.Current.MainPage.DisplayAlert("Alert", "If you create a new week today (Saturday), the start date of the week will automatically be moved to Sunday. Do you wish to proceed", "Yes", "No");
                                 if (!answer)

@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace GO.ViewModels.Subtasks
 {
-    //[QueryProperty(nameof(GetTaskId), (nameof(GetTaskId)))]
+    [QueryProperty(nameof(GetTaskId), (nameof(GetTaskId)))]
     public class AddSubtaskViewModel : BaseViewmodel
     {
         private string name;

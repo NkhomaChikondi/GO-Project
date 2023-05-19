@@ -125,8 +125,7 @@ namespace GO.ViewModels.Subtasks
             expired = true;
             completed = false;
             await Refresh();
-        }
-      
+        }      
         async Task selectSubtaskItem()
         {
             // get the task having the result id
