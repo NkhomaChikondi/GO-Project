@@ -5175,3 +5175,4 @@ C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\androidx\_AndroidXJe
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\stamp\_CopyIntermediateAssemblies.stamp
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\androidx\jl\422fb9b0-f4f7-4b5d-8f95-09d6594eb750.jar
 C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\androidx\proguard\9a944b79-f8b0-4a49-8c36-d16730b9f35a.cfg
+C:\Users\User\Documents\GO-Project\GO.Android\obj\Debug\100\res\drawable\feature.png

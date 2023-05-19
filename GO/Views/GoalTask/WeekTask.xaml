@@ -85,10 +85,10 @@
 
                         </Frame>
                    
-                        <Frame BackgroundColor="#f8f9fa"  >
+                        <Frame BackgroundColor="#f8f9fa"  Margin="0,-2" >
                             <StackLayout>
-                            <StackLayout Orientation="Horizontal"  HorizontalOptions="CenterAndExpand">
-                                <Label Text="Create tasks for the Week" TextColor="#495057" FontSize="19" FontAttributes="Bold"/>
+                            <StackLayout Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" Margin="0,-5">
+                                <Label Text="Create tasks for the Week" TextColor="#495057" FontSize="18"  FontAttributes="Bold"/>
                                 <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                                    Glyph={x:Static helpers:IconFont.InformationOutline},Size=23,Color=#d00000}" BackgroundColor="Transparent" Clicked="ImageButton_Clicked_2"/>
                             </StackLayout>                                
@@ -110,7 +110,7 @@
                                             </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Vertical" Margin="0,-16">
                                             <Label x:Name="Monday" FontSize="14" FontAttributes="Bold" TextColor="#495057"/>
-                                            <Label Text="Mon" FontSize="14" FontAttributes="Italic"  HorizontalOptions="CenterAndExpand"  />
+                                            <Label Text="Mon" FontSize="14" FontAttributes="Italic"  HorizontalOptions="CenterAndExpand" />
                                             <Label/>
                                         </StackLayout>
                                         </Frame>
@@ -297,27 +297,18 @@
                                                                         </FormattedString>
                                                                     </Label.FormattedText>
                                                                 </Label>
-
-
                                                             </StackLayout>
-
-
                                                         </Grid>
-
                                                     </Grid>
-
                                                 </Frame>
-
                                             </Grid>
-
-
                                         </ViewCell>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
 
                             <ImageButton IsVisible="true" x:Name="addbtn" Margin="5,5,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                        Glyph={x:Static helpers:IconFont.PlusCircle},Size=60,Color=#61a5c2
+                                        Glyph={x:Static helpers:IconFont.PlusCircleOutline},Size=60,Color=#61a5c2
                                         }"
                                                     BackgroundColor="Transparent"
                                         Command="{Binding OnAddCommand}"

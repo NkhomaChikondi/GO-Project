@@ -139,7 +139,7 @@ namespace GO.ViewModels.Goals
             // check if the goal has expired with no tasks
             if (goal.Status == "Expired" && tasks.Count() == 0)
             {
-                await Application.Current.MainPage.DisplayAlert("Alert", "Cannot view tasks for this goal! It expired with no tasks.", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Alert", "Unable to view tasks for this goal. It has expired without any associated tasks.", "Ok");
                 return;
             }
 
@@ -461,7 +461,7 @@ namespace GO.ViewModels.Goals
                            // check if today's day of the week is friday
                            if(dayValue.Equals(1) || dayValue.Equals(0))
                            {
-                                var answer = await Application.Current.MainPage.DisplayAlert("Alert", " Creating a new week today, will automatically move the weeks start date to Sunday,Continue?", "Yes", "No");
+                                var answer = await Application.Current.MainPage.DisplayAlert("Alert", "If you create a new week today (Saturday), the start date of the week will automatically be moved to Sunday. Do you wish to proceed", "Yes", "No");
                                 if (!answer)
                                     return;
                                 else if(answer)

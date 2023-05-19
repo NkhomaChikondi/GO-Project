@@ -155,7 +155,7 @@ namespace GO.ViewModels.TaskInGoals
                 // check if the tasks for the day has surpassed 5              
                 if (dowtask.Count() >= 5)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot add any new task, Maximum number of tasks (5) added to a day, has been reached. ", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot add any new tasks as the maximum number of tasks (5) allowed per day has been reached. ", "OK");
                     return;
                 }
                 else
@@ -165,7 +165,7 @@ namespace GO.ViewModels.TaskInGoals
                     //check if the new task already exist in the database
                     if (dowtask.Any(T => T.taskName == UppercasedName))
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "The task name already exists. Please choose a different name. ", "OK");
                         return;
                     }
                     // get goal from the goal table through the given Id
@@ -224,7 +224,7 @@ namespace GO.ViewModels.TaskInGoals
 
                     if (counter == 3 && newestTask.Percentage == 0)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add Task, retry", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add Task, please retry", "Ok");
                         return;
                     }
                     #endregion
@@ -265,7 +265,7 @@ namespace GO.ViewModels.TaskInGoals
                 // check if goal has expired 
                 if(TaskInGoalId.Status == "Expire")
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add task! The goal of this task expired therefore, new tasks cannot be created","OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add task. The goal associated with this task has expired, therefore new tasks cannot be created.", "OK");
                     return;
                 }
                 else
@@ -294,7 +294,7 @@ namespace GO.ViewModels.TaskInGoals
                     //check if the new task already exist in the database
                     if (alltasks.Any(T => T.taskName == UppercasedName))
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "Task Name already exist! Change. ", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "The task name already exists. Please choose a different name. ", "OK");
                         return;
                     }
 
@@ -307,7 +307,7 @@ namespace GO.ViewModels.TaskInGoals
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", $" Make sure the start and end date are on/ within the goal's start and end date. (From {TaskInGoalId.Start.ToLongDateString()} to {TaskInGoalId.End.ToLongDateString()}", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Error!", $" Please ensure that the start and end dates fall within the goal's specified start and end dates. (From {TaskInGoalId.Start.ToLongDateString()} to {TaskInGoalId.End.ToLongDateString()}", "OK");
                         return;
                     }
                     if (newtask.Description == null)

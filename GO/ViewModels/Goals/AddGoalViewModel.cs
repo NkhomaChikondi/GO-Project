@@ -91,12 +91,12 @@ namespace GO.ViewModels.Goals
                 }
                 if (newGoal.Start < DateTime.Today)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Start date of a goal, cannot be on a date that has already pass", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "The start date of a goal cannot be set for a date that has already passed.", "OK");
                     return;
                 }
                 if (newGoal.End < DateTime.Today)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "End date of a goal cannot be on a date that has already pass", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "End date of a goal cannot be set for a date that has already passed", "OK");
                     return;
                 }
 
@@ -107,7 +107,7 @@ namespace GO.ViewModels.Goals
                 //check if the new task already exist in the database
                 if (allGoals.Any(G => G.Name == UppercasedName))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "A Goal with that Name already exist! Change. ", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "A goal with that name already exists. Please choose a different name. ", "OK");
                     return;
                 }
                 if (newGoal.Description == null)
@@ -130,7 +130,7 @@ namespace GO.ViewModels.Goals
 
                 if (start > end)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", $"Make sure Start Date is NOT! more than End Date ", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", $"Please ensure that the start date is not later than the end date. ", "OK");
                     return;
                 }
                 if (newGoal.Description == null)
@@ -168,8 +168,7 @@ namespace GO.ViewModels.Goals
                 {
                     if (newestGoal.Start == newestGoal.End)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", $"Start Date and End Date cannot be the same! " +
-                            $" make sure End Date is more than Start Date", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Error!", $"Please ensure that the end date is later than the start date. Start date and end date cannot be the same.", "OK");
                         return;
                     }
                     var goalDuration = newestGoal.End - newestGoal.Start;
@@ -178,7 +177,7 @@ namespace GO.ViewModels.Goals
 
                     if (goalDuration < time)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", $"Your goal duration has {goalDuration.TotalDays} days, make sure it is equal to or more than 7 days (a week) ", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Error!", $"The duration of your goal is less than 7 days. Please ensure that it is equal to or greater than 7 days (a week). ", "OK");
                         return;
                     }
 
@@ -278,7 +277,7 @@ namespace GO.ViewModels.Goals
                 dayValue = 6;
                 start = start.AddDays(1);
 
-                await Application.Current.MainPage.DisplayAlert("Alert", "you cannot start a goal on a Saturday.Your Goal's start day, will be  moved to Sunday  ", "OK");
+                await Application.Current.MainPage.DisplayAlert("Alert", "You cannot start a goal on a Saturday. The start day of your goal will be moved to Sunday.", "OK");
             }
             // how to find the end date
             var enddate = start.AddDays(dayValue);
@@ -309,7 +308,7 @@ namespace GO.ViewModels.Goals
             // navigate to page
             var route = $"{nameof(WeekTask)}?weekId={week.Id}";
             await Shell.Current.GoToAsync(route);
-            Datatoast.toast($"New goal with weeks, has been added ");
+            Datatoast.toast($"A new goal with {goal.NumberOfWeeks} weeks, has been added ");
 
         }
         async Task SendWeeklyNotification( Goal goal)

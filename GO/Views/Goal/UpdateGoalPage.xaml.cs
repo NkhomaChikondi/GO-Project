@@ -123,7 +123,7 @@ namespace GO.Views.Goal
                             // check if today's date is more than the newgoal start date
                             if (DateTime.Today > newGoal.Start)
                             {
-                                await Application.Current.MainPage.DisplayAlert("Alert!", "Failed to update goal, today's date cannot be more than the start date", "OK");
+                                await Application.Current.MainPage.DisplayAlert("Alert!", "Failed to update goal. Today's date cannot be set later than the start date.", "OK");
                                 return;
                             }
                             else if (DateTime.Today <= newGoal.Start)
@@ -136,7 +136,7 @@ namespace GO.Views.Goal
                                     var validTasks = goaltasks.Where(t => t.EndTask > newGoal.Start && t.EndTask < Goal.End).ToList();
                                     if (endedtasks.Count() > 0 || validTasks.Count() > 0)
                                     {
-                                        var Result = await Application.Current.MainPage.DisplayAlert("Alert!", "All expired tasks, will be deleted. All tasks whose start date is before the new goal's start date, if completed, will be uncompleted and then they will automatically be moved to another date. Continue?", "Yes", "No");
+                                        var Result = await Application.Current.MainPage.DisplayAlert("Alert!", "All expired tasks will be deleted. Completed tasks with a start date before the new goal's start date will be reset as uncompleted and automatically rescheduled. Do you wish to proceed?", "Yes", "No");
                                         if (Result)
                                         {
                                             if (endedtasks.Count() > 0)
@@ -191,14 +191,14 @@ namespace GO.Views.Goal
                         // check if the changed end date is below the date of today
                         if (newGoal.End < DateTime.Today)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error!", "An updated End Date of a goal, cannot be below the date of today", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error!", "The updated end date of a goal cannot be set to a date earlier than today.", "Ok");
                             return;
                         }
 
                         // check if todays date is more than goal.end date
                         if (DateTime.Today > Goal.End)
                         {
-                            var result = await Application.Current.MainPage.DisplayAlert("Alert", "You are adjusting the end date of a goal that has expired. Continue?", "Yes", "No");
+                            var result = await Application.Current.MainPage.DisplayAlert("Alert", "You are modifying the end date of an expired goal. Proceed with the changes?", "Yes", "No");
                             if (result)
                             {
                                 if (Goal.Status == "Expired")
@@ -217,7 +217,7 @@ namespace GO.Views.Goal
                         var invalidTasks = tasks.Where(w => w.EndTask > newGoal.End).ToList();
                         if (invalidTasks.Count() > 0)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update goal, they are task's in it, whose end date is more than the goal's selected end date. Go to task page, find those tasks and modify their end dates", "OK");
+                            await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update goal. There are tasks within the goal that have end dates exceeding the selected end date for the goal. Please navigate to the task page, locate those tasks, and adjust their end dates accordingly.", "OK");
                             return;
                         }
                     }
@@ -285,7 +285,7 @@ namespace GO.Views.Goal
                             var non_expiredWeeks = goalWeeks.Where(w => w.EndDate > newGoal.Start).ToList();
                             if (non_expiredWeeks.Count() == 0 && goalWeeks.Count() > 0)
                             {
-                                await App.Current.MainPage.DisplayAlert("Alert", "Failed to update this goal. All weeks in this goal have expired", "Ok");
+                                await App.Current.MainPage.DisplayAlert("Alert", "Failed to update this goal. All weeks within this goal have expired.", "Ok");
                                 return;
                             }
                             else if (non_expiredWeeks.Count() > 0)
@@ -301,7 +301,7 @@ namespace GO.Views.Goal
                                 // check if the start day is on saturday
                                 if (newGoal.Start.DayOfWeek.ToString() == "Saturday")
                                 {
-                                    await App.Current.MainPage.DisplayAlert("Alert", "Your goal's start day will be moved to Sunday since a goal cannot start on Saturday", "OK");
+                                    await App.Current.MainPage.DisplayAlert("Alert", "To comply with the rule that goals cannot start on Saturdays, the start day of your goal will be shifted to Sunday.", "OK");
                                     //the date will be moved to sunday
                                     newGoal.Start.AddDays(1);
                                 } 
@@ -368,7 +368,7 @@ namespace GO.Views.Goal
                             // make sure todays date is more than the new goal start day
                             if (DateTime.Today.Date > newGoal.Start.Date)
                             {
-                                await App.Current.MainPage.DisplayAlert("Error", "Failed to update goal, today's date cannot be more than goal's start date.", "OK");
+                                await App.Current.MainPage.DisplayAlert("Error", "Failed to update the goal, today's date cannot be later than goal's start date.", "OK");
                                 return;
                             }
                             else if (DateTime.Today.Date <= newGoal.Start.Date)
@@ -396,7 +396,7 @@ namespace GO.Views.Goal
                                     // check if the start day is on saturday
                                     if (newGoal.Start.DayOfWeek.ToString() == "Saturday")
                                     {
-                                        await App.Current.MainPage.DisplayAlert("Alert", "Your goal's start day will be moved to Sunday since a goal cannot start on Saturday", "OK");
+                                        await App.Current.MainPage.DisplayAlert("Alert", "To comply with the rule that goals cannot start on Saturdays, the start day of your goal will be shifted to Sunday.", "OK");
                                         //the date will be moved to sunday
                                         newGoal.Start.AddDays(1);
                                     }
@@ -407,19 +407,19 @@ namespace GO.Views.Goal
                                         // check if the changed end date is below the date of today
                                         if (newGoal.End < DateTime.Today)
                                         {
-                                            await Application.Current.MainPage.DisplayAlert("Error!", "An updated End Date of a goal, cannot be below the date of today", "Ok");
+                                            await Application.Current.MainPage.DisplayAlert("Error!", "The updated end date of a goal cannot be set earlier than today's date.", "Ok");
                                             return;
                                         }
                                         // make sure you cannot expand the end date of a task that has expired whilst it was completed
                                         if (Goal.Percentage == Goal.ExpectedPercentage && Goal.Status == "Expired")
                                         {
-                                            await Application.Current.MainPage.DisplayAlert("Error", "Failed to change the end date. Cannot change the end date of a goal that has expired whilst completed", "Ok");
+                                            await Application.Current.MainPage.DisplayAlert("Error", "Failed to change the end date. The end date of a completed goal that has already expired cannot be modified.", "Ok");
                                             return;
                                         }
                                         // check if the goal is completed
                                         if (Goal.Percentage == Goal.ExpectedPercentage)
                                         {
-                                            await Application.Current.MainPage.DisplayAlert("Error", "Failed to change the end date. Cannot change the end date of a goal that has already been completed, unless, you add new tasks to it", "Ok");
+                                            await Application.Current.MainPage.DisplayAlert("Error", "Failed to change the end date. The end date of a completed goal cannot be modified unless new tasks are added to it.", "Ok");
                                             return;
                                         }
                                         // check if todays date is more than goal.end date
@@ -428,10 +428,10 @@ namespace GO.Views.Goal
                                             // make sure the updated end date is more than todays date
                                             if (newGoal.End < DateTime.Today)
                                             {
-                                                await Application.Current.MainPage.DisplayAlert("Error", "End Date of a task cannot be below the date of today", "Ok");
+                                                await Application.Current.MainPage.DisplayAlert("Error", "The end date of a task cannot be set earlier than today's date.", "Ok");
                                                 return;
                                             }
-                                            var result = await Application.Current.MainPage.DisplayAlert("Alert", "You are adjusting the end date of a goal that has expired. Continue?", "Yes", "No");
+                                            var result = await Application.Current.MainPage.DisplayAlert("Alert", "You are modifying the end date of an expired goal. Do you want to proceed with the changes?", "Yes", "No");
                                             if (result)
                                             {
                                                 if (Goal.Status == "Expired")
@@ -449,7 +449,7 @@ namespace GO.Views.Goal
                                             var invalidWeeks = goalWks.Where(w => w.EndDate > newGoal.End).ToList();
                                             if (invalidWeeks.Count() > 0)
                                             {
-                                                var response = await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update goal, they are weeks in it, whose end date is more than the goal's selected end date.Do you want to delete those weeks?", "Yes", "No");
+                                                var response = await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to update the goal. There are weeks within the goal that have end dates exceeding the selected end date for the goal. Would you like to delete those weeks?", "Yes", "No");
                                                 if (response)
                                                 {
                                                     // loop through the weeks and delete them
@@ -624,13 +624,13 @@ namespace GO.Views.Goal
                 // check that start date is not more than end date
                 if (newGoal.Start > newGoal.End)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to update. Start Date of a goal cannot be more than the end date of the goal.", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to update. The start date of a goal cannot be set later than the end date of the goal.", "Ok");
                     return;
                 }
                 // check that a start date of a goal is not equal to its end date
                 if (newGoal.Start == newGoal.End)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to update. Start Date of a goal cannot be equal to the goal's end date.", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to update.The start date of a goal cannot be identical to the goal's end date.","Ok");
                     return;
                 }
                 // first check if a goal has tasks
@@ -640,7 +640,7 @@ namespace GO.Views.Goal
                     // make sure today's date is more than the newgoal start date
                     if(DateTime.Today > newGoal.Start)
                     {
-                        await App.Current.MainPage.DisplayAlert("Alert!", "Failed to update goal, start date can not be less than today's date", "OK");
+                        await App.Current.MainPage.DisplayAlert("Alert!", "Failed to update the goal. The start date cannot be earlier than today's date.", "OK");
                         return;
                     }
                     else if(DateTime.Today <= newGoal.Start)
@@ -651,7 +651,7 @@ namespace GO.Views.Goal
                             var endedtasks = goaltasks.Where(t => t.EndTask < newGoal.Start).ToList();
                             if(endedtasks.Count() > 0)
                             {
-                                var Result = await Application.Current.MainPage.DisplayAlert("Alert!", "By updating this goal's start date, all tasks that have ended will be deleted. Continue?","Yes", "No");
+                                var Result = await Application.Current.MainPage.DisplayAlert("Alert!", "Updating the start date of this goal will result in the deletion of all completed tasks.Do you wish to proceed ? ","Yes", "No");
                                 if (Result)
                                 {
                                     // loop through each task nand delete it
@@ -671,13 +671,13 @@ namespace GO.Views.Goal
                                
                                 if(validTasks.Count() > 0)
                                 {
-                                    var result = await App.Current.MainPage.DisplayAlert("Alert!", "By changing the start date of this goal, all tasks whose start date has already pass, can either be deleted or be automatically moved to another date. Continue?", "Yes", "No");
+                                    var result = await App.Current.MainPage.DisplayAlert("Alert!", "By modifying the start date of this goal, tasks with a start date that has already passed can either be deleted or automatically rescheduled to a different date. Do you want to proceed?", "Yes", "No");
                                     if(result)
                                     {
-                                        var result1 = await App.Current.MainPage.DisplayAlert("Alert!", "Choose whether to delete or move tasks", "Delete", "Move");
+                                        var result1 = await App.Current.MainPage.DisplayAlert("Alert!", "You can choose whether to delete tasks or move them to another date by changing the start date of this goal. Do you wish to continue?", "Delete", "Move");
                                         if(result1)
                                         {
-                                            var result11 = await App.Current.MainPage.DisplayAlert("Alert!", "You have chosen to delete the tasks. Continue?", "Yes?", "No");
+                                            var result11 = await App.Current.MainPage.DisplayAlert("Alert!", "You have opted to delete the tasks. Do you want to proceed?", "Yes?", "No");
                                             if (result11)
                                             {
                                                 foreach (var task in validTasks)
@@ -691,10 +691,10 @@ namespace GO.Views.Goal
                                         }
                                         else if(!result1)
                                         {
-                                            var result11 = await App.Current.MainPage.DisplayAlert("Alert!", "You have chosen to move the tasks. The start and end date of the tasks will be automatically adjusted. Continue?", "Yes?", "No");
+                                            var result11 = await App.Current.MainPage.DisplayAlert("Alert!", "You have chosen to move the tasks. The start and end dates of the tasks will be automatically adjusted. Do you wish to proceed?", "Yes?", "No");
                                             if (result11)
                                             {
-                                                await App.Current.MainPage.DisplayAlert("Alert!", "By choosing to move tasks to a new date, all completed tasks will be uncompleted.", "Ok");
+                                                await App.Current.MainPage.DisplayAlert("Alert!", "By selecting to move tasks to a new date, all completed tasks will be marked as uncompleted. Do you want to proceed?", "Ok");
                                                 // if the tasks where completed, they will be uncompleted
                                                 foreach (var task in validTasks)
                                                 {
@@ -715,7 +715,7 @@ namespace GO.Views.Goal
                             }                           
                            
                             // get tasks whose start date
-                            await Application.Current.MainPage.DisplayAlert("Error!", "You cannot change the start date of this goal, they are some tasks in it, whose start date is before the goals start date.", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error!", "You are unable to change the start date of this goal because there are tasks within it that have a start date preceding the goal's start date.", "Ok");
                             return;
                         }
                         //else if (goaltasks.Any(t => t.StartTask >= newGoal.Start))

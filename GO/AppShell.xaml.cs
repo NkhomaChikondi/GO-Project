@@ -1,5 +1,6 @@
 ﻿
 
+using GO.Views;
 using GO.Views.Categorys;
 using GO.Views.Goal;
 using GO.Views.GoalTask;
@@ -42,6 +43,7 @@ namespace GO
             Routing.RegisterRoute(nameof(HelpWeekPage), typeof(HelpWeekPage ));
             Routing.RegisterRoute(nameof(WeekTask), typeof(WeekTask));
             Routing.RegisterRoute(nameof(GoalStats), typeof(GoalStats));
+            Routing.RegisterRoute(nameof(Features), typeof(Features));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

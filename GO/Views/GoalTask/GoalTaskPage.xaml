@@ -45,13 +45,13 @@
             <Frame Grid.ColumnSpan="4">
                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                     <StackLayout Orientation="Horizontal">
-                        <Button x:Name="btall" Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btall_Clicked"></Button>
-                        <Button x:Name="btnotstarted"  Margin="0,13,0,15"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="btnotstarted_Clicked"></Button>
-                        <Button x:Name="btwithsubtasks" Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="With Subtasks" Clicked="btwithsubtasks_Clicked"></Button>
-                        <Button x:Name="btinprogress" Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="btinprogress_Clicked"></Button>
-                        <Button x:Name="btcompleted"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="btncompleted_Clicked"></Button>
-                        <Button x:Name="btduesoon"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="btduesoon_Clicked"></Button>
-                        <Button x:Name="btexpired"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="btexpired_Clicked"></Button>
+                        <Button x:Name="btall"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btall_Clicked"></Button>
+                        <Button x:Name="btnotstarted"    BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="btnotstarted_Clicked"></Button>
+                        <Button x:Name="btwithsubtasks" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="With Subtasks" Clicked="btwithsubtasks_Clicked"></Button>
+                        <Button x:Name="btinprogress"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="btinprogress_Clicked"></Button>
+                        <Button x:Name="btcompleted"   BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="btncompleted_Clicked"></Button>
+                        <Button x:Name="btduesoon"   BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="btduesoon_Clicked"></Button>
+                        <Button x:Name="btexpired"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="btexpired_Clicked"></Button>
                     </StackLayout>
                 </ScrollView>
 
@@ -153,7 +153,7 @@
             </ListView>
            
                 <ImageButton Margin="5,5,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                Glyph={x:Static helpers:IconFont.PlusCircle},Size=60,Color=#61a5c2
+                Glyph={x:Static helpers:IconFont.PlusCircleOutline},Size=60,Color=#61a5c2
                 }"
                          BackgroundColor="Transparent"
                 Command="{Binding OnAddCommand}"

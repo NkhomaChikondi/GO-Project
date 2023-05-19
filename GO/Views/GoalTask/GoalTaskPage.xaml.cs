@@ -116,7 +116,7 @@ namespace GO.Views.GoalTask
             var notstartedTasks = tasks.Where(s => s.Status == "Not Started").ToList();
             if (notstartedTasks.Count() == 0)
             {
-                noTasks.Text = " They are no Started tasks!";
+                noTasks.Text = " There are no tasks that have started.";
                 if (BindingContext is GoalTaskViewModel bvm)
                 {
                     await bvm.NotstartedTasks();
@@ -147,7 +147,7 @@ namespace GO.Views.GoalTask
             var InprogressTasks = tasks.Where(s => s.PendingPercentage >0).ToList();
             if (InprogressTasks.Count() == 0)
             {
-                noTasks.Text = " They are no tasks in progress!";
+                noTasks.Text = " There are currently no tasks being worked on or in progress.";
                 if (BindingContext is GoalTaskViewModel bvm)
                 {
                     await bvm.InprogressTasks();
@@ -178,7 +178,7 @@ namespace GO.Views.GoalTask
             var CompletedTasks = tasks.Where(s => s.Percentage == s.PendingPercentage).ToList();
             if (CompletedTasks.Count() == 0)
             {
-                noTasks.Text = " They are no tasks that are completed!";
+                noTasks.Text = " There are no tasks that have been completed at this time.";
                 if (BindingContext is GoalTaskViewModel bvm)
                 {
                     await bvm.CompletedTasks();
@@ -209,7 +209,7 @@ namespace GO.Views.GoalTask
             var duesoongoals = tasks.Where(g => g.EndTask <= Date10 && g.Status != "Expired").ToList();
             if (duesoongoals.Count() == 0)
             {
-                noTasks.Text = " They are no tasks that are Due soon!";
+                noTasks.Text = " There are no tasks that are Due soon!";
                 if (BindingContext is GoalTaskViewModel bvm)
                 {
                     await bvm.DuesoonTasks();
@@ -239,7 +239,7 @@ namespace GO.Views.GoalTask
             var expiredTasks = tasks.Where(s => s.Status == "Expired").ToList();
             if (expiredTasks.Count() == 0)
             {
-                noTasks.Text = " They are no Expired tasks!";
+                noTasks.Text = " There are currently no tasks that have expired.";
                 if (BindingContext is GoalTaskViewModel bvm)
                 {
                     await bvm.ExpiredTasks();
@@ -278,7 +278,7 @@ namespace GO.Views.GoalTask
             }
             if (tasklist.Count() == 0)
             {
-                noTasks.Text = " They are no tasks with subtasks!";
+                noTasks.Text = " There are currently no tasks that have associated subtasks.";
                 if (BindingContext is GoalTaskViewModel bvm)
                 {
                     await bvm.WithSubtasksTasks();
@@ -296,9 +296,9 @@ namespace GO.Views.GoalTask
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage.DisplayAlert("INFO", "* All goal's tasks will be listed on this page.\n \n * Scroll through the horizontal tab to filter the tasks list according to your preference." +
-               "\n \n * Each listed task will have \n  1. Name \n  2. A progress bar that shows the progress of the subtask's of the task  (if any). \n  3. Toggle switch to either complete or uncomplete a task. \n  4. Due date" +
-               "\n \n * Tap on  task to go to subtask page. \n\n * Long press on a task to edit or delete. \n\n NB: The toggle switch of a task having subtask, will be disabled since it waits for the subtasks in it to be completed.", "OK");
+            Application.Current.MainPage.DisplayAlert("INFO", "* This page will display a list of all tasks associated with the goal..\n \n * Navigate horizontally through the tab to filter the tasks list based on your preferences." +
+               "\n \n *Each task listed will feature the following elements: \n  1. Name: The name or title of the task.\n  2.Progress Bar: If the task has subtasks, a progress bar will indicate the completion status of the subtasks.\n  3. TToggle Switch: A toggle switch will be provided to mark the task as complete or incomplete. \n  4. Due date" +
+               "\n \n * Tapping on a task will directly take you to its corresponding subtask page. \n\n *To edit or delete a task, simply perform a long press on the desired task. \n\n NB: The toggle switch for a task with subtasks will be disabled until all the subtasks within it are completed.", "OK");
         }
     }
 

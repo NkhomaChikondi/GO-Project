@@ -34,9 +34,8 @@ namespace GO.Views.Goal
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage.DisplayAlert("INFO", "\b ONCE-OFF TASKS \b \n * Select when you want your goal to have tasks that are not repeated (Once-off). \n\n WEEKLY TASKS \n * Select when you want want to have tasks that can be repeated weekly.", "OK");
+            Application.Current.MainPage.DisplayAlert("INFO", "\b ONCE-OFF \b \n * Select when you want your goal to have tasks that are not repeated (One-time occurrence). \n\n WEEKLY \n * Select when you want to have tasks that can be repeated weekly.", "OK");
         }
     }
-
 }
 

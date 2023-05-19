@@ -247,7 +247,7 @@ namespace GO.ViewModels.TaskInGoals
                 }
                 else if(subtasks.Count() == 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot go to subtask page. This task expired with zero subtasks", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "You are unable to access the subtask page as this task has expired without any subtasks.", "OK");
                     return;
                 }
 
@@ -261,7 +261,7 @@ namespace GO.ViewModels.TaskInGoals
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "There no subtasks in this task!", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "There are no subtasks associated with this task.", "Ok");
                     return;
                 }
             }
@@ -277,7 +277,7 @@ namespace GO.ViewModels.TaskInGoals
         {
             if (goalTask == null)
                 return;
-            var ans = await Application.Current.MainPage.DisplayAlert("Delete Task!", "All Subtasks in this Task will also be deleted. Continue?", "Yes", "No");
+            var ans = await Application.Current.MainPage.DisplayAlert("Delete Task!", "All Subtasks within this Task will also be deleted. Continue?", "Yes", "No");
             if (ans)
             {
                 await dataTask.DeleteTaskAsync(goalTask.Id);
@@ -532,7 +532,7 @@ namespace GO.ViewModels.TaskInGoals
                     }                 
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot complete this task. the day it was allocated to, has either passed or not reached yet.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
                         await Refresh();
                         return;
                     }                 
@@ -540,7 +540,7 @@ namespace GO.ViewModels.TaskInGoals
                 else
                 {
                     //await Refresh();
-                    await Application.Current.MainPage.DisplayAlert("Error!", "You Cannot complete this Task. The Task has expired.", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The task has already expired.", "OK");
                     await Refresh();
                     return;
                 }
@@ -554,7 +554,8 @@ namespace GO.ViewModels.TaskInGoals
             // get the task having the same id as taskId
             var task = await dataTask.GetTaskAsync(TaskId);
             var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-            // check if the incoming object 
+
+            // check if the incoming object
             if (!task.IsCompleted)
                 return;
             else if (task.IsCompleted)
@@ -579,7 +580,7 @@ namespace GO.ViewModels.TaskInGoals
                     }
                     else 
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot Uncomplete this task. The day it was allocated to, has passed.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot mark this task as uncompleted. The day allocated for the task has already passed.", "Ok");
                         await Refresh();
                         return;
                     }
@@ -587,7 +588,7 @@ namespace GO.ViewModels.TaskInGoals
                 else
                 {
                     //await Refresh();
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot Uncomplete this task. The Task has expired!", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot mark this task as uncompleted. The task has already expired.", "OK");
                     await Refresh();
                     return;
                 }
@@ -720,8 +721,7 @@ namespace GO.ViewModels.TaskInGoals
                         //reset the below variables
                 TaskPercentage = 0;
                 subtaskpercentage = 0;
-                Accumulated = 0;               
-                
+                Accumulated = 0;                            
             
         }       
         public async Task Refresh()

@@ -31,12 +31,12 @@
             <Frame Grid.ColumnSpan="4" >
                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                     <StackLayout Orientation="Horizontal" >
-                        <Button x:Name="btnall" Margin="0,13,0,15" FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btnall_Clicked"></Button>
-                        <Button x:Name="btnnotstarted"  Margin="0,13,0,15"  FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="btnnotstarted_Clicked"></Button>
-                        <Button x:Name="btninprogress" Margin="0,13,0,15" FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="btninprogress_Clicked"></Button>
-                        <Button x:Name="btncompleted"  Margin="0,13,0,15" FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="btncompleted_Clicked"></Button>
-                        <Button x:Name="duesoon" FontFamily="RobotoMedium" Margin="0,13,0,15" BackgroundColor="Transparent"  TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="duesoon_Clicked"></Button>
-                        <Button x:Name="expired" FontFamily="RobotoMedium"  Margin="0,13,0,15" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="expired_Clicked"></Button>
+                        <Button x:Name="btnall" FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btnall_Clicked"></Button>
+                        <Button x:Name="btnnotstarted"   FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="btnnotstarted_Clicked"></Button>
+                        <Button x:Name="btninprogress"  FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="btninprogress_Clicked"></Button>
+                        <Button x:Name="btncompleted"   FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="btncompleted_Clicked"></Button>
+                        <Button x:Name="duesoon" FontFamily="RobotoMedium" BackgroundColor="Transparent"  TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="duesoon_Clicked"></Button>
+                        <Button x:Name="expired" FontFamily="RobotoMedium"   BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="expired_Clicked"></Button>
                     </StackLayout>
                 </ScrollView>
 
@@ -159,8 +159,8 @@
           
            
 
-                <ImageButton Margin="5,0,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                Glyph={x:Static helpers:IconFont.PlusCircle},Size=55,Color=#61a5c2
+                <ImageButton Margin="10,0,15,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                Glyph={x:Static helpers:IconFont.PlusCircleOutline},Size=55,Color=#61a5c2
                 }"
                          BackgroundColor="Transparent"
                 Command="{Binding AddgoalCommand}"

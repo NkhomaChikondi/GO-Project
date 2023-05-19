@@ -279,7 +279,7 @@ namespace GO.ViewModels.TaskInGoals
                 // check if the task has started 
                 if(DateTime.Today < task.StartTask)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "You cannot complete a task whose start date has not been reached yet", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error", "You cannot mark a task as complete if its start date has not yet been reached.", "Ok");
                     await Refresh();
                     return;
                 }
@@ -394,7 +394,7 @@ namespace GO.ViewModels.TaskInGoals
         {
             if (goalTask == null)
                 return;
-            var ans = await Application.Current.MainPage.DisplayAlert("Delete Task!", "All Subtasks in this Task will be deleted. Continue?", "Yes", "No");
+            var ans = await Application.Current.MainPage.DisplayAlert("Delete Task", "All Subtasks within this Task will be deleted. Continue?", "Yes", "No");
             if(ans)
             {
                 await dataTask.DeleteTaskAsync(goalTask.Id);

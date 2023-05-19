@@ -53,7 +53,6 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-
             <!--
             Custom Style you can apply to any Flyout Item
             -->
@@ -84,17 +83,19 @@
         <ShellContent Route="CategoryView" ContentTemplate="{DataTemplate local:CategoryView}" />
     </FlyoutItem>
     <FlyoutItem Title="About" Icon="icon_about.png">
-        <ShellContent Route="About" ContentTemplate="{DataTemplate local:About         }" />
+        <ShellContent Route="About" ContentTemplate="{DataTemplate local:About  }" />
     </FlyoutItem>
-   <!--
+    <FlyoutItem Title="Features" Icon="feature.png">
+        <ShellContent Route="Features" ContentTemplate="{DataTemplate local:Features }" />
+    </FlyoutItem>
+    <!--
     <MenuItem Text="Share" StyleClass="MenuItemLayoutStyle" Clicked="MenuItem_Clicked" IconImageSource="sharre.png">
     </MenuItem>
     --> 
     <MenuItem Text="Send feedback" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked" IconImageSource="feedbackk.png">
     </MenuItem>
 
-    <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
- 
+    <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  --> 
     <!--
         TabBar lets you define content that won't show up in a flyout menu. When this content is active
         the flyout menu won't be available. This is useful for creating areas of the application where 

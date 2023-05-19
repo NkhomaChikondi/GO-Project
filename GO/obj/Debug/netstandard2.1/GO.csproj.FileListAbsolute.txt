@@ -292,3 +292,4 @@ C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\ref\GO.dll
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\GO.pdb
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\Categorys\About.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\Categorys\HelpPage.xaml.g.cs
+C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\Categorys\Features.xaml.g.cs

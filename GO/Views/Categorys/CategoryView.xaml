@@ -155,8 +155,8 @@
 
                 </CollectionView>
 
-                <ImageButton x:Name="btnimage" Margin="0,20,9,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                Glyph={x:Static helpers:IconFont.PlusCircle},Size=60,Color=#61a5c2 
+                <ImageButton x:Name="btnimage" Margin="0,24,9,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                Glyph={x:Static helpers:IconFont.PlusCircleOutline},Size=60,Color=#61a5c2 
                 }"
                          BackgroundColor="Transparent"
                 Command="{Binding AddCommand}"

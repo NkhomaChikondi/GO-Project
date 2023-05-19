@@ -120,7 +120,7 @@ namespace GO.Views.Goal
             }
             else
             {
-                nogoals.Text = " They are no goals in progress!";
+                nogoals.Text = " There are no goals currently in progress.";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.InprogressGoals();
@@ -149,7 +149,7 @@ namespace GO.Views.Goal
             }
             else
             {              
-                nogoals.Text = " They are no goals that are Completed!";
+                nogoals.Text = "There are no goals that have been completed.";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.CompletedGoals();
@@ -179,7 +179,7 @@ namespace GO.Views.Goal
             }
             else
             {
-                nogoals.Text = " They are no goals that are Due soon!";
+                nogoals.Text = " There are no goals that are due soon.";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.DuesoonGoals();
@@ -208,7 +208,7 @@ namespace GO.Views.Goal
             }
             else
             {
-                nogoals.Text = " They are no goals that have Expired!";
+                nogoals.Text = " There are no goals that have Expired!";
                 if (BindingContext is GoalViewModel bvm)
                 {
                     await bvm.ExpiredGoals();
@@ -217,9 +217,9 @@ namespace GO.Views.Goal
         }
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage.DisplayAlert("INFO", "* All goals will be listed on this page.\n \n * Scroll through the horizontal tab to filter the goal list according to your preference." +
-                "\n \n * Each listed goal will have \n  1. Name \n  2. A progress bar that shows the progress of the goal in percentage. \n  3. Status. \n  4. Due date \n\n *" +
-                " A goal will only be completed through the tasks that are created in it. \n * Tap on the goal to go to task page. \n\n * Long press on a goal to edit or delete.", "OK");              
+            Application.Current.MainPage.DisplayAlert("INFO", "* This page will display a list of all goals.\n \n * Use the horizontal tab to scroll and filter the goal list based on your preferences." +
+                "\n \n * Each listed goal will include: \n  1. Name \n  2. Progress bar indicating the percentage of goal completion. \n  3. Status. \n  4. Due date \n\n *" +
+                " Completion of a goal is dependent on the completion of tasks created within it. \n * Tap on the goal to navigate to the task page. \n\n * Long press on a goal to access options for editing or deleting it.", "OK");              
         }
 
         //private async void ImageButton_Clicked(object sender, EventArgs e)
