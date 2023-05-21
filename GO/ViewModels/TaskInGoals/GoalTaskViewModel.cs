@@ -237,8 +237,8 @@ namespace GO.ViewModels.TaskInGoals
         }
         async Task GotoHelpPage()
         {
-            var route = $"{nameof(helptaskPage)}";
-            await Shell.Current.GoToAsync(route);
+            //var route = $"{nameof(helptaskPage)}";
+            //await Shell.Current.GoToAsync(route);
         }
         // pass the goal id to update task method
         async Task OnUpdateTask(GoalTask goalTask)

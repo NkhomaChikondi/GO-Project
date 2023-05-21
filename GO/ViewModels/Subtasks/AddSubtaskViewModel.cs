@@ -164,8 +164,8 @@ namespace GO.ViewModels.Subtasks
         }
         async Task GotoHelpPage()
         {
-            var route = $"{nameof(Helpaddsubtaskspage)}";
-            await Shell.Current.GoToAsync(route);
+            //var route = $"{nameof(Helpaddsubtaskspage)}";
+            //await Shell.Current.GoToAsync(route);
         }
         async Task TaskEnabled( GoalTask task)
         {          

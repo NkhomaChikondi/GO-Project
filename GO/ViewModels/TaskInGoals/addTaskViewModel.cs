@@ -64,8 +64,8 @@ namespace GO.ViewModels.TaskInGoals
         }
         async Task GotoHelpPage()
         {
-            var route = $"{nameof(Helpaddtaskpage)}";
-            await Shell.Current.GoToAsync(route);
+            //var route = $"{nameof(Helpaddtaskpage)}";
+            //await Shell.Current.GoToAsync(route);
         }
 
         async Task SelectedDow()

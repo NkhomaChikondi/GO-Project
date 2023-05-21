@@ -491,13 +491,13 @@ namespace GO.ViewModels.TaskInGoals
         }
         async Task GotoHelpPage()
         {
-            var route = $"{nameof(HelpweeklyTaskspage)}";
-            await Shell.Current.GoToAsync(route);
+            //var route = $"{nameof(HelpweeklyTaskspage)}";
+            //await Shell.Current.GoToAsync(route);
         }
         async Task GotoHelpweekPage()
         {
-            var route = $"{nameof(HelpWeekPage)}";
-            await Shell.Current.GoToAsync(route);
+            //var route = $"{nameof(HelpWeekPage)}";
+            //await Shell.Current.GoToAsync(route);
         }
         public async Task CompleteTask(int TaskId, bool IsComplete)
         {

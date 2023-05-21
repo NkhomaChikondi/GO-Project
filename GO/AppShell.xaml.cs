@@ -35,12 +35,12 @@ namespace GO
             Routing.RegisterRoute(nameof(AddCategory), typeof(AddCategory));
             Routing.RegisterRoute(nameof(CategoryView), typeof(CategoryView));
             Routing.RegisterRoute(nameof(HelpPage), typeof(HelpPage));  
-            Routing.RegisterRoute(nameof(helptaskPage), typeof(helptaskPage));
-            Routing.RegisterRoute(nameof(Helpaddtaskpage), typeof(Helpaddtaskpage));
-            Routing.RegisterRoute(nameof(HelpSubtaskpage), typeof(HelpSubtaskpage));
-            Routing.RegisterRoute(nameof(Helpaddsubtaskspage), typeof(Helpaddsubtaskspage));
-            Routing.RegisterRoute(nameof(HelpweeklyTaskspage), typeof(HelpweeklyTaskspage));
-            Routing.RegisterRoute(nameof(HelpWeekPage), typeof(HelpWeekPage ));
+            //Routing.RegisterRoute(nameof(helptaskPage), typeof(helptaskPage));
+            //Routing.RegisterRoute(nameof(Helpaddtaskpage), typeof(Helpaddtaskpage));
+            //Routing.RegisterRoute(nameof(HelpSubtaskpage), typeof(HelpSubtaskpage));
+            //Routing.RegisterRoute(nameof(Helpaddsubtaskspage), typeof(Helpaddsubtaskspage));
+            //Routing.RegisterRoute(nameof(HelpweeklyTaskspage), typeof(HelpweeklyTaskspage));
+            //Routing.RegisterRoute(nameof(HelpWeekPage), typeof(HelpWeekPage ));
             Routing.RegisterRoute(nameof(WeekTask), typeof(WeekTask));
             Routing.RegisterRoute(nameof(GoalStats), typeof(GoalStats));
             Routing.RegisterRoute(nameof(Features), typeof(Features));

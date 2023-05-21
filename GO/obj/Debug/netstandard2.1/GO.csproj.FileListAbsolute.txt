@@ -262,10 +262,6 @@ C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\Categorys\U
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\AddPlannedTask.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\AddTaskPage.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\GoalTaskPage.xaml.g.cs
-C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\Helpaddtaskpage.xaml.g.cs
-C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\helptaskPage.xaml.g.cs
-C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\HelpweeklyTaskspage.xaml.g.cs
-C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\HelpWeekPage.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\UpdateTaskPage.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\UpdateWeekTask.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\WeeklyTask.xaml.g.cs
@@ -278,8 +274,6 @@ C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView\AddSubtask.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView\BlankSubtaskView.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView\BlankWeekSubtaskView.xaml.g.cs
-C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView\Helpaddsubtaskspage.xaml.g.cs
-C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView\HelpSubtaskpage.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView\subTaskView.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView\UpdateSubtaskPage.xaml.g.cs
 C:\Users\User\Documents\GO-Project\GO\obj\Debug\netstandard2.1\Views\SubTaskView\UpdateWeekSubtask.xaml.g.cs

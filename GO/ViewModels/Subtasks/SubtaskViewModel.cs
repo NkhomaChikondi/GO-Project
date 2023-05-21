@@ -96,6 +96,7 @@ namespace GO.ViewModels.Subtasks
             completed = false;
             await Refresh();
         }
+
         public async Task CompletedGoals()
         {
             all = false;
@@ -209,8 +210,8 @@ namespace GO.ViewModels.Subtasks
         }
         async Task GotoHelpPage()
         {
-            var route = $"{nameof(HelpSubtaskpage)}";
-            await Shell.Current.GoToAsync(route);
+            //var route = $"{nameof(HelpSubtaskpage)}";
+            //await Shell.Current.GoToAsync(route);
         }
         public async Task CompleteSubtask(int SubtaskId, bool IsComplete)
         {
