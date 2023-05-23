@@ -343,7 +343,7 @@ namespace GO.Views.GoalTask
                     return;
                 else
                 {
-                    if (BindingContext is WeeklyTaskViewModel viewModel)
+                    if (BindingContext is GoalTaskViewModel viewModel)
                     {
                         await viewModel.CompleteTask(taskid, task.IsCompleted);
                     }
@@ -354,7 +354,7 @@ namespace GO.Views.GoalTask
                 // check if the incoming object 
                 if (!taskdb.IsCompleted)
                     return;
-                if (BindingContext is WeeklyTaskViewModel viewModel)
+                if (BindingContext is GoalTaskViewModel viewModel)
                     await viewModel.UncompleteTask(taskid, task.IsCompleted);
             }
             return;

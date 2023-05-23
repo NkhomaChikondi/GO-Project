@@ -50,7 +50,7 @@ namespace GO.Views.GoalTask
             DataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();
             dataDow = DependencyService.Get<IDataDow<Models.DOW>>();
             dataSubtask = DependencyService.Get<IDataSubtask<Models.Subtask>>();
-            BindingContext = new WeeklyTaskViewModel();
+            BindingContext = new GoalTaskViewModel();
            
 
         }

@@ -445,27 +445,40 @@ namespace GO.ViewModels.TaskInGoals
             else if (notstarted)
             {
                 var notstartedtasks = tasks.Where(g => g.Status == "Not Started").ToList();
+                if (notstartedtasks.Count == 0)
+                    Datatoast.toast("No tasks!");
+                else
                 goalTasks.AddRange(notstartedtasks);
             }
             else if (completed)
             {
                 var completedtasks = tasks.Where(g => g.Percentage == g.PendingPercentage).ToList();
+                if (completedtasks.Count == 0)
+                    Datatoast.toast("No tasks!");
+                else
                 goalTasks.AddRange(completedtasks);
             }
             else if (inprogress)
             {
                 var inprogressTasks = tasks.Where(g => g.PendingPercentage > 0 && g.Status != "Expired").ToList();
+                if (inprogressTasks.Count == 0)
+                    Datatoast.toast("No tasks!");
                 goalTasks.AddRange(inprogressTasks);
             }
             else if (duesoon)
             {
                 var Date10 = DateTime.Today.AddDays(10);
                 var duesoongoals = tasks.Where(g => g.EndTask <= Date10 && g.Status != "Expired").ToList();
+                if (duesoongoals.Count == 0)
+                    Datatoast.toast("No tasks!");
                 goalTasks.AddRange(duesoongoals);
             }
             else if (expired)
             {
                 var expiredTasks = tasks.Where(g => g.Status == "Expired").ToList();
+                if (expiredTasks.Count == 0)
+                    Datatoast.toast("No tasks!");
+                else
                 goalTasks.AddRange(expiredTasks);
             }
             else if (withSubtask)
@@ -481,6 +494,9 @@ namespace GO.ViewModels.TaskInGoals
                         tasklist.Add(Task);
                     }
                 }
+                if (tasklist.Count == 0)
+                    Datatoast.toast("No tasks!");
+                else                   
                 goalTasks.AddRange(tasklist);
             }
             // set "isBusy" to false
