@@ -19,6 +19,10 @@ namespace GO.Views.GoalTask
 
         public string goalId { get; set; }
         private int GoalId;
+        private double todaypercent = 0;
+        private double goalpercent = 0;
+        private Models.Goal GetGoal;
+        public DateTime SelectedDate { get; set; }
         public IDataGoal<Models.Goal> datagoal { get; }
         public IDataTask<Models.GoalTask> DataTask { get; }
         public IDataSubtask<Subtask> datasubtask { get; }
@@ -39,24 +43,77 @@ namespace GO.Views.GoalTask
            
             // get the goal having the goalid
             var goal = await datagoal.GetGoalAsync(result);
+            GetGoal = goal;
             GoalId = goal.Id;
-            // get all tasks having the goal id
-            var tasks = await DataTask.GetTasksAsync(goal.Id);
+            
+             // get all tasks having the goal id
+             var tasks = await DataTask.GetTasksAsync(goal.Id);
+          
             if (tasks.Count() == 0)
             {
-                StackTasklist.IsVisible = false;                
-                StackTaskBlank.IsVisible = true;
-                tasktoprow.IsVisible = false;
-                headtask.IsVisible = false;
+                //StackTasklist.IsVisible = false;                
+                //StackTaskBlank.IsVisible = true;
+                //tasktoprow.IsVisible = false;
+                //headtask.IsVisible = false;
             }
             else
-            {
+            {               
+                //loop through the tasks and get subtasks created today
+                foreach (var task in tasks)
+                {
+                    if (task.IsCompleted)
+                    {
+                        goalpercent += task.Percentage;
+                    }
+                    else if(!task.IsCompleted)
+                    {
+                        goalpercent = task.PendingPercentage;
+                    }
+                   
+                    // get tasks created today
+                    if(task.CreatedOn.Date == DateTime.Today.Date)
+                    {
+                        // check if its completed
+                        if(task.IsCompleted)
+                        {
+                            todaypercent += task.Percentage;
+                        }
+                        else if(!task.IsCompleted)
+                        {
+                            // check if it has subtask
+                            var subtasks = await datasubtask.GetSubTasksAsync(task.Id);
+                            if(subtasks.Count() > 0)
+                            {
+                                var todaysubtasks = subtasks.Where(S => S.CreatedOn.Date == DateTime.Today.Date).ToList();
+                                if(todaysubtasks.Count() > 0)
+                                {
+                                    //check if any is completed
+                                    foreach (var subtask in todaysubtasks)
+                                    {
+                                        if(subtask.IsCompleted)
+                                        {
+                                            todaypercent += subtask.Percentage;
+                                        }
+                                    }
+                                }                              
+                            }
+                        }                   
+                       
+                    }                   
+                }
                 //btall.BackgroundColor = Color.LightGray;
-                StackTaskBlank.IsVisible = false;
-                tasktoprow.IsVisible = true;
-                headtask.IsVisible = true;
-                StackTasklist.IsVisible = true;
-                goalName.Text = goal.Name;
+                //StackTaskBlank.IsVisible = false;
+                //tasktoprow.IsVisible = true;
+                //headtask.IsVisible = true;
+                //StackTasklist.IsVisible = true;
+               goalName.Text = goal.Name;
+                todaydate.Text = DateTime.Today.Date.ToString("dd MMMM yyyy");
+                var roundedgoal = Math.Round(goalpercent, 2);
+                progressobtained.Text = roundedgoal.ToString();
+                var roundedtodayprogress = Math.Round(todaypercent, 2);
+                
+               // todayprogress.Text = roundedtodayprogress.ToString();
+                // get all tasks completed today
                 if (DateTime.Today < goal.End)
                 {
                     TimeSpan daysleft = goal.End - DateTime.Today;
@@ -72,15 +129,16 @@ namespace GO.Views.GoalTask
                 {
                     goal.DaysLeft = 0;
                 }
-                // get all completed tasks in the goal
-                var completedtasks = tasks.Where(T => T.IsCompleted).ToList();
-                completedTasks.Text = completedtasks.Count().ToString();
-                
+                //// get all completed tasks in the goal
+                //var completedtasks = tasks.Where(T => T.IsCompleted).ToList();
+                //completedTasks.Text = completedtasks.Count().ToString();
+
             }
            // btall.BackgroundColor = Color.LightGray;
             if (BindingContext is GoalTaskViewModel cvm)
             {
                 cvm.GoalId = goal.Id;
+                SelectedDate = DateTime.Today.Date;
                 await cvm.Refresh();
             }
         }
@@ -91,27 +149,85 @@ namespace GO.Views.GoalTask
             var task = (Models.GoalTask)@switch.BindingContext;
             var taskid = task.Id;
             if (task.IsCompleted)
-            {
-                if(BindingContext is GoalTaskViewModel viewModel)
+            {              
+                if (BindingContext is GoalTaskViewModel viewModel)
                     await viewModel.CompleteTask(taskid, task.IsCompleted);
-                // get all completed tasks
-                var tasks = await DataTask.GetTasksAsync(task.GoalId);
-                var taskCompleted = tasks.Where(T => T.IsCompleted).ToList();
-                completedTasks.Text = taskCompleted.Count().ToString();
+                await calculateGoalPercentage(GetGoal);
+                              
             }
             else if(!task.IsCompleted)
             {
                 if (BindingContext is GoalTaskViewModel viewModel)
                     await viewModel.UncompleteTask(taskid, task.IsCompleted);
-                var tasks = await DataTask.GetTasksAsync(task.GoalId);
-                var taskCompleted = tasks.Where(T => T.IsCompleted == false).ToList();
-                completedTasks.Text = taskCompleted.Count().ToString();
-
+                await calculateGoalPercentage(GetGoal);
             }
             return;
 
         }
 
+        async Task calculateGoalPercentage(Models.Goal goal)
+        {
+            double TaskPercentage = 0;
+            double subtaskpercentage = 0;
+            double goalRoundedPercentage = 0;
+            double taskscreatedToday = 0;
+         
+            
+            // get all tasks having the goal id
+            var tasks = await DataTask.GetTasksAsync(goal.Id);
+            // check if they are tasks having the week id
+            if (tasks.Count() > 0)
+            {
+               // loop through the tasks to get their percentage
+                foreach (var task in tasks)
+                {
+                    // check if it is completed
+                    if (task.IsCompleted)
+                    {
+                        TaskPercentage += task.Percentage;
+                        TaskPercentage = Math.Round(TaskPercentage, 2);
+                        // check if other tasks are completed today
+                        if(task.CreatedOn.Date == DateTime.Today.Date)
+                        {
+                            taskscreatedToday += task.Percentage;
+                        }
+                    }
+                    else if (!task.IsCompleted)
+                    {
+                        // check if it has subtask
+                        var subtasks = await datasubtask.GetSubTasksAsync(task.Id);
+                        if (subtasks.Count() > 0)
+                        {
+                            // get only subtasks that are completed
+                            var completedsubtasks = subtasks.Where(s => s.IsCompleted).ToList();
+                            // loop through the completed subtasks
+                            foreach (var subtask in completedsubtasks)
+                            {
+                                subtaskpercentage += subtask.Percentage;
+                                if (subtask.CreatedOn.Date == DateTime.Today.Date)
+                                {
+                                    taskscreatedToday += task.Percentage;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            //goals calculation
+            goalRoundedPercentage = TaskPercentage + subtaskpercentage;
+           progressobtained.Text = Math.Round(goalRoundedPercentage,2).ToString();
+          //  todayprogress.Text = Math.Round(taskscreatedToday, 2).ToString();
+
+            TaskPercentage = 0;
+            subtaskpercentage = 0;
+            goalRoundedPercentage = 0;
+            taskscreatedToday = 0;
+        }
+
+
+     
+       
         //private async void btall_Clicked(object sender, EventArgs e)
         //{
         //    btnotstarted.BackgroundColor = Color.Transparent;
@@ -371,6 +487,7 @@ namespace GO.Views.GoalTask
                 }
             }
         }
+        
     }
 
 }

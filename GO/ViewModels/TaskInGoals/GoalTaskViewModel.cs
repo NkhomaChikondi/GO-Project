@@ -23,6 +23,7 @@ namespace GO.ViewModels.TaskInGoals
         public AsyncCommand RefreshCommand { get; }
         public AsyncCommand OnAddCommand { get; }
         public AsyncCommand<GoalTask> OnUpdateCommand { get; }
+        public AsyncCommand<int> PrevDates { get; }
         public AsyncCommand<EventArgs> ToggledCommand { get; set; }
         public AsyncCommand<GoalTask> SendTaskIdCommand { get; }
         public AsyncCommand<GoalTask> PercentageCommand { get; }
@@ -33,7 +34,7 @@ namespace GO.ViewModels.TaskInGoals
         #region observableCollections/PublicProperties
         public ObservableRangeCollection<GoalTask> goalTasks { get; }
 
-
+        public DateTime selectedDate;
         public int GoalId
         {
             get { return goalId; }
@@ -132,6 +133,8 @@ namespace GO.ViewModels.TaskInGoals
         public bool Duesoon { get => duesoon; set => duesoon = value; }
         public bool Expired { get => expired; set => expired = value; }
         public bool WithSubtask { get => withSubtask; set => withSubtask = value; }
+     
+        public DateTime SelectedDate { get => selectedDate; set => selectedDate = value; }
 
 
         #endregion
@@ -152,7 +155,10 @@ namespace GO.ViewModels.TaskInGoals
         #endregion
 
         #region Methods
-
+        public async Task prevdate(DateTime dateTime)
+        {
+            selectedDate = selectedDate.AddMonths(1);
+        }
         public async Task AllGoals()
         {
             all = true;

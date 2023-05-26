@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0/KHYlR7GP5YfFP+ILvPX1D9UFI0CQIhwR3ta33sAHBDJZbDrY1D4nRMfRWzpw7ObRvAQb3X+TB2tuEfrUSvZg==",
+  "dgSpecHash": "BalL4RPc8CK2O5PykEWZn+9nTgvQI4in4HYNQhOrrSbIoU6+SqP9S8u9eD8S+qhguMF3vrrAasBpuiC5zHmhuA==",
   "success": true,
   "projectFilePath": "C:\\Users\\User\\Documents\\GO-Project\\GO.Android\\GO.Android.csproj",
   "expectedPackageFiles": [
@@ -103,7 +103,8 @@
     "C:\\Users\\User\\.nuget\\packages\\xamarin.googleplayservices.basement\\117.6.0.4\\xamarin.googleplayservices.basement.117.6.0.4.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\xamarin.googleplayservices.location\\118.0.0.3\\xamarin.googleplayservices.location.118.0.0.3.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\xamarin.googleplayservices.places.placereport\\117.0.0.3\\xamarin.googleplayservices.places.placereport.117.0.0.3.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\xamarin.googleplayservices.tasks\\117.2.1.3\\xamarin.googleplayservices.tasks.117.2.1.3.nupkg.sha512"
+    "C:\\Users\\User\\.nuget\\packages\\xamarin.googleplayservices.tasks\\117.2.1.3\\xamarin.googleplayservices.tasks.117.2.1.3.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\xamarin.plugin.calendar\\2.0.9699\\xamarin.plugin.calendar.2.0.9699.nupkg.sha512"
   ],
   "logs": []
 }

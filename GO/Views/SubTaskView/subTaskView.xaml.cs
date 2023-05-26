@@ -39,18 +39,19 @@ namespace GO.Views.SubTaskView
             GetGoalTask = Task;
             if(subtasks.Count() == 0)
             {
-                headsubtask.IsVisible = false;
-                StackSubBlank.IsVisible = true;
-                StackSublist.IsVisible = false;
+                //headsubtask.IsVisible = false;
+                //StackSubBlank.IsVisible = true;
+                //StackSublist.IsVisible = false;
                 subtasktopRow.IsVisible = false;                
             }
             else
             {
-                StackSublist.IsVisible = true;
-                StackSubBlank.IsVisible = false;
+                //StackSublist.IsVisible = true;
+                //StackSubBlank.IsVisible = false;
                 subtasktopRow.IsVisible = true;
-                headsubtask.IsVisible = true;
+                //headsubtask.IsVisible = true;
                 taskname.Text = Task.taskName;
+                subtodaydate.Text = DateTime.Today.Date.ToString("dd MMMM yyyy");
                 if (DateTime.Today < Task.EndTask)
                 {
                     TimeSpan daysleft = Task.EndTask - DateTime.Today;
@@ -89,7 +90,7 @@ namespace GO.Views.SubTaskView
                 // get all completed tasks
                 var subtasks = await datasubtask.GetSubTasksAsync(Subtask.TaskId);
                 var subtaskCompleted = subtasks.Where(T => T.IsCompleted).ToList();
-                completedsubtasks.Text = subtaskCompleted.Count().ToString();
+                //completedsubtasks.Text = subtaskCompleted.Count().ToString();
                 getsubtaskPercentage(subtasks, GetGoalTask);
             }
             else if (!Subtask.IsCompleted)
@@ -99,7 +100,7 @@ namespace GO.Views.SubTaskView
                 // get all completed tasks
                 var subtasks = await datasubtask.GetSubTasksAsync(Subtask.TaskId);
                 var subtaskCompleted = subtasks.Where(T => T.IsCompleted == false).ToList();
-                completedsubtasks.Text = subtaskCompleted.Count().ToString();
+              //  completedsubtasks.Text = subtaskCompleted.Count().ToString();
                 getsubtaskPercentage(subtasks, GetGoalTask);
             }
             return;

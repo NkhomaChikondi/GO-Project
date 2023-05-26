@@ -1640,6 +1640,18 @@
           "buildTransitive/Xamarin.Forms.props": {},
           "buildTransitive/Xamarin.Forms.targets": {}
         }
+      },
+      "Xamarin.Plugin.Calendar/2.0.9699": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.Forms": "4.8.0.1687"
+        },
+        "compile": {
+          "lib/netstandard2.0/Xamarin.Plugin.Calendar.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Xamarin.Plugin.Calendar.dll": {}
+        }
       }
     }
   },
@@ -6062,6 +6074,26 @@
         "xamarin.forms.5.0.0.2478.nupkg.sha512",
         "xamarin.forms.nuspec"
       ]
+    },
+    "Xamarin.Plugin.Calendar/2.0.9699": {
+      "sha512": "Yt1MHlv1uu9LiihnsyyCc/YagU2bJcQLi6XPtLneW8WiT8uLemgGDu0O75hFvdEtyk8uUOg/1pR9jNbnP+dzQw==",
+      "type": "package",
+      "path": "xamarin.plugin.calendar/2.0.9699",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/monoandroid10.0/Xamarin.Plugin.Calendar.dll",
+        "lib/monoandroid10.0/Xamarin.Plugin.Calendar.pdb",
+        "lib/monoandroid10.0/Xamarin.Plugin.Calendar.xml",
+        "lib/netstandard2.0/Xamarin.Plugin.Calendar.dll",
+        "lib/netstandard2.0/Xamarin.Plugin.Calendar.pdb",
+        "lib/netstandard2.0/Xamarin.Plugin.Calendar.xml",
+        "lib/xamarinios10/Xamarin.Plugin.Calendar.dll",
+        "lib/xamarinios10/Xamarin.Plugin.Calendar.pdb",
+        "lib/xamarinios10/Xamarin.Plugin.Calendar.xml",
+        "xamarin.plugin.calendar.2.0.9699.nupkg.sha512",
+        "xamarin.plugin.calendar.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -6076,6 +6108,7 @@
       "Xamarin.CommunityToolkit >= 2.0.2",
       "Xamarin.Essentials >= 1.7.3",
       "Xamarin.Forms >= 5.0.0.2478",
+      "Xamarin.Plugin.Calendar >= 2.0.9699",
       "sqlite-net-pcl >= 1.8.116"
     ]
   },
@@ -6162,6 +6195,10 @@
           "Xamarin.Forms": {
             "target": "Package",
             "version": "[5.0.0.2478, )"
+          },
+          "Xamarin.Plugin.Calendar": {
+            "target": "Package",
+            "version": "[2.0.9699, )"
           },
           "sqlite-net-pcl": {
             "target": "Package",
