@@ -101,12 +101,12 @@ namespace GO.Views.GoalTask
                        
                     }                   
                 }
-                //btall.BackgroundColor = Color.LightGray;
-                //StackTaskBlank.IsVisible = false;
-                //tasktoprow.IsVisible = true;
-                //headtask.IsVisible = true;
-                //StackTasklist.IsVisible = true;
-               goalName.Text = goal.Name;
+               // btall.BackgroundColor = Color.LightGray;
+                StackTaskBlank.IsVisible = false;
+                tasktoprow.IsVisible = true;
+                headtask.IsVisible = true;
+                StackTasklist.IsVisible = true;
+                goalName.Text = goal.Name;
                 todaydate.Text = DateTime.Today.Date.ToString("dd MMMM yyyy");
                 var roundedgoal = Math.Round(goalpercent, 2);
                 progressobtained.Text = roundedgoal.ToString();

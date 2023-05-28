@@ -39,19 +39,20 @@ namespace GO.Views.SubTaskView
             GetGoalTask = Task;
             if(subtasks.Count() == 0)
             {
-                //headsubtask.IsVisible = false;
-                //StackSubBlank.IsVisible = true;
-                //StackSublist.IsVisible = false;
+                headsubtask.IsVisible = false;
+                StackSubBlank.IsVisible = true;
+                StackSublist.IsVisible = false;
                 subtasktopRow.IsVisible = false;                
             }
             else
             {
-                //StackSublist.IsVisible = true;
-                //StackSubBlank.IsVisible = false;
+                StackSublist.IsVisible = true;
+                StackSubBlank.IsVisible = false;
                 subtasktopRow.IsVisible = true;
-                //headsubtask.IsVisible = true;
+                headsubtask.IsVisible = true;
                 taskname.Text = Task.taskName;
-                subtodaydate.Text = DateTime.Today.Date.ToString("dd MMMM yyyy");
+                 getsubtaskPercentage(subtasks,Task);
+                //subtodaydate.Text = DateTime.Today.Date.ToString("dd MMMM yyyy");
                 if (DateTime.Today < Task.EndTask)
                 {
                     TimeSpan daysleft = Task.EndTask - DateTime.Today;
@@ -107,20 +108,27 @@ namespace GO.Views.SubTaskView
         }
          
          void getsubtaskPercentage(IEnumerable<Subtask> subtasks, Models.GoalTask goalTask)
-        {
+         {
             var subtaskPercentage = 0.0;
             // get only completes subtasks
             var completedSubtasks = subtasks.Where(t => t.IsCompleted).ToList();
-            // loop through the completed subtasks to get the total accumulated percentage
-            foreach (var subtask in completedSubtasks)
+            if(completedSubtasks.Count() == 0)
             {
-                subtaskPercentage += subtask.Percentage;
+                subtasktotalpercentage.Text = "0";
+                taskprogress.Progress = 0;
             }
-            var TaskRoundedPercentage = Math.Round(subtaskPercentage,2);
-            subtasktotalpercentage.Text = TaskRoundedPercentage.ToString();
-            taskprogress.Progress = TaskRoundedPercentage / goalTask.PendingPercentage;         
-
-        }
+            else 
+            {
+                // loop through the completed subtasks to get the total accumulated percentage
+                foreach (var subtask in completedSubtasks)
+                {
+                    subtaskPercentage += subtask.Percentage;
+                }
+                var TaskRoundedPercentage = Math.Round(subtaskPercentage, 2);
+                subtasktotalpercentage.Text = TaskRoundedPercentage.ToString();
+                taskprogress.Progress = TaskRoundedPercentage / goalTask.Percentage;
+            }          
+         }
         //private async void ball_Clicked(object sender, EventArgs e)
         //{
         //    bnotstarted.BackgroundColor = Color.Transparent;
