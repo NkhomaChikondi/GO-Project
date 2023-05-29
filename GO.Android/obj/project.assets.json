@@ -4945,11 +4945,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Documents\\GO-Project\\GO.Android\\GO.Android.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Documents\\GO_Project\\GO.Android\\GO.Android.csproj",
       "projectName": "GO.Android",
-      "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\GO.Android\\GO.Android.csproj",
+      "projectPath": "C:\\Users\\User\\Documents\\GO_Project\\GO.Android\\GO.Android.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Documents\\GO-Project\\GO.Android\\obj\\",
+      "outputPath": "C:\\Users\\User\\Documents\\GO_Project\\GO.Android\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -4970,8 +4970,8 @@
       "frameworks": {
         "monoandroid10.0": {
           "projectReferences": {
-            "C:\\Users\\User\\Documents\\GO-Project\\GO\\GO.csproj": {
-              "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\GO\\GO.csproj"
+            "C:\\Users\\User\\Documents\\GO_Project\\GO\\GO.csproj": {
+              "projectPath": "C:\\Users\\User\\Documents\\GO_Project\\GO\\GO.csproj"
             }
           }
         }

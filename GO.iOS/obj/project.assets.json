@@ -3628,11 +3628,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Documents\\GO-Project\\GO.iOS\\GO.iOS.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Documents\\GO_Project\\GO.iOS\\GO.iOS.csproj",
       "projectName": "GO.iOS",
-      "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\GO.iOS\\GO.iOS.csproj",
+      "projectPath": "C:\\Users\\User\\Documents\\GO_Project\\GO.iOS\\GO.iOS.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Documents\\GO-Project\\GO.iOS\\obj\\",
+      "outputPath": "C:\\Users\\User\\Documents\\GO_Project\\GO.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -3653,8 +3653,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "C:\\Users\\User\\Documents\\GO-Project\\GO\\GO.csproj": {
-              "projectPath": "C:\\Users\\User\\Documents\\GO-Project\\GO\\GO.csproj"
+            "C:\\Users\\User\\Documents\\GO_Project\\GO\\GO.csproj": {
+              "projectPath": "C:\\Users\\User\\Documents\\GO_Project\\GO\\GO.csproj"
             }
           }
         }

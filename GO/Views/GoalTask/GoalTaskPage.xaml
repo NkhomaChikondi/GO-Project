@@ -59,64 +59,41 @@
             -->
             <Label Margin="10,10" Text="Goal" FontSize="20" TextColor="#61a5c2"  FontAttributes="Bold" />
             <Frame CornerRadius="15" HasShadow="True" Margin="15,-5,15,15" BorderColor="#e9ecef" BackgroundColor="#e9ecef">
-                <StackLayout Orientation="Vertical">
-                    <Label TextColor="#61a5c2" FontSize="13.5">
+                <Grid   HorizontalOptions="FillAndExpand">
+                    <RelativeLayout VerticalOptions="Center"/>
+                    <Label Grid.Column=" 0" Grid.ColumnSpan="4" Grid.Row="0" x:Name="label"  Padding="0,0,0,0" HorizontalTextAlignment="Start">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Today:  "    />
-                                <Span x:Name="todaydate"  Text="" />
+                                <Span x:Name="goalName"  TextColor="#343a40" FontAttributes="Bold" FontSize="18" />
+                                <Span Text="{x:Static x:Environment.NewLine}" />
+                                <Span  Text=" Days remaining: " TextColor="#6c757d" FontSize="16"/>
+                                <Span x:Name="daysLeft" TextColor="#6c757d" FontSize="16"  />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                   
-                    <StackLayout Orientation="Horizontal">
-                        <StackLayout HorizontalOptions="StartAndExpand" Margin="0,0">
-                            <Label x:Name="goalName" Text="" TextColor="#343a40" FontAttributes="Bold" FontSize="17"/>
-                            <StackLayout Orientation="Horizontal">
-                                <StackLayout HorizontalOptions="StartAndExpand">
-                                    <Label TextColor="#6c757d" FontSize="16">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Days remaining: "    />
-                                                <Span x:Name="daysLeft" Text="" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                </StackLayout>
-                            </StackLayout>
-                        </StackLayout>
-                        <StackLayout Orientation="Horizontal" Margin="0,-13" HorizontalOptions="FillAndExpand">
-                            <StackLayout >
-                                <Frame HasShadow="True" CornerRadius="20" >
-                                    <StackLayout Orientation="Vertical" >
-                                        <StackLayout Orientation="Horizontal">
-                                            <StackLayout  Orientation="Horizontal" >
-                                                <StackLayout >
-                                                   <Label TextColor="#6c757d" FontSize="16">
-                                                       <Label.FormattedText>
-                                                        <FormattedString>                                                            
-                                                         <Span x:Name="progressobtained" Text="" />
-                                                          <Span Text="{x:Static x:Environment.NewLine}" />
-                                                          <Span Text=" % "    />
-                                                            </FormattedString>
-                                                    </Label.FormattedText>
-                                                    </Label>
-                                                    
-                                                </StackLayout>                                          
-                                            </StackLayout>
-                                        </StackLayout>
-                                        
-                                    </StackLayout>
-                                </Frame>
-                            </StackLayout>
+
+                    <Grid Grid.Column=" 4" Grid.Row="0" VerticalOptions="CenterAndExpand">
+
+                        <plugin:ProgressRing x:Name="goalprogress" HeightRequest="60" Scale="1.4" WidthRequest="60" RingThickness="3"  RingBaseColor="#495057" ProgressColor="#61a5c2"
+ />
+                        <StackLayout VerticalOptions="CenterAndExpand" >
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span x:Name="goaltotalpercentage" TextColor="#343a40" FontSize="16"/>
+                                        <Span Text="%" TextColor="#343a40" FontSize="16"  />
+                                        <Span Text="{x:Static x:Environment.NewLine}" />
+                                        <Span Text="progress"  TextColor="#343a40" FontSize="13"  />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
                         </StackLayout>
-                    </StackLayout>
-                   
 
+                    </Grid>
 
-
-                </StackLayout>
+                </Grid>
+             
             </Frame>
 
 

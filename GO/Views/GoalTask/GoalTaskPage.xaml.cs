@@ -107,10 +107,11 @@ namespace GO.Views.GoalTask
                 headtask.IsVisible = true;
                 StackTasklist.IsVisible = true;
                 goalName.Text = goal.Name;
-                todaydate.Text = DateTime.Today.Date.ToString("dd MMMM yyyy");
+                await calculateGoalPercentage(goal);
+                //todaydate.Text = DateTime.Today.Date.ToString("dd MMMM yyyy");
                 var roundedgoal = Math.Round(goalpercent, 2);
-                progressobtained.Text = roundedgoal.ToString();
-                var roundedtodayprogress = Math.Round(todaypercent, 2);
+                //progressobtained.Text = roundedgoal.ToString();
+                //var roundedtodayprogress = Math.Round(todaypercent, 2);
                 
                // todayprogress.Text = roundedtodayprogress.ToString();
                 // get all tasks completed today
@@ -216,7 +217,8 @@ namespace GO.Views.GoalTask
             }
             //goals calculation
             goalRoundedPercentage = TaskPercentage + subtaskpercentage;
-           progressobtained.Text = Math.Round(goalRoundedPercentage,2).ToString();
+            goaltotalpercentage.Text = Math.Round(goalRoundedPercentage, 2).ToString();
+            goalprogress.Progress = goalRoundedPercentage / goal.ExpectedPercentage;
           //  todayprogress.Text = Math.Round(taskscreatedToday, 2).ToString();
 
             TaskPercentage = 0;
