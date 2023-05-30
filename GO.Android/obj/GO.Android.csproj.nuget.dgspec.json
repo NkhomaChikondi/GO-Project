@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[7.1.1, )"
             },
+            "Plugin.XCalendar": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
             "Refractored.MvvmHelpers": {
               "target": "Package",
               "version": "[1.6.2, )"
@@ -65,6 +69,10 @@
             "Shiny.Jobs": {
               "target": "Package",
               "version": "[2.5.4, )"
+            },
+            "XCalendar.Forms": {
+              "target": "Package",
+              "version": "[4.5.1, )"
             },
             "Xam.Plugins.Forms.ProgressRing": {
               "target": "Package",
@@ -81,10 +89,6 @@
             "Xamarin.Forms": {
               "target": "Package",
               "version": "[5.0.0.2478, )"
-            },
-            "Xamarin.Plugin.Calendar": {
-              "target": "Package",
-              "version": "[2.0.9699, )"
             },
             "sqlite-net-pcl": {
               "target": "Package",
@@ -146,6 +150,10 @@
               "target": "Package",
               "version": "[7.1.1, )"
             },
+            "Plugin.XCalendar": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
             "Refractored.MvvmHelpers": {
               "target": "Package",
               "version": "[1.6.2, )"
@@ -157,6 +165,10 @@
             "Shiny.Jobs": {
               "target": "Package",
               "version": "[2.5.4, )"
+            },
+            "XCalendar.Forms": {
+              "target": "Package",
+              "version": "[4.5.1, )"
             },
             "Xam.Plugins.Forms.ProgressRing": {
               "target": "Package",
@@ -173,10 +185,6 @@
             "Xamarin.Forms": {
               "target": "Package",
               "version": "[5.0.0.2478, )"
-            },
-            "Xamarin.Plugin.Calendar": {
-              "target": "Package",
-              "version": "[2.0.9699, )"
             },
             "sqlite-net-pcl": {
               "target": "Package",

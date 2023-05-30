@@ -102,7 +102,9 @@ public class MonoPackageManager_Resources {
 		"Xamarin.GooglePlayServices.Location.dll",
 		"Xamarin.GooglePlayServices.Places.PlaceReport.dll",
 		"Xamarin.GooglePlayServices.Tasks.dll",
-		"Xamarin.Plugin.Calendar.dll",
+		"XCalendar.Core.dll",
+		"XCalendar.dll",
+		"XCalendar.Forms.dll",
 	};
 	public static String[] Dependencies = new String[]{
 	};

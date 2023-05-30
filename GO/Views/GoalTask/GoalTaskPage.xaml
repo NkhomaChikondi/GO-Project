@@ -32,7 +32,6 @@
                  Priority="0"
             Command="{Binding HelpCommand}"
         />
-
     </ContentPage.ToolbarItems>
     <Grid VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
@@ -54,8 +53,7 @@
                         <Button x:Name="btduesoon"   BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="btduesoon_Clicked"></Button>
                         <Button x:Name="btexpired"  BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="btexpired_Clicked"></Button>
                     </StackLayout>
-                </ScrollView>       
-            
+                </ScrollView>               
             -->
             <Label Margin="10,10" Text="Goal" FontSize="20" TextColor="#61a5c2"  FontAttributes="Bold" />
             <Frame CornerRadius="15" HasShadow="True" Margin="15,-5,15,15" BorderColor="#e9ecef" BackgroundColor="#e9ecef">
@@ -87,26 +85,18 @@
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
-
                         </StackLayout>
-
                     </Grid>
-
-                </Grid>
-             
+                </Grid>             
             </Frame>
-
-
         </StackLayout>
-
 
         <StackLayout Grid.Row="2" Grid.ColumnSpan="4" Margin="14,12" Orientation="Horizontal" x:Name="headtask" >
             <StackLayout HorizontalOptions="StartAndExpand">
                 <Label Text="Goal tasks" TextColor="#61a5c2" FontAttributes="Bold" FontSize="20"/>
             </StackLayout>
             <StackLayout HorizontalOptions="EndAndExpand" Margin="20,0">
-                <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                   Glyph={x:Static helpers:IconFont.Sort},Size=26,Color=#61a5c2}" Clicked="ImageButton_Clicked_1" BackgroundColor="Transparent" />
+                <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Sort},Size=26,Color=#61a5c2}" Clicked="ImageButton_Clicked_1" BackgroundColor="Transparent" />
             </StackLayout>
         </StackLayout>
 
@@ -125,8 +115,7 @@
                    IsRefreshing="{Binding IsBusy,Mode=OneWay}">
                 <ListView.Behaviors>
                     <xct:EventToCommandBehavior EventName="ItemTapped"
-                                              Command="{Binding SendTaskIdCommand}"
-                                              EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
+                                              Command="{Binding SendTaskIdCommand}" EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
                 </ListView.Behaviors>
 
                 <ListView.ItemTemplate>
@@ -180,7 +169,6 @@
                                         </StackLayout>
                                     </Frame>
                                 </StackLayout>
-
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -197,10 +185,6 @@
                          AbsoluteLayout.LayoutFlags="PositionProportional"
 				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
             />
-
-
-
-
         </AbsoluteLayout>
         <StackLayout Grid.Row=" 3" Grid.Column="0" Grid.ColumnSpan="4" IsVisible="False" x:Name="StackTaskBlank">
             <StackLayout Margin="0,80">
@@ -219,9 +203,5 @@
                            HorizontalOptions="FillAndExpand"
                            Grid.RowSpan="2"
                            Grid.ColumnSpan="3"/>
-
-
-
-
     </Grid>
 </ContentPage>

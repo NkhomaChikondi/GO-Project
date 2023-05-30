@@ -29,6 +29,7 @@ namespace GO
             Routing.RegisterRoute(nameof(UpdateSubtaskPage), typeof(UpdateSubtaskPage));
             Routing.RegisterRoute(nameof(UpdateGoalPage), typeof(UpdateGoalPage));
             Routing.RegisterRoute(nameof(WeeklyTask), typeof(WeeklyTask));
+            Routing.RegisterRoute(nameof(Weekly_Task), typeof(Weekly_Task));
             Routing.RegisterRoute(nameof(AddPlannedTask), typeof(AddPlannedTask));
             Routing.RegisterRoute(nameof(UpdateWeekTask), typeof(UpdateWeekTask));
             Routing.RegisterRoute(nameof(UpdateWeekSubtask), typeof(UpdateWeekSubtask));

@@ -56,8 +56,70 @@
                     </StackLayout>
 
                 </StackLayout>
+                <StackLayout Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="4">
+                    <StackLayout Orientation="Vertical"  Grid.ColumnSpan="4" HorizontalOptions="FillAndExpand" >
+                        <StackLayout  Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="20,0">
+                            <Label Text="       Select days for your task" TextColor="#61a5c2" FontSize="17" FontAttributes="Bold"  />
+                            <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.ChevronDown},Size=30,Color=Red}"  BackgroundColor="Transparent" />
+                        </StackLayout>                       
+                        <StackLayout>
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span x:Name="Sun" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Mon" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Tue" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Wed" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Thu" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Fri" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Sat" Text="" TextColor="#343a40" FontSize="16"/>                                       
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Frame CornerRadius="20">
+                            <StackLayout >
+                                <Label Text="S" HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                        </Frame>
+                        <Frame CornerRadius="20">
+                            <StackLayout HorizontalOptions="StartAndExpand">
+                                <Label Text="M" HorizontalOptions="Start"/>
+                            </StackLayout>
+                        </Frame>
+                        <Frame CornerRadius="20">
+                            <StackLayout>
+                                <Label Text="T" HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                        </Frame>
+                        <Frame CornerRadius="20">
+                            <StackLayout>
+                                <Label Text="W" HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                        </Frame>
+                        <Frame CornerRadius="20">
+                            <StackLayout>
+                                <Label Text="T" HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                        </Frame>
+                        <Frame CornerRadius="20">
+                            <StackLayout>
+                                <Label Text="F" HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                        </Frame>
+                        <Frame CornerRadius="20">
+                            <StackLayout>
+                                <Label Text="S" HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
 
-                <StackLayout Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="5" Padding="15" Margin="0,-20,0,0" >
+                </StackLayout>
+                
+
+                <StackLayout Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="5" Padding="15" Margin="0,-20,0,0" >
 
 
                     <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="   Add Task    " Command="{Binding TaskAddWeekCommand}" CornerRadius="15" Margin="20,0,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"

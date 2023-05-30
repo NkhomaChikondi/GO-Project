@@ -166,6 +166,19 @@
           "lib/MonoAndroid10/Plugin.Share.dll": {}
         }
       },
+      "Plugin.XCalendar/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.CommunityToolkit": "1.3.0",
+          "Xamarin.Forms": "5.0.0.2196"
+        },
+        "compile": {
+          "lib/netstandard2.0/XCalendar.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/XCalendar.dll": {}
+        }
+      },
       "Refractored.MvvmHelpers/1.6.2": {
         "type": "package",
         "dependencies": {
@@ -2164,19 +2177,26 @@
           "build/monoandroid90/_._": {}
         }
       },
-      "Xamarin.Plugin.Calendar/2.0.9699": {
+      "XCalendar.Core/4.5.0": {
         "type": "package",
-        "dependencies": {
-          "Xamarin.Forms": "4.8.0.1687"
-        },
-        "frameworkAssemblies": [
-          "Java.Interop"
-        ],
         "compile": {
-          "lib/monoandroid10.0/Xamarin.Plugin.Calendar.dll": {}
+          "lib/netstandard2.0/XCalendar.Core.dll": {}
         },
         "runtime": {
-          "lib/monoandroid10.0/Xamarin.Plugin.Calendar.dll": {}
+          "lib/netstandard2.0/XCalendar.Core.dll": {}
+        }
+      },
+      "XCalendar.Forms/4.5.1": {
+        "type": "package",
+        "dependencies": {
+          "XCalendar.Core": "4.5.0",
+          "Xamarin.Forms": "5.0.0.2196"
+        },
+        "compile": {
+          "lib/netstandard2.0/XCalendar.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/XCalendar.Forms.dll": {}
         }
       },
       "GO/1.0.0": {
@@ -2186,14 +2206,15 @@
           "Microcharts.Forms": "0.9.5.9",
           "Plugin.LocalNotification": "10.0.2",
           "Plugin.Share": "7.1.1",
+          "Plugin.XCalendar": "2.1.0",
           "Refractored.MvvmHelpers": "1.6.2",
           "Shiny.Core": "2.5.4",
           "Shiny.Jobs": "2.5.4",
+          "XCalendar.Forms": "4.5.1",
           "Xam.Plugins.Forms.ProgressRing": "0.1.2",
           "Xamarin.CommunityToolkit": "2.0.2",
           "Xamarin.Essentials": "1.7.3",
           "Xamarin.Forms": "5.0.0.2478",
-          "Xamarin.Plugin.Calendar": "2.0.9699",
           "sqlite-net-pcl": "1.8.116"
         },
         "compile": {
@@ -2507,6 +2528,19 @@
         "lib/netstandard1.0/Plugin.Share.xml",
         "plugin.share.7.1.1.nupkg.sha512",
         "plugin.share.nuspec"
+      ]
+    },
+    "Plugin.XCalendar/2.1.0": {
+      "sha512": "+2o6g4N692RHRRb6+OIep5KbAiYJ7XU7acHHXqFwJrie4E4ID53sCAJQP36/KP0tarvCpUjsWqJ8SN8tlLejZg==",
+      "type": "package",
+      "path": "plugin.xcalendar/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "XCalendar Nuget Icon.png",
+        "lib/netstandard2.0/XCalendar.dll",
+        "plugin.xcalendar.2.1.0.nupkg.sha512",
+        "plugin.xcalendar.nuspec"
       ]
     },
     "Refractored.MvvmHelpers/1.6.2": {
@@ -4895,24 +4929,30 @@
         "xamarin.googleplayservices.tasks.nuspec"
       ]
     },
-    "Xamarin.Plugin.Calendar/2.0.9699": {
-      "sha512": "Yt1MHlv1uu9LiihnsyyCc/YagU2bJcQLi6XPtLneW8WiT8uLemgGDu0O75hFvdEtyk8uUOg/1pR9jNbnP+dzQw==",
+    "XCalendar.Core/4.5.0": {
+      "sha512": "0vKLc1kWTQN+IuVmq6KB3F4Fnm9Iasom07fbr7QOpr2pfikc2Ai6wIqRNq8g+A74h6120aBOe2afrCi1pHr0eg==",
       "type": "package",
-      "path": "xamarin.plugin.calendar/2.0.9699",
+      "path": "xcalendar.core/4.5.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/monoandroid10.0/Xamarin.Plugin.Calendar.dll",
-        "lib/monoandroid10.0/Xamarin.Plugin.Calendar.pdb",
-        "lib/monoandroid10.0/Xamarin.Plugin.Calendar.xml",
-        "lib/netstandard2.0/Xamarin.Plugin.Calendar.dll",
-        "lib/netstandard2.0/Xamarin.Plugin.Calendar.pdb",
-        "lib/netstandard2.0/Xamarin.Plugin.Calendar.xml",
-        "lib/xamarinios10/Xamarin.Plugin.Calendar.dll",
-        "lib/xamarinios10/Xamarin.Plugin.Calendar.pdb",
-        "lib/xamarinios10/Xamarin.Plugin.Calendar.xml",
-        "xamarin.plugin.calendar.2.0.9699.nupkg.sha512",
-        "xamarin.plugin.calendar.nuspec"
+        "XCalendar.Core Nuget Icon.png",
+        "lib/netstandard2.0/XCalendar.Core.dll",
+        "xcalendar.core.4.5.0.nupkg.sha512",
+        "xcalendar.core.nuspec"
+      ]
+    },
+    "XCalendar.Forms/4.5.1": {
+      "sha512": "w8PFJb5m1BSE1XP+DhZ46S9B2DDU1hMdrlBlF+SGQCL5MrDPi6O67HFxSCRiE7kG2cl6gxvvTmhy3r4yxxFAXw==",
+      "type": "package",
+      "path": "xcalendar.forms/4.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "XCalendar.Forms Nuget Icon.png",
+        "lib/netstandard2.0/XCalendar.Forms.dll",
+        "xcalendar.forms.4.5.1.nupkg.sha512",
+        "xcalendar.forms.nuspec"
       ]
     },
     "GO/1.0.0": {
@@ -4927,14 +4967,15 @@
       "Microcharts.Forms >= 0.9.5.9",
       "Plugin.LocalNotification >= 10.0.2",
       "Plugin.Share >= 7.1.1",
+      "Plugin.XCalendar >= 2.1.0",
       "Refractored.MvvmHelpers >= 1.6.2",
       "Shiny.Core >= 2.5.4",
       "Shiny.Jobs >= 2.5.4",
+      "XCalendar.Forms >= 4.5.1",
       "Xam.Plugins.Forms.ProgressRing >= 0.1.2",
       "Xamarin.CommunityToolkit >= 2.0.2",
       "Xamarin.Essentials >= 1.7.3",
       "Xamarin.Forms >= 5.0.0.2478",
-      "Xamarin.Plugin.Calendar >= 2.0.9699",
       "sqlite-net-pcl >= 1.8.116"
     ]
   },
@@ -4992,6 +5033,10 @@
             "target": "Package",
             "version": "[7.1.1, )"
           },
+          "Plugin.XCalendar": {
+            "target": "Package",
+            "version": "[2.1.0, )"
+          },
           "Refractored.MvvmHelpers": {
             "target": "Package",
             "version": "[1.6.2, )"
@@ -5003,6 +5048,10 @@
           "Shiny.Jobs": {
             "target": "Package",
             "version": "[2.5.4, )"
+          },
+          "XCalendar.Forms": {
+            "target": "Package",
+            "version": "[4.5.1, )"
           },
           "Xam.Plugins.Forms.ProgressRing": {
             "target": "Package",
@@ -5019,10 +5068,6 @@
           "Xamarin.Forms": {
             "target": "Package",
             "version": "[5.0.0.2478, )"
-          },
-          "Xamarin.Plugin.Calendar": {
-            "target": "Package",
-            "version": "[2.0.9699, )"
           },
           "sqlite-net-pcl": {
             "target": "Package",

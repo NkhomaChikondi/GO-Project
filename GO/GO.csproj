@@ -40,6 +40,7 @@
     <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
     <PackageReference Include="Plugin.LocalNotification" Version="10.0.2" />
     <PackageReference Include="Plugin.Share" Version="7.1.1" />
+    <PackageReference Include="Plugin.XCalendar" Version="2.1.0" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
     <PackageReference Include="Shiny.Core" Version="2.5.4" />
     <PackageReference Include="Shiny.Jobs" Version="2.5.4" />
@@ -48,7 +49,7 @@
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />  
-    <PackageReference Include="Xamarin.Plugin.Calendar" Version="2.0.9699" />
+    <PackageReference Include="XCalendar.Forms" Version="4.5.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -86,6 +87,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\GoalTask\WeeklyTask.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\GoalTask\Weekly_Task.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\GoalTask\WeekTask.xaml">

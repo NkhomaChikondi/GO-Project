@@ -157,8 +157,12 @@ namespace GO.ViewModels.Goals
                     var weeks = await dataWeek.GetWeeksAsync(goal.Id);
                     var lastweek = weeks.ToList().LastOrDefault();
 
-                    var route = $"{nameof(WeekTask)}?weekId={lastweek.Id}";
+                    //var route = $"{nameof(Weekly_Task)}?weekId={lastweek.Id}";
+                    //await Shell.Current.GoToAsync(route);
+
+                    var route = $"{nameof(Weekly_Task)}";
                     await Shell.Current.GoToAsync(route);
+
 
                 }
                 else if (!goal.HasWeek && goal.Noweek)

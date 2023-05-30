@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xc="clr-namespace:XCalendar.Core.Models;assembly=XCalendar.Core" 
+             xmlns:xc1="clr-namespace:XCalendar.Forms.Views;assembly=XCalendar.Forms"
+             xmlns:xc2="clr-namespace:XCalendar;assembly=XCalendar"
+             x:Class="GO.Views.GoalTask.Weekly_Task"
+              xmlns:helpers="clr-namespace:GO.Font"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:Viewmodel="clr-namespace:GO.ViewModels.TaskInGoals"
+             Title="GO">
+    <ContentPage.BindingContext>
+        <Viewmodel:WeeklyTaskViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
+        </ResourceDictionary>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
+        </ResourceDictionary>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" BackgroundColor="#f8f9fa" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout>
+                <StackLayout Orientation="Horizontal" Margin="0,5">
+                    <Label Text="Your Weekly Tasks" FontSize="20" HorizontalOptions="Center" TextColor="#495057" FontAttributes="Bold" Margin="100,0,0,0"/>
+                    <StackLayout HorizontalOptions="EndAndExpand" Margin="18,0">
+                        <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.ViewDashboardOutline},Size=29,Color=#61a5c2}"  BackgroundColor="Transparent" />
+                    </StackLayout>
+                </StackLayout>
+
+                <Label Text="Week: 3" FontSize="17" HorizontalOptions="CenterAndExpand" TextColor="#495057" FontAttributes="Italic" Margin="0,-10,0,10" />
+
+                <xc2:CalendarView x:Name="calendarview"  AutoRows="True" BackgroundColor="White" NavigationBackgroundColor="#f79d65"  >                    
+                </xc2:CalendarView>
+                <StackLayout Grid.ColumnSpan="4" Margin="14,12" Orientation="Horizontal" x:Name="headtask" >
+                    <StackLayout HorizontalOptions="StartAndExpand">
+                        <Label Text="Goal tasks" TextColor="#61a5c2" FontAttributes="Bold" FontSize="20"/>
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="EndAndExpand" Margin="20,0">
+                        <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Sort},Size=26,Color=#61a5c2}"  BackgroundColor="Transparent" />
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Margin="40,600">
+            
+            <Button   Grid.Column="0"  Grid.ColumnSpan="4" Text="   Create Task    " Command="{Binding OnAddCommand}" HorizontalOptions="FillAndExpand"  CornerRadius="15" Margin="0,20"  BackgroundColor="#61a5c2" CharacterSpacing="10" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

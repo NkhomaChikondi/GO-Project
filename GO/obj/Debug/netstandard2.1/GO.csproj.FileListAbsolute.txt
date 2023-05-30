@@ -326,3 +326,4 @@ C:\Users\User\Documents\GO_Project\GO\obj\Debug\netstandard2.1\XamlC.stamp
 C:\Users\User\Documents\GO_Project\GO\obj\Debug\netstandard2.1\GO.dll
 C:\Users\User\Documents\GO_Project\GO\obj\Debug\netstandard2.1\ref\GO.dll
 C:\Users\User\Documents\GO_Project\GO\obj\Debug\netstandard2.1\GO.pdb
+C:\Users\User\Documents\GO_Project\GO\obj\Debug\netstandard2.1\Views\GoalTask\Weekly_Task.xaml.g.cs
