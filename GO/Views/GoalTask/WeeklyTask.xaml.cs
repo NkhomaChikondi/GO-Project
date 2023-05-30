@@ -117,7 +117,7 @@ namespace GO.Views.GoalTask
             wknum.Text = Week.WeekNumber.ToString();
             progressring.Progress = Week.Progress;
             wkpercentage.Text = Week.AccumulatedPercentage.ToString();
-            status.Text = Week.Status;           
+           // status.Text = Week.Status;           
             target.Text = Week.TargetPercentage.ToString();
             startdate.Text = Week.StartDate.ToShortDateString();
             enddate.Text = Week.EndDate.ToShortDateString();

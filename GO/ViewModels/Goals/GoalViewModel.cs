@@ -8,6 +8,7 @@ using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,7 +43,6 @@ namespace GO.ViewModels.Goals
             get
             { return categoryId; }
             set => categoryId = value;
-
         }
 
         public bool All { get => all; set => all = value; }
@@ -428,12 +428,12 @@ namespace GO.ViewModels.Goals
                 // check if today's date is more that last created week end date
                 if(DateTime.Today > LastCreatedWeek.EndDate)
                 {
-                    // check if it active
-                    if (LastCreatedWeek.Active)
-                    {
-                        LastCreatedWeek.Active = false;
-                        await dataWeek.UpdateWeekAsync(LastCreatedWeek);
-                    }
+                    //// check if it active
+                    //if (LastCreatedWeek.Active)
+                    //{
+                    //    LastCreatedWeek.Active = false;
+                    //    await dataWeek.UpdateWeekAsync(LastCreatedWeek);
+                    //}
                     // get the number of weeks in a goal
                     var totalWeeks = goal.NumberOfWeeks;
                     // calculate the percentage for every week
@@ -506,11 +506,11 @@ namespace GO.ViewModels.Goals
                                 EndDate = endDate,
                                 StartDate = startDate,
                                 AccumulatedPercentage = 0,
-                                Active = true,
+                              
                                 WeekNumber = WeekNumber,
                                 TargetPercentage = weekPercentage,
                                 Progress = 0,
-                                Status = "Not Started",
+                              
                                 GoalId = goal.Id
                             };
                             // add the new week to the database
@@ -549,6 +549,38 @@ namespace GO.ViewModels.Goals
             }
 
         }           
+        async Task createWeek(Goal goal)
+        {
+            DateTime startDate = new DateTime();
+            DateTime endDate = new DateTime();
+            // get the week of goals end date
+            CultureInfo ci = CultureInfo.InvariantCulture;
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.GetInstance(ci);
+            Calendar cal = ci.Calendar;
+
+            int week1 = cal.GetWeekOfYear(goal.End, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+            if(goal.Start.DayOfWeek.ToString() != "Sunday")
+            {
+                // get the date of next saturday
+               var nextsaturday = goal.Start.AddDays(6 - (int)goal.Start.DayOfWeek);
+                startDate = goal.Start;
+            }
+           else if (goal.Start.DayOfWeek.ToString() == "Sunday")
+           {              
+                startDate = goal.Start;
+           }
+            // loop through the number of weeks inside a goal
+            for (int i = 0; i < goal.NumberOfWeeks; i++)
+            {
+                var newWeek = new Week
+                {
+                    StartDate = startDate,
+                    
+                };
+
+            }
+           
+        }
         public async Task Refresh()
         {
             // set "IsBusy" to true

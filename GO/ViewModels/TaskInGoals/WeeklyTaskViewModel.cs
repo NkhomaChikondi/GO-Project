@@ -254,16 +254,16 @@ namespace GO.ViewModels.TaskInGoals
             }
             else
             {
-                if (week.Active || subtasks.Count() > 0)
-                {
-                    var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
-                    await Shell.Current.GoToAsync(route);
-                }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "There are no subtasks associated with this task.", "Ok");
-                    return;
-                }
+                //if (week.Active || subtasks.Count() > 0)
+                //{
+                //    var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
+                //    await Shell.Current.GoToAsync(route);
+                //}
+                //else
+                //{
+                //    await Application.Current.MainPage.DisplayAlert("Alert!", "There are no subtasks associated with this task.", "Ok");
+                //    return;
+                //}
             }
 
         }       
@@ -515,35 +515,35 @@ namespace GO.ViewModels.TaskInGoals
                 // get the week the day is assigned to
                 var week = await dataWeek.GetWeekAsync(day.WeekId);
 
-                if (week.Active)
-                {
-                    if(DateTime.Today.Date == day.Date.Date)
-                    {
-                        if (subtasks.Count() > 0)
-                            return;
-                        //check if it has no subtask
-                        else if (subtasks.Count() == 0)
-                        {
-                            task.IsCompleted = IsComplete;
-                            await dataTask.UpdateTaskAsync(task);
-                            await SetStatus();
-                            await CalculateTotalWeekPercentage(week);
-                        }
-                    }                 
-                    else
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
-                        await Refresh();
-                        return;
-                    }                 
-                }
-                else
-                {
-                    //await Refresh();
-                    await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The task has already expired.", "OK");
-                    await Refresh();
-                    return;
-                }
+                //if (week.Active)
+                //{
+                //    if(DateTime.Today.Date == day.Date.Date)
+                //    {
+                //        if (subtasks.Count() > 0)
+                //            return;
+                //        //check if it has no subtask
+                //        else if (subtasks.Count() == 0)
+                //        {
+                //            task.IsCompleted = IsComplete;
+                //            await dataTask.UpdateTaskAsync(task);
+                //            await SetStatus();
+                //            await CalculateTotalWeekPercentage(week);
+                //        }
+                //    }                 
+                //    else
+                //    {
+                //        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
+                //        await Refresh();
+                //        return;
+                //    }                 
+                //}
+                //else
+                //{
+                //    //await Refresh();
+                //    await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The task has already expired.", "OK");
+                //    await Refresh();
+                //    return;
+                //}
                    
               
             }           
@@ -563,35 +563,35 @@ namespace GO.ViewModels.TaskInGoals
                 //get the day the task is assigned to
                 var day = await dataDow.GetDOWAsync(task.DowId);
                 // get the week the day is assigned to
-                var week = await dataWeek.GetWeekAsync(day.WeekId);
-                if (week.Active)
-                {
-                    if (DateTime.Today.Date == day.Date.Date)
-                    { //check if it has subtask
-                        if (subtasks.Count() > 0)
-                            return;
-                        else if (subtasks.Count() == 0)
-                        {
-                            task.IsCompleted = IsComplete;
-                            await dataTask.UpdateTaskAsync(task);
-                            await SetStatus();
-                            await CalculateTotalWeekPercentage(week);
-                        }
-                    }
-                    else 
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot mark this task as uncompleted. The day allocated for the task has already passed.", "Ok");
-                        await Refresh();
-                        return;
-                    }
-                }
-                else
-                {
-                    //await Refresh();
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot mark this task as uncompleted. The task has already expired.", "OK");
-                    await Refresh();
-                    return;
-                }
+                //var week = await dataWeek.GetWeekAsync(day.WeekId);
+                //if (week.Active)
+                //{
+                //    if (DateTime.Today.Date == day.Date.Date)
+                //    { //check if it has subtask
+                //        if (subtasks.Count() > 0)
+                //            return;
+                //        else if (subtasks.Count() == 0)
+                //        {
+                //            task.IsCompleted = IsComplete;
+                //            await dataTask.UpdateTaskAsync(task);
+                //            await SetStatus();
+                //            await CalculateTotalWeekPercentage(week);
+                //        }
+                //    }
+                //    else 
+                //    {
+                //        await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot mark this task as uncompleted. The day allocated for the task has already passed.", "Ok");
+                //        await Refresh();
+                //        return;
+                //    }
+                //}
+                //else
+                //{
+                //    //await Refresh();
+                //    await Application.Current.MainPage.DisplayAlert("Alert!", "You cannot mark this task as uncompleted. The task has already expired.", "OK");
+                //    await Refresh();
+                //    return;
+                //}
                    
                
             }
@@ -705,17 +705,17 @@ namespace GO.ViewModels.TaskInGoals
                 week.Progress = week.AccumulatedPercentage / week.TargetPercentage;
             }
             // check if todays date is less than the weeks end date and update status accordingly
-            if (DateTime.Today < week.EndDate)
-            {
-                if (week.AccumulatedPercentage == 0)
-                    week.Status = "Not Started";
-                else if (week.AccumulatedPercentage > 0 && week.AccumulatedPercentage < week.TargetPercentage)
-                    week.Status = "InProgress";
-                else if (week.AccumulatedPercentage == week.TargetPercentage)
-                    week.Status = "Completed";
-            }
-            else if (DateTime.Today > week.EndDate)
-                week.Status = "Expired";
+            //if (DateTime.Today < week.EndDate)
+            //{
+            //    if (week.AccumulatedPercentage == 0)
+            //        week.Status = "Not Started";
+            //    else if (week.AccumulatedPercentage > 0 && week.AccumulatedPercentage < week.TargetPercentage)
+            //        week.Status = "InProgress";
+            //    else if (week.AccumulatedPercentage == week.TargetPercentage)
+            //        week.Status = "Completed";
+            //}
+            //else if (DateTime.Today > week.EndDate)
+            //    week.Status = "Expired";
             await dataWeek.UpdateWeekAsync(week);                    
                 
                         //reset the below variables

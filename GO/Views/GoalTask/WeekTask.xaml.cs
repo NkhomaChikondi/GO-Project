@@ -64,7 +64,7 @@ namespace GO.Views.GoalTask
 
                 if (DateTime.Today > week.EndDate)
                 {
-                    week.Active = false;
+                   // week.Active = false;
                     await dataWeek.UpdateWeekAsync(week);
                     status.Text = "Expired Week";
                 }
@@ -173,7 +173,7 @@ namespace GO.Views.GoalTask
                 var week = await dataWeek.GetWeekAsync(weekNumber);
                 if (DateTime.Today > week.EndDate)
                 {
-                    week.Active = false;
+                   // week.Active = false;
                     await dataWeek.UpdateWeekAsync(week);
 
                 }
@@ -187,143 +187,143 @@ namespace GO.Views.GoalTask
                 var Tasks = await DataTask.GetTasksAsync(goalId);
                 // get tasks thats have the weeknmber id
                 var weekTasks = Tasks.Where(d => d.WeekId == weekNumber).ToList();
-                if (week.Active)
-                {
-                    if (weektaskCount == 0)
-                    {
-                        newtaskAdded = false;
-                    }
-                    else if (weekTasks.Count() > weektaskCount)
-                    {
-                        newtaskAdded = true;
-                        weektaskCount = weekTasks.Count();
-                    }
-                    else if (weekTasks.Count() <= weektaskCount)
-                        newtaskAdded = false;
+                //if (week.Active)
+                //{
+                //    if (weektaskCount == 0)
+                //    {
+                //        newtaskAdded = false;
+                //    }
+                //    else if (weekTasks.Count() > weektaskCount)
+                //    {
+                //        newtaskAdded = true;
+                //        weektaskCount = weekTasks.Count();
+                //    }
+                //    else if (weekTasks.Count() <= weektaskCount)
+                //        newtaskAdded = false;
 
-                    weektaskCount = weekTasks.Count();
+                //    weektaskCount = weekTasks.Count();
 
-                    if (weekTasks.Count() == 0)
-                    {
-                        status.Text = "Active Week";
-                        addbtn.IsVisible = true;
-                        listView.IsVisible = false;
-                        notasks.IsVisible = true;
-                        notasks.Text = "They are no tasks for this week, Tap on the + button to add tasks";
-                        //  Daytask.Text = DateTime.Today.DayOfWeek.ToString();
-                        if (BindingContext is WeeklyTaskViewModel wvm)
-                        {
-                            wvm.GoalId = goal.Id;
-                            wvm.WeekId = weekNumber;
-                            taskNumber.Text = "0";
-                            Daytask.Text = "   No";
-                            framesun.BackgroundColor = Color.White;
-                            framemon.BackgroundColor = Color.White;
-                            frametue.BackgroundColor = Color.White;
-                            framewed.BackgroundColor = Color.White;
-                            framethu.BackgroundColor = Color.White;
-                            framefri.BackgroundColor = Color.White;
-                            framesat.BackgroundColor = Color.White;
-                            await wvm.Refresh();
-                        }
-                    }
-                    else if (weekTasks.Count() != 0)
-                    {
-                        if (BindingContext is WeeklyTaskViewModel wvm)
-                        {
-                            wvm.GoalId = goal.Id;
-                            // get the last inserted task
-                            var lastTask = weekTasks.ToList().LastOrDefault();
-                            if (newtaskAdded)
-                            {
-                                wvm.DaySelected = lastTask.DowId;
-                                await showButtonclicked(lastTask.DowId);
-                                Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
-                                newtaskAdded = false;
-                            }
-                            else
-                            {
-                                if (lastTask.StartTask > DateTime.Today)
-                                {
-                                    // get a task whose start date is today
-                                    var task = weekTasks.Where(s => s.StartTask.Date == DateTime.Today.Date).FirstOrDefault();
-                                    if (task == null)
-                                    {
-                                        wvm.DaySelected = lastTask.DowId;
-                                        await showButtonclicked(lastTask.DowId);
-                                        Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
-                                    }
-                                    else
-                                    {
-                                        wvm.DaySelected = task.DowId;
-                                        await showButtonclicked(task.DowId);
-                                        Daytask.Text = task.StartTask.DayOfWeek.ToString();
-                                    }
-                                }
-                            }
-                            wvm.WeekId = weekNumber;
-                            await wvm.Refresh();
-                        }
-                    }
-                }
-                else if (!week.Active)
-                {
+                //    if (weekTasks.Count() == 0)
+                //    {
+                //        status.Text = "Active Week";
+                //        addbtn.IsVisible = true;
+                //        listView.IsVisible = false;
+                //        notasks.IsVisible = true;
+                //        notasks.Text = "They are no tasks for this week, Tap on the + button to add tasks";
+                //        //  Daytask.Text = DateTime.Today.DayOfWeek.ToString();
+                //        if (BindingContext is WeeklyTaskViewModel wvm)
+                //        {
+                //            wvm.GoalId = goal.Id;
+                //            wvm.WeekId = weekNumber;
+                //            taskNumber.Text = "0";
+                //            Daytask.Text = "   No";
+                //            framesun.BackgroundColor = Color.White;
+                //            framemon.BackgroundColor = Color.White;
+                //            frametue.BackgroundColor = Color.White;
+                //            framewed.BackgroundColor = Color.White;
+                //            framethu.BackgroundColor = Color.White;
+                //            framefri.BackgroundColor = Color.White;
+                //            framesat.BackgroundColor = Color.White;
+                //            await wvm.Refresh();
+                //        }
+                //    }
+                //    else if (weekTasks.Count() != 0)
+                //    {
+                //        if (BindingContext is WeeklyTaskViewModel wvm)
+                //        {
+                //            wvm.GoalId = goal.Id;
+                //            // get the last inserted task
+                //            var lastTask = weekTasks.ToList().LastOrDefault();
+                //            if (newtaskAdded)
+                //            {
+                //                wvm.DaySelected = lastTask.DowId;
+                //                await showButtonclicked(lastTask.DowId);
+                //                Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
+                //                newtaskAdded = false;
+                //            }
+                //            else
+                //            {
+                //                if (lastTask.StartTask > DateTime.Today)
+                //                {
+                //                    // get a task whose start date is today
+                //                    var task = weekTasks.Where(s => s.StartTask.Date == DateTime.Today.Date).FirstOrDefault();
+                //                    if (task == null)
+                //                    {
+                //                        wvm.DaySelected = lastTask.DowId;
+                //                        await showButtonclicked(lastTask.DowId);
+                //                        Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
+                //                    }
+                //                    else
+                //                    {
+                //                        wvm.DaySelected = task.DowId;
+                //                        await showButtonclicked(task.DowId);
+                //                        Daytask.Text = task.StartTask.DayOfWeek.ToString();
+                //                    }
+                //                }
+                //            }
+                //            wvm.WeekId = weekNumber;
+                //            await wvm.Refresh();
+                //        }
+                //    }
+                //}
+                //else if (!week.Active)
+                //{
 
-                    if (weekTasks.Count() == 0)
-                    {
-                        status.Text = "Expired Week";
-                        addbtn.IsVisible = false;
-                        listView.IsVisible = false;
-                        notasks.IsVisible = true;
-                        notasks.Text = "They are no tasks for this week.";
-                        //  Daytask.Text = DateTime.Today.DayOfWeek.ToString();
-                        if (BindingContext is WeeklyTaskViewModel wvm)
-                        {
-                            wvm.GoalId = goal.Id;
-                            wvm.WeekId = weekNumber;
-                            taskNumber.Text = "0";
-                            Daytask.Text = "   No";
-                            framesun.BackgroundColor = Color.White;
-                            framemon.BackgroundColor = Color.White;
-                            frametue.BackgroundColor = Color.White;
-                            framewed.BackgroundColor = Color.White;
-                            framethu.BackgroundColor = Color.White;
-                            framefri.BackgroundColor = Color.White;
-                            framesat.BackgroundColor = Color.White;
-                            await wvm.Refresh();
-                        }
-                    }
-                    else if (weekTasks.Count() != 0)
-                    {
+                //    if (weekTasks.Count() == 0)
+                //    {
+                //        status.Text = "Expired Week";
+                //        addbtn.IsVisible = false;
+                //        listView.IsVisible = false;
+                //        notasks.IsVisible = true;
+                //        notasks.Text = "They are no tasks for this week.";
+                //        //  Daytask.Text = DateTime.Today.DayOfWeek.ToString();
+                //        if (BindingContext is WeeklyTaskViewModel wvm)
+                //        {
+                //            wvm.GoalId = goal.Id;
+                //            wvm.WeekId = weekNumber;
+                //            taskNumber.Text = "0";
+                //            Daytask.Text = "   No";
+                //            framesun.BackgroundColor = Color.White;
+                //            framemon.BackgroundColor = Color.White;
+                //            frametue.BackgroundColor = Color.White;
+                //            framewed.BackgroundColor = Color.White;
+                //            framethu.BackgroundColor = Color.White;
+                //            framefri.BackgroundColor = Color.White;
+                //            framesat.BackgroundColor = Color.White;
+                //            await wvm.Refresh();
+                //        }
+                //    }
+                //    else if (weekTasks.Count() != 0)
+                //    {
 
-                        status.Text = "Expired Week";
-                        addbtn.IsVisible = false;
-                        listView.IsVisible = true;
-                        notasks.IsVisible = false;
-                        if (BindingContext is WeeklyTaskViewModel wvm)
-                        {
-                            wvm.GoalId = goal.Id;
-                            if (wvm.DaySelected == 0)
-                            {
-                                // get the first task
-                                var firstTask = weekTasks.ToList().FirstOrDefault();
-                                wvm.DaySelected = firstTask.DowId;
-                                // Daytask.Text = firstTask.StartTask.DayOfWeek.ToString();
-                                await showButtonclicked(firstTask.DowId);
-                            }
-                            else
-                            {
-                                // get the last inserted task
-                                var lastTask = weekTasks.LastOrDefault();
-                                wvm.DaySelected = lastTask.DowId;
-                                // Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
-                                await showButtonclicked(lastTask.DowId);
-                            }
-                            wvm.WeekId = weekNumber;
-                            await wvm.Refresh();
-                        }
-                    }
-                }
+                //        status.Text = "Expired Week";
+                //        addbtn.IsVisible = false;
+                //        listView.IsVisible = true;
+                //        notasks.IsVisible = false;
+                //        if (BindingContext is WeeklyTaskViewModel wvm)
+                //        {
+                //            wvm.GoalId = goal.Id;
+                //            if (wvm.DaySelected == 0)
+                //            {
+                //                // get the first task
+                //                var firstTask = weekTasks.ToList().FirstOrDefault();
+                //                wvm.DaySelected = firstTask.DowId;
+                //                // Daytask.Text = firstTask.StartTask.DayOfWeek.ToString();
+                //                await showButtonclicked(firstTask.DowId);
+                //            }
+                //            else
+                //            {
+                //                // get the last inserted task
+                //                var lastTask = weekTasks.LastOrDefault();
+                //                wvm.DaySelected = lastTask.DowId;
+                //                // Daytask.Text = lastTask.StartTask.DayOfWeek.ToString();
+                //                await showButtonclicked(lastTask.DowId);
+                //            }
+                //            wvm.WeekId = weekNumber;
+                //            await wvm.Refresh();
+                //        }
+                //    }
+                //}
 
 
             }

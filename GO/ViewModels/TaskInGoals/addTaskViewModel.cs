@@ -79,11 +79,11 @@ namespace GO.ViewModels.TaskInGoals
                 // get the last inserted week
                 var lastweek = weeks.ToList().LastOrDefault();
                 //check if it active
-                if(!lastweek.Active)
-                {
-                    lastweek.Active = true;
-                    await dataWeek.UpdateWeekAsync(lastweek);
-                }
+                //if(!lastweek.Active)
+                //{
+                //    lastweek.Active = true;
+                //    await dataWeek.UpdateWeekAsync(lastweek);
+                //}
                 var dows = await dataDow.GetDOWsAsync(lastweek.Id);
                 // get the selected dow
                 var selecteddow = dows.Where(D => D.IsSelected).FirstOrDefault();
@@ -185,7 +185,7 @@ namespace GO.ViewModels.TaskInGoals
                     if (DateTime.Today >= lastweek.StartDate && DateTime.Today <= lastweek.EndDate)
                     {
                         // set lastinsertedWeek to active
-                        lastweek.Active = true;
+                        //lastweek.Active = true;
                         // update the database
                         await dataWeek.UpdateWeekAsync(lastweek);
                     }
@@ -371,11 +371,11 @@ namespace GO.ViewModels.TaskInGoals
         {
             double Taskcount = 0;
             // check if the week is active
-            if(!week.Active)
-            {
-                week.Active = true;
-                await dataWeek.UpdateWeekAsync(week);
-            }
+            //if(!week.Active)
+            //{
+            //    week.Active = true;
+            //    await dataWeek.UpdateWeekAsync(week);
+            //}
             // get tasks
             var tasks = await dataTask.GetTasksAsync(goalId);
             // get all tasks having the week id
@@ -400,12 +400,12 @@ namespace GO.ViewModels.TaskInGoals
         // a method to reassign percentage to all tasks in the database
         async void AddTaskPercent(Week week)
         {
-            // check if the week is active
-            if (!week.Active)
-            {
-                week.Active = true;
-                await dataWeek.UpdateWeekAsync(week);
-            }
+            //// check if the week is active
+            //if (!week.Active)
+            //{
+            //    week.Active = true;
+            //    await dataWeek.UpdateWeekAsync(week);
+            //}
             // set the percentage progress to zero
             percentageProgress = 0;
             var tasks = await dataTask.GetTasksAsync(goalId);

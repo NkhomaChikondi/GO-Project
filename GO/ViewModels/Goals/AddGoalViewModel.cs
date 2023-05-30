@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -194,7 +195,7 @@ namespace GO.ViewModels.Goals
                 await SendNotification();
                 if (HasWeek)
                 {
-                    await CreateWeek(newestGoal);                  
+                    await createWeek(newestGoal);                  
                 }
                 else
                 {
@@ -281,20 +282,18 @@ namespace GO.ViewModels.Goals
             }
             // how to find the end date
             var enddate = start.AddDays(dayValue);
-         
+
             // create a new week object
             var newWeek = new Week
             {
                 WeekNumber = 1,
                 TargetPercentage = weekPercentage,
                 AccumulatedPercentage = 0,
-                Active = true,
                 StartDate = start,
                 EndDate = enddate,
-                CreatedAutomatically = false,
                 Progress = 0,
-                Status = "Not Started",
-                GoalId = goalId
+                GoalId = goalId,
+
             };
             // save the newly created week to the database
             await dataWeek.AddWeekAsync(newWeek);
@@ -329,7 +328,63 @@ namespace GO.ViewModels.Goals
             await LocalNotificationCenter.Current.Show(notification);
 
         }
+        async Task createWeek(Goal goal)
+        {
+            // get the total number of goals from the database
+            var goals = await datagoal.GetGoalsAsync(categoryId);
+            //get the id of the last inserted id
+            var lastGoal = goals.ToList().LastOrDefault();
+            // get the total number of weeks from goal
+            var totalWeeks = goal.NumberOfWeeks;
+            // calculate the percentage for every week
+            var weekPercentage = 100 / totalWeeks;
+            var goalId = lastGoal.Id;
+            DateTime startDate = new DateTime();
+            DateTime endDate = new DateTime();
+            // get the week of goals end date
+            CultureInfo ci = CultureInfo.InvariantCulture;
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.GetInstance(ci);
+            Calendar cal = ci.Calendar;
 
+            int week1 = cal.GetWeekOfYear(goal.End, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+            if (goal.Start.DayOfWeek.ToString() != "Sunday")
+            {
+                // get the date of next saturday
+                var nextsaturday = goal.Start.AddDays(6 - (int)goal.Start.DayOfWeek);
+                startDate = goal.Start;
+                endDate = nextsaturday;
+            }
+            else if (goal.Start.DayOfWeek.ToString() == "Sunday")
+            {
+                startDate = goal.Start;
+                endDate = goal.Start.AddDays(6);
+            }
+            int counter = 0;
+            // loop through the number of weeks inside a goal
+            for (int i = 0; i < goal.NumberOfWeeks; i++)
+            {
+                counter++;
+                if(goal.NumberOfWeeks - i == 1)
+                {
+                    endDate = goal.End;
+                }
+                var newWeek = new Week
+                {
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    AccumulatedPercentage = 0,
+                   WeekNumber = counter,
+                   Progress = 0,
+                   GoalId = goalId,
+                   TargetPercentage= weekPercentage
+                };
+                await dataWeek.AddWeekAsync(newWeek);
+                startDate = endDate.AddDays(1);
+                endDate = startDate.AddDays(6);
+
+            }
+
+        }
 
     }
 }

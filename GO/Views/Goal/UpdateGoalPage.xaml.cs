@@ -481,11 +481,11 @@ namespace GO.Views.Goal
                                         EndDate = nextSaturday,
                                         StartDate = newGoal.Start,
                                         AccumulatedPercentage = 0,
-                                        Active = true,
+                                       
                                         WeekNumber = 1,
                                         TargetPercentage = weekPercentage,
                                         Progress = 0,
-                                        Status = "Not Started",
+                                       
                                         GoalId = Goal.Id
                                     };
                                     await dataWeek.AddWeekAsync(newWeek);

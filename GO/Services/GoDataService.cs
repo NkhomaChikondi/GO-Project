@@ -361,14 +361,12 @@ namespace GO.Services
                 Id = item.Id,
                 WeekNumber = item.WeekNumber,
                 TargetPercentage = item.TargetPercentage,
-                AccumulatedPercentage = item.AccumulatedPercentage,
-                Active = item.Active,
+                AccumulatedPercentage = item.AccumulatedPercentage,                
                 StartDate = item.StartDate,
                 EndDate = item.EndDate,
-                Progress = item.Progress,
-                Status = item.Status,
+                Progress = item.Progress,              
                 GoalId = item.GoalId,
-                CreatedAutomatically = item.CreatedAutomatically
+                
             };
             await db.InsertAsync(week);
             return await Task.FromResult(true);

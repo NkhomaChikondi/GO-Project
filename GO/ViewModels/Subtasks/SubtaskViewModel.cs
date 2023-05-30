@@ -253,32 +253,32 @@ namespace GO.ViewModels.Subtasks
                         var day = await dataDow.GetDOWAsync(task.DowId);
                         // get the week for the dow
                         var week = await dataWeek.GetWeekAsync(day.WeekId);
-                        if (week.Active)
-                        {
-                            // check if day is valid
-                            if (DateTime.Today.Date < task.StartTask.Date || DateTime.Today.Date > task.StartTask.Date)
-                            {
-                                await Application.Current.MainPage.DisplayAlert("Error!", "failed to complete this subtask. the day it was allocated to, has either passed or not reached yet.", "Ok");
-                                await Refresh();
-                                return;
-                            }
-                            else
-                            {
-                                subtask.IsCompleted = IsComplete;
-                                subtask.Status = "Completed";
-                                await dataSubTask.UpdateSubTaskAsync(subtask);
-                                await CheckTaskCompletion(task);
-                                await setStatus();
-                                await GetCompletedTasks();
-                            }
+                        ////if (week.Active)
+                        ////{
+                        ////    // check if day is valid
+                        ////    if (DateTime.Today.Date < task.StartTask.Date || DateTime.Today.Date > task.StartTask.Date)
+                        ////    {
+                        ////        await Application.Current.MainPage.DisplayAlert("Error!", "failed to complete this subtask. the day it was allocated to, has either passed or not reached yet.", "Ok");
+                        ////        await Refresh();
+                        ////        return;
+                        ////    }
+                        ////    else
+                        ////    {
+                        ////        subtask.IsCompleted = IsComplete;
+                        ////        subtask.Status = "Completed";
+                        ////        await dataSubTask.UpdateSubTaskAsync(subtask);
+                        ////        await CheckTaskCompletion(task);
+                        ////        await setStatus();
+                        ////        await GetCompletedTasks();
+                        ////    }
 
-                        }
-                        else
-                        {
-                            //await Refresh();
-                            await Application.Current.MainPage.DisplayAlert("Error!", "Failed to complete this subtask. It has expired!", "Ok");
-                            return;
-                        }
+                        ////}
+                        ////else
+                        ////{
+                        ////    //await Refresh();
+                        ////    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to complete this subtask. It has expired!", "Ok");
+                        ////    return;
+                        //}
                     }
                     else
                     {
@@ -325,21 +325,21 @@ namespace GO.ViewModels.Subtasks
                     var day = await dataDow.GetDOWAsync(task.DowId);
                     // get the week for the dow
                     var week = await dataWeek.GetWeekAsync(day.WeekId);
-                    if (week.Active)
-                    {
-                        subtask.IsCompleted = IsComplete;
-                        subtask.Status = "Uncompleted";
-                        await dataSubTask.UpdateSubTaskAsync(subtask);
-                        await CheckTaskCompletion(task);
-                        await setStatus();
-                        await GetCompletedTasks();
-                    }
-                    else
-                    {
-                       // await Refresh();
-                        await Application.Current.MainPage.DisplayAlert("Error!", "Failed to uncomplete a subtask. It has expired!", "Ok");                      
-                        return;
-                    }
+                    //if (week.Active)
+                    //{
+                    //    subtask.IsCompleted = IsComplete;
+                    //    subtask.Status = "Uncompleted";
+                    //    await dataSubTask.UpdateSubTaskAsync(subtask);
+                    //    await CheckTaskCompletion(task);
+                    //    await setStatus();
+                    //    await GetCompletedTasks();
+                    //}
+                    //else
+                    //{
+                    //   // await Refresh();
+                    //    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to uncomplete a subtask. It has expired!", "Ok");                      
+                    //    return;
+                    //}
 
                 }
                 else

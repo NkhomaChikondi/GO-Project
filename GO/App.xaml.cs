@@ -87,12 +87,12 @@ namespace GO
                             {
                               try
                               {
-                                //check if lastgoalweek is active
-                                if (lastgoalweek.Active)
-                                {
-                                    lastgoalweek.Active = false;
-                                    await dataWeek.UpdateWeekAsync(lastgoalweek);
-                                }
+                                ////check if lastgoalweek is active
+                                //if (lastgoalweek.Active)
+                                //{
+                                //    lastgoalweek.Active = false;
+                                //    await dataWeek.UpdateWeekAsync(lastgoalweek);
+                                //}
                                 // create a new week
                                 //* check the number of days that are left in the week*/
                                 //* finding the targeted percentage*
@@ -119,8 +119,7 @@ namespace GO
                                     {
                                         WeekNumber = lastgoalweek.WeekNumber + 1,
                                         TargetPercentage = weekPercentage,
-                                        AccumulatedPercentage = 0,
-                                        Active = true,
+                                        AccumulatedPercentage = 0,                                       
                                         StartDate = DateTime.Today,
                                         EndDate = enddate,
                                         GoalId = weekgoal.Id
@@ -155,7 +154,7 @@ namespace GO
                                         WeekNumber = lastgoalweek.WeekNumber + 1,
                                         TargetPercentage = weekPercentage,
                                         AccumulatedPercentage = 0,
-                                        Active = true,
+                                        //Active = true,
                                         StartDate = DateTime.Today,
                                         EndDate = weekgoal.End,
                                         GoalId = weekgoal.Id

@@ -93,7 +93,7 @@ namespace GO.Views.GoalTask
                 if (DateTime.Today >= lastweek.StartDate && DateTime.Today <= lastweek.EndDate)
                 {
                     // set lastinsertedWeek to active
-                    lastweek.Active = true;
+                    //lastweek.Active = true;
                     // update the database
                     await dataWeek.UpdateWeekAsync(lastweek);
                 }
