@@ -247,48 +247,48 @@ namespace GO.ViewModels.Subtasks
                     // get the task equal to to allSubtasks taskId
                     var task = await dataTask.GetTaskAsync(subtask.TaskId);
                     // check if task dayis is greater than zero
-                    if (task.DowId > 0)
-                    {
-                        // get the day for the task
-                        var day = await dataDow.GetDOWAsync(task.DowId);
-                        // get the week for the dow
-                        var week = await dataWeek.GetWeekAsync(day.WeekId);
-                        ////if (week.Active)
-                        ////{
-                        ////    // check if day is valid
-                        ////    if (DateTime.Today.Date < task.StartTask.Date || DateTime.Today.Date > task.StartTask.Date)
-                        ////    {
-                        ////        await Application.Current.MainPage.DisplayAlert("Error!", "failed to complete this subtask. the day it was allocated to, has either passed or not reached yet.", "Ok");
-                        ////        await Refresh();
-                        ////        return;
-                        ////    }
-                        ////    else
-                        ////    {
-                        ////        subtask.IsCompleted = IsComplete;
-                        ////        subtask.Status = "Completed";
-                        ////        await dataSubTask.UpdateSubTaskAsync(subtask);
-                        ////        await CheckTaskCompletion(task);
-                        ////        await setStatus();
-                        ////        await GetCompletedTasks();
-                        ////    }
+                    //if (task.DowId > 0)
+                    //{
+                    //    // get the day for the task
+                    //    var day = await dataDow.GetDOWAsync(task.DowId);
+                    //    // get the week for the dow
+                    //    var week = await dataWeek.GetWeekAsync(day.WeekId);
+                    //    ////if (week.Active)
+                    //    ////{
+                    //    ////    // check if day is valid
+                    //    ////    if (DateTime.Today.Date < task.StartTask.Date || DateTime.Today.Date > task.StartTask.Date)
+                    //    ////    {
+                    //    ////        await Application.Current.MainPage.DisplayAlert("Error!", "failed to complete this subtask. the day it was allocated to, has either passed or not reached yet.", "Ok");
+                    //    ////        await Refresh();
+                    //    ////        return;
+                    //    ////    }
+                    //    ////    else
+                    //    ////    {
+                    //    ////        subtask.IsCompleted = IsComplete;
+                    //    ////        subtask.Status = "Completed";
+                    //    ////        await dataSubTask.UpdateSubTaskAsync(subtask);
+                    //    ////        await CheckTaskCompletion(task);
+                    //    ////        await setStatus();
+                    //    ////        await GetCompletedTasks();
+                    //    ////    }
 
-                        ////}
-                        ////else
-                        ////{
-                        ////    //await Refresh();
-                        ////    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to complete this subtask. It has expired!", "Ok");
-                        ////    return;
-                        //}
-                    }
-                    else
-                    {
-                        // check if all allSubtasks have been completed and turn the task.iscompleted to true
-                        subtask.IsCompleted = IsComplete;
-                        subtask.Status = "Completed";
-                        await dataSubTask.UpdateSubTaskAsync(subtask);
-                        await CheckTaskCompletion(task);
-                        await GetCompletedTasks();
-                    }
+                    //    ////}
+                    //    ////else
+                    //    ////{
+                    //    ////    //await Refresh();
+                    //    ////    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to complete this subtask. It has expired!", "Ok");
+                    //    ////    return;
+                    //    //}
+                    //}
+                    //else
+                    //{
+                    //    // check if all allSubtasks have been completed and turn the task.iscompleted to true
+                    //    subtask.IsCompleted = IsComplete;
+                    //    subtask.Status = "Completed";
+                    //    await dataSubTask.UpdateSubTaskAsync(subtask);
+                    //    await CheckTaskCompletion(task);
+                    //    await GetCompletedTasks();
+                    //}
                 }             
             }            
         }      
@@ -319,37 +319,37 @@ namespace GO.ViewModels.Subtasks
                 // get the task equal to to allSubtasks taskId
                 var task = await dataTask.GetTaskAsync(subtask.TaskId);
                 // check if task dayis is greater than zero
-                if (task.DowId > 0)
-                {
-                    // get the day for the task
-                    var day = await dataDow.GetDOWAsync(task.DowId);
-                    // get the week for the dow
-                    var week = await dataWeek.GetWeekAsync(day.WeekId);
-                    //if (week.Active)
-                    //{
-                    //    subtask.IsCompleted = IsComplete;
-                    //    subtask.Status = "Uncompleted";
-                    //    await dataSubTask.UpdateSubTaskAsync(subtask);
-                    //    await CheckTaskCompletion(task);
-                    //    await setStatus();
-                    //    await GetCompletedTasks();
-                    //}
-                    //else
-                    //{
-                    //   // await Refresh();
-                    //    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to uncomplete a subtask. It has expired!", "Ok");                      
-                    //    return;
-                    //}
+                //if (task.DowId > 0)
+                //{
+                //    // get the day for the task
+                //    var day = await dataDow.GetDOWAsync(task.DowId);
+                //    // get the week for the dow
+                //    var week = await dataWeek.GetWeekAsync(day.WeekId);
+                //    //if (week.Active)
+                //    //{
+                //    //    subtask.IsCompleted = IsComplete;
+                //    //    subtask.Status = "Uncompleted";
+                //    //    await dataSubTask.UpdateSubTaskAsync(subtask);
+                //    //    await CheckTaskCompletion(task);
+                //    //    await setStatus();
+                //    //    await GetCompletedTasks();
+                //    //}
+                //    //else
+                //    //{
+                //    //   // await Refresh();
+                //    //    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to uncomplete a subtask. It has expired!", "Ok");                      
+                //    //    return;
+                //    //}
 
-                }
-                else
-                {
-                    subtask.IsCompleted = IsComplete;
-                    subtask.Status = "Uncompleted";
-                    await dataSubTask.UpdateSubTaskAsync(subtask);
-                    await CheckTaskCompletion(task);
-                    await GetCompletedTasks();
-                }
+                //}
+                //else
+                //{
+                //    subtask.IsCompleted = IsComplete;
+                //    subtask.Status = "Uncompleted";
+                //    await dataSubTask.UpdateSubTaskAsync(subtask);
+                //    await CheckTaskCompletion(task);
+                //    await GetCompletedTasks();
+                //}
             }
                 
         }

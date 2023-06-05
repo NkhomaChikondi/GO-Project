@@ -112,8 +112,7 @@ namespace GO.Views.GoalTask
                     IsEnabled = GoalTask.IsEnabled,
                     CreatedOn = GoalTask.CreatedOn,
                     IsVisible = GoalTask.IsVisible,
-                    WeekId = lastweek.Id,
-                    DowId = GoalTask.DowId,
+                    WeekId = lastweek.Id,                    
                     IsNotVisible = GoalTask.IsNotVisible
                 };
 

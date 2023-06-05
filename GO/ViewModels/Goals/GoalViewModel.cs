@@ -28,6 +28,8 @@ namespace GO.ViewModels.Goals
         private bool duesoon;
         private bool expired;
         private DateTime result;
+        private DateTime startdate;
+        private DateTime endDate;
         public ObservableRangeCollection<Goal> goals { get; }
         public AsyncCommand<Goal> AddgoalCommand { get; }
         public AsyncCommand<Goal> GetgoalCommand { get; set; }
@@ -128,50 +130,75 @@ namespace GO.ViewModels.Goals
             await Shell.Current.GoToAsync(route);
         }
         async Task selectGoalItem(Goal goal)
-        {
-            // get the last week's id in this goal
-            //       var weeks = await dataWeek.GetWeeksAsync(goal.Id);
-            //        var lastweek = weeks.ToList().LastOrDefault();
-            //var route = $"{nameof(WeekTask)}?weekId={lastweek.Id}";
-            //await Shell.Current.GoToAsync(route);
-            // get the tasks having the goal id
+        {            
             var tasks = await dataTask.GetTasksAsync(goal.Id);
-            // check if the goal has expired with no tasks
-            if (goal.Status == "Expired" && tasks.Count() == 0)
+            // check if the HAS WEEK in goal is == true
+            if (goal.HasWeek && !goal.Noweek)
             {
-                await Application.Current.MainPage.DisplayAlert("Alert", "Unable to view tasks for this goal. It has expired without any associated tasks.", "Ok");
-                return;
-            }
+                // get all weeks having the goalId
+                var allWeeks = await dataWeek.GetWeeksAsync(goal.Id);
 
-            else
-            {
-                // check if the HAS WEEK in goal is == true
-                if (goal.HasWeek && !goal.Noweek)
+                // get the dates for the current week
+                DateTime today = DateTime.Today;
+                int daysUntilLastSunday = ((int)today.DayOfWeek - (int)DayOfWeek.Sunday + 7) % 7;
+                startdate = today.AddDays(-daysUntilLastSunday);
+                endDate = startdate.AddDays(6);
+
+                // loop through the weeks and assign their status
+                foreach (var week in allWeeks)
                 {
-                    if (goal.Status != "Expired")
+                    if(DateTime.Today >= week.StartDate && DateTime.Today <= week.EndDate)
                     {
-                       await CreateWeek(goal);
+                        // get all tasks having the week Id
+                        var Task_Week = tasks.Where(T => T.WeekId == week.Id).ToList();
+                        // check if all tasks having the week id have been completed
+                        if(Task_Week.All(T =>T.IsCompleted))
+                        {
+                            week.status = "Completed";
+                        }
+                        else
+                        week.status = "In Progress";
                     }
-                    //await DeleteWeek(goal);
-                    // get the last week's id in this goal
-                    var weeks = await dataWeek.GetWeeksAsync(goal.Id);
-                    var lastweek = weeks.ToList().LastOrDefault();
-
-                    //var route = $"{nameof(Weekly_Task)}?weekId={lastweek.Id}";
-                    //await Shell.Current.GoToAsync(route);
-
-                    var route = $"{nameof(Weekly_Task)}";
-                    await Shell.Current.GoToAsync(route);
-
-
+                    else if(DateTime.Today > week.StartDate)
+                    {
+                        week.status = "Expired";
+                    }
+                    //  update week
+                    await dataWeek.UpdateWeekAsync(week);
                 }
-                else if (!goal.HasWeek && goal.Noweek)
+
+                if(goal.Status == "Expired")
                 {
-                    var route = $"{nameof(GoalTaskPage)}?goalId={goal.Id}";
-                    await Shell.Current.GoToAsync(route);
-                }
-            }
+                    // get the last week of the goal
+                    var lastweek = allWeeks.LastOrDefault();
 
+                    var route = $"{nameof(Weekly_Task)}?weekId={lastweek.Id}";
+                    await Shell.Current.GoToAsync(route);
+
+                }
+                // check if the goal has started
+                else if(DateTime.Today <= goal.Start)
+                {
+                    // get the first week of the week
+                    var first_Week = allWeeks.FirstOrDefault();
+                    var route = $"{nameof(Weekly_Task)}?weekId={first_Week.Id}";
+                    await Shell.Current.GoToAsync(route);
+                }               
+                else
+                {                   
+                    // get the week similar to dates of the current calendar week
+                    var Activeweek = allWeeks.Where(W => W.StartDate >= startdate && W.EndDate <= endDate).FirstOrDefault();
+
+                    var route = $"{nameof(Weekly_Task)}?weekId={Activeweek.Id}";
+                    await Shell.Current.GoToAsync(route);
+                }             
+            }
+            else if (!goal.HasWeek && goal.Noweek)
+            {
+                var route = $"{nameof(GoalTaskPage)}?goalId={goal.Id}";
+                await Shell.Current.GoToAsync(route);
+            }         
+          
         }      
         async Task OnUpdateGoal(Goal goal)
         {

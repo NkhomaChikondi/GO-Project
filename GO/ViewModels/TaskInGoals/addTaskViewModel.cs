@@ -15,9 +15,10 @@ using Xamarin.Forms;
 
 namespace GO.ViewModels.TaskInGoals
 {
-    [QueryProperty(nameof(GoalId), nameof(GoalId))]
+    [QueryProperty(nameof(WeekId), nameof(WeekId))]
     public class addTaskViewModel : BaseViewmodel
     {
+        private int weekId;
         private int goalId;
         private string name;
         private DateTime starttime;
@@ -31,6 +32,8 @@ namespace GO.ViewModels.TaskInGoals
         private int selectedItem;
         private DOW selectedDay;
         private int DayId;
+        private bool isRepeated;
+        public List<string> Day_names = new List<string>();
         public List<DOWPicker> dowpicker { get; set; }
         public string DowName { get; set; }
         public AsyncCommand TaskAddCommand { get; }
@@ -47,7 +50,8 @@ namespace GO.ViewModels.TaskInGoals
             goalTasks = new ObservableRangeCollection<GoalTask>();
             SendTaskIdCommand = new AsyncCommand<GoalTask>(SendTaskId);
             HelpCommand = new AsyncCommand(GotoHelpPage);
-        }
+             
+    }
 
         public int GoalId { get { return goalId; } set => goalId = value; }
         public string Name { get => name; set => name = value; }
@@ -55,8 +59,9 @@ namespace GO.ViewModels.TaskInGoals
         public DateTime Starttime { get => starttime; set => starttime = value; }
         public string Description { get => description; set => description = value; }
         public int RemainingDays { get => remainingDays; set => remainingDays = value; }
-       
-        
+        public bool IsRepeated { get => isRepeated; set => isRepeated = value; }
+        public int WeekId { get => weekId; set => weekId = value; }
+
         public async Task SendTaskId(GoalTask goalTask)
         {
             var route = $"{nameof(subTaskView)}?{nameof(SubtaskViewModel.Taskid)}={goalTask.Id}";
@@ -67,58 +72,71 @@ namespace GO.ViewModels.TaskInGoals
             //var route = $"{nameof(Helpaddtaskpage)}";
             //await Shell.Current.GoToAsync(route);
         }
-
-        async Task SelectedDow()
+      
+       public async Task SelectedDay(List<string> daynames)
         {
-            // get the last week in goal
-            var goal = await datagoal.GetGoalAsync(goalId);
-            if (goal.HasWeek)
+            
+            // loop through the day names and add them to Day_names
+            foreach (var day in daynames)
             {
-                // get all weeks in it
-                var weeks = await dataWeek.GetWeeksAsync(goal.Id);
-                // get the last inserted week
-                var lastweek = weeks.ToList().LastOrDefault();
-                //check if it active
-                //if(!lastweek.Active)
-                //{
-                //    lastweek.Active = true;
-                //    await dataWeek.UpdateWeekAsync(lastweek);
-                //}
-                var dows = await dataDow.GetDOWsAsync(lastweek.Id);
-                // get the selected dow
-                var selecteddow = dows.Where(D => D.IsSelected).FirstOrDefault();
-                if(selecteddow == null)
-                {
-                    if(DateTime.Today.Date < lastweek.StartDate.Date)
-                    {
-                        // get the dow whose day whose date is equal to
-                        var day = dows.Where(d => d.Name == lastweek.StartDate.DayOfWeek.ToString()).FirstOrDefault();                        
-                        // dayId will be equal to day's Id
-                        DayId = day.DOWId;
-                        starttime = lastweek.StartDate.Date;
-                        endtime =  lastweek.StartDate.Date;
-                    }
-                    else if(DateTime.Today.Date >= lastweek.StartDate.Date)
-                    { // get the dow whose day is equal to today's day
-                        var day = dows.Where(d => d.Name == DateTime.Today.DayOfWeek.ToString()).FirstOrDefault();
-                        // dayId will be equal to day's Id
-                        DayId = day.DOWId;
-                        starttime = DateTime.Today.Date;
-                        endtime = DateTime.Today.Date;
-                    }                  
-                }
-                else
-                {
-                    selectedDay = selecteddow;
-                    starttime = selectedDay.Date;
-                    endtime = selectedDay.Date;
-                    DayId = selecteddow.DOWId;
-                }               
-            }           
+                Day_names.Add(day);
+            }
+            
+            //// get the last week in goal
+            //var goal = await datagoal.GetGoalAsync(goalId);
+            //if (goal.HasWeek)
+            //{
+            //    // get all weeks in it
+            //    var weeks = await dataWeek.GetWeeksAsync(goal.Id);
+            //    // get the last inserted week
+            //    var lastweek = weeks.ToList().LastOrDefault();
+            //    //check if it active
+            //    //if(!lastweek.Active)
+            //    //{
+            //    //    lastweek.Active = true;
+            //    //    await dataWeek.UpdateWeekAsync(lastweek);
+            //    //}
+            //    var dows = await dataDow.GetDOWsAsync(lastweek.Id);
+            //    // get the selected dow
+            //    var selecteddow = dows.Where(D => D.IsSelected).FirstOrDefault();
+            //    if(selecteddow == null)
+            //    {
+            //        if(DateTime.Today.Date < lastweek.StartDate.Date)
+            //        {
+            //            // get the dow whose day whose date is equal to
+            //            var day = dows.Where(d => d.Name == lastweek.StartDate.DayOfWeek.ToString()).FirstOrDefault();                        
+            //            // dayId will be equal to day's Id
+            //            DayId = day.DOWId;
+            //            starttime = lastweek.StartDate.Date;
+            //            endtime =  lastweek.StartDate.Date;
+            //        }
+            //        else if(DateTime.Today.Date >= lastweek.StartDate.Date)
+            //        { // get the dow whose day is equal to today's day
+            //            var day = dows.Where(d => d.Name == DateTime.Today.DayOfWeek.ToString()).FirstOrDefault();
+            //            // dayId will be equal to day's Id
+            //            DayId = day.DOWId;
+            //            starttime = DateTime.Today.Date;
+            //            endtime = DateTime.Today.Date;
+            //        }                  
+            //    }
+            //    else
+            //    {
+            //        selectedDay = selecteddow;
+            //        starttime = selectedDay.Date;
+            //        endtime = selectedDay.Date;
+            //        DayId = selecteddow.DOWId;
+            //    }               
+            //}           
         }      
 
         async Task AddTaskWeek()
         {
+            // get week having the weekid
+            var week = await dataWeek.GetWeekAsync(WeekId);
+            goalId = week.GoalId;
+            // get all tasks having the goalId
+            var tasks = await dataTask.GetTasksAsync(goalId);
+            //await SelectedDay(Day_names);
             // check if the application is busy
             if (IsBusy == true)
                 return;
@@ -126,7 +144,7 @@ namespace GO.ViewModels.TaskInGoals
             {
                 // set the application IsBusy to true
                 IsBusy = true;
-                await SelectedDow();
+                //await SelectedDay();
                 // create a new task object
                 var newtask = new GoalTask
                 {
@@ -142,32 +160,14 @@ namespace GO.ViewModels.TaskInGoals
                 {
                     await Application.Current.MainPage.DisplayAlert("Error!", "Please enter the name for the Task. ", "OK");
                     return;
-                }
-                //get goal of the task
-                //var goal = await datagoal.GetGoalAsync(GoalId);
-                //// check if the goal hasnt expired yet
-                //if(goal.Status == "Expired")
-                //{
-                //    await Application.Current.MainPage.DisplayAlert("Alert","Cannot create ")
-                //}
-                var week = await dataWeek.GetWeeksAsync(goalId);
-                // get the last inserted week
-                var lastweek = week.ToList().LastOrDefault();
-                // get all tasks in GoalId
-                var alltasks = await dataTask.GetTasksAsync(goalId,lastweek.Id);                
-                var dowtask = alltasks.Where(D => D.DowId == DayId).ToList();
-                // check if the tasks for the day has surpassed 5              
-                if (dowtask.Count() >= 5)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Alert", "You cannot add any new tasks as the maximum number of tasks (5) allowed per day has been reached. ", "OK");
-                    return;
-                }
-                else
-                {
-                    // change the first letter of the Task name to upercase
+                }                
+
+               // change the first letter of the Task name to upercase
                     var UppercasedName = char.ToUpper(newtask.taskName[0]) + newtask.taskName.Substring(1);
-                    //check if the new task already exist in the database
-                    if (dowtask.Any(T => T.taskName == UppercasedName))
+                // get all tasks having the weekId
+                var alltasks = tasks.Where(W => W.WeekId == weekId).ToList();
+                    //check if the new task already exist in the database-
+                    if (alltasks.Any(T => T.taskName == UppercasedName))
                     {
                         await Application.Current.MainPage.DisplayAlert("Error!", "The task name already exists. Please choose a different name. ", "OK");
                         return;
@@ -182,13 +182,6 @@ namespace GO.ViewModels.TaskInGoals
                     // check if goal has week or not
                     // get last inserted week in "this" goal
 
-                    if (DateTime.Today >= lastweek.StartDate && DateTime.Today <= lastweek.EndDate)
-                    {
-                        // set lastinsertedWeek to active
-                        //lastweek.Active = true;
-                        // update the database
-                        await dataWeek.UpdateWeekAsync(lastweek);
-                    }
                     // get dow having the DayId
                     //var dow = await dataDow.GetDOWAsync(DayId);
                     //starttime = selectedDay.Date;
@@ -212,8 +205,8 @@ namespace GO.ViewModels.TaskInGoals
                         IsEnabled = true,
                         CreatedOn = DateTime.Now,
                         IsVisible = true,
-                        WeekId = lastweek.Id,
-                        DowId = DayId,
+                        WeekId = weekId,
+                        Isrepeated= isRepeated,  
                         IsNotVisible = false
                     };
 
@@ -224,7 +217,7 @@ namespace GO.ViewModels.TaskInGoals
 
                     while (counter < 3 && newestTask.Percentage == 0)
                     {
-                        await AddweekTaskPercentage(lastweek);
+                        await AddweekTaskPercentage(week);
                         newestTask.Percentage = taskPercentage;
                         counter++;
                     }
@@ -239,13 +232,12 @@ namespace GO.ViewModels.TaskInGoals
                     // add the new task to the database                
                     await dataTask.AddTaskAsync(newestTask);
                     // call the add percentage method
-                    AddTaskPercent(lastweek);
-
-                    // get the name of the day having dowId
-                    var dbDow = await dataDow.GetDOWAsync(newestTask.DowId);
+                    AddTaskPercent(week);
+                    await createdayTask();
+                   
                     await Shell.Current.GoToAsync("..");
                     Datatoast.toast("New task added");
-                }                         
+                                      
             }
             catch (Exception ex)
             {
@@ -339,6 +331,7 @@ namespace GO.ViewModels.TaskInGoals
                         Status = "Not Started",
                         CompletedSubtask = 0,
                         IsEnabled = true,
+                        Isrepeated = false,
                         CreatedOn = DateTime.Now,
                         IsVisible = true,
                         IsNotVisible = false
@@ -449,11 +442,32 @@ namespace GO.ViewModels.TaskInGoals
             };
             await LocalNotificationCenter.Current.Show(notification);
         }
-      
+        async Task createdayTask()
+        {
+            // get the last inserted task
+            var tasks = await dataTask.GetTasksAsync(goalId);
+            var lastTask = tasks.LastOrDefault();
+            // get all days in dow
+            var dows = await dataDow.GetDOWsAsync(lastTask.WeekId);
 
-    }
-
-
-
-    
+            // loop through the days
+            foreach (var day in dows)
+            {
+                foreach (var listDay in Day_names)
+                {
+                    if(listDay == day.Name)
+                    {
+                        // create a Task_day item
+                        var task_Day = new Task_Day
+                        {
+                            Taskid = lastTask.Id,
+                            DowId = day.DOWId                        
+                        };
+                        await dataTaskDay.AddTaskdayAsync(task_Day);
+                        await App.Current.MainPage.DisplayAlert("Alert", "zatheka biggy!!!!", "OK");
+                    }
+                }
+            }
+        }    
+    }    
 }

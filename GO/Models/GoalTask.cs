@@ -25,11 +25,13 @@ namespace GO.Models
         public bool IsNotVisible { get; set; }
         public int CompletedSubtask { get; set; }
         public int SubtaskNumber { get; set; }
+        public bool Isrepeated { get; set; }
         public DateTime CreatedOn { get; set; }
-        
+       
+
         [Indexed]
         public int GoalId { get; set; }
         public int WeekId { get; set; }
-        public int DowId { get; set; }
+       
     }
 }

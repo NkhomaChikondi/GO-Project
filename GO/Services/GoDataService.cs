@@ -11,7 +11,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(GoDataService))]
 namespace GO.Services
 {
-    public class GoDataService : IDataStore<Category>, IDataGoal<Goal>, IDataTask<GoalTask>, IDataSubtask<Subtask>, IDataWeek<Week>, IGoalWeek<GoalWeek>, IDataDow<DOW>, IDateNotification<Notification>
+    public class GoDataService : IDataStore<Category>, IDataGoal<Goal>, IDataTask<GoalTask>, IDataSubtask<Subtask>, IDataWeek<Week>, IGoalWeek<GoalWeek>, IDataDow<DOW>, IDateNotification<Notification>,ITaskday<Task_Day>
     {
         static SQLiteAsyncConnection db;
         // database connection class
@@ -32,6 +32,7 @@ namespace GO.Services
             await db.CreateTableAsync<Week>();
             await db.CreateTableAsync<GoalWeek>();
             await db.CreateTableAsync<Notification>();
+            await db.CreateTableAsync<Task_Day>();
 
         
         }
@@ -181,9 +182,10 @@ namespace GO.Services
                 IsNotVisible = item.IsNotVisible,
                 enddatetostring = item.enddatetostring,
                 GoalId = item.GoalId,                
-                DowId = item.DowId,
+                Isrepeated = item.Isrepeated,
                 SubtaskNumber = item.SubtaskNumber,
-                WeekId = item.WeekId
+                WeekId = item.WeekId,
+               
             };
             // insert the values into the database
             await db.InsertAsync(goaltask);
@@ -366,7 +368,9 @@ namespace GO.Services
                 EndDate = item.EndDate,
                 Progress = item.Progress,              
                 GoalId = item.GoalId,
-                
+                status = item.status,
+                totalnumberOfcompletedtask = item.totalnumberOfcompletedtask,
+                totalnumberOftask = item.totalnumberOftask
             };
             await db.InsertAsync(week);
             return await Task.FromResult(true);
@@ -493,6 +497,57 @@ namespace GO.Services
             // get all goals in the database
             var subtaskNotifications = await db.Table<Notification>().Where(g => g.SubtaskId == SubtaskId).ToListAsync();
             return subtaskNotifications;
+        }
+
+        public async Task<bool> AddTaskdayAsync(Task_Day item)
+        {
+
+            // wait for the database to be created
+            await Init();
+            // create a new Task object
+
+            var taskday = new Task_Day
+            {               
+                Taskid = item.Taskid,
+                DowId = item.DowId
+            };
+            // insert the values into the database
+            await db.InsertAsync(taskday);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> UpdateTaskdayAsync(Task_Day item)
+        {
+
+            await Init();
+            await db.UpdateAsync(item);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeleteTaskdayAsync(int id)
+        {
+
+            await Init();
+            // Remove the selected subtask item from the database
+            var deleteTaskday = await db.DeleteAsync<Task_Day>(id);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<Task_Day> GetTaskdayAsync(int id)
+        {
+
+            await Init();
+            // get all goals in the database
+            var task_day = await db.Table<Task_Day>().Where(g => g.Id == id).FirstOrDefaultAsync();
+            return task_day;
+        }
+
+        public async Task<IEnumerable<Task_Day>> GetTaskdayAsync(int id, bool forceRefresh = false)
+        {
+            await Init();
+            // get all subtasks in the database
+            var allTaskdays = await db.Table<Task_Day>().Where(g => g.Id == id).ToListAsync();
+            return allTaskdays;
         }
     }
 }

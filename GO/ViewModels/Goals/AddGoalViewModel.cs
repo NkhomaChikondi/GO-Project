@@ -373,10 +373,13 @@ namespace GO.ViewModels.Goals
                     StartDate = startDate,
                     EndDate = endDate,
                     AccumulatedPercentage = 0,
-                   WeekNumber = counter,
-                   Progress = 0,
-                   GoalId = goalId,
-                   TargetPercentage= weekPercentage
+                    WeekNumber = counter,
+                    Progress = 0,
+                    GoalId = goalId,
+                    status = "Not started",
+                    TargetPercentage = weekPercentage,
+                    totalnumberOftask = 0,
+                    totalnumberOfcompletedtask = 0
                 };
                 await dataWeek.AddWeekAsync(newWeek);
                 startDate = endDate.AddDays(1);

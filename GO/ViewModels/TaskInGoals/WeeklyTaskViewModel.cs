@@ -32,6 +32,7 @@ namespace GO.ViewModels.TaskInGoals
 
         public ObservableRangeCollection<DOW> dows { get; }
         public ObservableRangeCollection<GoalTask>dowTasks { get; }
+        public ObservableRangeCollection<Task_Day> task_Days { get; }
        
         
         public ObservableRangeCollection<GoalTask> tasks { get; }
@@ -67,6 +68,8 @@ namespace GO.ViewModels.TaskInGoals
         {
             dows = new ObservableRangeCollection<DOW>();
             dowTasks = new ObservableRangeCollection<GoalTask>();
+            task_Days = new ObservableRangeCollection<Task_Day>();
+
             RefreshCommand = new AsyncCommand(Refresh);
             OnAddCommand = new AsyncCommand(OnaddTask);
             SunCommand = new AsyncCommand(sunButton);
@@ -224,36 +227,36 @@ namespace GO.ViewModels.TaskInGoals
         }        
         async Task OnaddTask()
         {
-            var route = $"{nameof(AddPlannedTask)}?{nameof(addTaskViewModel.GoalId)}={goalId}";
+            var route = $"{nameof(AddPlannedTask)}?{nameof(addTaskViewModel.WeekId)}={WeekId}";
             await Shell.Current.GoToAsync(route);
         }
         async Task SendTaskId(GoalTask goalTask)
         {
            
             //
-            // get the day for the task
-            var day = await dataDow.GetDOWAsync(goalTask.DowId);
-            // get the week for the day
-            var week = await dataWeek.GetWeekAsync(day.WeekId);
-            //check if they are subtasks inside the goaltask
-            var subtasks = await dataSubTask.GetSubTasksAsync(goalTask.Id);
-            if (DateTime.Today > goalTask.CreatedOn)
-            {
-                // check if the task has subtasks
-                if(subtasks.Count() > 0)
-                {
-                    var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
-                    await Shell.Current.GoToAsync(route);
-                }
-                else if(subtasks.Count() == 0)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Alert!", "You are unable to access the subtask page as this task has expired without any subtasks.", "OK");
-                    return;
-                }
+            //// get the day for the task
+            //var day = await dataDow.GetDOWAsync(goalTask.DowId);
+            //// get the week for the day
+            //var week = await dataWeek.GetWeekAsync(day.WeekId);
+            ////check if they are subtasks inside the goaltask
+            //var subtasks = await dataSubTask.GetSubTasksAsync(goalTask.Id);
+            //if (DateTime.Today > goalTask.CreatedOn)
+            //{
+            //    // check if the task has subtasks
+            //    if(subtasks.Count() > 0)
+            //    {
+            //        var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
+            //        await Shell.Current.GoToAsync(route);
+            //    }
+            //    else if(subtasks.Count() == 0)
+            //    {
+            //        await Application.Current.MainPage.DisplayAlert("Alert!", "You are unable to access the subtask page as this task has expired without any subtasks.", "OK");
+            //        return;
+            //   }
 
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 //if (week.Active || subtasks.Count() > 0)
                 //{
                 //    var route = $"{nameof(subTaskView)}?SubtaskId={goalTask.Id}";
@@ -264,7 +267,7 @@ namespace GO.ViewModels.TaskInGoals
                 //    await Application.Current.MainPage.DisplayAlert("Alert!", "There are no subtasks associated with this task.", "Ok");
                 //    return;
                 //}
-            }
+            
 
         }       
         async Task OnUpdateTask(GoalTask goalTask)
@@ -491,8 +494,7 @@ namespace GO.ViewModels.TaskInGoals
         }
         async Task GotoHelpPage()
         {
-            //var route = $"{nameof(HelpweeklyTaskspage)}";
-            //await Shell.Current.GoToAsync(route);
+            await App.Current.MainPage.DisplayAlert("Alert", "Am here", "Ok");
         }
         async Task GotoHelpweekPage()
         {
@@ -509,11 +511,11 @@ namespace GO.ViewModels.TaskInGoals
                 return;
             else if (!task.IsCompleted)
             {
-                //get the day the task is assigned to
-                var day = await dataDow.GetDOWAsync(task.DowId);
-                // check if the day name is less than or equal to the day of today                
-                // get the week the day is assigned to
-                var week = await dataWeek.GetWeekAsync(day.WeekId);
+                ////get the day the task is assigned to
+                //var day = await dataDow.GetDOWAsync(task.DowId);
+                //// check if the day name is less than or equal to the day of today                
+                //// get the week the day is assigned to
+                //var week = await dataWeek.GetWeekAsync(day.WeekId);
 
                 //if (week.Active)
                 //{
@@ -561,7 +563,7 @@ namespace GO.ViewModels.TaskInGoals
             else if (task.IsCompleted)
             {
                 //get the day the task is assigned to
-                var day = await dataDow.GetDOWAsync(task.DowId);
+              //  var day = await dataDow.GetDOWAsync(task.DowId);
                 // get the week the day is assigned to
                 //var week = await dataWeek.GetWeekAsync(day.WeekId);
                 //if (week.Active)
@@ -745,55 +747,55 @@ namespace GO.ViewModels.TaskInGoals
                 }
             }
 
-            var dayTasks = tasks.Where(t => t.DowId == daySelected).ToList();          
-            dayName = null;
-            if (all)
-                // retrieve the categories back
-                dowTasks.AddRange(dayTasks);
-            //filter goals
-            else if (notstarted)
-            {
-                var notstartedtasks = dayTasks.Where(g => g.Status == "Not Started").ToList();
-                if(notstartedtasks.Count == 0)
-                    Datatoast.toast("No tasks!");
-                else
-                dowTasks.AddRange(notstartedtasks);
-            }
-            else if (completed)
-            {
-               var completedtasks = dayTasks.Where(g => g.IsCompleted).ToList();
-                if (completedtasks.Count == 0)
-                    Datatoast.toast("No tasks!");
-                else
-                dowTasks.AddRange(completedtasks);
-            }
-            else if (inprogress)
-            {
-                var inprogressTasks = dayTasks.Where(g => g.PendingPercentage > 0 && g.Status != "Expired").ToList();
-                if(inprogressTasks.Count == 0)
-                    Datatoast.toast("No tasks!");
-                else
-                dowTasks.AddRange(inprogressTasks);
-            }
+            //var dayTasks = tasks.Where(t => t.DowId == daySelected).ToList();          
+            //dayName = null;
+            //if (all)
+            //    // retrieve the categories back
+            //    dowTasks.AddRange(dayTasks);
+            ////filter goals
+            //else if (notstarted)
+            //{
+            //    var notstartedtasks = dayTasks.Where(g => g.Status == "Not Started").ToList();
+            //    if(notstartedtasks.Count == 0)
+            //        Datatoast.toast("No tasks!");
+            //    else
+            //    dowTasks.AddRange(notstartedtasks);
+            //}
+            //else if (completed)
+            //{
+            //   var completedtasks = dayTasks.Where(g => g.IsCompleted).ToList();
+            //    if (completedtasks.Count == 0)
+            //        Datatoast.toast("No tasks!");
+            //    else
+            //    dowTasks.AddRange(completedtasks);
+            //}
+            //else if (inprogress)
+            //{
+            //    var inprogressTasks = dayTasks.Where(g => g.PendingPercentage > 0 && g.Status != "Expired").ToList();
+            //    if(inprogressTasks.Count == 0)
+            //        Datatoast.toast("No tasks!");
+            //    else
+            //    dowTasks.AddRange(inprogressTasks);
+            //}
            
-            else if (withSubtasks)
-            {
-                List<GoalTask> tasklist = new List<GoalTask>();
-                //loop through the tasks
-                foreach (var Task in dayTasks)
-                {
-                    // get tasks that have subtasks
-                    var subtasks = await dataSubTask.GetSubTasksAsync(Task.Id);
-                    if (subtasks.Count() > 0)
-                    {
-                        tasklist.Add(Task);
-                    }
-                }
-                if(tasklist.Count == 0)
-                    Datatoast.toast("No tasks!");
-                else
-                dowTasks.AddRange(tasklist);
-            }
+            //else if (withSubtasks)
+            //{
+            //    List<GoalTask> tasklist = new List<GoalTask>();
+            //    //loop through the tasks
+            //    foreach (var Task in dayTasks)
+            //    {
+            //        // get tasks that have subtasks
+            //        var subtasks = await dataSubTask.GetSubTasksAsync(Task.Id);
+            //        if (subtasks.Count() > 0)
+            //        {
+            //            tasklist.Add(Task);
+            //        }
+            //    }
+            //    if(tasklist.Count == 0)
+            //        Datatoast.toast("No tasks!");
+            //    else
+            //    dowTasks.AddRange(tasklist);
+            //}
           
             IsBusy = false;          
         }
