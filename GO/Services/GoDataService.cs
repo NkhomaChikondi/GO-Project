@@ -210,7 +210,6 @@ namespace GO.Services
         }
         public async Task<GoalTask> GetTaskAsync(int id)
         {
-
             await Init();
             // get the selected item 
             var taskId = await db.Table<GoalTask>().Where(d => d.Id == id).FirstOrDefaultAsync();
@@ -313,11 +312,8 @@ namespace GO.Services
             DOW dOW = new DOW()
             {
                 DOWId = item.DOWId,
-                Name = item.Name,
-                WeekId = item.WeekId,
-                Date = item.Date,
-                IsSelected = item.IsSelected
-              
+                Name = item.Name,              
+                IsSelected = item.IsSelected              
             };
             await db.InsertAsync(dOW);
             return await Task.FromResult(true);
@@ -347,11 +343,11 @@ namespace GO.Services
         }
 
        
-        public async Task<IEnumerable<DOW>> GetDOWsAsync(int Id,bool forceRefresh = false)
+        public async Task<IEnumerable<DOW>> GetDOWsAsync(bool forceRefresh = false)
         {
             await Init();
             // get all subtasks in the database
-            var allDows = await db.Table<DOW>().Where(D =>D.WeekId == Id).ToListAsync();
+            var allDows = await db.Table<DOW>().ToListAsync();
             return allDows;
         }
 
@@ -542,11 +538,11 @@ namespace GO.Services
             return task_day;
         }
 
-        public async Task<IEnumerable<Task_Day>> GetTaskdayAsync(int id, bool forceRefresh = false)
+        public async Task<IEnumerable<Task_Day>> GetTaskdaysAsync(bool forceRefresh = false)
         {
             await Init();
             // get all subtasks in the database
-            var allTaskdays = await db.Table<Task_Day>().Where(g => g.Id == id).ToListAsync();
+            var allTaskdays = await db.Table<Task_Day>().ToListAsync();
             return allTaskdays;
         }
     }

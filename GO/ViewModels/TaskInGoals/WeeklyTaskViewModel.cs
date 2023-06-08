@@ -25,7 +25,7 @@ namespace GO.ViewModels.TaskInGoals
         private bool inprogress;
         private bool withSubtasks; 
         private bool completed;
-       
+        public List<GoalTask> goalTaskslist = new List<GoalTask>();
         private int daySelected;
         private string dayName;
 
@@ -134,13 +134,8 @@ namespace GO.ViewModels.TaskInGoals
         // seed the days of the week into the database upon startup
         async Task CreateDOW()
         {
-            // get week 
-            // get the last active week of goal
-            var getweeks = await dataWeek.GetWeeksAsync(GoalId);
-            // get the last inserted week
-            var lastInsertedWeek = getweeks.ToList().LastOrDefault();
-
-           var alldows = await dataDow.GetDOWsAsync(lastInsertedWeek.Id);
+            // get dows
+           var alldows = await dataDow.GetDOWsAsync();
                 if (alldows.Count() > 0)
                     return;
                 else if (alldows.Count() == 0)
@@ -148,41 +143,32 @@ namespace GO.ViewModels.TaskInGoals
 
                     var DowSunday = new DOW
                     {
-
-                        Name = "Sunday",
-                        WeekId = lastInsertedWeek.Id,
-                        IsSelected = false,
-                        Date = new DateTime()
+                        Name = "Sunday",                        
+                        IsSelected = false,                       
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowSunday);
 
                     var DowMonday = new DOW
                     {
-                        Name = "Monday",
-                        WeekId = lastInsertedWeek.Id,
-                        IsSelected = false,
-                        Date = new DateTime()
+                        Name = "Monday",                      
+                        IsSelected = false,                       
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowMonday);
 
                     var DowTuesday = new DOW
                     {
-                        Name = "Tuesday",
-                        WeekId = lastInsertedWeek.Id,
-                        IsSelected = false,
-                        Date = new DateTime()
+                        Name = "Tuesday",                       
+                        IsSelected = false,                      
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowTuesday);
 
                     var DowWednesday = new DOW
                     {
-                        Name = "Wednesday",
-                        WeekId = lastInsertedWeek.Id,
-                        IsSelected = false,
-                        Date = new DateTime()
+                        Name = "Wednesday",                       
+                        IsSelected = false,                     
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowWednesday);
@@ -190,34 +176,27 @@ namespace GO.ViewModels.TaskInGoals
 
                     var DowThursday = new DOW
                     {
-                        Name = "Thursday",
-                        WeekId = lastInsertedWeek.Id,
-                        IsSelected = false,
-                        Date = new DateTime()
+                        Name = "Thursday",                       
+                        IsSelected = false,                      
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowThursday);
 
                     var DowFriday = new DOW
                     {
-                        Name = "Friday",
-                        WeekId = lastInsertedWeek.Id,
-                        IsSelected = false,
-                        Date = new DateTime()
+                        Name = "Friday",                       
+                        IsSelected = false,                       
                     };
                     // create the Dow Object
                     await dataDow.AddDOWAsync(DowFriday);
 
                     var DowSaturday = new DOW
                     {
-                        Name = "Saturday",
-                        WeekId = lastInsertedWeek.Id,
-                        IsSelected = false,
-                        Date = new DateTime()
+                        Name = "Saturday",                       
+                        IsSelected = false,                       
                     };
                     // create the Dow Object
-                    await dataDow.AddDOWAsync(DowSaturday);
-                    
+                    await dataDow.AddDOWAsync(DowSaturday);                    
                 }
             }     
         async Task gotoWeekstats()
@@ -310,187 +289,187 @@ namespace GO.ViewModels.TaskInGoals
         //method for dow buttons
         public async Task sunButton()
         {
-            // get week having the weekid
-            var week = await dataWeek.GetWeekAsync(weekId);
-            // get all dows in the database
-            var dows = await dataDow.GetDOWsAsync(weekId);          
-            // loop through the dows
-            foreach (var dow in dows)
-            {
-                if (dow.Name == "Sunday")
-                {
+            //// get week having the weekid
+            //var week = await dataWeek.GetWeekAsync(weekId);
+            //// get all dows in the database
+            //var dows = await dataDow.GetDOWsAsync(weekId);          
+            //// loop through the dows
+            //foreach (var dow in dows)
+            //{
+            //    if (dow.Name == "Sunday")
+            //    {
 
-                    // get the Id
-                    dowId = dow.DOWId;
-                    // set is selectio to true
-                    dow.IsSelected = true;
-                    daySelected = dowId;
-                }
+            //        // get the Id
+            //        dowId = dow.DOWId;
+            //        // set is selectio to true
+            //        dow.IsSelected = true;
+            //        daySelected = dowId;
+            //    }
                     
-                else
-                    dow.IsSelected = false;
-                //update dow
-                await dataDow.UpdateDOWAsync(dow);
-            }
-            await Refresh();            
+            //    else
+            //        dow.IsSelected = false;
+            //    //update dow
+            //    await dataDow.UpdateDOWAsync(dow);
+            //}
+            //await Refresh();            
         }
         public async Task monButton()
         {
-            // get week having the weekid
-            var week = await dataWeek.GetWeekAsync(weekId);
-            var dows = await dataDow.GetDOWsAsync(weekId);
-            // loop through the dows
-            foreach (var dow in dows)
-            {
-                if (dow.Name == "Monday")
-                {
-                    // get the Id
-                    dowId = dow.DOWId;
-                    // set is selectio to true
-                    dow.IsSelected = true;
-                    daySelected = dowId;
-                }
+            //// get week having the weekid
+            //var week = await dataWeek.GetWeekAsync(weekId);
+            //var dows = await dataDow.GetDOWsAsync(weekId);
+            //// loop through the dows
+            //foreach (var dow in dows)
+            //{
+            //    if (dow.Name == "Monday")
+            //    {
+            //        // get the Id
+            //        dowId = dow.DOWId;
+            //        // set is selectio to true
+            //        dow.IsSelected = true;
+            //        daySelected = dowId;
+            //    }
 
-                else
-                    dow.IsSelected = false;
-                //update dow
-                await dataDow.UpdateDOWAsync(dow);
-            }
-            await Refresh();
+            //    else
+            //        dow.IsSelected = false;
+            //    //update dow
+            //    await dataDow.UpdateDOWAsync(dow);
+            //}
+            //await Refresh();
 
         }
         public async Task tueButton()
         {
-            // get week having the weekid
-            var week = await dataWeek.GetWeekAsync(weekId);
-            var dows = await dataDow.GetDOWsAsync(weekId);
-            // loop through the dows
-            foreach (var dow in dows)
-            {
-                if (dow.Name == "Tuesday")
-                {
-                    // get the Id
-                    dowId = dow.DOWId;
-                    // set is selectio to true
-                    dow.IsSelected = true;
-                    daySelected = dowId;
-                }
+            //// get week having the weekid
+            //var week = await dataWeek.GetWeekAsync(weekId);
+            //var dows = await dataDow.GetDOWsAsync(weekId);
+            //// loop through the dows
+            //foreach (var dow in dows)
+            //{
+            //    if (dow.Name == "Tuesday")
+            //    {
+            //        // get the Id
+            //        dowId = dow.DOWId;
+            //        // set is selectio to true
+            //        dow.IsSelected = true;
+            //        daySelected = dowId;
+            //    }
 
-                else
-                    dow.IsSelected = false;
-                //update dow
-                await dataDow.UpdateDOWAsync(dow);
-            }
-            await Refresh();
+            //    else
+            //        dow.IsSelected = false;
+            //    //update dow
+            //    await dataDow.UpdateDOWAsync(dow);
+            //}
+            //await Refresh();
 
 
         }
         public async Task wedButton()
         {
-            // get week having the weekid
-            var week = await dataWeek.GetWeekAsync(weekId);
-            var dows = await dataDow.GetDOWsAsync(weekId);
-            // loop through the dows
-            foreach (var dow in dows)
-            {
-                if (dow.Name == "Wednesday")
-                {
-                    // get the Id
-                    dowId = dow.DOWId;
-                    // set is selectio to true
-                    dow.IsSelected = true;
-                    daySelected = dowId;
-                }
+           // // get week having the weekid
+           // var week = await dataWeek.GetWeekAsync(weekId);
+           // var dows = await dataDow.GetDOWsAsync(weekId);
+           // // loop through the dows
+           // foreach (var dow in dows)
+           // {
+           //     if (dow.Name == "Wednesday")
+           //     {
+           //         // get the Id
+           //         dowId = dow.DOWId;
+           //         // set is selectio to true
+           //         dow.IsSelected = true;
+           //         daySelected = dowId;
+           //     }
 
-                else
-                    dow.IsSelected = false;
-                //update dow
-                await dataDow.UpdateDOWAsync(dow);
-            }
-            // get all tasks having sundayId
-           // var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);
-            await Refresh();
+           //     else
+           //         dow.IsSelected = false;
+           //     //update dow
+           //     await dataDow.UpdateDOWAsync(dow);
+           // }
+           // // get all tasks having sundayId
+           //// var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);
+           // await Refresh();
 
         }
        public async Task thuButton()
        {
-            // get week having the weekid
-            var week = await dataWeek.GetWeekAsync(weekId);
-            var dows = await dataDow.GetDOWsAsync(weekId);
-            // loop through the dows
-            foreach (var dow in dows)
-            {
-                if (dow.Name == "Thursday")
-                {
-                    // get the Id
-                    dowId = dow.DOWId;
-                    // set is selectio to true
-                    dow.IsSelected = true;
-                    daySelected = dowId;
-                }
+       //     // get week having the weekid
+       //     var week = await dataWeek.GetWeekAsync(weekId);
+       //     var dows = await dataDow.GetDOWsAsync(weekId);
+       //     // loop through the dows
+       //     foreach (var dow in dows)
+       //     {
+       //         if (dow.Name == "Thursday")
+       //         {
+       //             // get the Id
+       //             dowId = dow.DOWId;
+       //             // set is selectio to true
+       //             dow.IsSelected = true;
+       //             daySelected = dowId;
+       //         }
 
-                else
-                    dow.IsSelected = false;
-                //update dow
-                await dataDow.UpdateDOWAsync(dow);
-            }
-            // get all tasks having sundayId
-            //var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);
-            await Refresh();
+       //         else
+       //             dow.IsSelected = false;
+       //         //update dow
+       //         await dataDow.UpdateDOWAsync(dow);
+       //     }
+       //     // get all tasks having sundayId
+       //     //var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);
+       //     await Refresh();
 
         }
        public async Task friButton()
        {
 
-            // get week having the weekid
-            var week = await dataWeek.GetWeekAsync(weekId);
-            var dows = await dataDow.GetDOWsAsync(weekId);
-            // loop through the dows
-            foreach (var dow in dows)
-            {
-                if (dow.Name == "Friday")
-                {
-                    // get the Id
-                    dowId = dow.DOWId;
-                    // set is selectio to true
-                    dow.IsSelected = true;
-                    daySelected = dowId;
-                }
+            //// get week having the weekid
+            //var week = await dataWeek.GetWeekAsync(weekId);
+            //var dows = await dataDow.GetDOWsAsync(weekId);
+            //// loop through the dows
+            //foreach (var dow in dows)
+            //{
+            //    if (dow.Name == "Friday")
+            //    {
+            //        // get the Id
+            //        dowId = dow.DOWId;
+            //        // set is selectio to true
+            //        dow.IsSelected = true;
+            //        daySelected = dowId;
+            //    }
 
-                else
-                    dow.IsSelected = false;
-                //update dow
-                await dataDow.UpdateDOWAsync(dow);
-            }
-            // get all tasks having sundayId
-            //var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);
-            await Refresh();
+            //    else
+            //        dow.IsSelected = false;
+            //    //update dow
+            //    await dataDow.UpdateDOWAsync(dow);
+            //}
+            //// get all tasks having sundayId
+            ////var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);
+            //await Refresh();
         }
        public async Task satButton()
         {
-            // get week having the weekid
-            var week = await dataWeek.GetWeekAsync(weekId);
-            var dows = await dataDow.GetDOWsAsync(weekId);
-            // loop through the dows
-            foreach (var dow in dows)
-            {
-                if (dow.Name == "Saturday")
-                {
-                    // get the Id
-                    dowId = dow.DOWId;
-                    // set is selectio to true
-                    dow.IsSelected = true;
-                    daySelected = dowId;
-                }
+            //// get week having the weekid
+            //var week = await dataWeek.GetWeekAsync(weekId);
+            //var dows = await dataDow.GetDOWsAsync(weekId);
+            //// loop through the dows
+            //foreach (var dow in dows)
+            //{
+            //    if (dow.Name == "Saturday")
+            //    {
+            //        // get the Id
+            //        dowId = dow.DOWId;
+            //        // set is selectio to true
+            //        dow.IsSelected = true;
+            //        daySelected = dowId;
+            //    }
 
-                else
-                    dow.IsSelected = false;
-                //update dow
-                await dataDow.UpdateDOWAsync(dow);
-            }
-            // get all tasks having sundayId
-            //var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);        
-            await Refresh();
+            //    else
+            //        dow.IsSelected = false;
+            //    //update dow
+            //    await dataDow.UpdateDOWAsync(dow);
+            //}
+            //// get all tasks having sundayId
+            ////var tasks = await dataSubtask.GetTasksAsync(goalId, week.Id);        
+            //await Refresh();
         }
         async Task GotoHelpPage()
         {
@@ -733,19 +712,43 @@ namespace GO.ViewModels.TaskInGoals
             await CalculateSubtaskPercentage();
                      // dows.Clear();
             dowTasks.Clear();
-            // get all tasks having the goal id
-            var tasks = await dataTask.GetTasksAsync(GoalId,weekId);
-            if(tasks.Count() >0)
+            goalTaskslist.Clear();
+            // get all dows
+            var dbtaskdays = await dataTaskDay.GetTaskdaysAsync();
+            if(dbtaskdays.Count() > 0)
             {
-                foreach (var task in tasks)
+                // loop through the task days
+                foreach (var taskday in dbtaskdays)
                 {
-                    /// calculate number of sbtasks in the tasks
-                    var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-                    task.SubtaskNumber = subtasks.Count();
-                    // update task
-                    await dataTask.UpdateTaskAsync(task);
+                    // get the item that has dowid similar to dowid of 'this' dowid
+                    if (taskday.DowId == DowId)
+                    {
+                        // get task task
+                        var task = await dataTask.GetTaskAsync(taskday.Taskid);
+                        goalTaskslist.Add(task);
+                    }
                 }
+                if (goalTaskslist.Count() > 0)
+                    dowTasks.AddRange(goalTaskslist);
+                else
+                    Datatoast.toast("No tasks!");
             }
+            else return;
+
+           
+            //// get all tasks having the goal id
+            //var tasks = await dataTask.GetTasksAsync(GoalId,weekId);
+            //if(tasks.Count() >0)
+            //{
+            //    foreach (var task in tasks)
+            //    {
+            //        /// calculate number of sbtasks in the tasks
+            //        var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+            //        task.SubtaskNumber = subtasks.Count();
+            //        // update task
+            //        await dataTask.UpdateTaskAsync(task);
+            //    }
+            //}
 
             //var dayTasks = tasks.Where(t => t.DowId == daySelected).ToList();          
             //dayName = null;
@@ -777,7 +780,7 @@ namespace GO.ViewModels.TaskInGoals
             //    else
             //    dowTasks.AddRange(inprogressTasks);
             //}
-           
+
             //else if (withSubtasks)
             //{
             //    List<GoalTask> tasklist = new List<GoalTask>();
@@ -796,7 +799,7 @@ namespace GO.ViewModels.TaskInGoals
             //    else
             //    dowTasks.AddRange(tasklist);
             //}
-          
+
             IsBusy = false;          
         }
     }

@@ -315,39 +315,39 @@ namespace GO.Views.Goal
                                 if (weektasks.Count() > 0)
                                 {
                                     // get all days in the week
-                                    var weekdays = await dataDow.GetDOWsAsync(firstWeek.Id);
-                                    // delete days whose date is before the new start date
-                                    var expiredDays = weekdays.Where(d => d.Date < newGoal.Start.Date).ToList();
-                                    if (expiredDays.Count() > 0)
-                                    {
-                                        // loop through the expired days and delete the days and its tasks 
-                                        foreach (var day in expiredDays)
-                                        {
-                                            // get tasks having the the days id
-                                            var tasks = await dataTask.GetTasksAsync(day.DOWId);
-                                            if (tasks.Count() > 0)
-                                            {
-                                                // loop through the tasks to get their subtasks
-                                                foreach (var task in tasks)
-                                                {
-                                                    var subtasks = await dataSubtask.GetSubTasksAsync(task.Id);
-                                                    // delete task
-                                                    await dataTask.DeleteTaskAsync(task.Id);
-                                                    if (subtasks.Count() > 0)
-                                                    {
-                                                        // loop through the tasks and delete all of them
-                                                        foreach (var subtask in subtasks)
-                                                        {
-                                                            // delete subtast
-                                                            await dataSubtask.DeleteSubTaskAsync(subtask.Id);
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            // delete day
-                                            await dataDow.DeleteDOWAsync(day.DOWId);
-                                        }
-                                    }
+                                    var weekdays = await dataDow.GetDOWsAsync();
+                                    //// delete days whose date is before the new start date
+                                    //var expiredDays = weekdays.Where(d => d.Date < newGoal.Start.Date).ToList();
+                                    //if (expiredDays.Count() > 0)
+                                    //{
+                                    //    // loop through the expired days and delete the days and its tasks 
+                                    //    foreach (var day in expiredDays)
+                                    //    {
+                                    //        // get tasks having the the days id
+                                    //        var tasks = await dataTask.GetTasksAsync(day.DOWId);
+                                    //        if (tasks.Count() > 0)
+                                    //        {
+                                    //            // loop through the tasks to get their subtasks
+                                    //            foreach (var task in tasks)
+                                    //            {
+                                    //                var subtasks = await dataSubtask.GetSubTasksAsync(task.Id);
+                                    //                // delete task
+                                    //                await dataTask.DeleteTaskAsync(task.Id);
+                                    //                if (subtasks.Count() > 0)
+                                    //                {
+                                    //                    // loop through the tasks and delete all of them
+                                    //                    foreach (var subtask in subtasks)
+                                    //                    {
+                                    //                        // delete subtast
+                                    //                        await dataSubtask.DeleteSubTaskAsync(subtask.Id);
+                                    //                    }
+                                    //                }
+                                    //            }
+                                    //        }
+                                    //        // delete day
+                                    //        await dataDow.DeleteDOWAsync(day.DOWId);
+                                    //    }
+                                    //}
                                 }
                             }
                             // restructure the week number
@@ -762,7 +762,7 @@ namespace GO.Views.Goal
         async Task deleteweeklyTask(Models.Week week)
         {
             //get the days having the week id
-            var days = await dataDow.GetDOWsAsync(Goal.Id);
+            var days = await dataDow.GetDOWsAsync();
             //loop through the days and get the tasks in them
             foreach (var day in days)
             {

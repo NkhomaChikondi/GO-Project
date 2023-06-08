@@ -448,7 +448,7 @@ namespace GO.ViewModels.TaskInGoals
             var tasks = await dataTask.GetTasksAsync(goalId);
             var lastTask = tasks.LastOrDefault();
             // get all days in dow
-            var dows = await dataDow.GetDOWsAsync(lastTask.WeekId);
+            var dows = await dataDow.GetDOWsAsync();
 
             // loop through the days
             foreach (var day in dows)

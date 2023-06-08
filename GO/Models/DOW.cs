@@ -11,12 +11,8 @@ namespace GO.Models
     {
         [PrimaryKey,AutoIncrement]
         public int DOWId { get; set; }
-        public string Name { get; set; }
-        public DateTime Date { get; set; }
-        public bool IsSelected { get; set; }
-        [Indexed]
-        public int  WeekId { get; set; }
-
+        public string Name { get; set; }       
+        public bool IsSelected { get; set; }     
 
     }
 }

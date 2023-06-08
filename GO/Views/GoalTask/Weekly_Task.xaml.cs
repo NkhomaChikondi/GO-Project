@@ -18,7 +18,7 @@ namespace GO.Views.GoalTask
     {
         public string weekId { get; set; }
         private int goalId;
-        private DOW DOW;
+        private IEnumerable<DOW> dOWs;
         public IDataGoal<Models.Goal> datagoal { get; }
         public IDataTask<Models.GoalTask> DataTask { get; }
         public IDataSubtask<Subtask> datasubtask { get; }
@@ -42,6 +42,19 @@ namespace GO.Views.GoalTask
             var week = await dataWeek.GetWeekAsync(result);
             // get the goal having the goalid
             var goal = await datagoal.GetGoalAsync(week.GoalId);
+            // get all DOws
+            var dows = await dataDow.GetDOWsAsync();
+            DOW todayDow = null;
+            dOWs = dows;
+            // loop through the days and get the day that is equal to the currrent date
+            foreach (var day in dows)
+            {
+                if(day.Name == DateTime.Today.DayOfWeek.ToString())
+                {
+                    todayDow = day;
+                }
+            }
+            dayTask.Text = todayDow.Name;
             startdate.Text = week.StartDate.ToString("d MMM yyyy"); 
             enddate.Text = week.EndDate.ToString("d MMM yyyy");
             weeknumber.Text = week.WeekNumber.ToString();
@@ -72,9 +85,10 @@ namespace GO.Views.GoalTask
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 wvm.GoalId = goal.Id;
-                wvm.WeekId = result;              
+                wvm.WeekId = result;
+                wvm.DowId = todayDow.DOWId;
                 // await showButtonclicked(0);
-                await wvm.Refresh();
+               await wvm.Refresh();
             }
 
         }
@@ -100,8 +114,15 @@ namespace GO.Views.GoalTask
 
         }
 
-        private void TapGestureRecognizersun_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizersun_Tapped(object sender, EventArgs e)
         {
+            // get the dow whose name is equal to sunday
+            var sundaydow = dOWs.Where(s => s.Name == "Sunday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = sundaydow.DOWId;
+                await wvm.Refresh();
+            }
             dayTask.Text = "Sunday";
             sunImg.IsVisible = true;
             monImg.IsVisible = false;
@@ -111,8 +132,15 @@ namespace GO.Views.GoalTask
             friImg.IsVisible = false;
             satImg.IsVisible = false;
         }
-        private void TapGestureRecognizermon_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizermon_Tapped(object sender, EventArgs e)
         {
+            // get the dow whose name is equal to sunday
+            var mondaydow = dOWs.Where(s => s.Name == "Monday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = mondaydow.DOWId;
+                await wvm.Refresh();
+            }
             dayTask.Text = "Monday";
             sunImg.IsVisible = false;
             monImg.IsVisible = true;
@@ -122,8 +150,15 @@ namespace GO.Views.GoalTask
             friImg.IsVisible = false;
             satImg.IsVisible = false;
         }
-        private void TapGestureRecognizertue_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizertue_Tapped(object sender, EventArgs e)
         {
+            // get the dow whose name is equal to sunday
+            var tuesdaydow = dOWs.Where(s => s.Name == "Tuesday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = tuesdaydow.DOWId;
+                await wvm.Refresh();
+            }
             dayTask.Text = "Tuesday";
             sunImg.IsVisible = false;
             monImg.IsVisible = false;
@@ -133,8 +168,15 @@ namespace GO.Views.GoalTask
             friImg.IsVisible = false;
             satImg.IsVisible = false;
         }
-        private void TapGestureRecognizerwed_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizerwed_Tapped(object sender, EventArgs e)
         {
+            // get the dow whose name is equal to sunday
+            var wednesdaydow = dOWs.Where(s => s.Name == "Wednesday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = wednesdaydow.DOWId;
+                await wvm.Refresh();
+            }
             dayTask.Text = "Wednesday"; 
             sunImg.IsVisible = false;
             monImg.IsVisible = false;
@@ -144,8 +186,15 @@ namespace GO.Views.GoalTask
             friImg.IsVisible = false;
             satImg.IsVisible = false;
         }
-        private void TapGestureRecognizerthu_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizerthu_Tapped(object sender, EventArgs e)
         {
+            // get the dow whose name is equal to sunday
+            var thursdaydow = dOWs.Where(s => s.Name == "Thursday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = thursdaydow.DOWId;
+                await wvm.Refresh();
+            }
             dayTask.Text = "Thursday";
             sunImg.IsVisible = false;
             monImg.IsVisible = false;
@@ -155,8 +204,15 @@ namespace GO.Views.GoalTask
             friImg.IsVisible = false;
             satImg.IsVisible = false;
         }
-        private void TapGestureRecognizerfri_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizerfri_Tapped(object sender, EventArgs e)
         {
+            // get the dow whose name is equal to sunday
+            var fridaydow = dOWs.Where(s => s.Name == "Friday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = fridaydow.DOWId;
+                await wvm.Refresh();
+            }
             dayTask.Text = "Friday";
             sunImg.IsVisible = false;
             monImg.IsVisible = false;
@@ -166,8 +222,15 @@ namespace GO.Views.GoalTask
             friImg.IsVisible = true;
             satImg.IsVisible = false;
         }
-        private void TapGestureRecognizersat_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizersat_Tapped(object sender, EventArgs e)
         {
+            // get the dow whose name is equal to sunday
+            var saturdaydow = dOWs.Where(s => s.Name == "Saturday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = saturdaydow.DOWId;
+                await wvm.Refresh();
+            }
             dayTask.Text = "Saturday";
             sunImg.IsVisible = false;
             monImg.IsVisible = false;
@@ -220,6 +283,38 @@ namespace GO.Views.GoalTask
                     await bvm.Withsubtasks();
                 }
             }
+        }
+        private async void switch_Toggled(object sender, ToggledEventArgs e)
+        {
+            Switch @switch = (Switch)sender;
+            var task = (Models.GoalTask)@switch.BindingContext;
+            var taskid = task.Id;
+            // get the task having the same id as taskId
+            var taskdb = await DataTask.GetTaskAsync(taskid);
+
+            if (task.IsCompleted)
+            {
+                // check if the incoming object 
+                if (taskdb.IsCompleted)
+                    return;
+                else
+                {
+                    if (BindingContext is GoalTaskViewModel viewModel)
+                    {
+                        await viewModel.CompleteTask(taskid, task.IsCompleted);
+                    }
+                }
+            }
+            else if (!task.IsCompleted)
+            {
+                // check if the incoming object 
+                if (!taskdb.IsCompleted)
+                    return;
+                if (BindingContext is GoalTaskViewModel viewModel)
+                    await viewModel.UncompleteTask(taskid, task.IsCompleted);
+            }
+            return;
+
         }
     }
 }

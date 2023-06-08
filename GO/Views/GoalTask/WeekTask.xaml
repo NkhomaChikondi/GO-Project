@@ -307,16 +307,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
 
-                            <ImageButton IsVisible="true" x:Name="addbtn" Margin="5,5,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                        Glyph={x:Static helpers:IconFont.PlusCircleOutline},Size=60,Color=#61a5c2
-                                        }"
-                                                    BackgroundColor="Transparent"
-                                        Command="{Binding OnAddCommand}"
-                                        IsEnabled="{Binding IsNotBusy}"
-               
-                                                    AbsoluteLayout.LayoutFlags="PositionProportional"
-			                            AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
-                                                                                                                          />
+                            
                         </AbsoluteLayout>
                     </StackLayout>
             </StackLayout>

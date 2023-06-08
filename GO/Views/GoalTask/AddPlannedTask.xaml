@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Grid.ColumnSpan="4">
+        <StackLayout Grid.ColumnSpan="5">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -85,60 +85,65 @@
                             </Label>
                         </StackLayout>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Frame x:Name="framesun" CornerRadius="20">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Sun_Tapped"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout >
-                                <Label Text="S" HorizontalOptions="CenterAndExpand" TextColor="#343a40"/>
-                            </StackLayout>
-                        </Frame>
-                        <Frame  x:Name="framemon" CornerRadius="20">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Mon_Tapped"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout HorizontalOptions="StartAndExpand">
-                                <Label Text="M" HorizontalOptions="Start" TextColor="#343a40"/>
-                            </StackLayout>
-                        </Frame>
-                        <Frame  x:Name="frametue" CornerRadius="20">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Tue_Tapped"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout>
-                                <Label Text="T" HorizontalOptions="CenterAndExpand" TextColor="#343a40" />
-                            </StackLayout>
-                        </Frame>
-                        <Frame  x:Name="framewed" CornerRadius="20">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Wed_Tapped"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout>
-                                <Label Text="W" HorizontalOptions="CenterAndExpand" TextColor="#343a40"/>
-                            </StackLayout>
-                        </Frame>
-                        <Frame  x:Name="framethu" CornerRadius="20">
-                            <StackLayout>
-                                <Label Text="T" HorizontalOptions="CenterAndExpand" TextColor="#343a40"/>
-                            </StackLayout>
-                        </Frame>
-                        <Frame  x:Name="framefri" CornerRadius="20">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Fri_Tapped"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout>
-                                <Label Text="F" HorizontalOptions="CenterAndExpand" TextColor="#343a40"/>
-                            </StackLayout>
-                        </Frame>
-                        <Frame  x:Name="framesat" CornerRadius="20">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Sat_Tapped"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout>
-                                <Label Text="S" HorizontalOptions="CenterAndExpand" TextColor="#343a40"/>
-                            </StackLayout>
-                        </Frame>
+                    <StackLayout Grid.Column="0" Grid.ColumnSpan="5" HorizontalOptions="FillAndExpand" Margin="8,0,0,0" Orientation="Horizontal" >
+
+                        <Frame Padding="17" x:Name="framesun" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Sun_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                        <Label Text="S" FontSize="11" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17" x:Name="framemon" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Mon_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
+                                <Label Text="M" HorizontalOptions="Start"  FontAttributes="Bold" FontSize="11" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17" x:Name="frametue" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Tue_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                <Label Text="T" HorizontalOptions="CenterAndExpand"  FontAttributes="Bold" FontSize="11" TextColor="#343a40" />
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17" x:Name="framewed" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Wed_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                <Label Text="W" HorizontalOptions="CenterAndExpand"  FontAttributes="Bold" FontSize="11" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17"  x:Name="framethu" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Thu_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                <Label Text="T" HorizontalOptions="CenterAndExpand"  FontAttributes="Bold" FontSize="11" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17"  x:Name="framefri" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Fri_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                <Label Text="F" FontSize="11.5"  FontAttributes="Bold" HorizontalOptions="CenterAndExpand" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17"   x:Name="framesat" CornerRadius="100" >
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Sat_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                <Label Text="S"  FontAttributes="Bold" HorizontalOptions="CenterAndExpand" FontSize="11" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>                        
+                  
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" Margin="10,10">
                         <Label Text="Repeat Weekly? " TextColor="#343a40" FontSize="16" FontAttributes="Bold" Margin="0,6" />

@@ -151,13 +151,17 @@ namespace GO.ViewModels.Goals
                     {
                         // get all tasks having the week Id
                         var Task_Week = tasks.Where(T => T.WeekId == week.Id).ToList();
-                        // check if all tasks having the week id have been completed
-                        if(Task_Week.All(T =>T.IsCompleted))
+                        if(Task_Week.Count() > 0)
                         {
-                            week.status = "Completed";
+                            // check if all tasks having the week id have been completed
+                            if (Task_Week.All(T => T.IsCompleted))
+                            {
+                                week.status = "Completed";
+                            }
+                            else
+                                week.status = "In Progress";
                         }
-                        else
-                        week.status = "In Progress";
+                      
                     }
                     else if(DateTime.Today > week.StartDate)
                     {
@@ -227,14 +231,7 @@ namespace GO.ViewModels.Goals
                     {
                         // cancel its notification
                         LocalNotificationCenter.Current.Cancel(week.Id);
-                        await dataWeek.DeleteWeekAsync(week.Id);
-                        // get all days having the weekId
-                        var weekdays = await dataDow.GetDOWsAsync(week.Id);
-                        // loop throogh the das and delete them
-                        foreach (var day in weekdays)
-                        {
-                            await dataDow.DeleteDOWAsync(day.DOWId);
-                        }
+                        await dataWeek.DeleteWeekAsync(week.Id);                        
                     }
                 }
                 // loop through the tasks

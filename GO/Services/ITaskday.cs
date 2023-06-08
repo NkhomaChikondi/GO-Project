@@ -11,7 +11,7 @@ namespace GO.Services
         Task<bool> UpdateTaskdayAsync(T item);
         Task<bool> DeleteTaskdayAsync(int id);
         Task<T> GetTaskdayAsync(int id);
-        Task<IEnumerable<T>> GetTaskdayAsync(int id, bool forceRefresh = false);
+        Task<IEnumerable<T>> GetTaskdaysAsync( bool forceRefresh = false);
 
     }
 }

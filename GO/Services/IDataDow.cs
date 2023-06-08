@@ -11,6 +11,6 @@ namespace GO.Services
         Task<bool> UpdateDOWAsync(T item);
         Task<bool> DeleteDOWAsync(int id);
         Task<T> GetDOWAsync(int id);     
-        Task<IEnumerable<T>> GetDOWsAsync(int id, bool forceRefresh = false);
+        Task<IEnumerable<T>> GetDOWsAsync(bool forceRefresh = false);
     }
 }
