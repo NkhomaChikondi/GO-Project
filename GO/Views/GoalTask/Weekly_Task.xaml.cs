@@ -44,13 +44,21 @@ namespace GO.Views.GoalTask
             var goal = await datagoal.GetGoalAsync(week.GoalId);
             // get all DOws
             var dows = await dataDow.GetDOWsAsync();
+            if(dows.Count() == 0)
+            {
+               if(BindingContext is WeeklyTaskViewModel WVM)
+               {
+                   await WVM.CreateDOW();
+                    dows = await dataDow.GetDOWsAsync();
+               }
+            }
             DOW todayDow = null;
             dOWs = dows;
             // loop through the days and get the day that is equal to the currrent date
             foreach (var day in dows)
             {
                 if(day.Name == DateTime.Today.DayOfWeek.ToString())
-                {
+                { 
                     todayDow = day;
                 }
             }
@@ -58,30 +66,34 @@ namespace GO.Views.GoalTask
             startdate.Text = week.StartDate.ToString("d MMM yyyy"); 
             enddate.Text = week.EndDate.ToString("d MMM yyyy");
             weeknumber.Text = week.WeekNumber.ToString();
-            if (week.status == "Not Started")
+            if (week.status == "Not started")
             {
+                // get the day of week of today
+                var dowToday = DateTime.Today.DayOfWeek;
                 status.Text = "Not Started";
-                status.TextColor = Color.LightGray;
+                status.TextColor = Color.Gray;
+                dayOfTheWeekVisisbility(dowToday);
             }
             else if(week.status == "In Progress")
             {
+                // get the day of week of today
+                var dowToday = DateTime.Today.DayOfWeek;
                 status.Text = "In Progress";
                 status.TextColor = Color.Orange;
+                dayOfTheWeekVisisbility(dowToday);
             }
-            else if(week.status == "Completed")
+            else if (week.status == "Expired")
             {
-                status.Text = "Completed";
-                status.TextColor = Color.Green;
+                // get the day of week of today
+                var dowToday = DateTime.Today.DayOfWeek;
+                status.Text = "In Progress";
+                status.TextColor = Color.Orange;
+                dayOfTheWeekVisisbility(dowToday);
             }
-            else
-            {
-                status.Text = "Expired";
-                status.TextColor = Color.Red;
-            }
-                
+
             // call set date method
             SetDate(week);
-            setImagevisibility();
+            //setImagevisibility();
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 wvm.GoalId = goal.Id;
@@ -94,13 +106,35 @@ namespace GO.Views.GoalTask
         }
         void SetDate(Week week)
         {
-            sunDate.Text = week.StartDate.ToString("dd");
-            monDate.Text = week.StartDate.AddDays(1).ToString("dd");
-            tueDate.Text = week.StartDate.AddDays(2).ToString("dd");
-            wedDate.Text = week.StartDate.AddDays(3).ToString("dd");
-            thuDate.Text = week.StartDate.AddDays(4).ToString("dd");
-            friDate.Text = week.StartDate.AddDays(5).ToString("dd");
-            satDate.Text = week.StartDate.AddDays(6).ToString("dd");
+            // get the day of the week of weeks start date
+            var weekDOW = week.StartDate.DayOfWeek;
+            if(DateTime.Today.DayOfWeek.ToString() == "Sunday" && weekDOW.ToString() == "Sunday")
+            {
+
+                sunDate.Text = week.StartDate.ToString("dd");
+                monDate.Text = week.StartDate.AddDays(1).ToString("dd");
+                tueDate.Text = week.StartDate.AddDays(2).ToString("dd");
+                wedDate.Text = week.StartDate.AddDays(3).ToString("dd");
+                thuDate.Text = week.StartDate.AddDays(4).ToString("dd");
+                friDate.Text = week.StartDate.AddDays(5).ToString("dd");
+                satDate.Text = week.StartDate.AddDays(6).ToString("dd");
+            }
+            else
+            {
+                // get the date of the previous sunday
+                int daystoRemove = (int)weekDOW;
+                DateTime previousSunday = week.StartDate.AddDays(-daystoRemove);
+
+                sunDate.Text = previousSunday.ToString("dd");
+                monDate.Text = previousSunday.AddDays(1).ToString("dd");
+                tueDate.Text = previousSunday.AddDays(2).ToString("dd");
+                wedDate.Text = previousSunday.AddDays(3).ToString("dd");
+                thuDate.Text = previousSunday.AddDays(4).ToString("dd");
+                friDate.Text = previousSunday.AddDays(5).ToString("dd");
+                satDate.Text = previousSunday.AddDays(6).ToString("dd");
+
+            }
+
         }
         void setImagevisibility()
         {
@@ -111,7 +145,6 @@ namespace GO.Views.GoalTask
             thuImg.IsVisible = false;
             friImg.IsVisible = false;
             satImg.IsVisible = false;
-
         }
 
         private async void TapGestureRecognizersun_Tapped(object sender, EventArgs e)
@@ -315,6 +348,79 @@ namespace GO.Views.GoalTask
             }
             return;
 
+        }
+        void dayOfTheWeekVisisbility(DayOfWeek dayOfWeek)
+        {
+            if(dayOfWeek == DayOfWeek.Sunday)
+            {
+                sunImg.IsVisible = true;
+                monImg.IsVisible = false;
+                tueImg.IsVisible = false;
+                wedImg.IsVisible = false;
+                thuImg.IsVisible = false;
+                friImg.IsVisible = false;
+                satImg.IsVisible = false;
+            }
+            else if(dayOfWeek == DayOfWeek.Monday)
+            {
+                sunImg.IsVisible = false;
+                monImg.IsVisible = true;
+                tueImg.IsVisible = false;
+                wedImg.IsVisible = false;
+                thuImg.IsVisible = false;
+                friImg.IsVisible = false;
+                satImg.IsVisible = false;
+            }
+            else if (dayOfWeek == DayOfWeek.Tuesday)
+            {
+                sunImg.IsVisible = false;
+                monImg.IsVisible = false;
+                tueImg.IsVisible = true;
+                wedImg.IsVisible = false;
+                thuImg.IsVisible = false;
+                friImg.IsVisible = false;
+                satImg.IsVisible = false;
+            }
+            else if (dayOfWeek == DayOfWeek.Wednesday)
+            {
+                sunImg.IsVisible = false;
+                monImg.IsVisible = false;
+                tueImg.IsVisible = false;
+                wedImg.IsVisible = true;
+                thuImg.IsVisible = false;
+                friImg.IsVisible = false;
+                satImg.IsVisible = false;
+            }
+            else if (dayOfWeek == DayOfWeek.Thursday)
+            {
+                sunImg.IsVisible = false;
+                monImg.IsVisible = false;
+                tueImg.IsVisible = false;
+                wedImg.IsVisible = false;
+                thuImg.IsVisible = true;
+                friImg.IsVisible = false;
+                satImg.IsVisible = false;
+            }
+            else if (dayOfWeek == DayOfWeek.Friday)
+            {
+                sunImg.IsVisible = false;
+                monImg.IsVisible = false;
+                tueImg.IsVisible = false;
+                wedImg.IsVisible = false;
+                thuImg.IsVisible = false;
+                friImg.IsVisible = true;
+                satImg.IsVisible = false;
+            }
+            else if (dayOfWeek == DayOfWeek.Saturday)
+            {
+                sunImg.IsVisible = false;
+                monImg.IsVisible = false;
+                tueImg.IsVisible = false;
+                wedImg.IsVisible = false;
+                thuImg.IsVisible = false;
+                friImg.IsVisible = false;
+                satImg.IsVisible = true;
+            }
         }
     }
 }

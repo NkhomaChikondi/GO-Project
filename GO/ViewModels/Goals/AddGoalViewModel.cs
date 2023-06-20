@@ -305,7 +305,7 @@ namespace GO.ViewModels.Goals
             GetWeek = week;          
             await SendWeeklyNotification(lastGoal); 
             // navigate to page
-            var route = $"{nameof(WeekTask)}?weekId={week.Id}";
+            var route = $"{nameof(Weekly_Task)}?weekId={week.Id}";
             await Shell.Current.GoToAsync(route);
             Datatoast.toast($"A new goal with {goal.NumberOfWeeks} weeks, has been added ");
 
@@ -384,6 +384,14 @@ namespace GO.ViewModels.Goals
                 await dataWeek.AddWeekAsync(newWeek);
                 startDate = endDate.AddDays(1);
                 endDate = startDate.AddDays(6);
+
+                // get all weeks having the goal's id
+                var allWeeks = await dataWeek.GetWeeksAsync(lastGoal.Id);
+                var firstWeek = allWeeks.FirstOrDefault();
+                // navigate to page
+                var route = $"{nameof(Weekly_Task)}?weekId={firstWeek.Id}";
+                await Shell.Current.GoToAsync(route);
+                Datatoast.toast($"A new goal with {lastGoal.NumberOfWeeks} weeks, has been added ");
 
             }
 

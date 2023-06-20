@@ -132,7 +132,7 @@ namespace GO.ViewModels.TaskInGoals
         }
       
         // seed the days of the week into the database upon startup
-        async Task CreateDOW()
+        public async Task CreateDOW()
         {
             // get dows
            var alldows = await dataDow.GetDOWsAsync();
@@ -720,16 +720,20 @@ namespace GO.ViewModels.TaskInGoals
                 // loop through the task days
                 foreach (var taskday in dbtaskdays)
                 {
-                    // get the item that has dowid similar to dowid of 'this' dowid
+                    // get the tasks having this weeks id and  has dowid similar to dowid of 'this' dowid
                     if (taskday.DowId == DowId)
                     {
                         // get task task
-                        var task = await dataTask.GetTaskAsync(taskday.Taskid);
+                        var task = await dataTask.GetTaskAsync(taskday.Taskid);                        
                         goalTaskslist.Add(task);
                     }
                 }
                 if (goalTaskslist.Count() > 0)
-                    dowTasks.AddRange(goalTaskslist);
+                {
+                    // get tasks having this week's Id
+                    var weeklyTask = goalTaskslist.Where(T => T.WeekId == weekId).ToList();
+                          dowTasks.AddRange(weeklyTask);
+                }                  
                 else
                     Datatoast.toast("No tasks!");
             }
