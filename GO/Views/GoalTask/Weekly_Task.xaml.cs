@@ -66,32 +66,32 @@ namespace GO.Views.GoalTask
             startdate.Text = week.StartDate.ToString("d MMM yyyy");
             enddate.Text = week.EndDate.ToString("d MMM yyyy");
             weeknumber.Text = week.WeekNumber.ToString();
-            //weeklygoalName.Text = goal.Name;
-            //var weekremaining = goal.NumberOfWeeks - week.WeekNumber;
+            //weeklygoalName.Text = goal.Name;    //var weekremaining = goal.NumberOfWeeks - week.WeekNumber;
             //goaldaysLeft.Text = weekremaining.ToString();
             //goaldaysLeft.Text = "7";
+        
             if (week.status == "Not started")
             {
                 // get the day of week of today
                 var dowToday = DateTime.Today.DayOfWeek;
                 status.Text = "Not Started";
                 framestatus.BackgroundColor = Color.LightGray;
-                // dayOfTheWeekVisisbility(dowToday);
+                dayOfTheWeekVisisbility(dowToday);
             }
             else if(week.status == "In Progress")
             {
                 // get the day of week of today
                 var dowToday = DateTime.Today.DayOfWeek;
                 status.Text = "In Progress";
-                framestatus.BackgroundColor = Color.LightGreen;
-               //dayOfTheWeekVisisbility(dowToday);
+                framestatus.BackgroundColor = Color.OrangeRed;
+              dayOfTheWeekVisisbility(dowToday);
             }
             else if (week.status == "Expired")
             {
                 // get the day of week of today
                 var dowToday = DateTime.Today.DayOfWeek;
                 status.Text = "In Progress";            
-               // dayOfTheWeekVisisbility(dowToday);
+                dayOfTheWeekVisisbility(dowToday);
             }
 
             // call set date method
@@ -150,280 +150,280 @@ namespace GO.Views.GoalTask
         //    satImg.IsVisible = false;
         //}
 
-        //private async void TapGestureRecognizersun_Tapped(object sender, EventArgs e)
-        //{
-        //    // get the dow whose name is equal to sunday
-        //    var sundaydow = dOWs.Where(s => s.Name == "Sunday").FirstOrDefault();
-        //    if (BindingContext is WeeklyTaskViewModel wvm)
-        //    {
-        //        wvm.DowId = sundaydow.DOWId;
-        //        await wvm.Refresh();
-        //    }
-        //    dayTask.Text = "Sunday";
-        //    sunImg.IsVisible = true;
-        //    monImg.IsVisible = false;
-        //    tueImg.IsVisible = false;
-        //    wedImg.IsVisible = false;
-        //    thuImg.IsVisible = false;
-        //    friImg.IsVisible = false;
-        //    satImg.IsVisible = false;
-        //}
-        //private async void TapGestureRecognizermon_Tapped(object sender, EventArgs e)
-        //{
-        //    // get the dow whose name is equal to sunday
-        //    var mondaydow = dOWs.Where(s => s.Name == "Monday").FirstOrDefault();
-        //    if (BindingContext is WeeklyTaskViewModel wvm)
-        //    {
-        //        wvm.DowId = mondaydow.DOWId;
-        //        await wvm.Refresh();
-        //    }
-        //    dayTask.Text = "Monday";
-        //    sunImg.IsVisible = false;
-        //    monImg.IsVisible = true;
-        //    tueImg.IsVisible = false;
-        //    wedImg.IsVisible = false;
-        //    thuImg.IsVisible = false;
-        //    friImg.IsVisible = false;
-        //    satImg.IsVisible = false;
-        //}
-        //private async void TapGestureRecognizertue_Tapped(object sender, EventArgs e)
-        //{
-        //    // get the dow whose name is equal to sunday
-        //    var tuesdaydow = dOWs.Where(s => s.Name == "Tuesday").FirstOrDefault();
-        //    if (BindingContext is WeeklyTaskViewModel wvm)
-        //    {
-        //        wvm.DowId = tuesdaydow.DOWId;
-        //        await wvm.Refresh();
-        //    }
-        //    dayTask.Text = "Tuesday";
-        //    sunImg.IsVisible = false;
-        //    monImg.IsVisible = false;
-        //    tueImg.IsVisible = true;
-        //    wedImg.IsVisible = false;
-        //    thuImg.IsVisible = false;
-        //    friImg.IsVisible = false;
-        //    satImg.IsVisible = false;
-        //}
-        //private async void TapGestureRecognizerwed_Tapped(object sender, EventArgs e)
-        //{
-        //    // get the dow whose name is equal to sunday
-        //    var wednesdaydow = dOWs.Where(s => s.Name == "Wednesday").FirstOrDefault();
-        //    if (BindingContext is WeeklyTaskViewModel wvm)
-        //    {
-        //        wvm.DowId = wednesdaydow.DOWId;
-        //        await wvm.Refresh();
-        //    }
-        //    dayTask.Text = "Wednesday"; 
-        //    sunImg.IsVisible = false;
-        //    monImg.IsVisible = false;
-        //    tueImg.IsVisible = false;
-        //    wedImg.IsVisible = true;
-        //    thuImg.IsVisible = false;
-        //    friImg.IsVisible = false;
-        //    satImg.IsVisible = false;
-        //}
-        //private async void TapGestureRecognizerthu_Tapped(object sender, EventArgs e)
-        //{
-        //    // get the dow whose name is equal to sunday
-        //    var thursdaydow = dOWs.Where(s => s.Name == "Thursday").FirstOrDefault();
-        //    if (BindingContext is WeeklyTaskViewModel wvm)
-        //    {
-        //        wvm.DowId = thursdaydow.DOWId;
-        //        await wvm.Refresh();
-        //    }
-        //    dayTask.Text = "Thursday";
-        //    sunImg.IsVisible = false;
-        //    monImg.IsVisible = false;
-        //    tueImg.IsVisible = false;
-        //    wedImg.IsVisible = false;
-        //    thuImg.IsVisible = true;
-        //    friImg.IsVisible = false;
-        //    satImg.IsVisible = false;
-        //}
-        //private async void TapGestureRecognizerfri_Tapped(object sender, EventArgs e)
-        //{
-        //    // get the dow whose name is equal to sunday
-        //    var fridaydow = dOWs.Where(s => s.Name == "Friday").FirstOrDefault();
-        //    if (BindingContext is WeeklyTaskViewModel wvm)
-        //    {
-        //        wvm.DowId = fridaydow.DOWId;
-        //        await wvm.Refresh();
-        //    }
-        //    dayTask.Text = "Friday";
-        //    sunImg.IsVisible = false;
-        //    monImg.IsVisible = false;
-        //    tueImg.IsVisible = false;
-        //    wedImg.IsVisible = false;
-        //    thuImg.IsVisible = false;
-        //    friImg.IsVisible = true;
-        //    satImg.IsVisible = false;
-        //}
-        //private async void TapGestureRecognizersat_Tapped(object sender, EventArgs e)
-        //{
-        //    // get the dow whose name is equal to sunday
-        //    var saturdaydow = dOWs.Where(s => s.Name == "Saturday").FirstOrDefault();
-        //    if (BindingContext is WeeklyTaskViewModel wvm)
-        //    {
-        //        wvm.DowId = saturdaydow.DOWId;
-        //        await wvm.Refresh();
-        //    }
-        //    dayTask.Text = "Saturday";
-        //    sunImg.IsVisible = false;
-        //    monImg.IsVisible = false;
-        //    tueImg.IsVisible = false;
-        //    wedImg.IsVisible = false;
-        //    thuImg.IsVisible = false;
-        //    friImg.IsVisible = false;
-        //    satImg.IsVisible = true;
-        //}
-        //private async void ImageButton_Clicked(object sender, EventArgs e)
-        //{
+        private async void TapGestureRecognizersun_Tapped(object sender, EventArgs e)
+        {
+            // get the dow whose name is equal to sunday
+            var sundaydow = dOWs.Where(s => s.Name == "Sunday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = sundaydow.DOWId;
+                await wvm.Refresh();
+            }
+            dayTask.Text = "Sunday";
+            sunImg.BackgroundColor = Color.Pink;
+            monImg.BackgroundColor = Color.White;
+            tueImg.BackgroundColor = Color.White;
+            wedImg.BackgroundColor = Color.White;
+            thuImg.BackgroundColor = Color.White;
+            friImg.BackgroundColor = Color.White;
+            satImg.BackgroundColor = Color.White;
+        }
+        private async void TapGestureRecognizermon_Tapped(object sender, EventArgs e)
+        {
+            // get the dow whose name is equal to sunday
+            var mondaydow = dOWs.Where(s => s.Name == "Monday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = mondaydow.DOWId;
+                await wvm.Refresh();
+            }
+            dayTask.Text = "Monday";
+            sunImg.BackgroundColor = Color.White;
+            monImg.BackgroundColor = Color.Pink;
+            tueImg.BackgroundColor = Color.White;
+            wedImg.BackgroundColor = Color.White;
+            thuImg.BackgroundColor = Color.White;
+            friImg.BackgroundColor = Color.White;
+            satImg.BackgroundColor = Color.White;
+        }
+        private async void TapGestureRecognizertue_Tapped(object sender, EventArgs e)
+        {
+            // get the dow whose name is equal to sunday
+            var tuesdaydow = dOWs.Where(s => s.Name == "Tuesday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = tuesdaydow.DOWId;
+                await wvm.Refresh();
+            }
+            dayTask.Text = "Tuesday";
+            sunImg.BackgroundColor = Color.White;
+            monImg.BackgroundColor = Color.White;
+            tueImg.BackgroundColor = Color.Pink;
+            wedImg.BackgroundColor = Color.White;
+            thuImg.BackgroundColor = Color.White;
+            friImg.BackgroundColor = Color.White;
+            satImg.BackgroundColor = Color.White;
+        }
+        private async void TapGestureRecognizerwed_Tapped(object sender, EventArgs e)
+        {
+            // get the dow whose name is equal to sunday
+            var wednesdaydow = dOWs.Where(s => s.Name == "Wednesday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = wednesdaydow.DOWId;
+                await wvm.Refresh();
+            }
+            dayTask.Text = "Wednesday";
+            sunImg.BackgroundColor = Color.White;
+            monImg.BackgroundColor = Color.White;
+            tueImg.BackgroundColor = Color.White;
+            wedImg.BackgroundColor = Color.Pink;
+            thuImg.BackgroundColor = Color.White;
+            friImg.BackgroundColor = Color.White;
+            satImg.BackgroundColor = Color.White;
+        }
+        private async void TapGestureRecognizerthu_Tapped(object sender, EventArgs e)
+        {
+            // get the dow whose name is equal to sunday
+            var thursdaydow = dOWs.Where(s => s.Name == "Thursday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = thursdaydow.DOWId;
+                await wvm.Refresh();
+            }
+            dayTask.Text = "Thursday";
+            sunImg.BackgroundColor = Color.White;
+            monImg.BackgroundColor = Color.White;
+            tueImg.BackgroundColor = Color.White;
+            wedImg.BackgroundColor = Color.White;
+            thuImg.BackgroundColor = Color.Pink;
+            friImg.BackgroundColor = Color.White;
+            satImg.BackgroundColor = Color.White;
+        }
+        private async void TapGestureRecognizerfri_Tapped(object sender, EventArgs e)
+        {
+            // get the dow whose name is equal to sunday
+            var fridaydow = dOWs.Where(s => s.Name == "Friday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = fridaydow.DOWId;
+                await wvm.Refresh();
+            }
+            dayTask.Text = "Friday";
+            sunImg.BackgroundColor = Color.White;
+            monImg.BackgroundColor = Color.White;
+            tueImg.BackgroundColor = Color.White;
+            wedImg.BackgroundColor = Color.White;
+            thuImg.BackgroundColor = Color.White;
+            friImg.BackgroundColor = Color.Pink;
+            satImg.BackgroundColor = Color.White;
+        }
+        private async void TapGestureRecognizersat_Tapped(object sender, EventArgs e)
+        {
+            // get the dow whose name is equal to sunday
+            var saturdaydow = dOWs.Where(s => s.Name == "Saturday").FirstOrDefault();
+            if (BindingContext is WeeklyTaskViewModel wvm)
+            {
+                wvm.DowId = saturdaydow.DOWId;
+                await wvm.Refresh();
+            }
+            dayTask.Text = "Saturday";
+            sunImg.BackgroundColor = Color.White;
+            monImg.BackgroundColor = Color.White;
+            tueImg.BackgroundColor = Color.White;
+            wedImg.BackgroundColor = Color.White;
+            thuImg.BackgroundColor = Color.White;
+            friImg.BackgroundColor = Color.White;
+            satImg.BackgroundColor = Color.Pink;
+        }
+        private async void ImageButton_Clicked(object sender, EventArgs e)
+        {
 
-        //    var action = await DisplayActionSheet("Sort tasks by:", "Cancel", "", "All", "Not Started", "In Progress", "Completed", "With subtasks");
-        //    if (action == "All")
-        //    {
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.AllTasks();
-        //        }
-        //    }
+            var action = await DisplayActionSheet("Sort tasks by:", "Cancel", "", "All", "Not Started", "In Progress", "Completed", "With subtasks");
+            if (action == "All")
+            {
+                if (BindingContext is WeeklyTaskViewModel bvm)
+                {
+                    await bvm.AllTasks();
+                }
+            }
 
-        //    else if (action == "Not Started")
-        //    {
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.NotstartedTasks();
-        //        }
-        //    }
+            else if (action == "Not Started")
+            {
+                if (BindingContext is WeeklyTaskViewModel bvm)
+                {
+                    await bvm.NotstartedTasks();
+                }
+            }
 
-        //    else if (action == "In Progress")
-        //    {
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.InprogressTasks();
-        //        }
-        //    }
+            else if (action == "In Progress")
+            {
+                if (BindingContext is WeeklyTaskViewModel bvm)
+                {
+                    await bvm.InprogressTasks();
+                }
+            }
 
-        //    else if (action == "Completed")
-        //    {
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.CompletedTasks();
-        //        }
-        //    }
+            else if (action == "Completed")
+            {
+                if (BindingContext is WeeklyTaskViewModel bvm)
+                {
+                    await bvm.CompletedTasks();
+                }
+            }
 
-        //    else if (action == "With subtasks")
-        //    {
-        //        if (BindingContext is WeeklyTaskViewModel bvm)
-        //        {
-        //            await bvm.Withsubtasks();
-        //        }
-        //    }
-        //}
-        //private async void switch_Toggled(object sender, ToggledEventArgs e)
-        //{
-        //    Switch @switch = (Switch)sender;
-        //    var task = (Models.GoalTask)@switch.BindingContext;
-        //    var taskid = task.Id;
-        //    // get the task having the same id as taskId
-        //    var taskdb = await DataTask.GetTaskAsync(taskid);
+            else if (action == "With subtasks")
+            {
+                if (BindingContext is WeeklyTaskViewModel bvm)
+                {
+                    await bvm.Withsubtasks();
+                }
+            }
+        }
+        private async void switch_Toggled(object sender, ToggledEventArgs e)
+        {
+            Switch @switch = (Switch)sender;
+            var task = (Models.GoalTask)@switch.BindingContext;
+            var taskid = task.Id;
+            // get the task having the same id as taskId
+            var taskdb = await DataTask.GetTaskAsync(taskid);
 
-        //    if (task.IsCompleted)
-        //    {
-        //        // check if the incoming object 
-        //        if (taskdb.IsCompleted)
-        //            return;
-        //        else
-        //        {
-        //            if (BindingContext is GoalTaskViewModel viewModel)
-        //            {
-        //                await viewModel.CompleteTask(taskid, task.IsCompleted);
-        //            }
-        //        }
-        //    }
-        //    else if (!task.IsCompleted)
-        //    {
-        //        // check if the incoming object 
-        //        if (!taskdb.IsCompleted)
-        //            return;
-        //        if (BindingContext is GoalTaskViewModel viewModel)
-        //            await viewModel.UncompleteTask(taskid, task.IsCompleted);
-        //    }
-        //    return;
+            if (task.IsCompleted)
+            {
+                // check if the incoming object 
+                if (taskdb.IsCompleted)
+                    return;
+                else
+                {
+                    if (BindingContext is GoalTaskViewModel viewModel)
+                    {
+                        await viewModel.CompleteTask(taskid, task.IsCompleted);
+                    }
+                }
+            }
+            else if (!task.IsCompleted)
+            {
+                // check if the incoming object 
+                if (!taskdb.IsCompleted)
+                    return;
+                if (BindingContext is GoalTaskViewModel viewModel)
+                    await viewModel.UncompleteTask(taskid, task.IsCompleted);
+            }
+            return;
 
-        //}
-        //void dayOfTheWeekVisisbility(DayOfWeek dayOfWeek)
-        //{
-        //    if(dayOfWeek == DayOfWeek.Sunday)
-        //    {
-        //        sunImg.IsVisible = true;
-        //        monImg.IsVisible = false;
-        //        tueImg.IsVisible = false;
-        //        wedImg.IsVisible = false;
-        //        thuImg.IsVisible = false;
-        //        friImg.IsVisible = false;
-        //        satImg.IsVisible = false;
-        //    }
-        //    else if(dayOfWeek == DayOfWeek.Monday)
-        //    {
-        //        sunImg.IsVisible = false;
-        //        monImg.IsVisible = true;
-        //        tueImg.IsVisible = false;
-        //        wedImg.IsVisible = false;
-        //        thuImg.IsVisible = false;
-        //        friImg.IsVisible = false;
-        //        satImg.IsVisible = false;
-        //    }
-        //    else if (dayOfWeek == DayOfWeek.Tuesday)
-        //    {
-        //        sunImg.IsVisible = false;
-        //        monImg.IsVisible = false;
-        //        tueImg.IsVisible = true;
-        //        wedImg.IsVisible = false;
-        //        thuImg.IsVisible = false;
-        //        friImg.IsVisible = false;
-        //        satImg.IsVisible = false;
-        //    }
-        //    else if (dayOfWeek == DayOfWeek.Wednesday)
-        //    {
-        //        sunImg.IsVisible = false;
-        //        monImg.IsVisible = false;
-        //        tueImg.IsVisible = false;
-        //        wedImg.IsVisible = true;
-        //        thuImg.IsVisible = false;
-        //        friImg.IsVisible = false;
-        //        satImg.IsVisible = false;
-        //    }
-        //    else if (dayOfWeek == DayOfWeek.Thursday)
-        //    {
-        //        sunImg.IsVisible = false;
-        //        monImg.IsVisible = false;
-        //        tueImg.IsVisible = false;
-        //        wedImg.IsVisible = false;
-        //        thuImg.IsVisible = true;
-        //        friImg.IsVisible = false;
-        //        satImg.IsVisible = false;
-        //    }
-        //    else if (dayOfWeek == DayOfWeek.Friday)
-        //    {
-        //        sunImg.IsVisible = false;
-        //        monImg.IsVisible = false;
-        //        tueImg.IsVisible = false;
-        //        wedImg.IsVisible = false;
-        //        thuImg.IsVisible = false;
-        //        friImg.IsVisible = true;
-        //        satImg.IsVisible = false;
-        //    }
-        //    else if (dayOfWeek == DayOfWeek.Saturday)
-        //    {
-        //        sunImg.IsVisible = false;
-        //        monImg.IsVisible = false;
-        //        tueImg.IsVisible = false;
-        //        wedImg.IsVisible = false;
-        //        thuImg.IsVisible = false;
-        //        friImg.IsVisible = false;
-        //        satImg.IsVisible = true;
-        //    }
-        //}
+        }
+        void dayOfTheWeekVisisbility(DayOfWeek dayOfWeek)
+        {
+            if (dayOfWeek == DayOfWeek.Sunday)
+            {
+                sunImg.BackgroundColor = Color.Pink;
+                monImg.BackgroundColor = Color.White;
+                tueImg.BackgroundColor = Color.White;
+                wedImg.BackgroundColor = Color.White;
+                thuImg.BackgroundColor = Color.White;
+                friImg.BackgroundColor = Color.White;
+                satImg.BackgroundColor = Color.White;
+            }
+            else if (dayOfWeek == DayOfWeek.Monday)
+            {
+                sunImg.BackgroundColor = Color.White;
+                monImg.BackgroundColor = Color.Pink;
+                tueImg.BackgroundColor = Color.White;
+                wedImg.BackgroundColor = Color.White;
+                thuImg.BackgroundColor = Color.White;
+                friImg.BackgroundColor = Color.White;
+                satImg.BackgroundColor = Color.White;
+            }
+            else if (dayOfWeek == DayOfWeek.Tuesday)
+            {
+                sunImg.BackgroundColor = Color.White;
+                monImg.BackgroundColor = Color.White;
+                tueImg.BackgroundColor = Color.Pink;
+                wedImg.BackgroundColor = Color.White;
+                thuImg.BackgroundColor = Color.White;
+                friImg.BackgroundColor = Color.White;
+                satImg.BackgroundColor = Color.White;
+            }
+            else if (dayOfWeek == DayOfWeek.Wednesday)
+            {               
+                sunImg.BackgroundColor = Color.White;
+                monImg.BackgroundColor = Color.White;
+                tueImg.BackgroundColor = Color.White;
+                wedImg.BackgroundColor = Color.Pink;
+                thuImg.BackgroundColor = Color.White;
+                friImg.BackgroundColor = Color.White;
+                satImg.BackgroundColor = Color.White;
+            }
+            else if (dayOfWeek == DayOfWeek.Thursday)
+            {
+                sunImg.BackgroundColor = Color.White;
+                monImg.BackgroundColor = Color.White;
+                tueImg.BackgroundColor = Color.White;
+                wedImg.BackgroundColor = Color.White;
+                thuImg.BackgroundColor = Color.Pink;
+                friImg.BackgroundColor = Color.White;
+                satImg.BackgroundColor = Color.White;
+            }
+            else if (dayOfWeek == DayOfWeek.Friday)
+            {
+                sunImg.BackgroundColor = Color.White;
+                monImg.BackgroundColor = Color.White;
+                tueImg.BackgroundColor = Color.White;
+                wedImg.BackgroundColor = Color.White;
+                thuImg.BackgroundColor = Color.White;
+                friImg.BackgroundColor = Color.Pink;
+                satImg.BackgroundColor = Color.White;
+            }
+            else if (dayOfWeek == DayOfWeek.Saturday)
+            {
+                sunImg.BackgroundColor = Color.Pink;
+                monImg.BackgroundColor = Color.White;
+                tueImg.BackgroundColor = Color.White;
+                wedImg.BackgroundColor = Color.White;
+                thuImg.BackgroundColor = Color.White;
+                friImg.BackgroundColor = Color.White;
+                satImg.BackgroundColor = Color.Pink;
+            }
+        }
     }
 }

@@ -48,7 +48,7 @@
             <StackLayout>
                 <StackLayout Orientation="Vertical">
                     <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand"  Margin="9,0" >
-                        <Label Text="Weekly Tasks" TextColor="#61a5c2"  FontAttributes="Bold" Margin="0,2" FontSize="18"/>
+                        <Label Text="Your Goal's Weekly Tasks" TextColor="#61a5c2"  FontAttributes="Bold" Margin="0,2" FontSize="19"/>
                         <!--
                          
                         -->                                          
@@ -66,7 +66,7 @@
                                 <Frame BorderColor="Transparent" BackgroundColor="Transparent" Padding="3,20,0,10">
                                     <StackLayout Orientation="Horizontal" Margin="0,0" >
 
-                                        <Frame CornerRadius="15" >
+                                        <Frame x:Name="sunImg" CornerRadius="15" >
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="TapGestureRecognizersun_Tapped"/>
                                             </Frame.GestureRecognizers>
@@ -85,7 +85,7 @@
                                             </StackLayout>
                                         </Frame>
 
-                                        <Frame CornerRadius="15">
+                                        <Frame x:Name="monImg" CornerRadius="15">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="TapGestureRecognizermon_Tapped"/>
                                             </Frame.GestureRecognizers>
@@ -104,7 +104,7 @@
                                             </StackLayout>
                                         </Frame>
 
-                                        <Frame CornerRadius="15">
+                                        <Frame x:Name="tueImg" CornerRadius="15">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="TapGestureRecognizertue_Tapped"/>
                                             </Frame.GestureRecognizers>
@@ -123,7 +123,7 @@
                                             </StackLayout>
                                         </Frame>
 
-                                        <Frame CornerRadius="15">
+                                        <Frame x:Name="wedImg" CornerRadius="15">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="TapGestureRecognizerwed_Tapped"/>
                                             </Frame.GestureRecognizers>
@@ -142,8 +142,7 @@
                                             </StackLayout>
                                         </Frame>
 
-
-                                        <Frame CornerRadius="15">
+                                        <Frame x:Name="thuImg" CornerRadius="15">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="TapGestureRecognizerthu_Tapped"/>
                                             </Frame.GestureRecognizers>
@@ -162,7 +161,7 @@
                                             </StackLayout>
                                         </Frame>
 
-                                        <Frame CornerRadius="15">
+                                        <Frame x:Name="friImg" CornerRadius="15">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="TapGestureRecognizerfri_Tapped"/>
                                             </Frame.GestureRecognizers>
@@ -181,7 +180,7 @@
                                             </StackLayout>
                                         </Frame>
 
-                                        <Frame CornerRadius="15">
+                                        <Frame x:Name="satImg" CornerRadius="15">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="TapGestureRecognizersat_Tapped"/>
                                             </Frame.GestureRecognizers>
@@ -209,12 +208,12 @@
                             </ScrollView>
                             <StackLayout>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand"  Margin="10,0" >
-                                    <Label  Margin="0,2" FontAttributes="Bold" FontSize="15.5" TextColor="#495057">
+                                    <Label  Margin="0,2" FontAttributes="Bold" FontSize="17.5" TextColor="#61a5c2">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Week "   />
                                                 <Span x:Name="weeknumber"   />
-                                               
+                                                <Span Text=" Details "   />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
@@ -222,14 +221,14 @@
                                 </StackLayout>
                                 <Frame BorderColor="Transparent">
                                     <StackLayout>
-                                        <StackLayout  HorizontalOptions="EndAndExpand" Margin="0,-10,10,0" >
-                                            <Frame x:Name="framestatus" Padding="3,1,1,1" CornerRadius="30">
+                                        <StackLayout  HorizontalOptions="StartAndExpand" Margin="0,-10,9,0" >
+                                            <Frame x:Name="framestatus" Padding="3,1,3,1" CornerRadius="30">
                                                 <Label x:Name="status" TextColor="White" FontSize="14" FontAttributes="Italic"  />
                                             </Frame>
                                         </StackLayout>
                                         <Grid Grid.Column="0" Grid.ColumnSpan="4"  HorizontalOptions="FillAndExpand">
                                             <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand"  Grid.Column="0" Grid.ColumnSpan="3">
-                                                <Label Margin="0,-5" TextColor="#343a40" FontSize="18" >
+                                                <Label Margin="10,1" TextColor="#343a40" FontSize="18" >
                                                     <Label.FormattedText>
                                                         <FormattedString>
                                                             <Span Text="Number of tasks:   "  />
@@ -239,9 +238,9 @@
                                                 </Label>
                                                 
                                             </StackLayout>
-                                            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand"  Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,0">
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand"  Grid.Column="0" Grid.ColumnSpan="3" Margin="10,14,0,0">
                                                 <StackLayout Margin="0,12">
-                                                    <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Calendar},Size=15,Color=Gray}"   BackgroundColor="Transparent" />
+                                                    <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Calendar},Size=15,Color=Gray}" BackgroundColor="Transparent" />
                                                 </StackLayout>
                                                 <StackLayout>
                                                     <Label Margin="0,12" FontSize="13" FontAttributes="None" >
@@ -257,9 +256,9 @@
                                                 
                                             </StackLayout>
 
-                                            <Grid Grid.Column=" 4" Grid.Row="0" VerticalOptions="CenterAndExpand" Margin="0,8">
+                                            <Grid Grid.Column=" 4" Grid.Row="0" VerticalOptions="CenterAndExpand" Margin="0,0,10,0">
 
-                                                <plugin:ProgressRing x:Name="weeklygoalprogress" HeightRequest="60" Scale="1.1" WidthRequest="60" RingThickness="3" Progress="0.5"  RingBaseColor="#495057" ProgressColor="#61a5c2"
+                                                <plugin:ProgressRing x:Name="weeklygoalprogress" HeightRequest="60" Scale="1.5" WidthRequest="60" RingThickness="3" Progress="0.5"  RingBaseColor="#495057" ProgressColor="#61a5c2"
  />
                                                 <StackLayout VerticalOptions="CenterAndExpand" >
                                                     <Label>
@@ -302,20 +301,20 @@
                                  
                                     
                 </StackLayout>
-                <StackLayout Margin="0,18">
+                <StackLayout Margin="10,15">
                     <StackLayout Grid.ColumnSpan="4" Margin="14,00" Orientation="Horizontal" x:Name="headtask" >
                         <StackLayout HorizontalOptions="StartAndExpand">
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span x:Name="dayTask" Text="" TextColor="#61a5c2" FontAttributes="Bold" FontSize="19"/>
-                                        <Span Text="  tasks" TextColor="#61a5c2" FontAttributes="Bold" FontSize="19"/>
+                                        <Span x:Name="dayTask" Text="" TextColor="#495057" FontAttributes="Bold" FontSize="17"/>
+                                        <Span Text="  tasks" TextColor="#495057" FontAttributes="Bold" FontSize="17"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
                         </StackLayout>
                         <StackLayout HorizontalOptions="EndAndExpand" Margin="20,0">
-                            <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Sort},Size=26,Color=#61a5c2}" Clicked="ImageButton_Clicked"  BackgroundColor="Transparent" />
+                            <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Sort},Size=26,Color=#495057}" Clicked="ImageButton_Clicked"  BackgroundColor="Transparent" />
                         </StackLayout>
                     </StackLayout>
                     <StackLayout x:Name="WeekStackTasklist" Margin="0,-44">
