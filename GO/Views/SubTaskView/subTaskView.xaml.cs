@@ -39,7 +39,7 @@ namespace GO.Views.SubTaskView
             GetGoalTask = Task;
             if(subtasks.Count() == 0)
             {
-                headsubtask.IsVisible = false;
+                //headsubtask.IsVisible = false;
                 StackSubBlank.IsVisible = true;
                 StackSublist.IsVisible = false;
                 subtasktopRow.IsVisible = false;                
@@ -49,9 +49,10 @@ namespace GO.Views.SubTaskView
                 StackSublist.IsVisible = true;
                 StackSubBlank.IsVisible = false;
                 subtasktopRow.IsVisible = true;
-                headsubtask.IsVisible = true;
+                //headsubtask.IsVisible = true;
                 taskname.Text = Task.taskName;
                  getsubtaskPercentage(subtasks,Task);
+                setStatus();
                 //subtodaydate.Text = DateTime.Today.Date.ToString("dd MMMM yyyy");
                 if (DateTime.Today < Task.EndTask)
                 {
@@ -129,6 +130,51 @@ namespace GO.Views.SubTaskView
                 taskprogress.Progress = TaskRoundedPercentage / goalTask.Percentage;
             }          
          }
+        async void setStatus()
+        {
+            // get all tasks having the goal Id
+            var allSubtasks = await datasubtask.GetSubTasksAsync(taskid);
+
+            if (allSubtasks.Count() > 0)
+            {
+                if (allSubtasks.All(a => a.IsCompleted) && DateTime.Today <= GetGoalTask.EndTask)
+                {
+                    taskstatus.Text = "Completed";
+                    taskframestatus.BackgroundColor = Color.LightGreen;
+                }
+                else if (allSubtasks.All(a => a.IsCompleted == false) && DateTime.Today <= GetGoalTask.EndTask)
+                {
+                    taskstatus.Text = "Not Started";
+                    taskframestatus.BackgroundColor = Color.LightGray;
+                }
+                else if (allSubtasks.Any(a => a.IsCompleted) && DateTime.Today <= GetGoalTask.EndTask)
+                {
+                    taskstatus.Text = "In Progress";
+                    taskframestatus.BackgroundColor = Color.OrangeRed;
+                }
+                else if (DateTime.Today > GetGoalTask.EndTask)
+                {
+                    taskstatus.Text = "Expired";
+                    taskframestatus.BackgroundColor = Color.Red;
+                }
+            }
+            else
+            {
+                if (DateTime.Today <= GetGoalTask.EndTask)
+                {
+                    taskstatus.Text = "Not Started";
+                    taskframestatus.BackgroundColor = Color.LightGray;
+                }
+                else if (DateTime.Today <= GetGoalTask.EndTask)
+                {
+                    taskstatus.Text = "Expired";
+                    taskframestatus.BackgroundColor = Color.Red;
+                }
+
+            }
+
+
+        }
         //private async void ball_Clicked(object sender, EventArgs e)
         //{
         //    bnotstarted.BackgroundColor = Color.Transparent;
@@ -171,9 +217,9 @@ namespace GO.Views.SubTaskView
         //            await bvm.NotstartedGoals();
         //        }
         //    }
-           
+
         //}
-       
+
         //private async void bcompleted_Clicked(object sender, EventArgs e)
         //{
         //    bnotstarted.BackgroundColor = Color.Transparent;
@@ -200,7 +246,7 @@ namespace GO.Views.SubTaskView
         //            await bvm.CompletedGoals();
         //        }
         //    }
-           
+
         //}
 
         //private async void bduesoon_Clicked(object sender, EventArgs e)

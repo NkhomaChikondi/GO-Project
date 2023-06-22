@@ -42,7 +42,7 @@
                             <StackLayout Margin="0,10">
                                 <Label Text="Name:" FontSize="18" FontAttributes="Bold" TextColor="#61a5c2">
                                 </Label>
-                                <Editor x:Name="Nameeditor" Text=""  FontSize="16"   Grid.Column="0" Grid.ColumnSpan="4" MaxLength="50" />
+                                <Editor x:Name="Nameeditor" Text=""  FontSize="16"   Grid.Column="0" Grid.ColumnSpan="4" MaxLength="65" />
 
                             </StackLayout>
 

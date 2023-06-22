@@ -48,20 +48,10 @@
             <StackLayout>
                 <StackLayout Orientation="Vertical">
                     <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand"  Margin="9,0" >
-                        <Label Text="Your Goal's Weekly Tasks" TextColor="#61a5c2"  FontAttributes="Bold" Margin="0,2" FontSize="19"/>
-                        <!--
-                         
-                        -->                                          
+                        <Label Text="Your Goal's Weekly Tasks" TextColor="#61a5c2"  FontAttributes="Bold" Margin="0,2" FontSize="19"/>                                                             
                     </StackLayout>
                     <StackLayout>
-                        <StackLayout >
-                            <!--
-                                <StackLayout HorizontalOptions="CenterAndExpand"   Orientation="Horizontal">
-                              
-                                
-                            </StackLayout>
-                                -->
-                            
+                        <StackLayout >                                                       
                             <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                                 <Frame BorderColor="Transparent" BackgroundColor="Transparent" Padding="3,20,0,10">
                                     <StackLayout Orientation="Horizontal" Margin="0,0" >
@@ -264,7 +254,7 @@
                                                     <Label>
                                                         <Label.FormattedText>
                                                             <FormattedString>
-                                                                <Span x:Name="goaltotalpercentage" TextColor="#343a40" FontSize="16"/>
+                                                                <Span x:Name="goalweeklypercentage" TextColor="#343a40" FontSize="16"/>
                                                                 <Span Text="%" TextColor="#343a40" FontSize="16"  />
                                                             </FormattedString>
                                                         </Label.FormattedText>

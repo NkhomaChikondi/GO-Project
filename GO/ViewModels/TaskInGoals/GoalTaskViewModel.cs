@@ -298,6 +298,7 @@ namespace GO.ViewModels.TaskInGoals
                     {
                         task.IsCompleted = IsComplete;
                         await dataTask.UpdateTaskAsync(task);
+                        await SetStatus();
                     }
                 }
                                      
@@ -321,6 +322,7 @@ namespace GO.ViewModels.TaskInGoals
                 {
                     task.IsCompleted = IsComplete;
                     await dataTask.UpdateTaskAsync(task);
+                    await SetStatus();
                 }
             }
             return;

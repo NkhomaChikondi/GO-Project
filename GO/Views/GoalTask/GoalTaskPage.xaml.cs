@@ -51,10 +51,10 @@ namespace GO.Views.GoalTask
           
             if (tasks.Count() == 0)
             {
-                //StackTasklist.IsVisible = false;                
-                //StackTaskBlank.IsVisible = true;
-                //tasktoprow.IsVisible = false;
-                //headtask.IsVisible = false;
+                StackTasklist.IsVisible = false;
+                StackTaskBlank.IsVisible = true;
+                tasktoprow.IsVisible = false;
+                headtask.IsVisible = false;
             }
             else
             {               
@@ -97,16 +97,16 @@ namespace GO.Views.GoalTask
                                     }
                                 }                              
                             }
-                        }                   
-                       
+                        }                
                     }                   
                 }
-               // btall.BackgroundColor = Color.LightGray;
+                // btall.BackgroundColor = Color.LightGray;
                 StackTaskBlank.IsVisible = false;
                 tasktoprow.IsVisible = true;
                 headtask.IsVisible = true;
                 StackTasklist.IsVisible = true;
                 goalName.Text = goal.Name;
+                setStatus(goal);
                 await calculateGoalPercentage(goal);
                 //todaydate.Text = DateTime.Today.Date.ToString("dd MMMM yyyy");
                 var roundedgoal = Math.Round(goalpercent, 2);
@@ -154,18 +154,63 @@ namespace GO.Views.GoalTask
                 if (BindingContext is GoalTaskViewModel viewModel)
                     await viewModel.CompleteTask(taskid, task.IsCompleted);
                 await calculateGoalPercentage(GetGoal);
-                              
+                setStatus(GetGoal);                              
             }
             else if(!task.IsCompleted)
             {
                 if (BindingContext is GoalTaskViewModel viewModel)
                     await viewModel.UncompleteTask(taskid, task.IsCompleted);
                 await calculateGoalPercentage(GetGoal);
+                setStatus(GetGoal);
             }
             return;
 
         }
+        async void setStatus(Models.Goal goal)
+        {
+            // get all tasks having the goal Id
+            var allTasks = await DataTask.GetTasksAsync(goal.Id);
 
+            if(allTasks.Count() > 0)
+            {
+                if (allTasks.All(a => a.IsCompleted) && DateTime.Today <= goal.End)
+                {
+                    goalstatus.Text = "Completed";
+                    goalframestatus.BackgroundColor = Color.LightGreen;
+                }
+                else if (allTasks.All(a => a.IsCompleted == false) && DateTime.Today <= goal.End)
+                {
+                    goalstatus.Text = "Not Started";
+                    goalframestatus.BackgroundColor = Color.LightGray;
+                }
+                else if (allTasks.Any(a => a.IsCompleted ) && DateTime.Today <= goal.End)
+                {
+                    goalstatus.Text = "In Progress";
+                    goalframestatus.BackgroundColor = Color.OrangeRed;
+                }
+                else if(DateTime.Today > goal.End)
+                {
+                    goalstatus.Text = "Expired";
+                    goalframestatus.BackgroundColor = Color.Red;
+                }
+            }
+            else 
+            { 
+                if (DateTime.Today <= goal.End)
+                {
+                    goalstatus.Text = "Not Started";
+                    goalframestatus.BackgroundColor = Color.LightGray;
+                }
+                else if(DateTime.Today <= goal.End)
+                {
+                    goalstatus.Text = "Expired";
+                    goalframestatus.BackgroundColor = Color.Red;
+                }
+
+            }
+         
+         
+        }
         async Task calculateGoalPercentage(Models.Goal goal)
         {
             double TaskPercentage = 0;

@@ -28,7 +28,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackLayout Grid.Row="0" Grid.ColumnSpan="4" x:Name="topRow" Orientation="Vertical">
-            <Frame Grid.ColumnSpan="4" >
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="4" Margin="14,6">
+                <Label Text=" My Goals" TextColor="#495057"  FontFamily="RobotoBlack" FontSize="20"/>               
+            </StackLayout>
+
+            <StackLayout></StackLayout>
                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                     <StackLayout Orientation="Horizontal" >
                         <Button x:Name="btnall" FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btnall_Clicked"></Button>
@@ -38,15 +42,7 @@
                         <Button x:Name="duesoon" FontFamily="RobotoMedium" BackgroundColor="Transparent"  TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="duesoon_Clicked"></Button>
                         <Button x:Name="expired" FontFamily="RobotoMedium"   BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="expired_Clicked"></Button>
                     </StackLayout>
-                </ScrollView>
-
-            </Frame >
-            <StackLayout Orientation="Horizontal" Grid.ColumnSpan="4" Margin="14,6">
-                <Label Text="Goals" TextColor="#495057"  FontFamily="RobotoBlack" FontSize="19"/>
-                <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
-                                   Glyph={x:Static helpers:IconFont.InformationOutline},Size=21,Color=#d00000}" Clicked="ImageButton_Clicked" BackgroundColor="Transparent" />
-            </StackLayout>
-
+                </ScrollView>                   
         </StackLayout>
 
         <AbsoluteLayout  Grid.Row="2"   Grid.ColumnSpan="4" x:Name="stackGoallist" IsVisible="True" Margin="0,-4" >
@@ -65,7 +61,6 @@
                   SelectionMode="None"
                   SeparatorVisibility="None">
                     <ListView.Behaviors>
-
                         <xct:EventToCommandBehavior EventName="ItemTapped"
                                               Command="{Binding ItemSelectedCommand}"
                                               EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
@@ -95,8 +90,7 @@
                                         BackgroundColor="White"
                                         Padding="8"
                                         Margin="5,0,7,0">
-                                    <Grid Padding="2">                                    
-
+                                    <Grid Padding="2">                              
                                          <StackLayout  Orientation="Vertical" >
                                             <StackLayout Orientation="Horizontal">
                                                 <Label>
@@ -105,28 +99,22 @@
                                                             <Span Text="{Binding Name}" TextColor="#495057" FontFamily="RobotoBold" FontSize="17"/>
                                                             <Span Text="{x:Static x:Environment.NewLine}" />
                                                             <Span Text="Due: " TextColor="#6c757d"  FontSize="14.5"/>
-                                                            <Span Text="{Binding enddatetostring}" TextColor="#6c757d"   FontSize="14.5"/>
-                                                            <Span Text="   |   " TextColor="#495057" FontAttributes="Bold"   FontSize="16"/>
-                                                            <Span Text="Status: " TextColor="#6c757d"   FontSize="14.5"/>
-                                                            <Span Text="{Binding Status}" TextColor="#6c757d"  FontSize="14.5"/>
+                                                            <Span Text="{Binding enddatetostring}" TextColor="#6c757d"   FontSize="14.5"/>                                                           
                                                         </FormattedString>
                                                     </Label.FormattedText>
-                                                </Label>
-                                               
+                                                </Label>                                               
                                             </StackLayout>
                                            
                                             <StackLayout Orientation="Horizontal">
                                                 
-                                                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Margin="90,0" >
-                                                    
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Margin="90,0" >                                                    
                                                     <ProgressBar Grid.Column="1" Grid.ColumnSpan="3"
                                                                 x:Name = "goalprogresbar"                                                                      
                                                                 Progress = "{Binding Progress}"
                                                                 FlowDirection = "LeftToRight"                                                                                                 
                                                                 ProgressColor = "#ef8257"                                                                 
                                                                 ScaleX="5"
-                                                                 ScaleY="1.7"                                                                
-                                                        
+                                                                 ScaleY="1.7"                                                             
                                                     />
                                                 </StackLayout>
                                                 <StackLayout HorizontalOptions="EndAndExpand" Margin="0,-3">
