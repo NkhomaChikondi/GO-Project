@@ -27,6 +27,8 @@ namespace GO.ViewModels.Goals
         private bool completed;
         private bool duesoon;
         private bool expired;
+        private bool onceOff ;
+        private bool weekly;
         private DateTime result;
         private DateTime startdate;
         private DateTime endDate;
@@ -53,6 +55,9 @@ namespace GO.ViewModels.Goals
         public bool Completed { get => completed; set => completed = value; }
         public bool Duesoon { get => duesoon; set => duesoon = value; }
         public bool Expired { get => expired; set => expired = value; }
+        public bool OnceOff { get => onceOff; set => onceOff = value; }
+        public bool Weekly { get => weekly; set => weekly = value; }
+
         //public DateTime Result { get => result; set => result = value; }
 
         public GoalViewModel()
@@ -616,7 +621,16 @@ namespace GO.ViewModels.Goals
             await setStatus();
             // get all categories
             var goal = await datagoal.GetGoalsAsync(categoryId);
-
+            if(onceOff)
+            {
+                weekly = false;
+                goal = goal.Where(G => G.Noweek).ToList();
+            }
+            else if(Weekly)
+            {
+                onceOff = false;
+                goal = goal.Where(G => G.HasWeek).ToList();
+            }
             if (all)
                 // retrieve the categories back
                 goals.AddRange(goal);

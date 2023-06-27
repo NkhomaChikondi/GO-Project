@@ -97,21 +97,20 @@
                         <StackLayout HorizontalOptions="EndAndExpand" Margin="20,0">
                             <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Sort},Size=26,Color=#495057}" BackgroundColor="Transparent" />
                         </StackLayout>
-                    </StackLayout>
-                    
+                    </StackLayout>                    
                     <AbsoluteLayout Grid.Row="3"  Grid.ColumnSpan="4" x:Name="StackSublist" IsVisible="True" >
                         <Label x:Name="noSubtasks" Margin="80,0,0,0" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="" FontSize="15"/>
                         <ListView ItemsSource="{Binding subtasks}"
-                   AbsoluteLayout.LayoutFlags="All"
-				   AbsoluteLayout.LayoutBounds="0,0,1,1"
-                   CachingStrategy="RecycleElement"
-                   HasUnevenRows="True" 
-                   Grid.ColumnSpan="4"
-                   RefreshCommand="{Binding RefreshCommand}"
-                   RefreshControlColor="Red"
-                   SelectionMode="None"
-                   SeparatorVisibility="None"
-                   IsRefreshing="{Binding IsBusy,Mode=OneWay}">
+                            AbsoluteLayout.LayoutFlags="All"
+				            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            CachingStrategy="RecycleElement"
+                            HasUnevenRows="True" 
+                            Grid.ColumnSpan="4"
+                            RefreshCommand="{Binding RefreshCommand}"
+                            RefreshControlColor="Red"
+                            SelectionMode="None"
+                            SeparatorVisibility="None"
+                            IsRefreshing="{Binding IsBusy,Mode=OneWay}"> 
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="model:Subtask">
                                     <ViewCell>

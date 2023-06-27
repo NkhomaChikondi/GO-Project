@@ -222,7 +222,7 @@
                                                     <Label.FormattedText>
                                                         <FormattedString>
                                                             <Span Text="Number of tasks:   "  />
-                                                            <Span x:Name="tasksnumber" Text="7"  />                                                           
+                                                            <Span x:Name="tasksnumber"  />                                                           
                                                         </FormattedString>
                                                     </Label.FormattedText>
                                                 </Label>
@@ -297,14 +297,14 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span x:Name="dayTask" Text="" TextColor="#495057" FontAttributes="Bold" FontSize="17"/>
-                                        <Span Text="  tasks" TextColor="#495057" FontAttributes="Bold" FontSize="17"/>
+                                        <Span x:Name="dayTask" Text="" TextColor="#61a5c2" FontAttributes="Bold" FontSize="17"/>
+                                        <Span Text="  tasks" TextColor="#61a5c2" FontAttributes="Bold" FontSize="17"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
                         </StackLayout>
                         <StackLayout HorizontalOptions="EndAndExpand" Margin="20,0">
-                            <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Sort},Size=26,Color=#495057}" Clicked="ImageButton_Clicked"  BackgroundColor="Transparent" />
+                            <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Sort},Size=26,Color=#61a5c2}" Clicked="ImageButton_Clicked"  BackgroundColor="Transparent" />
                         </StackLayout>
                     </StackLayout>
                     <StackLayout x:Name="WeekStackTasklist" Margin="0,-44">

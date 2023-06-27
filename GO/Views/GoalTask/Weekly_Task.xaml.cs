@@ -63,37 +63,8 @@ namespace GO.Views.GoalTask
                 }
             }
             dayTask.Text = todayDow.Name;
-            startdate.Text = week.StartDate.ToString("d MMM yyyy");
-            enddate.Text = week.EndDate.ToString("d MMM yyyy");
-            weeknumber.Text = week.WeekNumber.ToString();
-            //weeklygoalName.Text = goal.Name;    //var weekremaining = goal.NumberOfWeeks - week.WeekNumber;
-            //goaldaysLeft.Text = weekremaining.ToString();
-            //goaldaysLeft.Text = "7";
-        
-            if (week.status == "Not started")
-            {
-                // get the day of week of today
-                var dowToday = DateTime.Today.DayOfWeek;
-                status.Text = "Not Started";
-                framestatus.BackgroundColor = Color.LightGray;
-                dayOfTheWeekVisisbility(dowToday);
-            }
-            else if(week.status == "In Progress")
-            {
-                // get the day of week of today
-                var dowToday = DateTime.Today.DayOfWeek;
-                status.Text = "In Progress";
-                framestatus.BackgroundColor = Color.OrangeRed;
-              dayOfTheWeekVisisbility(dowToday);
-            }
-            else if (week.status == "Expired")
-            {
-                // get the day of week of today
-                var dowToday = DateTime.Today.DayOfWeek;
-                status.Text = "In Progress";            
-                dayOfTheWeekVisisbility(dowToday);
-            }
-
+            goalweeklypercentage.Text = week.AccumulatedPercentage.ToString();
+            await assigningWeekValues(week);
             // call set date method
             SetDate(week);
             //setImagevisibility();
@@ -105,7 +76,6 @@ namespace GO.Views.GoalTask
                 // await showButtonclicked(0);
                await wvm.Refresh();
             }
-
         }
         void SetDate(Week week)
         {
@@ -138,17 +108,7 @@ namespace GO.Views.GoalTask
 
             }
 
-        }
-        //void setImagevisibility()
-        //{
-        //    sunImg.IsVisible = true;
-        //    monImg.IsVisible = false;
-        //    tueImg.IsVisible = false;
-        //    wedImg.IsVisible = false;
-        //    thuImg.IsVisible = false;
-        //    friImg.IsVisible = false;
-        //    satImg.IsVisible = false;
-        //}
+        }     
 
         private async void TapGestureRecognizersun_Tapped(object sender, EventArgs e)
         {
@@ -160,7 +120,7 @@ namespace GO.Views.GoalTask
                 await wvm.Refresh();
             }
             dayTask.Text = "Sunday";
-            sunImg.BackgroundColor = Color.Pink;
+            sunImg.BackgroundColor = Color.LightGray;
             monImg.BackgroundColor = Color.White;
             tueImg.BackgroundColor = Color.White;
             wedImg.BackgroundColor = Color.White;
@@ -179,7 +139,7 @@ namespace GO.Views.GoalTask
             }
             dayTask.Text = "Monday";
             sunImg.BackgroundColor = Color.White;
-            monImg.BackgroundColor = Color.Pink;
+            monImg.BackgroundColor = Color.LightGray;
             tueImg.BackgroundColor = Color.White;
             wedImg.BackgroundColor = Color.White;
             thuImg.BackgroundColor = Color.White;
@@ -198,7 +158,7 @@ namespace GO.Views.GoalTask
             dayTask.Text = "Tuesday";
             sunImg.BackgroundColor = Color.White;
             monImg.BackgroundColor = Color.White;
-            tueImg.BackgroundColor = Color.Pink;
+            tueImg.BackgroundColor = Color.LightGray;
             wedImg.BackgroundColor = Color.White;
             thuImg.BackgroundColor = Color.White;
             friImg.BackgroundColor = Color.White;
@@ -217,7 +177,7 @@ namespace GO.Views.GoalTask
             sunImg.BackgroundColor = Color.White;
             monImg.BackgroundColor = Color.White;
             tueImg.BackgroundColor = Color.White;
-            wedImg.BackgroundColor = Color.Pink;
+            wedImg.BackgroundColor = Color.LightGray;
             thuImg.BackgroundColor = Color.White;
             friImg.BackgroundColor = Color.White;
             satImg.BackgroundColor = Color.White;
@@ -236,7 +196,7 @@ namespace GO.Views.GoalTask
             monImg.BackgroundColor = Color.White;
             tueImg.BackgroundColor = Color.White;
             wedImg.BackgroundColor = Color.White;
-            thuImg.BackgroundColor = Color.Pink;
+            thuImg.BackgroundColor = Color.LightGray;
             friImg.BackgroundColor = Color.White;
             satImg.BackgroundColor = Color.White;
         }
@@ -255,7 +215,7 @@ namespace GO.Views.GoalTask
             tueImg.BackgroundColor = Color.White;
             wedImg.BackgroundColor = Color.White;
             thuImg.BackgroundColor = Color.White;
-            friImg.BackgroundColor = Color.Pink;
+            friImg.BackgroundColor = Color.LightGray;
             satImg.BackgroundColor = Color.White;
         }
         private async void TapGestureRecognizersat_Tapped(object sender, EventArgs e)
@@ -274,7 +234,7 @@ namespace GO.Views.GoalTask
             wedImg.BackgroundColor = Color.White;
             thuImg.BackgroundColor = Color.White;
             friImg.BackgroundColor = Color.White;
-            satImg.BackgroundColor = Color.Pink;
+            satImg.BackgroundColor = Color.LightGray;
         }
         private async void ImageButton_Clicked(object sender, EventArgs e)
         {
@@ -335,7 +295,7 @@ namespace GO.Views.GoalTask
                     return;
                 else
                 {
-                    if (BindingContext is GoalTaskViewModel viewModel)
+                    if (BindingContext is WeeklyTaskViewModel viewModel)
                     {
                         await viewModel.CompleteTask(taskid, task.IsCompleted);
                     }
@@ -346,7 +306,7 @@ namespace GO.Views.GoalTask
                 // check if the incoming object 
                 if (!taskdb.IsCompleted)
                     return;
-                if (BindingContext is GoalTaskViewModel viewModel)
+                if (BindingContext is WeeklyTaskViewModel viewModel)
                     await viewModel.UncompleteTask(taskid, task.IsCompleted);
             }
             return;
@@ -356,7 +316,7 @@ namespace GO.Views.GoalTask
         {
             if (dayOfWeek == DayOfWeek.Sunday)
             {
-                sunImg.BackgroundColor = Color.Pink;
+                sunImg.BackgroundColor = Color.LightGray;
                 monImg.BackgroundColor = Color.White;
                 tueImg.BackgroundColor = Color.White;
                 wedImg.BackgroundColor = Color.White;
@@ -367,7 +327,7 @@ namespace GO.Views.GoalTask
             else if (dayOfWeek == DayOfWeek.Monday)
             {
                 sunImg.BackgroundColor = Color.White;
-                monImg.BackgroundColor = Color.Pink;
+                monImg.BackgroundColor = Color.LightGray;
                 tueImg.BackgroundColor = Color.White;
                 wedImg.BackgroundColor = Color.White;
                 thuImg.BackgroundColor = Color.White;
@@ -378,7 +338,7 @@ namespace GO.Views.GoalTask
             {
                 sunImg.BackgroundColor = Color.White;
                 monImg.BackgroundColor = Color.White;
-                tueImg.BackgroundColor = Color.Pink;
+                tueImg.BackgroundColor = Color.LightGray;
                 wedImg.BackgroundColor = Color.White;
                 thuImg.BackgroundColor = Color.White;
                 friImg.BackgroundColor = Color.White;
@@ -389,7 +349,7 @@ namespace GO.Views.GoalTask
                 sunImg.BackgroundColor = Color.White;
                 monImg.BackgroundColor = Color.White;
                 tueImg.BackgroundColor = Color.White;
-                wedImg.BackgroundColor = Color.Pink;
+                wedImg.BackgroundColor = Color.LightGray;
                 thuImg.BackgroundColor = Color.White;
                 friImg.BackgroundColor = Color.White;
                 satImg.BackgroundColor = Color.White;
@@ -400,7 +360,7 @@ namespace GO.Views.GoalTask
                 monImg.BackgroundColor = Color.White;
                 tueImg.BackgroundColor = Color.White;
                 wedImg.BackgroundColor = Color.White;
-                thuImg.BackgroundColor = Color.Pink;
+                thuImg.BackgroundColor = Color.LightGray;
                 friImg.BackgroundColor = Color.White;
                 satImg.BackgroundColor = Color.White;
             }
@@ -411,7 +371,7 @@ namespace GO.Views.GoalTask
                 tueImg.BackgroundColor = Color.White;
                 wedImg.BackgroundColor = Color.White;
                 thuImg.BackgroundColor = Color.White;
-                friImg.BackgroundColor = Color.Pink;
+                friImg.BackgroundColor = Color.LightGray;
                 satImg.BackgroundColor = Color.White;
             }
             else if (dayOfWeek == DayOfWeek.Saturday)
@@ -422,7 +382,129 @@ namespace GO.Views.GoalTask
                 wedImg.BackgroundColor = Color.White;
                 thuImg.BackgroundColor = Color.White;
                 friImg.BackgroundColor = Color.White;
-                satImg.BackgroundColor = Color.Pink;
+                satImg.BackgroundColor = Color.LightGray;
+            }
+        }
+        async Task assigningWeekValues( Week week)
+        {
+            //get all weeks for this goal
+            var allWeeks = await dataWeek.GetWeeksAsync(week.GoalId);
+            // get all weeks having the week id
+            var allTasks = await DataTask.GetTasksAsync(week.GoalId,week.Id);
+            if(allTasks.Count() == 0)
+            {
+                // get the previous week
+                var previousWeek = allWeeks.Where(T => T.WeekNumber == week.WeekNumber - 1).FirstOrDefault();
+                if(previousWeek != null)
+                {
+                    // get all tasks having the previousweek Id
+                    var previousweekTasks = await DataTask.GetTasksAsync(previousWeek.GoalId, previousWeek.Id);
+                    if(previousweekTasks.Count() > 0)
+                    {
+                        // get the total number of tasks and assign them tothe previous weelk
+                        previousWeek.totalnumberOftask = previousweekTasks.Count();
+                        // get all completed tasks
+                        var completedTask = previousweekTasks.Where(C => C.IsCompleted).ToList();
+                        previousWeek.totalnumberOfcompletedtask = completedTask.Count();
+                        // update previous week
+                        await dataWeek.UpdateWeekAsync(previousWeek);
+
+                        // get only tasks whose isrepeated is true
+                        var validTasks = previousweekTasks.Where(T => T.Isrepeated).ToList();
+                        //reassign the week percentage to tasks
+                        var newTaskPercentage = week.TargetPercentage / validTasks.Count();
+                        // loop through the tasks and assign new values
+                        foreach (var task in validTasks)
+                        {
+                            task.WeekId = week.Id;
+                            task.IsCompleted = false;
+                            task.PendingPercentage = 0;
+                            task.Percentage = newTaskPercentage;
+                            // check if it has subtask
+                            // get all subtask
+                            var subtasks = await datasubtask.GetSubTasksAsync(task.Id);
+                            if(subtasks.Count() > 0)
+                            {
+                                // loop through the subtasks and assign new values
+                                foreach (var subtask in subtasks)
+                                {
+                                    subtask.IsCompleted = false;
+                                    await datasubtask.UpdateSubTaskAsync(subtask);
+                                }
+                            }
+                            await DataTask.UpdateTaskAsync(task);
+                        }
+                        // get only tasks whose isrepeated is true
+                        var invalidTasks = previousweekTasks.Where(T => T.Isrepeated == false).ToList();
+                        // loop through the tasks and assign new values
+                        foreach (var task in invalidTasks)
+                        {
+                            await DataTask.DeleteTaskAsync(task.Id);
+                            // get all subtask
+                            var subtasks = await datasubtask.GetSubTasksAsync(task.Id);
+                            if (subtasks.Count() > 0)
+                            {
+                                // loop through the subtasks and assign new values
+                                foreach (var subtask in subtasks)
+                                {                                  
+                                    await datasubtask.DeleteSubTaskAsync(subtask.Id);
+                                }
+                            }                           
+                        }                      
+                    }
+                    else if(previousweekTasks.Count() == 0)
+                    {
+                        assigncurrentweekvalues(week);
+                    }
+                }
+                else
+                {
+                    assigncurrentweekvalues(week);
+                }              
+            }
+            else if(allTasks.Count() > 0)
+            {
+                assigncurrentweekvalues(week);
+            }
+        }
+        async void assigncurrentweekvalues(Week week)
+        {
+            startdate.Text = week.StartDate.ToString("d MMM yyyy");
+            enddate.Text = week.EndDate.ToString("d MMM yyyy");
+            weeknumber.Text = week.WeekNumber.ToString();
+            // get all tasks having the weekId
+            var tasks = await DataTask.GetTasksAsync(week.GoalId,week.Id);
+            tasksnumber.Text = tasks.Count().ToString();            
+            if (week.status == "Not started")
+            {
+                // get the day of week of today
+                var dowToday = DateTime.Today.DayOfWeek;
+                status.Text = "Not Started";
+                framestatus.BackgroundColor = Color.LightGray;
+                dayOfTheWeekVisisbility(dowToday);
+            }
+            else if (week.status == "In Progress")
+            {
+                // get the day of week of today
+                var dowToday = DateTime.Today.DayOfWeek;
+                status.Text = "In Progress";
+                framestatus.BackgroundColor = Color.OrangeRed;
+                dayOfTheWeekVisisbility(dowToday);
+            }
+            else if (week.status == "Completed")
+            {
+                // get the day of week of today
+                var dowToday = DateTime.Today.DayOfWeek;
+                status.Text = "Completed";
+                framestatus.BackgroundColor = Color.LightSeaGreen;
+                dayOfTheWeekVisisbility(dowToday);
+            }
+            else if (week.status == "Expired")
+            {
+                // get the day of week of today
+                var dowToday = DateTime.Today.DayOfWeek;
+                status.Text = "In Progress";
+                dayOfTheWeekVisisbility(dowToday);
             }
         }
     }

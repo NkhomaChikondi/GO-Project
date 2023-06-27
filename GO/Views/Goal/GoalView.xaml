@@ -29,26 +29,37 @@
         </Grid.RowDefinitions>
         <StackLayout Grid.Row="0" Grid.ColumnSpan="4" x:Name="topRow" Orientation="Vertical">
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="4" Margin="14,6">
-                <Label Text=" My Goals" TextColor="#495057"  FontFamily="RobotoBlack" FontSize="20"/>               
+                <Label Text=" My Goals" TextColor="#61a5c2"  FontFamily="RobotoBlack" FontSize="20"/>               
             </StackLayout>
 
-            <StackLayout></StackLayout>
-                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
-                    <StackLayout Orientation="Horizontal" >
-                        <Button x:Name="btnall" FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="All" Clicked="btnall_Clicked"></Button>
-                        <Button x:Name="btnnotstarted"   FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Not started" Clicked="btnnotstarted_Clicked"></Button>
-                        <Button x:Name="btninprogress"  FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Inprogress" Clicked="btninprogress_Clicked"></Button>
-                        <Button x:Name="btncompleted"   FontFamily="RobotoMedium" BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Completed" Clicked="btncompleted_Clicked"></Button>
-                        <Button x:Name="duesoon" FontFamily="RobotoMedium" BackgroundColor="Transparent"  TextColor="#61a5c2" CornerRadius="20" Text="Due Soon" Clicked="duesoon_Clicked"></Button>
-                        <Button x:Name="expired" FontFamily="RobotoMedium"   BackgroundColor="Transparent" TextColor="#61a5c2" CornerRadius="20" Text="Expired" Clicked="expired_Clicked"></Button>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Frame Padding="10,10" CornerRadius="25" BackgroundColor="LightGray">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                        <Frame x:Name="scheduledgoal"  Margin="30,0,25,0" CornerRadius="25">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizerscheduled_Tapped"/>
+                            </Frame.GestureRecognizers>
+                            <Label Text=" Once-off " FontFamily="Roboto" FontSize="17" TextColor="#495057"/>
+                        </Frame>
+                        <Frame CornerRadius="25" HorizontalOptions="CenterAndExpand" Margin="10,0,40,0" x:Name="weeklygoal" >
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizerweekly_Tapped_1"/>
+                            </Frame.GestureRecognizers>
+                            <Label Text="  Weekly   " FontFamily="Roboto" FontSize="17" TextColor="#495057" />
+                        </Frame>
                     </StackLayout>
-                </ScrollView>                   
-        </StackLayout>
+                </Frame>
+                
+            </StackLayout>
 
-        <AbsoluteLayout  Grid.Row="2"   Grid.ColumnSpan="4" x:Name="stackGoallist" IsVisible="True" Margin="0,-4" >
-            <Label x:Name="nogoals" Margin="80,0,0,0" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="" FontSize="15"/>
+            <StackLayout HorizontalOptions="EndAndExpand" Margin="20,12">
+                <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Sort},Size=28,Color=#61a5c2}" BackgroundColor="Transparent" />
+            </StackLayout>
 
-            <ListView
+            <AbsoluteLayout  Grid.Row="2"   Grid.ColumnSpan="4" x:Name="stackGoallist" IsVisible="True" Margin="0,-4" >
+                <Label x:Name="nogoals" Margin="80,0,0,0" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="" FontSize="15"/>
+
+                <ListView
                  ItemsSource="{Binding goals}"
                      AbsoluteLayout.LayoutFlags="All"
 						  AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -84,31 +95,31 @@
                                 </ViewCell.ContextActions>
 
                                 <Grid ColumnSpacing="5" Padding="5">
-                                <Frame
+                                    <Frame
                                         CornerRadius="15"
-                                        HasShadow="True"
+                                        HasShadow="True" 
                                         BackgroundColor="White"
                                         Padding="8"
                                         Margin="5,0,7,0">
-                                    <Grid Padding="2">                              
-                                         <StackLayout  Orientation="Vertical" >
-                                            <StackLayout Orientation="Horizontal">
-                                                <Label>
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{Binding Name}" TextColor="#495057" FontFamily="RobotoBold" FontSize="17"/>
-                                                            <Span Text="{x:Static x:Environment.NewLine}" />
-                                                            <Span Text="Due: " TextColor="#6c757d"  FontSize="14.5"/>
-                                                            <Span Text="{Binding enddatetostring}" TextColor="#6c757d"   FontSize="14.5"/>                                                           
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-                                                </Label>                                               
-                                            </StackLayout>
-                                           
-                                            <StackLayout Orientation="Horizontal">
-                                                
-                                                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Margin="90,0" >                                                    
-                                                    <ProgressBar Grid.Column="1" Grid.ColumnSpan="3"
+                                        <Grid Padding="2">
+                                            <StackLayout  Orientation="Vertical" >
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding Name}" TextColor="#495057" FontFamily="RobotoBold" FontSize="16.5"/>
+                                                                <Span Text="{x:Static x:Environment.NewLine}" />
+                                                                <Span Text="Due: " TextColor="#6c757d"  FontSize="14.5"/>
+                                                                <Span Text="{Binding enddatetostring}" TextColor="#6c757d"   FontSize="14.5"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </StackLayout>
+
+                                                <StackLayout Orientation="Horizontal">
+
+                                                    <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Margin="90,0" >
+                                                        <ProgressBar Grid.Column="1" Grid.ColumnSpan="3"
                                                                 x:Name = "goalprogresbar"                                                                      
                                                                 Progress = "{Binding Progress}"
                                                                 FlowDirection = "LeftToRight"                                                                                                 
@@ -116,22 +127,22 @@
                                                                 ScaleX="5"
                                                                  ScaleY="1.7"                                                             
                                                     />
-                                                </StackLayout>
-                                                <StackLayout HorizontalOptions="EndAndExpand" Margin="0,-3">
-                                                    <Label Grid.Column=" 4" TextColor="#495057"  FontFamily="RobotoMedium" >
+                                                    </StackLayout>
+                                                    <StackLayout HorizontalOptions="EndAndExpand" Margin="0,-3">
+                                                        <Label Grid.Column=" 4" TextColor="#495057"  FontFamily="RobotoMedium" >
 
-                                                        <Label.FormattedText>
-                                                            <FormattedString >
-                                                                <Span Text="{Binding Percentage}" FontSize="16" />
-                                                                <Span Text="% " FontSize="16"   />
-                                                            </FormattedString>
-                                                        </Label.FormattedText>
-                                                    </Label>
+                                                            <Label.FormattedText>
+                                                                <FormattedString >
+                                                                    <Span Text="{Binding Percentage}" FontSize="16" />
+                                                                    <Span Text="% " FontSize="16"   />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </StackLayout>
+
                                                 </StackLayout>
-                                                
+
                                             </StackLayout>
-                                                                                    
-                                         </StackLayout>
 
                                         </Grid>
 
@@ -144,8 +155,8 @@
                     </ListView.ItemTemplate>
 
                 </ListView>
-          
-           
+
+
 
                 <ImageButton Margin="10,0,15,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
                 Glyph={x:Static helpers:IconFont.PlusCircleOutline},Size=55,Color=#61a5c2
@@ -159,24 +170,27 @@
             />
 
 
-            </AbsoluteLayout>        
-        
-     
-        <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="StackGoalblank" IsVisible="False">
-            <StackLayout Margin="0,80">
-                <StackLayout>
-                    <Image Source="goalpic.png"/>
+            </AbsoluteLayout>
+
+
+            <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="StackGoalblank" IsVisible="False">
+                <StackLayout Margin="0,80">
+                    <StackLayout>
+                        <Image Source="goalpic.png"/>
+                    </StackLayout>
+                    <StackLayout Margin="40,30">
+                        <Label Text="Create Your First Goal!" FontSize="16" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+
+                        <Button   Grid.Column="0"  Grid.ColumnSpan="4" Text="   Create Goal    " Command="{Binding AddgoalCommand}" HorizontalOptions="FillAndExpand"  CornerRadius="15" Margin="0,20"  BackgroundColor="#61a5c2" CharacterSpacing="10" />
+
+
+                    </StackLayout>
+
                 </StackLayout>
-                <StackLayout Margin="40,30">
-                    <Label Text="Create Your First Goal!" FontSize="16" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>                 
-
-                    <Button   Grid.Column="0"  Grid.ColumnSpan="4" Text="   Create Goal    " Command="{Binding AddgoalCommand}" HorizontalOptions="FillAndExpand"  CornerRadius="15" Margin="0,20"  BackgroundColor="#61a5c2" CharacterSpacing="10" />
-
-
-                </StackLayout>
-
             </StackLayout>
         </StackLayout>
+
+        
     <!--   <Button Text="Add Goal"
                 Command="{Binding AddgoalCommand}"
                 IsEnabled="{Binding IsNotBusy}"
