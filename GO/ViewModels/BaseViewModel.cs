@@ -20,6 +20,7 @@ namespace GO.ViewModels
         public IDataWeek<Week> dataWeek { get; }
         public IGoalWeek<GoalWeek> datagoalweek { get; }
         public ITaskday<Task_Day> dataTaskDay { get; }
+        public Isubtask_dow<Subtask_Dow> datasubtaskDow { get; }
         public IToast Datatoast { get; }
         public BaseViewmodel()
         {
@@ -33,6 +34,7 @@ namespace GO.ViewModels
             datagoalweek = DependencyService.Get<IGoalWeek<GoalWeek>>();
             Datatoast = DependencyService.Get<IToast>();
             dataTaskDay = DependencyService.Get<ITaskday<Task_Day>>();
+            datasubtaskDow = DependencyService.Get<Isubtask_dow<Subtask_Dow>>();
         }
         bool isBusy;
         string Title;

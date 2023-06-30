@@ -352,9 +352,9 @@
                                             <StackLayout  Grid.Column="0" Padding="0,-30,0,0" Orientation="Horizontal">
 
                                                 <Switch 
-                                               x:Name="switchTask" 
+                                               x:Name="WeeklyswitchTask" 
                                                 IsEnabled="{Binding IsEnabled}"
-                                                IsToggled="{Binding IsCompleted}"                                        
+                                                IsToggled="{Binding clonedtaskCompleted}"                                        
                                                 Toggled="switch_Toggled">
                                                 </Switch>
 

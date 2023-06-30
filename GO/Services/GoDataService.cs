@@ -11,7 +11,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(GoDataService))]
 namespace GO.Services
 {
-    public class GoDataService : IDataStore<Category>, IDataGoal<Goal>, IDataTask<GoalTask>, IDataSubtask<Subtask>, IDataWeek<Week>, IGoalWeek<GoalWeek>, IDataDow<DOW>, IDateNotification<Notification>,ITaskday<Task_Day>
+    public class GoDataService : IDataStore<Category>, IDataGoal<Goal>, IDataTask<GoalTask>, IDataSubtask<Subtask>, IDataWeek<Week>, IGoalWeek<GoalWeek>, IDataDow<DOW>, IDateNotification<Notification>,ITaskday<Task_Day>,Isubtask_dow<Subtask_Dow>
     {
         static SQLiteAsyncConnection db;
         // database connection class
@@ -33,6 +33,7 @@ namespace GO.Services
             await db.CreateTableAsync<GoalWeek>();
             await db.CreateTableAsync<Notification>();
             await db.CreateTableAsync<Task_Day>();
+            await db.CreateTableAsync<Subtask_Dow>();
 
         
         }
@@ -54,7 +55,6 @@ namespace GO.Services
             await db.InsertAsync(category);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> DeleteItemAsync(int id)
         {
             await Init();
@@ -125,7 +125,6 @@ namespace GO.Services
             var deleteCategory = await db.DeleteAsync<Goal>(id);
             return await Task.FromResult(true);
         }
-
         public async Task<Goal> GetGoalAsync(int id)
         {
             await Init();
@@ -147,7 +146,6 @@ namespace GO.Services
             var allGoals = await db.Table<Goal>().ToListAsync();
             return allGoals;
         }
-
         public async Task<bool> UpdateGoalAsync(Goal item)
         {
             // modifying category item in the database
@@ -155,7 +153,6 @@ namespace GO.Services
             var updateGoal = await db.UpdateAsync(item);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> AddTaskAsync(GoalTask item)
         {
             // wait for the database to be created
@@ -172,8 +169,9 @@ namespace GO.Services
                 RemainingDays = item.RemainingDays,
                 Percentage = item.Percentage,
                 PendingPercentage = item.PendingPercentage,
-                Progress = item.Progress,
+                Progress = item.Progress,               
                 Status = item.Status,
+                clonedtaskCompleted = item.clonedtaskCompleted,
                 IsCompleted = item.IsCompleted,
                 CompletedSubtask = item.CompletedSubtask,
                 CreatedOn = item.CreatedOn,
@@ -191,7 +189,6 @@ namespace GO.Services
             await db.InsertAsync(goaltask);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> UpdateTaskAsync(GoalTask item)
         {
             // modifying task item in the database
@@ -199,7 +196,6 @@ namespace GO.Services
             await db.UpdateAsync(item);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> DeleteTaskAsync(int id)
         {
             await Init();
@@ -229,7 +225,6 @@ namespace GO.Services
             var allTasks = await db.Table<GoalTask>().Where(g => g.GoalId == Id).Where(t => t.WeekId == weekid).ToListAsync();
             return allTasks;
         }
-
         public async Task<bool> AddSubTaskAsync(Subtask item)
         {
             // wait for the database to be created
@@ -284,28 +279,6 @@ namespace GO.Services
             return allSubTasks;
         }
     
-
-        //public Task<bool> UpdateSelectedWrapperAsync(SelectedItemWrapper<DOW> item)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<bool> DeleteSelectedWrapperAsync(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<SelectedItemWrapper<DOW>> GetSelectedWrapperAsync(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<IEnumerable<SelectedItemWrapper<DOW>>> GetSelectedWrapperAsync(int Id, bool forceRefresh = false)
-        //{
-        //    throw new NotImplementedException();
-        //}
-   
-
         public async Task<bool> AddDOWAsync(DOW item)
         {
             await Init();
@@ -318,14 +291,12 @@ namespace GO.Services
             await db.InsertAsync(dOW);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> UpdateDOWAsync(DOW item)
         {
             await Init();
             await db.UpdateAsync(item);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> DeleteDOWAsync(int id)
         {
             await Init();
@@ -333,16 +304,13 @@ namespace GO.Services
             var deleteDow = await db.DeleteAsync<DOW>(id);
             return await Task.FromResult(true);
         }
-
         public async Task<DOW> GetDOWAsync(int id)
         {
             await Init();
             // get the selected item 
             var dow = await db.Table<DOW>().Where(d => d.DOWId == id).FirstOrDefaultAsync();
             return dow;
-        }
-
-       
+        }       
         public async Task<IEnumerable<DOW>> GetDOWsAsync(bool forceRefresh = false)
         {
             await Init();
@@ -505,13 +473,13 @@ namespace GO.Services
             var taskday = new Task_Day
             {               
                 Taskid = item.Taskid,
-                DowId = item.DowId
+                DowId = item.DowId,
+                Iscomplete = item.Iscomplete
             };
             // insert the values into the database
             await db.InsertAsync(taskday);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> UpdateTaskdayAsync(Task_Day item)
         {
 
@@ -519,31 +487,70 @@ namespace GO.Services
             await db.UpdateAsync(item);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> DeleteTaskdayAsync(int id)
         {
-
             await Init();
             // Remove the selected subtask item from the database
             var deleteTaskday = await db.DeleteAsync<Task_Day>(id);
             return await Task.FromResult(true);
         }
-
         public async Task<Task_Day> GetTaskdayAsync(int id)
         {
-
             await Init();
             // get all goals in the database
             var task_day = await db.Table<Task_Day>().Where(g => g.Id == id).FirstOrDefaultAsync();
             return task_day;
         }
-
         public async Task<IEnumerable<Task_Day>> GetTaskdaysAsync(bool forceRefresh = false)
         {
             await Init();
             // get all subtasks in the database
             var allTaskdays = await db.Table<Task_Day>().ToListAsync();
             return allTaskdays;
+        }
+
+        public async Task<bool> AddSubtaskdowAsync(Subtask_Dow item)
+        {
+            // wait for the database to be created
+            await Init();
+            // create a new Task object
+
+            var subtaskDow = new Subtask_Dow
+            {
+                Subtataskid = item.Subtataskid,
+                DowId = item.DowId,
+                Iscomplete = item.Iscomplete
+            };
+            // insert the values into the database
+            await db.InsertAsync(subtaskDow);
+            return await Task.FromResult(true);
+        }
+        public async Task<bool> UpdateSubtaskdowAsync(Subtask_Dow item)
+        {
+            await Init();
+            await db.UpdateAsync(item);
+            return await Task.FromResult(true);
+        }
+        public async Task<bool> DeleteSubtaskdowAsync(int id)
+        {
+            await Init();
+            // Remove the selected subtask item from the database
+            var deletesubtaskDow = await db.DeleteAsync<Subtask_Dow>(id);
+            return await Task.FromResult(true);
+        }
+        public async Task<Subtask_Dow> GetSubtaskdowAsync(int id)
+        {
+            await Init();
+            // get all goals in the database
+            var subtaskDow = await db.Table<Subtask_Dow>().Where(g => g.Id == id).FirstOrDefaultAsync();
+            return subtaskDow;
+        }
+        public async Task<IEnumerable<Subtask_Dow>> GetSubtaskdowAsync(bool forceRefresh = false)
+        {
+            await Init();
+            // get all subtasks in the database
+            var allsubtaskDows = await db.Table<Subtask_Dow>().ToListAsync();
+            return allsubtaskDows;
         }
     }
 }

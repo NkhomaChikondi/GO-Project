@@ -178,7 +178,7 @@ namespace GO.ViewModels.TaskInGoals
                     if (newtask.Description == null)
                         newtask.Description = $"No Description for {newtask.taskName}";
                     //call the add percentage method
-                    //await AddweekTaskPercentage();
+                    await AddweekTaskPercentage(week);
                     // check if goal has week or not
                     // get last inserted week in "this" goal
 
@@ -203,6 +203,7 @@ namespace GO.ViewModels.TaskInGoals
                         Status = "Not Started",
                         CompletedSubtask = 0,
                         IsEnabled = true,
+                        clonedtaskCompleted = false,
                         CreatedOn = DateTime.Now,
                         IsVisible = true,
                         WeekId = weekId,
@@ -330,6 +331,7 @@ namespace GO.ViewModels.TaskInGoals
                         Percentage = 0, //taskPercentage,
                         Status = "Not Started",
                         CompletedSubtask = 0,
+                        clonedtaskCompleted = false,
                         IsEnabled = true,
                         Isrepeated = false,
                         CreatedOn = DateTime.Now,
@@ -392,34 +394,72 @@ namespace GO.ViewModels.TaskInGoals
         //}
         // a method to reassign percentage to all tasks in the database
         async void AddTaskPercent(Week week)
-        {
-            //// check if the week is active
-            //if (!week.Active)
-            //{
-            //    week.Active = true;
-            //    await dataWeek.UpdateWeekAsync(week);
-            //}
+        {           
             // set the percentage progress to zero
             percentageProgress = 0;
             var tasks = await dataTask.GetTasksAsync(goalId);
             // get all tasks having the week id
             var weekTasks = tasks.Where(T => T.WeekId == week.Id).ToList();
+            // get the last id
+            var lasttask = weekTasks.LastOrDefault();
             // loop through the dows
-            foreach (var task in weekTasks)            {
+            foreach (var task in weekTasks)     
+            {
                
-                task.Percentage = taskPercentage;
-                await dataTask.UpdateTaskAsync(task);
-                // get subtasks having the task id
-                var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-                if (subtasks.Count() > 0)
+                if(task.Id == lasttask.Id)
                 {
-                    // loop through the subtasks and assign new percentages
-                    foreach (var subtask in subtasks)
+                    //Check if day names has more than 1 taskday
+                    if(Day_names.Count() >1)
                     {
-                        subtask.Percentage = task.Percentage / subtasks.Count();
-                        await dataSubTask.UpdateSubTaskAsync(subtask);
+                        var newtaskpercentage = taskPercentage / Day_names.Count;
+                        task.Percentage = Math.Round(newtaskpercentage);
+                        await dataTask.UpdateTaskAsync(task);
+                        // get subtasks having the task id
+                        var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+                        if (subtasks.Count() > 0)
+                        {
+                            // loop through the subtasks and assign new percentages
+                            foreach (var subtask in subtasks)
+                            {
+                                subtask.Percentage = task.Percentage / subtasks.Count();
+                                await dataSubTask.UpdateSubTaskAsync(subtask);
+                            }
+                        }
                     }
-                }                
+                    else if(Day_names.Count == 1)
+                    {
+                        task.Percentage = taskPercentage;
+                        await dataTask.UpdateTaskAsync(task);
+                        // get subtasks having the task id
+                        var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+                        if (subtasks.Count() > 0)
+                        {
+                            // loop through the subtasks and assign new percentages
+                            foreach (var subtask in subtasks)
+                            {
+                                subtask.Percentage = task.Percentage / subtasks.Count();
+                                await dataSubTask.UpdateSubTaskAsync(subtask);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    task.Percentage = taskPercentage;
+                    await dataTask.UpdateTaskAsync(task);
+                    // get subtasks having the task id
+                    var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+                    if (subtasks.Count() > 0)
+                    {
+                        // loop through the subtasks and assign new percentages
+                        foreach (var subtask in subtasks)
+                        {
+                            subtask.Percentage = task.Percentage / subtasks.Count();
+                            await dataSubTask.UpdateSubTaskAsync(subtask);
+                        }
+                    }
+                }
+                           
             }           
         }
         async Task SendNotification()
@@ -461,7 +501,8 @@ namespace GO.ViewModels.TaskInGoals
                         var task_Day = new Task_Day
                         {
                             Taskid = lastTask.Id,
-                            DowId = day.DOWId                        
+                            DowId = day.DOWId,
+                            Iscomplete = false
                         };
                         await dataTaskDay.AddTaskdayAsync(task_Day);
                         await App.Current.MainPage.DisplayAlert("Alert", "zatheka biggy!!!!", "OK");

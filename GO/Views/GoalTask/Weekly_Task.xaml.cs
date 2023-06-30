@@ -19,6 +19,7 @@ namespace GO.Views.GoalTask
         public string weekId { get; set; }
         private int goalId;
         private IEnumerable<DOW> dOWs;
+        private Week selectedWeek;
         public IDataGoal<Models.Goal> datagoal { get; }
         public IDataTask<Models.GoalTask> DataTask { get; }
         public IDataSubtask<Subtask> datasubtask { get; }
@@ -40,6 +41,7 @@ namespace GO.Views.GoalTask
              int.TryParse(weekId, out var result);
             // get the  week having the week id
             var week = await dataWeek.GetWeekAsync(result);
+            selectedWeek = week;
             // get the goal having the goalid
             var goal = await datagoal.GetGoalAsync(week.GoalId);
             // get all DOws
@@ -63,6 +65,17 @@ namespace GO.Views.GoalTask
                 }
             }
             dayTask.Text = todayDow.Name;
+            // set the field of Isselected of dows to false apart from this
+            todayDow.IsSelected = true;           
+            await dataDow.UpdateDOWAsync(todayDow);
+            foreach (var dowitem in dows)
+            {
+                if(dowitem.DOWId != todayDow.DOWId)
+                {
+                    dowitem.IsSelected = false;
+                    await dataDow.UpdateDOWAsync(dowitem);
+                }
+            }
             goalweeklypercentage.Text = week.AccumulatedPercentage.ToString();
             await assigningWeekValues(week);
             // call set date method
@@ -105,7 +118,6 @@ namespace GO.Views.GoalTask
                 thuDate.Text = previousSunday.AddDays(4).ToString("dd");
                 friDate.Text = previousSunday.AddDays(5).ToString("dd");
                 satDate.Text = previousSunday.AddDays(6).ToString("dd");
-
             }
 
         }     
@@ -114,6 +126,25 @@ namespace GO.Views.GoalTask
         {
             // get the dow whose name is equal to sunday
             var sundaydow = dOWs.Where(s => s.Name == "Sunday").FirstOrDefault();
+            var tasks = await DataTask.GetTasksAsync(selectedWeek.GoalId, selectedWeek.Id);
+            if (DateTime.Today.DayOfWeek.ToString() != "Sunday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                   // check if the task is completed
+
+                }
+            }
+            else if (DateTime.Today.DayOfWeek.ToString() == "Sunday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = true;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 wvm.DowId = sundaydow.DOWId;
@@ -132,6 +163,25 @@ namespace GO.Views.GoalTask
         {
             // get the dow whose name is equal to sunday
             var mondaydow = dOWs.Where(s => s.Name == "Monday").FirstOrDefault();
+            // the all tasks having the weekid will be disabled
+            var tasks = await DataTask.GetTasksAsync(selectedWeek.GoalId, selectedWeek.Id);
+            if (DateTime.Today.DayOfWeek.ToString() != "Monday")           {
+               
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = false;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
+            else if (DateTime.Today.DayOfWeek.ToString() == "Monday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = true;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 wvm.DowId = mondaydow.DOWId;
@@ -148,6 +198,26 @@ namespace GO.Views.GoalTask
         }
         private async void TapGestureRecognizertue_Tapped(object sender, EventArgs e)
         {
+            // the all tasks having the weekid will be disabled
+            var tasks = await DataTask.GetTasksAsync(selectedWeek.GoalId, selectedWeek.Id);
+            if (DateTime.Today.DayOfWeek.ToString() != "Tuesday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = false;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
+            else if (DateTime.Today.DayOfWeek.ToString() == "Tuesday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = true;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
             // get the dow whose name is equal to sunday
             var tuesdaydow = dOWs.Where(s => s.Name == "Tuesday").FirstOrDefault();
             if (BindingContext is WeeklyTaskViewModel wvm)
@@ -168,6 +238,25 @@ namespace GO.Views.GoalTask
         {
             // get the dow whose name is equal to sunday
             var wednesdaydow = dOWs.Where(s => s.Name == "Wednesday").FirstOrDefault();
+            var tasks = await DataTask.GetTasksAsync(selectedWeek.GoalId, selectedWeek.Id);
+            //if (DateTime.Today.DayOfWeek.ToString() != "Wednesday")
+            //{
+
+            //    foreach (var taskitem in tasks)
+            //    {
+            //        taskitem.IsEnabled = false;
+            //        await DataTask.UpdateTaskAsync(taskitem);
+            //    }
+            //}
+            //else if (DateTime.Today.DayOfWeek.ToString() == "Wednesday")
+            //{
+
+            //    foreach (var taskitem in tasks)
+            //    {
+            //        taskitem.IsEnabled = true;
+            //        await DataTask.UpdateTaskAsync(taskitem);
+            //    }
+            //}
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 wvm.DowId = wednesdaydow.DOWId;
@@ -186,6 +275,25 @@ namespace GO.Views.GoalTask
         {
             // get the dow whose name is equal to sunday
             var thursdaydow = dOWs.Where(s => s.Name == "Thursday").FirstOrDefault();
+            var tasks = await DataTask.GetTasksAsync(selectedWeek.GoalId, selectedWeek.Id);
+            if (DateTime.Today.DayOfWeek.ToString() != "Thursday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = false;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
+            else if (DateTime.Today.DayOfWeek.ToString() == "Thursday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = true;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 wvm.DowId = thursdaydow.DOWId;
@@ -204,6 +312,25 @@ namespace GO.Views.GoalTask
         {
             // get the dow whose name is equal to sunday
             var fridaydow = dOWs.Where(s => s.Name == "Friday").FirstOrDefault();
+            var tasks = await DataTask.GetTasksAsync(selectedWeek.GoalId, selectedWeek.Id);
+            if (DateTime.Today.DayOfWeek.ToString() != "Friday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = false;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
+            else if (DateTime.Today.DayOfWeek.ToString() == "Friday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = true;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 wvm.DowId = fridaydow.DOWId;
@@ -222,6 +349,25 @@ namespace GO.Views.GoalTask
         {
             // get the dow whose name is equal to sunday
             var saturdaydow = dOWs.Where(s => s.Name == "Saturday").FirstOrDefault();
+            var tasks = await DataTask.GetTasksAsync(selectedWeek.GoalId, selectedWeek.Id);
+            if (DateTime.Today.DayOfWeek.ToString() != "Saturday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = false;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
+            else if (DateTime.Today.DayOfWeek.ToString() == "Saturday")
+            {
+
+                foreach (var taskitem in tasks)
+                {
+                    taskitem.IsEnabled = true;
+                    await DataTask.UpdateTaskAsync(taskitem);
+                }
+            }
             if (BindingContext is WeeklyTaskViewModel wvm)
             {
                 wvm.DowId = saturdaydow.DOWId;
@@ -288,26 +434,26 @@ namespace GO.Views.GoalTask
             // get the task having the same id as taskId
             var taskdb = await DataTask.GetTaskAsync(taskid);
 
-            if (task.IsCompleted)
+            if (task.clonedtaskCompleted)
             {
                 // check if the incoming object 
-                if (taskdb.IsCompleted)
+                if (taskdb.clonedtaskCompleted)
                     return;
                 else
                 {
                     if (BindingContext is WeeklyTaskViewModel viewModel)
                     {
-                        await viewModel.CompleteTask(taskid, task.IsCompleted);
+                        await viewModel.CompleteTask(taskid, task.clonedtaskCompleted);
                     }
                 }
             }
-            else if (!task.IsCompleted)
+            else if (!task.clonedtaskCompleted)
             {
                 // check if the incoming object 
-                if (!taskdb.IsCompleted)
+                if (!taskdb.clonedtaskCompleted)
                     return;
                 if (BindingContext is WeeklyTaskViewModel viewModel)
-                    await viewModel.UncompleteTask(taskid, task.IsCompleted);
+                    await viewModel.UncompleteTask(taskid, task.clonedtaskCompleted);
             }
             return;
 

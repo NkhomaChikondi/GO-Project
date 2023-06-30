@@ -15,7 +15,9 @@ namespace GO.Models
         public DateTime EndTask { get; set; }
         public int RemainingDays { get; set; }
         public double Percentage { get; set; }
-        public bool IsCompleted { get; set; }
+        public int Accumulatedpercentage { get; set; }
+        public bool clonedtaskCompleted { get; set; }
+        public bool IsCompleted { get; set; }       
         public double Progress { get; set; }
         public double PendingPercentage { get; set; }
         public bool IsEnabled { get; set; }

@@ -481,143 +481,169 @@ namespace GO.ViewModels.TaskInGoals
             //await Shell.Current.GoToAsync(route);
         }
         public async Task CompleteTask(int TaskId, bool IsComplete)
-        {         
-            // get all objects in the taskday table
-            var taskdays = await dataTaskDay.GetTaskdaysAsync();
-            // get all dows in the database
-            var allDows = await dataDow.GetDOWsAsync();
-            // get the dy of week of today 
-            var today = DateTime.Today.DayOfWeek.ToString();
-            // get the dow having today's name
-            var todayDow = allDows.Where(D => D.Name == today).FirstOrDefault();
-            // get the taskDay having todayDowId
-            var taskDows = taskdays.Where(V => V.DowId == todayDow.DOWId && V.Taskid == TaskId).ToList();
-            if(taskDows.Count() == 0)
-            {
-                return;
-            }
-            else if(taskDows.Count() > 0)
-            {
-                // check the number of tasks in tasksdows
-                var taskCount = taskDows.Count();
-
-            }
-            //filter to only those having the task id
-          //  var taskDows = taskdays.Where(t => t.Taskid == TaskId).ToList();
+        {
+           var todayDow = DateTime.Today ;
             // get the task having the same id as taskId
             var task = await dataTask.GetTaskAsync(TaskId);
             var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-            // get week
-            var week = await dataWeek.GetWeekAsync(task.WeekId);
-            // check if the incoming object 
-            if (task.IsCompleted)
-                return;
-            else if (!task.IsCompleted)
+            var taskDays = await dataTaskDay.GetTaskdaysAsync();
+            // get the task that has todays dowId
+            var todayTask = taskDays.Where(t => t.Taskid == TaskId && t.DowId == dowId).FirstOrDefault();
+            // check if today is more than or equal task start date
+            if(todayDow < task.StartTask)
             {
-                // get all task_days
-                var task_days = await dataTaskDay.GetTaskdaysAsync();
-                // get the object having the taskiD
-                var validTasks = task_days.Where(T => T.Taskid == task.Id).ToList();
-                if(validTasks.Count() == 1)
+                await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
+                await Refresh();
+                return;
+            }
+            else if(todayDow >= task.StartTask)
+            {
+                // check if today is equal to dow name
+                // get the dow having the dowId
+                var dows = await dataDow.GetDOWsAsync();
+                var dow = dows.Where(d => d.DOWId == dowId).FirstOrDefault();
+                if(todayDow.DayOfWeek.ToString() != dow.Name)
                 {
-                    // get the object
-                    var getTask = validTasks.FirstOrDefault();
-                    // get the dow having the dowId
-                    var dow = await dataDow.GetDOWAsync(getTask.DowId);
-                    // check if the dowId is similar to today's dowId
-                    if(DateTime.Today.DayOfWeek.ToString() == dow.Name)
+                    await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
+                    return;
+                }
+                else if(todayDow.DayOfWeek.ToString() == dow.Name)
+                {
+                    if (todayTask == null)
+                        return;
+                    else
                     {
-                        if (subtasks.Count() > 0)
+                        // check if todaytask is completed
+                        if (task.clonedtaskCompleted)
                             return;
-                        //check if it has no subtask
-                        else if (subtasks.Count() == 0)
+                        else if (!task.clonedtaskCompleted)
                         {
-                            task.IsCompleted = IsComplete;
+                            // get the day having the dowId
+                            // get week
+                            var week = await dataWeek.GetWeekAsync(task.WeekId);
+                            // complete taskday
+                            todayTask.Iscomplete = true;
+                            await dataTaskDay.UpdateTaskdayAsync(todayTask);
+
+                            task.clonedtaskCompleted = IsComplete;
                             await dataTask.UpdateTaskAsync(task);
                             await SetStatus();
                             await CalculateTotalWeekPercentage(week);
                         }
                     }
-                    else
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
-                        await Refresh();
-                        return;
-                    }
+                }             
+            }
+           
+         
+            //// check if the incoming object 
+            //if (task.IsCompleted)
+            //    return;
+            //else if (!task.IsCompleted)
+            //{
+            //    // get all task_days
+            //    var task_days = await dataTaskDay.GetTaskdaysAsync();
+            //    // get the object having the taskiD
+            //    var validTasks = task_days.Where(T => T.Taskid == task.Id).ToList();
+            //    if(validTasks.Count() == 1)
+            //    {
+            //        // get the object
+            //        var getTask = validTasks.FirstOrDefault();
+            //        // get the dow having the dowId
+            //        var dow = await dataDow.GetDOWAsync(getTask.DowId);
+            //        // check if the dowId is similar to today's dowId
+            //        if(DateTime.Today.DayOfWeek.ToString() == dow.Name)
+            //        {
+            //            if (subtasks.Count() > 0)
+            //                return;
+            //            //check if it has no subtask
+            //            else if (subtasks.Count() == 0)
+            //            {
+            //                task.IsCompleted = IsComplete;
+            //                await dataTask.UpdateTaskAsync(task);
+            //                await SetStatus();
+            //                await CalculateTotalWeekPercentage(week);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
+            //            await Refresh();
+            //            return;
+            //        }
 
-                }
-                else if(validTasks.Count()>1)
-                {
-                    bool found = false;
-                    // loop through the valid taskday item
-                    foreach (var taskday in validTasks)
-                    {
-                        // get the dow having the dowId
-                        var dow = await dataDow.GetDOWAsync(taskday.DowId);
-                        if (DateTime.Today.DayOfWeek.ToString() == dow.Name)
-                        {
-                            found = true;
-                            if (subtasks.Count() > 0)
-                                return;
-                            //check if it has no subtask
-                            else if (subtasks.Count() == 0)
-                            {
-                                task.IsCompleted = IsComplete;
-                                await dataTask.UpdateTaskAsync(task);
-                                await SetStatus();
-                                await CalculateTotalWeekPercentage(week);
-                            }
-                        }                        
-                    }
-                    if(!found)
-                    {
+            //    }
+            //    else if(validTasks.Count()>1)
+            //    {
+            //        bool found = false;
+            //        // loop through the valid taskday item
+            //        foreach (var taskday in validTasks)
+            //        {
+            //            // get the dow having the dowId
+            //            var dow = await dataDow.GetDOWAsync(taskday.DowId);
+            //            if (DateTime.Today.DayOfWeek.ToString() == dow.Name)
+            //            {
+            //                found = true;
+            //                if (subtasks.Count() > 0)
+            //                    return;
+            //                //check if it has no subtask
+            //                else if (subtasks.Count() == 0)
+            //                {
+            //                    task.IsCompleted = IsComplete;
+            //                    await dataTask.UpdateTaskAsync(task);
+            //                    await SetStatus();
+            //                    await CalculateTotalWeekPercentage(week);
+            //                }
+            //            }                        
+            //        }
+            //        if(!found)
+            //        {
 
-                        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
-                        await Refresh();
-                        return;
-                    }
-                    return;
-                }
-                    // loop thorugh the
-                    ////get the day the task is assigned to
-                    //var day = await dataDow.GetDOWAsync(task.DowId);
-                    //// check if the day name is less than or equal to the day of today                
-                    //// get the week the day is assigned to
-                    //var week = await dataWeek.GetWeekAsync(day.WeekId);
+            //            await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
+            //            await Refresh();
+            //            return;
+            //        }
+            //        return;
+            //    }
+            //        // loop thorugh the
+            //        ////get the day the task is assigned to
+            //        //var day = await dataDow.GetDOWAsync(task.DowId);
+            //        //// check if the day name is less than or equal to the day of today                
+            //        //// get the week the day is assigned to
+            //        //var week = await dataWeek.GetWeekAsync(day.WeekId);
 
-                    //if (week.Active)
-                    //{
-                    //    if(DateTime.Today.Date == day.Date.Date)
-                    //    {
-                    //        if (subtasks.Count() > 0)
-                    //            return;
-                    //        //check if it has no subtask
-                    //        else if (subtasks.Count() == 0)
-                    //        {
-                    //            task.IsCompleted = IsComplete;
-                    //            await dataTask.UpdateTaskAsync(task);
-                    //            await SetStatus();
-                    //            await CalculateTotalWeekPercentage(week);
-                    //        }
-                    //    }                 
-                    //    else
-                    //    {
-                    //        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
-                    //        await Refresh();
-                    //        return;
-                    //    }                 
-                    //}
-                    //else
-                    //{
-                    //    //await Refresh();
-                    //    await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The task has already expired.", "OK");
-                    //    await Refresh();
-                    //    return;
-                    //}
+            //        //if (week.Active)
+            //        //{
+            //        //    if(DateTime.Today.Date == day.Date.Date)
+            //        //    {
+            //        //        if (subtasks.Count() > 0)
+            //        //            return;
+            //        //        //check if it has no subtask
+            //        //        else if (subtasks.Count() == 0)
+            //        //        {
+            //        //            task.IsCompleted = IsComplete;
+            //        //            await dataTask.UpdateTaskAsync(task);
+            //        //            await SetStatus();
+            //        //            await CalculateTotalWeekPercentage(week);
+            //        //        }
+            //        //    }                 
+            //        //    else
+            //        //    {
+            //        //        await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The day allocated for the task has either already passed or has not yet been reached.", "Ok");
+            //        //        await Refresh();
+            //        //        return;
+            //        //    }                 
+            //        //}
+            //        //else
+            //        //{
+            //        //    //await Refresh();
+            //        //    await Application.Current.MainPage.DisplayAlert("Error!", "You cannot mark this task as complete. The task has already expired.", "OK");
+            //        //    await Refresh();
+            //        //    return;
+            //        //}
 
 
-                }           
-            return;
+            //    }           
+            //return;
         }
         public async Task UncompleteTask(int TaskId, bool IsComplete)
         {
@@ -751,11 +777,11 @@ namespace GO.ViewModels.TaskInGoals
                 foreach (var task in weekTasks)
                 {
                     //check if task is completed
-                    if (task.IsCompleted)
+                    if (task.clonedtaskCompleted)
                     {
                         TaskPercentage += task.Percentage;
                     }
-                    else if (!task.IsCompleted)
+                    else if (!task.clonedtaskCompleted)
                     {
                         // check task has subtasks
                         //get all subtasks having the tasks Id
@@ -816,14 +842,24 @@ namespace GO.ViewModels.TaskInGoals
                     if (taskday.DowId == DowId)
                     {
                         // get task task
-                        var task = await dataTask.GetTaskAsync(taskday.Taskid);                        
-                        goalTaskslist.Add(task);
+                        var task = await dataTask.GetTaskAsync(taskday.Taskid);        
+                        if(task != null)
+                        {
+                            // check if the task Id belongs to the designated week
+                            if (task.WeekId == weekId)
+                                goalTaskslist.Add(task);
+                        }                     
                     }
                 }
                 if (goalTaskslist.Count() > 0)
                 {
                     // get tasks having this week's Id
                     var weeklyTask = goalTaskslist.Where(T => T.WeekId == weekId).ToList();
+                    if(weeklyTask.Count() == 0)
+                    {
+                        Datatoast.toast("Create Tasks for this week!");
+                    }
+                    else
                           dowTasks.AddRange(weeklyTask);
                 }                  
                 else
@@ -898,10 +934,7 @@ namespace GO.ViewModels.TaskInGoals
 
             IsBusy = false;          
         }
-        async Task completeWeeklytask()
-        {
-
-        }
+       
             
     }
 }
