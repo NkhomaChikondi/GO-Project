@@ -422,9 +422,9 @@ namespace GO.ViewModels.Subtasks
             var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
             //check if all allSubtasks are completed
             if (subtasks.All(t => t.IsCompleted))
-                task.clonedtaskCompleted = true;
+                task.IsCompleted = true;
             else if (subtasks.Any(t => !t.IsCompleted))
-                task.clonedtaskCompleted = false;
+                task.IsCompleted = false;
             await dataTask.UpdateTaskAsync(task);
         }      
         async Task CalculateSubtaskPercentage()

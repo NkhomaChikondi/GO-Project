@@ -20,9 +20,11 @@ namespace GO.Views.GoalTask
         private int goalId;
         private IEnumerable<DOW> dOWs;
         private Week selectedWeek;
+     
         public IDataGoal<Models.Goal> datagoal { get; }
         public IDataTask<Models.GoalTask> DataTask { get; }
         public IDataSubtask<Subtask> datasubtask { get; }
+        public ITaskday<Models.Task_Day> datataskDay { get; set; }
         public IDataWeek<Models.Week> dataWeek { get; }
         public IDataDow<DOW> dataDow { get; }
         public Weekly_Task()
@@ -30,7 +32,7 @@ namespace GO.Views.GoalTask
             InitializeComponent();
             datagoal = DependencyService.Get<IDataGoal<Models.Goal>>();
             dataWeek = DependencyService.Get<IDataWeek<Models.Week>>();
-            DataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();
+            DataTask = DependencyService.Get<IDataTask<Models.GoalTask>>();      
             datasubtask = DependencyService.Get<IDataSubtask<Subtask>>();
             dataDow = DependencyService.Get<IDataDow<DOW>>();
             BindingContext = new WeeklyTaskViewModel();
@@ -41,6 +43,7 @@ namespace GO.Views.GoalTask
              int.TryParse(weekId, out var result);
             // get the  week having the week id
             var week = await dataWeek.GetWeekAsync(result);
+            //var task_day = await datataskDay.GetTaskdaysAsync();           
             selectedWeek = week;
             // get the goal having the goalid
             var goal = await datagoal.GetGoalAsync(week.GoalId);
@@ -162,10 +165,11 @@ namespace GO.Views.GoalTask
         private async void TapGestureRecognizermon_Tapped(object sender, EventArgs e)
         {
             // get the dow whose name is equal to sunday
-            var mondaydow = dOWs.Where(s => s.Name == "Monday").FirstOrDefault();
+            var mondaydow = dOWs.Where(s => s.Name == "Monday").FirstOrDefault();          
             // the all tasks having the weekid will be disabled
             var tasks = await DataTask.GetTasksAsync(selectedWeek.GoalId, selectedWeek.Id);
-            if (DateTime.Today.DayOfWeek.ToString() != "Monday")           {
+            if (DateTime.Today.DayOfWeek.ToString() != "Monday")    
+            {
                
                 foreach (var taskitem in tasks)
                 {
@@ -434,29 +438,31 @@ namespace GO.Views.GoalTask
             // get the task having the same id as taskId
             var taskdb = await DataTask.GetTaskAsync(taskid);
 
-            if (task.clonedtaskCompleted)
+            if (task.IsCompleted)
             {
                 // check if the incoming object 
-                if (taskdb.clonedtaskCompleted)
+                if (taskdb.IsCompleted)
                     return;
                 else
                 {
                     if (BindingContext is WeeklyTaskViewModel viewModel)
                     {
-                        await viewModel.CompleteTask(taskid, task.clonedtaskCompleted);
+                        await viewModel.CompleteWeeklyTask(taskid, task.IsCompleted);
                     }
                 }
             }
-            else if (!task.clonedtaskCompleted)
+            else if (!task.IsCompleted)
             {
                 // check if the incoming object 
-                if (!taskdb.clonedtaskCompleted)
+                if (!taskdb.IsCompleted)
                     return;
-                if (BindingContext is WeeklyTaskViewModel viewModel)
-                    await viewModel.UncompleteTask(taskid, task.clonedtaskCompleted);
+                else
+                {
+                    if (BindingContext is WeeklyTaskViewModel viewModel)
+                        await viewModel.UncompleteTask(taskid, task.IsCompleted);
+                }               
             }
             return;
-
         }
         void dayOfTheWeekVisisbility(DayOfWeek dayOfWeek)
         {

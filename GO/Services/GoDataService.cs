@@ -170,8 +170,7 @@ namespace GO.Services
                 Percentage = item.Percentage,
                 PendingPercentage = item.PendingPercentage,
                 Progress = item.Progress,               
-                Status = item.Status,
-                clonedtaskCompleted = item.clonedtaskCompleted,
+                Status = item.Status,               
                 IsCompleted = item.IsCompleted,
                 CompletedSubtask = item.CompletedSubtask,
                 CreatedOn = item.CreatedOn,
@@ -318,7 +317,6 @@ namespace GO.Services
             var allDows = await db.Table<DOW>().ToListAsync();
             return allDows;
         }
-
         public async Task<bool> AddWeekAsync(Week item)
         {
             await Init();
@@ -339,14 +337,12 @@ namespace GO.Services
             await db.InsertAsync(week);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> UpdateWeekAsync(Week item)
         {
             await Init();
             await db.UpdateAsync(item);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> DeleteWeekAsync(int id)
         {
             await Init();
@@ -354,7 +350,6 @@ namespace GO.Services
             var deleteweek = await db.DeleteAsync<Week>(id);
             return await Task.FromResult(true);
         }
-
         public async Task<Week> GetWeekAsync(int id)
         {
             await Init();
@@ -362,7 +357,6 @@ namespace GO.Services
             var Week = await db.Table<Week>().Where(d => d.Id == id).FirstOrDefaultAsync();
             return Week;
         }
-
         public async Task<IEnumerable<Week>> GetWeeksAsync(int Id, bool forceRefresh = false)
         {
             await Init();
@@ -370,7 +364,6 @@ namespace GO.Services
             var allweeks = await db.Table<Week>().Where(g => g.GoalId== Id).ToListAsync();
             return allweeks;
         }
-
         public async Task<bool> AddGoalWeekAsync(GoalWeek item)
         {
             await Init();
@@ -382,14 +375,12 @@ namespace GO.Services
             await db.InsertAsync(newGoalWeek);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> UpdateGoalWeekAsync(GoalWeek item)
         {
             await Init();
             await db.UpdateAsync(item);
             return await Task.FromResult(true);
-        }
-   
+        }   
         public async Task<IEnumerable<GoalWeek>> GetGoalWeeksAsync(bool forceRefresh = false)
         {
             await Init();
@@ -397,7 +388,6 @@ namespace GO.Services
             var allgoalweek= await db.Table<GoalWeek>().ToListAsync();
             return allgoalweek;
         }
-
         public async Task<bool> AddNotificationAsync(Notification item)
         {
             await Init();
@@ -415,14 +405,12 @@ namespace GO.Services
             return await Task.FromResult(true);
 
         }
-
         public async Task<bool> UpdateNotificationAsync(Notification item)
         {
             await Init();
             await db.UpdateAsync(item);
             return await Task.FromResult(true);
         }
-
         public async Task<bool> DeleteNotificationAsync(int id)
         {
             await Init();
@@ -430,7 +418,6 @@ namespace GO.Services
             var deleteNotification = await db.DeleteAsync<Notification>(id);
             return await Task.FromResult(true);
         }
-
         public async Task<Notification> GetNotificationAsync(int id)
         {
             await Init();
@@ -438,7 +425,6 @@ namespace GO.Services
             var notification = await db.Table<Notification>().Where(d => d.Id == id).FirstOrDefaultAsync();
             return notification;
         }
-
         public async Task<IEnumerable<Notification>> GetNotificationGoalAsync(int GoalId, bool forceRefresh = false)
         {
             await Init();
@@ -446,7 +432,6 @@ namespace GO.Services
             var GoalNotifications = await db.Table<Notification>().Where(g => g.GoalId == GoalId).ToListAsync();
             return GoalNotifications;
         }
-
         public async Task<IEnumerable<Notification>> GetNotificationTaskAsync(int TaskId, bool forceRefresh = false)
         {
             await Init();
@@ -454,7 +439,6 @@ namespace GO.Services
             var TaskNotifications = await db.Table<Notification>().Where(g => g.TaskId == TaskId).ToListAsync();
             return TaskNotifications;
         }
-
         public async Task<IEnumerable<Notification>> GetNotificationSubtaskAsync(int SubtaskId, bool forceRefresh = false)
         {
             await Init();
@@ -462,7 +446,6 @@ namespace GO.Services
             var subtaskNotifications = await db.Table<Notification>().Where(g => g.SubtaskId == SubtaskId).ToListAsync();
             return subtaskNotifications;
         }
-
         public async Task<bool> AddTaskdayAsync(Task_Day item)
         {
 
@@ -474,7 +457,8 @@ namespace GO.Services
             {               
                 Taskid = item.Taskid,
                 DowId = item.DowId,
-                Iscomplete = item.Iscomplete
+                Iscomplete = item.Iscomplete,
+                Percentage = item.Percentage
             };
             // insert the values into the database
             await db.InsertAsync(taskday);

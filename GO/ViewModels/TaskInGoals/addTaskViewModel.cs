@@ -162,10 +162,10 @@ namespace GO.ViewModels.TaskInGoals
                     return;
                 }                
 
-               // change the first letter of the Task name to upercase
-                    var UppercasedName = char.ToUpper(newtask.taskName[0]) + newtask.taskName.Substring(1);
-                // get all tasks having the weekId
-                var alltasks = tasks.Where(W => W.WeekId == weekId).ToList();
+                    // change the first letter of the Task name to upercase
+                     var UppercasedName = char.ToUpper(newtask.taskName[0]) + newtask.taskName.Substring(1);
+                    // get all tasks having the weekId
+                    var alltasks = tasks.Where(W => W.WeekId == weekId).ToList();
                     //check if the new task already exist in the database-
                     if (alltasks.Any(T => T.taskName == UppercasedName))
                     {
@@ -202,8 +202,7 @@ namespace GO.ViewModels.TaskInGoals
                         Percentage = taskPercentage,
                         Status = "Not Started",
                         CompletedSubtask = 0,
-                        IsEnabled = true,
-                        clonedtaskCompleted = false,
+                        IsEnabled = true,                       
                         CreatedOn = DateTime.Now,
                         IsVisible = true,
                         WeekId = weekId,
@@ -330,15 +329,13 @@ namespace GO.ViewModels.TaskInGoals
                         PendingPercentage = 0,
                         Percentage = 0, //taskPercentage,
                         Status = "Not Started",
-                        CompletedSubtask = 0,
-                        clonedtaskCompleted = false,
+                        CompletedSubtask = 0,                       
                         IsEnabled = true,
                         Isrepeated = false,
                         CreatedOn = DateTime.Now,
                         IsVisible = true,
                         IsNotVisible = false
                     };
-
 
                     // add the new task to the database                
                     await dataTask.AddTaskAsync(newestTask);
@@ -502,10 +499,10 @@ namespace GO.ViewModels.TaskInGoals
                         {
                             Taskid = lastTask.Id,
                             DowId = day.DOWId,
-                            Iscomplete = false
+                            Iscomplete = false,
+                            Percentage = lastTask.Percentage
                         };
-                        await dataTaskDay.AddTaskdayAsync(task_Day);
-                        await App.Current.MainPage.DisplayAlert("Alert", "zatheka biggy!!!!", "OK");
+                        await dataTaskDay.AddTaskdayAsync(task_Day);                      
                     }
                 }
             }

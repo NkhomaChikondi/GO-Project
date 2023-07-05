@@ -624,43 +624,45 @@ namespace GO.ViewModels.Goals
             if(onceOff)
             {
                 weekly = false;
-                goal = goal.Where(G => G.Noweek).ToList();
+                goal = goal.Where(G => G.HasWeek == false).ToList();
+                goals.AddRange(goal);
             }
             else if(Weekly)
             {
                 onceOff = false;
                 goal = goal.Where(G => G.HasWeek).ToList();
-            }
-            if (all)
-                // retrieve the categories back
                 goals.AddRange(goal);
+            }
+            //if (all)
+            //    // retrieve the categories back
+            //    goals.AddRange(goal);
             //filter goals
-            else if (notstarted)
-            {
-                var notstartedtasks = goal.Where(g => g.Status == "Not Started").ToList();
-                goals.AddRange(notstartedtasks);
-            }
-            else if (completed)
-            {
-                var completedtasks = goal.Where(g =>  g.Percentage == 100).ToList();
-                goals.AddRange(completedtasks);
-            }
-            else if (inprogress)
-            {
-                var inprogressTasks = goal.Where(g => g.Status == "In Progress").ToList();
-                goals.AddRange(inprogressTasks);
-            }
-            else if (duesoon)
-            {
-                var Date10 = DateTime.Today.AddDays(10);
-                var duesoongoals = goal.Where(g => g.End <= Date10 && g.Status != "Expired").ToList();
-                goals.AddRange(duesoongoals);
-            }
-            else if (expired)
-            {
-                var expiredTasks = goal.Where(g => g.Status == "Expired").ToList();
-                goals.AddRange(expiredTasks);
-            }
+           //if (notstarted)
+           // {
+           //     var notstartedtasks = goal.Where(g => g.Status == "Not Started").ToList();
+           //     goals.AddRange(notstartedtasks);
+           // }
+           // else if (completed)
+           // {
+           //     var completedtasks = goal.Where(g =>  g.Percentage == 100).ToList();
+           //     goals.AddRange(completedtasks);
+           // }
+           // else if (inprogress)
+           // {
+           //     var inprogressTasks = goal.Where(g => g.Status == "In Progress").ToList();
+           //     goals.AddRange(inprogressTasks);
+           // }
+           // else if (duesoon)
+           // {
+           //     var Date10 = DateTime.Today.AddDays(10);
+           //     var duesoongoals = goal.Where(g => g.End <= Date10 && g.Status != "Expired").ToList();
+           //     goals.AddRange(duesoongoals);
+           // }
+           // else if (expired)
+           // {
+           //     var expiredTasks = goal.Where(g => g.Status == "Expired").ToList();
+           //     goals.AddRange(expiredTasks);
+           // }
 
             // set "isBusy" to false
             IsBusy = false;

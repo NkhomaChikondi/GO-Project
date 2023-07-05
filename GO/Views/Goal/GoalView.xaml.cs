@@ -25,19 +25,17 @@ namespace GO.Views.Goal
             dataCategory = DependencyService.Get<IDataStore<Models.Category>>();
             dataGoal = DependencyService.Get<IDataGoal<Models.Goal>>();
             BindingContext = new GoalViewModel();
-
         }
         // set progress bar color
       
         protected async override void OnAppearing()
-        {
-            
+        {        
             base.OnAppearing();
             int.TryParse(CategoryId, out var result);
             // get all goals having the category id
             var goals = await dataGoal.GetGoalsAsync(result);
             categoryId = result;
-            if (goals.Count( ) == 0)
+            if (goals.Count() == 0)
             {
                 stackGoallist.IsVisible = false;
                 topRow.IsVisible = false;
@@ -54,7 +52,26 @@ namespace GO.Views.Goal
            // btnall.BackgroundColor = Color.LightGray;
             if (BindingContext is GoalViewModel cvm)
             {
-                cvm.OnceOff = true;
+                // get the last goal
+                var lastGoal = goals.LastOrDefault();
+                if(lastGoal != null)
+                {
+                    if (lastGoal.HasWeek)
+                    {
+                        cvm.Weekly = true;
+                        cvm.OnceOff = false;
+                        weeklygoal.BackgroundColor = Color.White;
+                        scheduledgoal.BackgroundColor = Color.LightGray;                       
+                    }                       
+                    else if(!lastGoal.HasWeek)
+                    {
+                        cvm.Weekly = false;
+                        cvm.OnceOff = true;
+                        weeklygoal.BackgroundColor = Color.LightGray;
+                        scheduledgoal.BackgroundColor = Color.White;
+                    }
+                       
+                }           
                 cvm.CategoryId = result;
                 await cvm.Refresh();
             }

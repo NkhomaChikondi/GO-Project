@@ -354,7 +354,7 @@
                                                 <Switch 
                                                x:Name="WeeklyswitchTask" 
                                                 IsEnabled="{Binding IsEnabled}"
-                                                IsToggled="{Binding clonedtaskCompleted}"                                        
+                                                IsToggled="{Binding IsCompleted}"                                        
                                                 Toggled="switch_Toggled">
                                                 </Switch>
 
