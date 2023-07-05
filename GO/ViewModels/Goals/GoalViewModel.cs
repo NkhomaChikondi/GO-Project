@@ -291,16 +291,17 @@ namespace GO.ViewModels.Goals
                             var weektasks = await dataTask.GetTasksAsync(goal.Id, week.Id);
                             // loop through the tasks 
                             foreach(var task in weektasks)
-                            {                               
-                                // check if task is complete
-                                if (task.IsCompleted)
+                            {                 
+                                if(task.PendingPercentage < 0)
                                 {
-                                    TaskPercentage += task.Percentage;
+                                    task.PendingPercentage = 0;
+                                    await dataTask.UpdateTaskAsync(task);
                                 }
-                                else if(!task.IsCompleted)
+                                // check if task is complete
+                                else if (task.PendingPercentage > 0)
                                 {
                                     TaskPercentage += task.PendingPercentage;
-                                }    
+                                }                                   
                             }
                             //totalWeekPercentage += week.AccumulatedPercentage;
                         }

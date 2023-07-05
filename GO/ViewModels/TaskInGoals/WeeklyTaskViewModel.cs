@@ -695,7 +695,7 @@ namespace GO.ViewModels.TaskInGoals
                     else if(!taskDow.Iscomplete)
                     {
                         taskDow.Iscomplete = true;
-                        task.PendingPercentage += taskDow.Percentage;
+                        task.PendingPercentage =+ taskDow.Percentage;
                         task.IsCompleted = true;
 
                         await dataTask.UpdateTaskAsync(task);
@@ -721,16 +721,13 @@ namespace GO.ViewModels.TaskInGoals
                 if (week.status == "Not Started")
                 {
                     await Application.Current.MainPage.DisplayAlert("Alert!", $"The start date for this week, has not been reached yet", "Ok");
-                    return;
-                    await Refresh();
+                    return;                 
                 }
                 else
                 {
                     await Application.Current.MainPage.DisplayAlert("Alert!", $" This week has expired", "Ok");
-                    return;
-                    await Refresh();
+                    return;                   
                 }
-
             }
             else
             {
@@ -744,7 +741,7 @@ namespace GO.ViewModels.TaskInGoals
                 {
                     await Application.Current.MainPage.DisplayAlert("Alert!", $"Only {todayDow.DayOfWeek.ToString()} tasks can be  uncompleted today!", "Ok");                   
                     return;
-                    await Refresh();
+                   
                 }
                 else if (dow.Name == todayDow.DayOfWeek.ToString())
                 {
@@ -758,7 +755,7 @@ namespace GO.ViewModels.TaskInGoals
                     else if (taskDow.Iscomplete)
                     {
                         taskDow.Iscomplete = false;
-                        task.PendingPercentage -= taskDow.Percentage;
+                        task.PendingPercentage = task.PendingPercentage - taskDow.Percentage;
                         task.IsCompleted = false;
 
                         await dataTask.UpdateTaskAsync(task);
@@ -836,13 +833,9 @@ namespace GO.ViewModels.TaskInGoals
             }
         }        
        public async Task CalculateTotalWeekPercentage(Week week)
-        {
-            var getweeks = await dataWeek.GetWeeksAsync(GoalId);            
+        {                    
             double TaskPercentage = 0;
-            double subtaskpercentage = 0;
-            double Accumulated = 0;
-
-
+            
             // get all tasks having the week id
             var weekTasks = await dataTask.GetTasksAsync(GoalId, weekId);
             if (weekTasks.Count() == 0)
@@ -852,28 +845,28 @@ namespace GO.ViewModels.TaskInGoals
                 // loop through the tasks
                 foreach (var task in weekTasks)
                 {
-                    //check if task is completed
-                    if (task.IsCompleted)
-                    {
-                        TaskPercentage += task.Percentage;
-                    }
-                    else if (!task.IsCompleted)
-                    {
-                        // check task has subtasks
-                        //get all subtasks having the tasks Id
-                        var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+                    TaskPercentage += task.PendingPercentage;
+                    ////check if task is completed
+                    //if (task.IsCompleted)
+                    //{
+                    //    TaskPercentage += task.Percentage;
+                    //}
+                    //else if (!task.IsCompleted)
+                    //{
+                    //    // check task has subtasks
+                    //    //get all subtasks having the tasks Id
+                    //    var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
 
-                        if (subtasks.Count() > 0)
-                        {
-                            // get the task's pending percentage
-                            subtaskpercentage += task.PendingPercentage;
-                        }
-                    }
+                    //    if (subtasks.Count() > 0)
+                    //    {
+                    //        // get the task's pending percentage
+                    //        subtaskpercentage += task.PendingPercentage;
+                    //    }
+                    //}
+
                 }
-                Accumulated = TaskPercentage + subtaskpercentage;
-                if (weekTasks.All(A => A.IsCompleted))
-                    Accumulated = week.TargetPercentage;
-                week.AccumulatedPercentage = Math.Round(Accumulated, 1);
+              
+                week.AccumulatedPercentage = Math.Round(TaskPercentage, 1);
                 week.Progress = week.AccumulatedPercentage / week.TargetPercentage;
             }
           //  check if todays date is less than the weeks end date and update status accordingly
@@ -891,16 +884,13 @@ namespace GO.ViewModels.TaskInGoals
             await dataWeek.UpdateWeekAsync(week);                    
                 
                         //reset the below variables
-                TaskPercentage = 0;
-                subtaskpercentage = 0;
-                Accumulated = 0;                            
-            
+                TaskPercentage = 0;             
         }       
         public async Task Refresh()
         {           
             IsBusy = true;          
             await CreateDOW();
-            await CalculateSubtaskPercentage();
+          //  await CalculateSubtaskPercentage();
             // get week having the week id
             var currentWeek = await dataWeek.GetWeekAsync(weekId);
             await CalculateTotalWeekPercentage(currentWeek);

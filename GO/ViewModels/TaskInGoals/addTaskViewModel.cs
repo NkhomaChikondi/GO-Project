@@ -396,67 +396,23 @@ namespace GO.ViewModels.TaskInGoals
             percentageProgress = 0;
             var tasks = await dataTask.GetTasksAsync(goalId);
             // get all tasks having the week id
-            var weekTasks = tasks.Where(T => T.WeekId == week.Id).ToList();
-            // get the last id
-            var lasttask = weekTasks.LastOrDefault();
+            var weekTasks = tasks.Where(T => T.WeekId == week.Id).ToList();       
             // loop through the dows
             foreach (var task in weekTasks)     
-            {
-               
-                if(task.Id == lasttask.Id)
+            {              
+                task.Percentage = taskPercentage;
+                await dataTask.UpdateTaskAsync(task);
+                // get subtasks having the task id
+                var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
+                if (subtasks.Count() > 0)
                 {
-                    //Check if day names has more than 1 taskday
-                    if(Day_names.Count() >1)
+                    // loop through the subtasks and assign new percentages
+                    foreach (var subtask in subtasks)
                     {
-                        var newtaskpercentage = taskPercentage / Day_names.Count;
-                        task.Percentage = Math.Round(newtaskpercentage);
-                        await dataTask.UpdateTaskAsync(task);
-                        // get subtasks having the task id
-                        var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-                        if (subtasks.Count() > 0)
-                        {
-                            // loop through the subtasks and assign new percentages
-                            foreach (var subtask in subtasks)
-                            {
-                                subtask.Percentage = task.Percentage / subtasks.Count();
-                                await dataSubTask.UpdateSubTaskAsync(subtask);
-                            }
-                        }
+                        subtask.Percentage = task.Percentage / subtasks.Count();
+                        await dataSubTask.UpdateSubTaskAsync(subtask);
                     }
-                    else if(Day_names.Count == 1)
-                    {
-                        task.Percentage = taskPercentage;
-                        await dataTask.UpdateTaskAsync(task);
-                        // get subtasks having the task id
-                        var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-                        if (subtasks.Count() > 0)
-                        {
-                            // loop through the subtasks and assign new percentages
-                            foreach (var subtask in subtasks)
-                            {
-                                subtask.Percentage = task.Percentage / subtasks.Count();
-                                await dataSubTask.UpdateSubTaskAsync(subtask);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    task.Percentage = taskPercentage;
-                    await dataTask.UpdateTaskAsync(task);
-                    // get subtasks having the task id
-                    var subtasks = await dataSubTask.GetSubTasksAsync(task.Id);
-                    if (subtasks.Count() > 0)
-                    {
-                        // loop through the subtasks and assign new percentages
-                        foreach (var subtask in subtasks)
-                        {
-                            subtask.Percentage = task.Percentage / subtasks.Count();
-                            await dataSubTask.UpdateSubTaskAsync(subtask);
-                        }
-                    }
-                }
-                           
+                }               
             }           
         }
         async Task SendNotification()
@@ -482,30 +438,54 @@ namespace GO.ViewModels.TaskInGoals
         async Task createdayTask()
         {
             // get the last inserted task
-            var tasks = await dataTask.GetTasksAsync(goalId);
-            var lastTask = tasks.LastOrDefault();
-            // get all days in dow
-            var dows = await dataDow.GetDOWsAsync();
-
-            // loop through the days
-            foreach (var day in dows)
+            var tasks = await dataTask.GetTasksAsync(goalId,weekId);
+            // get dows
+            var Dbdows = await dataDow.GetDOWsAsync();
+            // get all task days
+            var taskdays = await dataTaskDay.GetTaskdaysAsync();
+            // loop though the task to see if how many days they are appearing
+            foreach (var task in tasks)
             {
-                foreach (var listDay in Day_names)
+                // check if they are taskdays having the taskid
+                //get all taskdays having the task id
+                var task_days = taskdays.Where(t => t.Taskid == task.Id).ToList();
+                if(task_days.Count() > 0)
                 {
-                    if(listDay == day.Name)
+                    var newpercentage = task.Percentage / task_days.Count();
+                    //loop through the taskdays to change their percentage
+                    foreach (var dowtask in task_days)
                     {
-                        // create a Task_day item
-                        var task_Day = new Task_Day
+                        dowtask.Percentage = newpercentage;
+                        await dataTaskDay.UpdateTaskdayAsync(dowtask);
+                    }
+                    newpercentage = 0;
+                }
+                else if(task_days.Count() == 0)
+                {                  
+                    // get all days in dow
+                    var dows = await dataDow.GetDOWsAsync();
+                    var taskdaypercentage = task.Percentage / Day_names.Count();
+                    // loop through the days
+                    foreach (var day in dows)
+                    {
+                        foreach (var listDay in Day_names)
                         {
-                            Taskid = lastTask.Id,
-                            DowId = day.DOWId,
-                            Iscomplete = false,
-                            Percentage = lastTask.Percentage
-                        };
-                        await dataTaskDay.AddTaskdayAsync(task_Day);                      
+                            if (listDay == day.Name)
+                            {
+                                // create a Task_day item
+                                var task_Day = new Task_Day
+                                {
+                                    Taskid = task.Id,
+                                    DowId = day.DOWId,
+                                    Iscomplete = false,
+                                    Percentage = taskdaypercentage
+                                };
+                                await dataTaskDay.AddTaskdayAsync(task_Day);
+                            }
+                        }
                     }
                 }
-            }
+            }          
         }    
     }    
 }

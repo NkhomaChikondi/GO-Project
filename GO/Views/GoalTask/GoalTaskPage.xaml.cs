@@ -216,8 +216,7 @@ namespace GO.Views.GoalTask
             double TaskPercentage = 0;
             double subtaskpercentage = 0;
             double goalRoundedPercentage = 0;
-            double taskscreatedToday = 0;
-         
+            double taskscreatedToday = 0;         
             
             // get all tasks having the goal id
             var tasks = await DataTask.GetTasksAsync(goal.Id);

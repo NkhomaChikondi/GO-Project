@@ -80,6 +80,7 @@ namespace GO.Views.GoalTask
                 }
             }
             goalweeklypercentage.Text = week.AccumulatedPercentage.ToString();
+            weeklygoalprogress.Progress = week.Progress;
             await assigningWeekValues(week);
             // call set date method
             SetDate(week);
@@ -448,6 +449,7 @@ namespace GO.Views.GoalTask
                     if (BindingContext is WeeklyTaskViewModel viewModel)
                     {
                         await viewModel.CompleteWeeklyTask(taskid, task.IsCompleted);
+                        calculateweekPercentage(selectedWeek);
                     }
                 }
             }
@@ -460,6 +462,7 @@ namespace GO.Views.GoalTask
                 {
                     if (BindingContext is WeeklyTaskViewModel viewModel)
                         await viewModel.UncompleteTask(taskid, task.IsCompleted);
+                    calculateweekPercentage(selectedWeek);
                 }               
             }
             return;
@@ -658,6 +661,20 @@ namespace GO.Views.GoalTask
                 status.Text = "In Progress";
                 dayOfTheWeekVisisbility(dowToday);
             }
+        }
+        async void calculateweekPercentage(Week week)
+        {
+            double taskPercentage = 0;
+            // get all tasks having the week id
+            var weekTasks = await DataTask.GetTasksAsync(week.GoalId, week.Id);
+            // loop through the tasks and get their task's pending percentage
+            foreach (var task in weekTasks)
+            {
+                taskPercentage += task.PendingPercentage;
+            }
+            var weekpercentage = Math.Round(taskPercentage, 1);
+            goalweeklypercentage.Text = weekpercentage.ToString();
+            weeklygoalprogress.Progress = weekpercentage / week.TargetPercentage;
         }
     }
 }
