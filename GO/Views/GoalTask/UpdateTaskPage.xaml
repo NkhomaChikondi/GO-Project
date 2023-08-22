@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:model="clr-namespace:GO.Models"
+             x:Class="GO.Views.GoalTask.UpdateTaskPage"
+              x:DataType="model:GoalTask"
+              xmlns:Effects="clr-namespace:GO.Effects"
+             xmlns:Viewmodel="clr-namespace:GO.ViewModels.TaskInGoals"
+             Title="See Task Details And Edit"
+             x:Name="updatepage"
+              BackgroundColor="WhiteSmoke">
+
+    <ContentPage.BindingContext>
+        <Viewmodel:addTaskViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <ScrollView>
+
+            <StackLayout  >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height=" Auto"/>
+                    </Grid.RowDefinitions>
+                   
+                    <Frame Grid.Row="0" Grid.RowSpan="3"  Margin="0,0" Grid.Column="0" Grid.ColumnSpan="4"  BackgroundColor="White" >
+                        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="2" >
+                            <StackLayout  Margin="0,0">
+                                <Label Text="Task Details" FontSize="24" FontAttributes="Bold" TextColor="#61a5c2" HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Name:" FontSize="18" FontAttributes="Bold" TextColor="#61a5c2">
+                                </Label>
+                                <Editor x:Name="NameEditor" Text=""  FontSize="16"   Grid.Column="0" Grid.ColumnSpan="4" MaxLength="150" />                                
+
+                            </StackLayout>
+                            
+                            <StackLayout Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="4">
+                                <StackLayout>
+                                    <Label Text="Description:" FontSize="18" FontAttributes="Bold" TextColor="#61a5c2"></Label>
+                                </StackLayout>
+                                <StackLayout>
+                                    <Editor x:Name="DescEditor"   FontSize="16" FontAttributes="None"  Grid.Column="0"  MaxLength="150" />                                
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame HorizontalOptions="FillAndExpand" Grid.Row="3" Grid.RowSpan="4" Grid.ColumnSpan="4" BorderColor="Transparent"  Margin="0,7,-7,59" >
+
+                        <StackLayout >
+                            <StackLayout Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3" Padding="0">
+
+                                <Label Text="Subtask Details " TextColor="#61a5c2" FontSize="Medium" FontAttributes="Bold" />
+                            </StackLayout>
+                            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                                <StackLayout  Orientation="Horizontal" Grid.RowSpan="2"  Margin="0,15">
+
+                                    <Frame Grid.Column="0" BackgroundColor="#ffcdb2" HeightRequest="85" WidthRequest="100" CornerRadius="15" >
+                                        <StackLayout >
+                                            <Image Source="list.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
+
+                                            </Image>
+                                            <Label Text="All Subtasks" FontSize="Small" FontAttributes="Bold"></Label>
+                                            <Label x:Name="AllSubtaskslbl" Margin="0,-10,0,0" TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
+                                        </StackLayout>
+
+
+                                    </Frame>
+
+
+                                    <Frame Grid.Column="1" BackgroundColor="#dde5b6" HeightRequest="85" WidthRequest="100" CornerRadius="15">
+                                        <StackLayout >
+                                            <Image Source="clipboard.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
+
+                                            </Image>
+                                            <Label Text="Completed" FontSize="Small" FontAttributes="Bold"></Label>
+                                            <Label x:Name="Completedsubtaskslbl"  Margin="0,-10,0,0" TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
+                                        </StackLayout>
+                                    </Frame>
+                                    <Frame Grid.Column="2" BackgroundColor="#ede0d4" HeightRequest="85" WidthRequest="100" CornerRadius="15">
+                                        <StackLayout >
+                                            <Image Source="pending.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
+
+                                            </Image>
+                                            <Label Text="Uncompleted"  FontSize="Small" FontAttributes="Bold"></Label>
+                                            <Label x:Name="uncompletedTaskslbl" Margin="0,-10,0,0" TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
+                                        </StackLayout>
+
+                                    </Frame>
+                                    <Frame Grid.Column="3" BackgroundColor="#e8c2ca" HeightRequest="20" WidthRequest="100" CornerRadius="15">
+                                        <StackLayout  Orientation="Vertical">
+                                            <Image Source="expired.png" Opacity="100" AnchorX="3" AnchorY="3" Grid.Row="2" Grid.Column="3">
+
+                                            </Image>
+                                            <Label Text="Expired " FontSize="Small" FontAttributes="Bold"></Label>
+                                            <Label x:Name="Expiredlbl"  TextColor="OrangeRed" FontSize="Small" FontAttributes="Bold"></Label>
+                                        </StackLayout>
+
+                                    </Frame>
+
+                                </StackLayout>
+
+                            </ScrollView>
+                            <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,10,0,0">
+                                <Button Text="  View Subtasks  " Clicked="Button_Clicked"  BackgroundColor="White" TextColor="#61a5c2" HorizontalOptions="CenterAndExpand" HeightRequest="50" ImageSource="point.png" ></Button>
+                            </StackLayout>
+                        </StackLayout>
+
+                    </Frame>
+
+
+                    <Frame Grid.Row="7" Grid.RowSpan="4"  Grid.ColumnSpan="4" BackgroundColor="White" BorderColor="Transparent" Padding="0" Margin="0,-49,0,49" >
+                        <StackLayout Orientation="Vertical" >
+                            <StackLayout HeightRequest="20"  Grid.ColumnSpan="2" Padding="0"  Margin="2,0,0,0" Spacing="-6" >
+
+                                <Label Text="  Other Details" FontSize="Medium" FontAttributes="Bold" LineHeight="5" Padding="2" TextColor="#61a5c2"/>
+
+                            </StackLayout>
+
+
+                            <Frame Grid.Column="0" Grid.ColumnSpan="2"   BackgroundColor="White" BorderColor="Transparent" >
+                                <StackLayout>
+                                    <Frame>
+                                        <StackLayout Orientation="Horizontal">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Image Source="calendar.png" ></Image>
+                                                <Label Text="Created on:" TextColor="#61a5c2"></Label>
+                                            </StackLayout>
+                                            <StackLayout HorizontalOptions="EndAndExpand">
+                                                <Label x:Name="Createdlbl" Text="" TextColor="OrangeRed"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                    <Frame Margin="0,10,0,0">
+                                        <StackLayout Orientation="Horizontal">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Image Source="flag.png" ></Image>
+                                                <Label Text="Status:" TextColor="#61a5c2"></Label>
+                                            </StackLayout>
+                                            <StackLayout HorizontalOptions="EndAndExpand">
+                                                <Label  x:Name="Statuslbl" Text="" TextColor="OrangeRed"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                    
+
+                                    <Frame Grid.Column="1" Grid.ColumnSpan="4"  BorderColor="Transparent" BackgroundColor="White" Padding="0">
+                                        <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="4">
+                                            <Frame Grid.Column="0" Grid.ColumnSpan="2"  Margin="12,15,0,0">
+                                                <StackLayout    Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0,0,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
+
+                                                    <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="0">
+
+                                                        <Label Text="Start Date" TextColor="#61a5c2" FontAttributes="Bold" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
+                                                        <Image Source="calendar.png" Aspect="AspectFit" Margin="0,0,0,45"></Image>
+
+
+                                                    </StackLayout>
+                                                    <StackLayout Orientation="Vertical">
+
+                                                        <DatePicker x:Name="StartPicker"  Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
+                                                    </StackLayout>
+
+                                                </StackLayout>
+                                            </Frame>
+
+                                            <Frame  Grid.Column="3" Grid.ColumnSpan="4" Padding="15" Margin="39,15,0,0">
+                                                <StackLayout Orientation="Vertical"   >
+                                                    <StackLayout  Grid.Row="3"   Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="0,0,0,0"  HorizontalOptions="CenterAndExpand" Orientation="Vertical" Padding="1" >
+
+                                                        <StackLayout Orientation="Horizontal" HeightRequest="70" Padding="0">
+
+                                                            <Label Text="End Date" TextColor="#61a5c2" FontAttributes="Bold" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,0"></Label>
+                                                            <Image Source="calendar.png" Aspect="AspectFit" Margin="0,0,0,45"></Image>
+
+
+                                                        </StackLayout>
+                                                        <StackLayout Orientation="Vertical">
+
+                                                            <DatePicker x:Name="EndPicker" Margin="0,-10,0,0"  HorizontalOptions="Center"></DatePicker>
+                                                        </StackLayout>
+
+                                                    </StackLayout>
+
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </Frame>
+
+                        </StackLayout>
+
+                    </Frame>
+
+                    <Frame Grid.Row="11"  Grid.ColumnSpan="4" BackgroundColor="White" Margin="0,-22,0,20">
+                        <StackLayout Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="2">
+                            <Button Text="Save Changes"  Clicked="Button_Clicked_1"
+                                    FontAttributes="Bold" CornerRadius="15" BackgroundColor="#61a5c2" TextColor="White"></Button>
+                        </StackLayout>
+                    </Frame>
+
+
+                </Grid>
+            </StackLayout>
+
+
+        </ScrollView>
+
+
+
+    </ContentPage.Content>
+</ContentPage>

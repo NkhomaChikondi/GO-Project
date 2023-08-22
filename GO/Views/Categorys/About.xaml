@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:helpers="clr-namespace:GO.Font" 
+             x:Class="GO.Views.Categorys.About"
+             Title="About">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>    
+             <ScrollView>
+                <StackLayout HorizontalOptions="CenterAndExpand">
+                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,18">
+                    <Label Text="ABOUT GO" TextColor="#61a5c2" FontFamily="RobotoBlack" FontSize="20" FontAttributes="Bold"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" Margin="10,0,0,10">
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.Asterisk},
+                       Size=20,Color=#495057}" BackgroundColor="Transparent"/>
+                        <Label Text="GO (Get Organized) is a productive app designed to help you accomplish tasks or achieve goals more efficiently and effectively." TextColor="#495057"  FontSize="17"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.Asterisk},
+                       Size=20,Color=#495057}" BackgroundColor="Transparent"/>
+                        <Label Text="This app will provide tools that help you stay organized, stay focused, and manage your time as you work towards achieving your goals."  TextColor="#495057"  FontSize="17"></Label>
+                        </StackLayout>
+                    </StackLayout>
+                 
+            </StackLayout>            
+            </ScrollView>          
+     </ContentPage.Content>
+</ContentPage>

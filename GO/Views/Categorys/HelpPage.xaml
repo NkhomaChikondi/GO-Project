@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:helpers="clr-namespace:GO.Font"
+             x:Class="GO.Views.Categorys.HelpPage"
+             Title="Help page">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <ScrollView>
+                <StackLayout >
+                    <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+                        <Label Text="Category Help page" TextColor="#61a5c2" FontSize="Large" FontAttributes="Bold" Margin="0,10"/>
+                    </StackLayout>
+                    <StackLayout Margin="5,0">
+                        <StackLayout Orientation="Horizontal">
+                            <Image  Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#495057}"  />
+                            <Label Text="Tap on the add button to create a new category" TextColor="#495057" FontSize="17" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image  Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#495057}"  />
+                            <Label Text="Swipe right to edit or delete a category" TextColor="#495057" FontSize="17" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Asterisk},Size=20,Color=#495057}"  />
+                            <Label Text="Tap on category to go to goal's page" TextColor="#495057" FontSize="17" />
+                        </StackLayout>
+                    </StackLayout>
+                   
+                    <StackLayout Margin="4,0,2,0">
+                        <Label Text="Examples of categories you can create" TextColor="#61a5c2" FontSize="18" FontAttributes="Bold"  Margin="0,10"/>
+                    </StackLayout>
+                    <StackLayout Margin="10,0,0,0">
+                        <StackLayout Orientation="Horizontal">
+                            <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ArrowRightBold},Size=20,Color=#495057}"  />
+                            <Label Text="Health and Fitness: This category could include goals related to exercise, nutrition, weight loss, or stress management." TextColor="#495057" FontSize="17" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ArrowRightBold},Size=20,Color=#495057}"  />
+                            <Label Text="Career Development: This category could include goals related to advancing in your career, learning new skills, attending industry events, or networking with colleagues." TextColor="#495057" FontSize="17" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ArrowRightBold},Size=20,Color=#495057}"  />
+                            <Label Text="Personal Growth: This category could include goals related to self-improvement, such as reading more books, practicing meditation, volunteering in the community, or pursuing a new hobby." TextColor="#495057" FontSize="17" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ArrowRightBold},Size=20,Color=#495057}"  />
+                            <Label Text="Financial Planning: This category could include goals related to saving money, paying off debt, investing in stocks, or creating a budget." TextColor="#495057" FontSize="17" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Margin="0,13" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.ArrowRightBold},Size=20,Color=#495057}"  />
+                            <Label Text="Education: This category could include goals related to completing a degree, attending workshops or seminars, learning a new language, or improving your writing or communication skills." TextColor="#495057" FontSize="17" />
+                        </StackLayout>
+                      
+
+                    </StackLayout>
+                    
+                </StackLayout>
+            </ScrollView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

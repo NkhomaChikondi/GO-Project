@@ -1,0 +1,129 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="EmbeddedFonts\Roboto-Black.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-BlackItalic.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Bold.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-BoldItalic.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Italic.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Light.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-LightItalic.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Medium.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-MediumItalic.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Regular.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-Thin.ttf" />
+    <None Remove="EmbeddedFonts\Roboto-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Black.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-BlackItalic.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Bold.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-BoldItalic.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Italic.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Light.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-LightItalic.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Medium.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-MediumItalic.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Regular.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-Thin.ttf" />
+    <EmbeddedResource Include="EmbeddedFonts\Roboto-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
+    <PackageReference Include="Plugin.LocalNotification" Version="10.0.2" />
+    <PackageReference Include="Plugin.Share" Version="7.1.1" />
+    <PackageReference Include="Plugin.XCalendar" Version="2.1.0" />
+    <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
+    <PackageReference Include="Shiny.Core" Version="2.5.4" />
+    <PackageReference Include="Shiny.Jobs" Version="2.5.4" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+    <PackageReference Include="Xam.Plugins.Forms.ProgressRing" Version="0.1.2" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />  
+    <PackageReference Include="XCalendar.Forms" Version="4.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\Categorys\About.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Categorys\AddCategory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Categorys\CategoryView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Categorys\Features.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Categorys\HelpPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Categorys\UpdateCategory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\GoalTask\AddPlannedTask.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\GoalTask\AddTaskPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\GoalTask\GoalTaskPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\GoalTask\UpdateTaskPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\GoalTask\UpdateWeekTask.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\GoalTask\WeeklyTask.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\GoalTask\Weekly_Task.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\GoalTask\WeekTask.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Goal\GoalStats.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Goal\GoalView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Goal\UpdateGoalPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SubTaskView\AddPlannedSubtask.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SubTaskView\AddSubtask.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SubTaskView\BlankSubtaskView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SubTaskView\BlankWeekSubtaskView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SubTaskView\subTaskView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SubTaskView\UpdateSubtaskPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SubTaskView\UpdateWeekSubtask.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

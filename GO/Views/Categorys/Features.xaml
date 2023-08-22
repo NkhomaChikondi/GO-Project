@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:helpers="clr-namespace:GO.Font" 
+               x:Class="GO.Views.Categorys.Features"
+             Title="Features">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="GO Main Features"  TextColor="#61a5c2" FontFamily="RobotoBlack" FontSize="20" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.ArrowRightBold},
+                                Size=23,Color=#495057}" BackgroundColor="Transparent"/>
+                            <Label Text="Creation of goals" TextColor="#495057" FontAttributes="Bold"  FontSize="18" />
+                        </StackLayout>
+                        <Label Text="This application offers the option to create two distinct types of goals: those comprising of one-time tasks only, and those involving tasks that need to be repeated on a weekly basis. Additionally, a goal's defining attributes consist of a name, start and end dates, and optionally, a description." TextColor="#495057"   FontSize="17"></Label>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Vertical">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.ArrowRightBold},
+                                Size=23,Color=#495057}" BackgroundColor="Transparent"/>
+                            <Label Text="Breaking goals into tasks" TextColor="#495057" FontAttributes="Bold"  FontSize="18" />
+                        </StackLayout>
+                        <Label Text="Once a goal has been created within the application, it becomes possible to break it down into smaller, more manageable tasks and subtasks. The purpose of this feature is to make the goal less daunting and more achievable. By dividing the tasks and subtasks, they can be completed and managed within a shorter time frame, allowing for a sense of progress and momentum" TextColor="#495057"   FontSize="17"></Label>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Vertical">
+                    <StackLayout Margin="13,0,0,8">
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.ArrowRightBold},
+                                Size=23,Color=#495057}" BackgroundColor="Transparent"/>
+                            <Label Text="Progress Tracking (Percentage system)" TextColor="#495057" FontAttributes="Bold"  FontSize="18" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.Asterisk},
+                               Size=17,Color=#495057}" BackgroundColor="Transparent"/>
+                            <Label Text=" goal with once-off tasks"  TextColor="#495057" FontAttributes="Bold"  FontSize="16"/>
+                        </StackLayout>
+                        <Label Text="To track the progress of your goal, you will be using a percentage system. Upon creation, a goal will have a progress percentage of 0, and the objective is to reach 100% for completion. The expected percentage for a goal is determined by dividing the total number of tasks within the goal, and the resulting percentage is equally distributed to each task. As tasks are completed, their percentage will be added to the overall progress percentage of the goal. This will allow you to see how much percentage is remaining to complete your tasks. Additionally, the application will display information about the status of the goal and its due date." TextColor="#495057"   FontSize="17"></Label>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},Glyph={x:Static helpers:IconFont.Asterisk},
+                               Size=17,Color=#495057}" BackgroundColor="Transparent"/>
+                            <Label Text=" goal with weekly tasks" FontAttributes="Bold"  TextColor="#495057"  FontSize="16"/>
+                        </StackLayout>
+                        <Label Text="For goals with a weekly task system, the expected percentage is calculated by dividing the overall progress percentage by the number of weeks until the goal's completion date. The resulting percentage is then allocated to each week equally. As tasks are completed each week, their percentage is added to the week's accumulated percentage, which in turn contributes to the overall progress percentage of the goal." TextColor="#495057"   FontSize="17"></Label>
+                    </StackLayout>
+
+
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+        
+    </ContentPage.Content>
+</ContentPage>

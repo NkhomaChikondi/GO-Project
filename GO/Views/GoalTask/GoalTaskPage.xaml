@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:Viewmodel="clr-namespace:GO.ViewModels.TaskInGoals"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:plugin="clr-namespace:ProgressRingControl.Forms.Plugin;assembly=ProgressRing.Forms.Plugin"
+             xmlns:helpers="clr-namespace:GO.Font"          
+             x:Class="GO.Views.GoalTask.GoalTaskPage"
+               Title="GO"              
+              x:Name="goaltaskpage" >
+    <ContentPage.BindingContext>
+        <Viewmodel:GoalTaskViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
+        </ResourceDictionary>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
+        </ResourceDictionary>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+                 IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                   Glyph={x:Static helpers:IconFont.Help},Size=20,Color=#feeafa}"                     
+                 Order="Primary"
+                 Priority="0"
+            Command="{Binding HelpCommand}"
+        />
+    </ContentPage.ToolbarItems>
+    <Grid VerticalOptions="FillAndExpand" BackgroundColor="#f8f9fa">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackLayout>
+            <StackLayout Orientation="Vertical"  x:Name="tasktoprow" >
+                <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand"  Margin="9,0" >
+                    <Label Text="Your Goal's Tasks" TextColor="#61a5c2"  FontAttributes="Bold" Margin="0,2" FontSize="19"/>
+                </StackLayout>
+                <StackLayout>
+                    <Frame Margin="12,0,14,0" CornerRadius="15" HorizontalOptions="CenterAndExpand" Padding="5,70,30,50">
+                        <StackLayout>
+                            <Grid Grid.Column="0" Grid.ColumnSpan="4"  HorizontalOptions="FillAndExpand">
+                                <StackLayout  HorizontalOptions="StartAndExpand" Margin="0,-59,18,0" Grid.Column="0" Grid.ColumnSpan="4" >
+                                    <Frame x:Name="goalframestatus"  Padding="5,2,9,2" CornerRadius="30">                                       
+                                            <Label x:Name="goalstatus" TextColor="White" FontSize="14" FontAttributes="Italic"  />                                   
+                                    </Frame>
+                                </StackLayout>
+                                <!--
+                                 <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Margin="0,-35"  Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Label x:Name="goalName" Margin="10,1" TextColor="#343a40" FontSize="16.5" />
+                                </StackLayout>
+                                -->
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand"  Grid.Column="0" Grid.ColumnSpan="3" Margin="15,-32" >                                   
+                                    <StackLayout>
+                                        <Label FontSize="15" FontAttributes="None" >
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span  x:Name="goalName"  TextColor="#343a40" FontSize="17.5" />
+                                                    <Span Text="{x:Static x:Environment.NewLine}" />
+                                                    <Span Text="{x:Static x:Environment.NewLine}" />
+                                                    <Span  Text="  Days remaining: " TextColor="#6c757d"/>
+                                                    <Span x:Name="daysLeft" TextColor="#6c757d"   />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <Grid Grid.Column=" 4" Grid.Row="0" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" Margin="0,0,10,0">
+
+                                    <plugin:ProgressRing x:Name="goalprogress" HeightRequest="60" Scale="3" WidthRequest="60" RingThickness="3"   RingBaseColor="#495057" ProgressColor="#61a5c2"
+ />
+                                    <StackLayout VerticalOptions="CenterAndExpand" Margin="5,0">
+                                        <Label FontAttributes="Bold" FontSize="17">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span x:Name="goaltotalpercentage" TextColor="#343a40"/>
+                                                    <Span Text="%" TextColor="#343a40"   />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                </Grid>
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                <StackLayout>
+                    <StackLayout Margin="10,0">
+                        <StackLayout Grid.Row="3"  Grid.ColumnSpan="4" Margin="14,12" Orientation="Horizontal" x:Name="headtask" >
+                            <StackLayout HorizontalOptions="StartAndExpand">
+                                <Label Text="Tasks" TextColor="#495057" FontAttributes="Bold" FontSize="17"/>
+                            </StackLayout>
+                            <StackLayout HorizontalOptions="EndAndExpand" Margin="20,0">
+                                <ImageButton Source="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={x:Static helpers:IconFont.Sort},Size=26,Color=#495057}" Clicked="ImageButton_Clicked_1" BackgroundColor="Transparent" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <AbsoluteLayout Grid.ColumnSpan="4" IsVisible="True" x:Name="StackTasklist">
+                            <Label x:Name="noTasks" Margin="80,0,0,0" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="" FontSize="15"/>
+                            <ListView ItemsSource="{Binding goalTasks}"
+                  AbsoluteLayout.LayoutFlags="All"
+			      AbsoluteLayout.LayoutBounds="0,0,1,1"
+                   CachingStrategy="RecycleElement"
+                   HasUnevenRows="True" 
+                   Grid.ColumnSpan="4"
+                   RefreshCommand="{Binding RefreshCommand}"
+                   RefreshControlColor="Red"
+                   SelectionMode="Single"
+                   SeparatorVisibility="Default"
+                   IsRefreshing="{Binding IsBusy,Mode=OneWay}">
+                                <ListView.Behaviors>
+                                    <xct:EventToCommandBehavior EventName="ItemTapped"
+                                              Command="{Binding SendTaskIdCommand}" EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
+                                </ListView.Behaviors>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <ViewCell>
+                                            <ViewCell.ContextActions>
+                                                <MenuItem IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                                 Glyph={x:Static helpers:IconFont.BookEdit},Size=30,Color=LightGray}"
+                                          Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.OnUpdateCommand }"
+                                          CommandParameter="{Binding .}"
+                                             IsDestructive="True" 
+                                          Text=" Edit"/>
+                                                <MenuItem  Command="{Binding Source={x:Reference goaltaskpage},Path=BindingContext.DeleteCommand }"
+                                       CommandParameter="{Binding .}"
+                                       IsDestructive="True"                                                  
+                                       IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                         Glyph={x:Static helpers:IconFont.Delete},Size=40,Color=LightGray}" Text="Delete"/>
+                                            </ViewCell.ContextActions>
+
+                                            <Grid ColumnSpacing="5" Padding="6" Margin="10,0" >
+                                                <StackLayout  Grid.Column="0" Padding="0,-30,0,0" Orientation="Horizontal">
+
+                                                    <Switch 
+                                               x:Name="switchTask" 
+                                                IsEnabled="{Binding IsEnabled}"
+                                                IsToggled="{Binding IsCompleted}"                                        
+                                                Toggled="switch_Toggled">
+                                                    </Switch>
+
+
+                                                    <Frame CornerRadius="15" HorizontalOptions="FillAndExpand"  
+                                       HasShadow="true"
+                                           Padding="15,15,15,15"
+                                       BackgroundColor="White"                                                               
+                                       Margin="4,25,0,10">
+                                                        <StackLayout   HorizontalOptions="FillAndExpand">
+                                                            <StackLayout Orientation="Horizontal">
+                                                                <Label  x:Name="label"                                        
+                                                     HorizontalTextAlignment="Start">
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span Text="{Binding taskName}" FontSize="16.5" TextColor="#495057" FontAttributes="Bold" />
+                                                                            <Span Text="{x:Static x:Environment.NewLine}" />
+                                                                            <Span Text="Due on: " FontSize="15"  TextColor="#6c757d"  />
+                                                                            <Span Text="{Binding enddatetostring}" FontSize="14" TextColor="#6c757d" />
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
+                                                            </StackLayout>
+                                                        </StackLayout>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </Grid>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <ImageButton Margin="5,5,13,0" Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                Glyph={x:Static helpers:IconFont.PlusCircleOutline},Size=60,Color=#61a5c2
+                }"
+                         BackgroundColor="Transparent"
+                Command="{Binding OnAddCommand}"
+                IsEnabled="{Binding IsNotBusy}"
+               
+                         AbsoluteLayout.LayoutFlags="PositionProportional"
+				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
+            />
+                        </AbsoluteLayout>
+                    </StackLayout>
+                    <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy  }"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="FillAndExpand"
+                           Grid.RowSpan="2"
+                           Grid.ColumnSpan="3"/>
+                </StackLayout>               
+            </StackLayout>
+            <StackLayout Grid.Row=" 3" Grid.Column="0" Grid.ColumnSpan="4" IsVisible="False" x:Name="StackTaskBlank">
+                <StackLayout Margin="0,80">
+                    <StackLayout>
+                        <Image Source="blankpic.jpg"/>
+                    </StackLayout>
+                    <StackLayout Margin="40,30">
+                        <Label Text="Create tasks for your goal!" FontAttributes="Bold" FontSize="16" HorizontalOptions="CenterAndExpand"/>
+                        <Button   Grid.Column="0"  Grid.ColumnSpan="4" Text="   Create Task    " Command="{Binding OnAddCommand}" HorizontalOptions="FillAndExpand"  CornerRadius="15" Margin="0,20"  BackgroundColor="#61a5c2" CharacterSpacing="10" />
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>       
+        
+    </Grid>
+</ContentPage>

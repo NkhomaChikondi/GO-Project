@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ViewModel="clr-namespace:GO.ViewModels.TaskInGoals" xmlns:Effects="clr-namespace:GO.Effects"
+             x:Class="GO.Views.GoalTask.AddPlannedTask"
+             xmlns:helpers="clr-namespace:GO.Font"
+              Title="Add Task" >
+    <ContentPage.BindingContext>
+        <ViewModel:addTaskViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+                <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons"/>
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Grid.ColumnSpan="5">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height=" Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackLayout Orientation="Vertical"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="2" Padding="0"  Margin="9,20,20,0">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                        <Label Grid.Row="0" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="4"  Text="Create A New Task" TextColor="#61a5c2" FontSize="Title" FontAttributes="Bold"  ></Label>
+                        <Image Source="{FontImage FontFamily={StaticResource MaterialFontFamily},
+                                                 Glyph={x:Static helpers:IconFont.ListStatus},Size=25,Color=#61a5c2}"/>
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="CenterAndExpand">
+                        <Label Text="Achieve your goals, task by task" Margin="19,0" TextColor="Gray" FontAttributes="Italic" FontSize="Medium"/>
+                    </StackLayout>
+                    <StackLayout Margin="0,15,0,0">
+                        <Label Text="Task Name:" TextColor="#61a5c2" FontSize="17" FontAttributes="Bold"></Label>
+
+                        <Editor  Text="{Binding Name}"  FontSize="Small" AutoSize="TextChanges" FontAttributes="None"  Grid.Column="0" MaxLength="100"   Placeholder="100 maximum characters" PlaceholderColor="OrangeRed" >
+
+                        </Editor>
+
+                    </StackLayout>
+
+                </StackLayout>
+                <StackLayout Orientation="Vertical"   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"  Padding="5"  Margin="5,120,16,0">
+                    <StackLayout>
+                        <Label Text="Description:" TextColor="#61a5c2" FontSize="17" FontAttributes="Bold"></Label>
+
+                        <Editor  Text="{Binding Description}" AutoSize="TextChanges"  FontSize="Small" FontAttributes="None"  Grid.Column="0"  MaxLength="150" Placeholder="150 maximum characters"  PlaceholderColor="OrangeRed" >
+
+                        </Editor>
+
+                    </StackLayout>
+
+                </StackLayout>
+                <StackLayout Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="4">
+                    <StackLayout Orientation="Vertical"  Grid.ColumnSpan="4" HorizontalOptions="FillAndExpand" >
+                        <StackLayout  Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="20,0">
+                            <Label Text="       Select days for your task" TextColor="#61a5c2" FontSize="17" FontAttributes="Bold"  />                          
+                        </StackLayout>
+                       
+                        <StackLayout Margin="10,0">
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span x:Name="Sun" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span Text=" " TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Mon" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span  Text=" " TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Tue" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span Text=" " TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Wed" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span  Text=" " TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Thu" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span  Text=" " TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Fri" Text="" TextColor="#343a40" FontSize="16"/>
+                                        <Span  Text=" " TextColor="#343a40" FontSize="16"/>
+                                        <Span x:Name="Sat" Text="" TextColor="#343a40" FontSize="16"/>                                       
+                                        <Span  Text=" " TextColor="#343a40" FontSize="16"/>                                       
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="0" Grid.ColumnSpan="5" HorizontalOptions="FillAndExpand" Margin="8,0,0,0" Orientation="Horizontal" >
+
+                        <Frame Padding="17" x:Name="framesun" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Sun_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                        <Label Text="S" FontSize="11" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17" x:Name="framemon" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Mon_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
+                                <Label Text="M" HorizontalOptions="Start"  FontAttributes="Bold" FontSize="11" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17" x:Name="frametue" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Tue_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                <Label Text="T" HorizontalOptions="CenterAndExpand"  FontAttributes="Bold" FontSize="11" TextColor="#343a40" />
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17" x:Name="framewed" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Wed_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                <Label Text="W" HorizontalOptions="CenterAndExpand"  FontAttributes="Bold" FontSize="11" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17"  x:Name="framethu" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Thu_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                <Label Text="T" HorizontalOptions="CenterAndExpand"  FontAttributes="Bold" FontSize="11" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17"  x:Name="framefri" CornerRadius="100">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Fri_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                <Label Text="F" FontSize="11.5"  FontAttributes="Bold" HorizontalOptions="CenterAndExpand" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>
+                        <Frame Padding="17"   x:Name="framesat" CornerRadius="100" >
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Sat_Tapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                <Label Text="S"  FontAttributes="Bold" HorizontalOptions="CenterAndExpand" FontSize="11" TextColor="#343a40"/>
+                                    </StackLayout>
+                                </Frame>                        
+                  
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Margin="10,10">
+                        <Label Text="Repeat Weekly? " TextColor="#343a40" FontSize="16" FontAttributes="Bold" Margin="0,6" />
+                        <Picker x:Name="MyPicker" Title="Select an option" SelectedIndexChanged="MyPicker_SelectedIndexChanged" Margin="0,-10">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Repeat</x:String>
+                                    <x:String>Do not Repeat</x:String>                                    
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>                        
+                    </StackLayout>
+                </StackLayout>
+                
+
+                <StackLayout Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="5" Padding="15" Margin="0,-20,0,0" >
+
+
+                    <Button  Grid.Column="0"  Grid.ColumnSpan="4" Text="   Add Task    " Command="{Binding TaskAddWeekCommand}" CornerRadius="15" Margin="20,0,20,0"  BackgroundColor="#61a5c2" CharacterSpacing="10"
+                     
+                        ></Button>
+                </StackLayout>
+
+
+
+
+
+
+
+            </Grid>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>
